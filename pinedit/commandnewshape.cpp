@@ -2,7 +2,7 @@
                           commandnewshape.cpp  -  description
                              -------------------
     begin                : Thu Apr 11 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 

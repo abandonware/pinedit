@@ -2,7 +2,7 @@
                           commandnewbehavior.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -23,7 +23,7 @@
 class Group;
 class Behavior;
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandNewBehavior : public Command  {
  public:
 	CommandNewBehavior(PinEditDoc * doc);

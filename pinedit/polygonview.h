@@ -53,6 +53,7 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	void doRebuild();
 	void doUpdate();
  public slots:
+	void slotVertexChanged();
 	void slotChanged();
   void slotApplyVertex();
 	void slotApplyColor();
@@ -72,12 +73,12 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	bool m_bSelectionChanged;
 	PinEditDoc * p_Doc;
 	Shape3D * p_Shape;
-	//bool m_bSilent;
 
 	TextureDialog * p_TextureDialog;
 	TexCoordDialog * p_TexCoordDialog;
 
-	QListView * p_ListView;
+	QListView * p_PolygonListView;
+	QListView * p_VertexListView;
 	QPushButton * p_ButtonUp;
 	QPushButton * p_ButtonDown;
 	QLineEdit * p_EditX;
@@ -98,11 +99,7 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	QPushButton * p_ApplyColorButton;
 	QPushButton * p_ApplyPropButton;
 
-	//	map<QListViewItem *, Polygon *> m_hPolygon;
-	//	map<Polygon *, QListViewItem *> m_hListViewItem;
 	map<Polygon*, ListItem*> m_hPolyListItem;
-	//	map<QListViewItem *, int> m_hVertexIndex;
-	//	map<QListViewItem *, int> m_hColorIndex;
 };
 
 #endif

@@ -2,7 +2,7 @@
                           main.cpp  -  description
                              -------------------
     begin                : Tue Nov 27 19:39:03 EET 2001
-    copyright            : (C) 2001 by Henrik Enqvist IB
+    copyright            : (C) 2001 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 

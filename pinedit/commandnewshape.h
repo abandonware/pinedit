@@ -2,7 +2,7 @@
                           commandnewshape.h  -  description
                              -------------------
     begin                : Thu Apr 11 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 
 class Shape3D;
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandNewShape : public Command  {
  public:
 	CommandNewShape(PinEditDoc * doc);

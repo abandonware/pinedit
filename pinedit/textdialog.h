@@ -1,8 +1,8 @@
 /***************************************************************************
-                          commandflip.h  -  description
+                          snapdialog.h  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist
+    begin                : Thy Jul 11 19:39:03 EET 2002
+    copyright            : (C) 2002 by Henrik Enqvist IB
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -15,30 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMMANDFLIP_H
-#define COMMANDFLIP_H
+#ifndef TEXTDIALOG_H
+#define TEXTDIALOG_H
 
-using namespace std;
+// qt includes
+#include <qdialog.h>
+#include <qstring.h>
 
-#include <vector>
+class QTextBrowser;
 
-#include <command.h>
-
-class Polygon;
-
-/** @author Henrik Enqvist */
-class CommandFlip : public Command  {
+/** Yet another dialog */
+class TextDialog : public QDialog {
+	Q_OBJECT
  public:
-	CommandFlip(PinEditDoc * doc);
-	~CommandFlip();
-	Command * build();
-	void undo();
-	void clearObjects();
-	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandFlip"; };
+	TextDialog(QWidget * parent, const char * name, WFlags f);
+	~TextDialog();
+	void setSource(const QString & name);
+ public slots:
+	void slotBack();
+	void slotCancel();
  private:
-	vector<Polygon*> m_vPolygon;
+	QTextBrowser * p_TextBrowser;
 };
 
-#endif
+#endif 
+

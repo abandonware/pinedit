@@ -58,21 +58,30 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
 	m_bSelectionChanged = true;
 	p_Doc->registerUpdateable(this, "polygon");
 	p_Doc->registerRebuildable(this, "polygon");
-	//m_bSilent = true;
 	p_TextureDialog = new TextureDialog(doc, this, 0, 0);
 	p_TexCoordDialog = new TexCoordDialog(doc, this, 0, 0);
 	// the polygon list view
-	p_ListView = new QListView(this);
-	connect(p_ListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
-	p_ListView->setSelectionMode(QListView::Extended);
-	p_ListView->addColumn(QString("polygons"));
-	p_ListView->setFixedSize(200, 300);
+	p_PolygonListView = new QListView(this);
+	connect(p_PolygonListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
+	p_PolygonListView->setSelectionMode(QListView::Extended);
+	p_PolygonListView->addColumn(QString("polygons"));
+	//p_PolygonListView->setFixedSize(200, 250);
+	p_PolygonListView->setMinimumSize(200, 250);
+	// the polygon list view
+ 	p_VertexListView = new QListView(this);
+ 	connect(p_VertexListView, SIGNAL(selectionChanged()), this, SLOT(slotVertexChanged()));
+ 	p_VertexListView->setSelectionMode(QListView::Single);
+ 	p_VertexListView->addColumn(QString("vertices"));
+ 	//p_VertexListView->setFixedSize(200, 80);
+ 	p_VertexListView->setMinimumSize(200, 80);
 	// tabs and widgets
 	QTabWidget * tabWidget = new QTabWidget(this);
-	tabWidget->setFixedSize(200,100);
+	//tabWidget->setFixedSize(200, 70);
+	tabWidget->setMinimumSize(200, 70);
 	// main layout
   QBoxLayout * vlayout = new QVBoxLayout(this);
-	vlayout->addWidget(p_ListView);
+	vlayout->addWidget(p_PolygonListView);
+	vlayout->addWidget(p_VertexListView);
 	vlayout->addWidget(tabWidget);
 	// the vertex order widget
 	{
@@ -184,11 +193,8 @@ PolygonView::~PolygonView(){
 
 void PolygonView::doRebuild() {
 	cerr << "PolygonView::doRebuild hashed " << endl;
-	p_ListView->clear();
-// 	m_hPolygon.clear();
-// 	m_hListViewItem.clear();
-// 	m_hVertexIndex.clear();
-// 	m_hColorIndex.clear();
+	p_PolygonListView->clear();
+	m_hPolyListItem.clear();
 	// insert all children
 	Shape3D * shape = p_Doc->getCurrentShape();
 	this->setShape(shape);
@@ -198,15 +204,11 @@ void PolygonView::doRebuild() {
 		p_EditTexture->setText(QString());
 	}
 
-	p_ListView->show();
-// 	cerr << "PolygonView::doRebuild hashed " << m_hPolygon.size() << " polygons" << endl;
-// 	cerr << "PolygonView::doRebuild hashed " << m_hListViewItem.size() << " listviewitems" << endl;
-// 	cerr << "PolygonView::doRebuild hashed " << m_hVertexIndex.size() << " vertices" << endl;
+	p_PolygonListView->show();
 }
 
 void PolygonView::doUpdate() {
 	cerr << "PolygonView::doUpdate" << endl;
-	// TODO select selected polygons
 	if (p_Shape == NULL) return;
 	this->updateSelected();
 }
@@ -233,20 +235,17 @@ void PolygonView::setShape(Shape3D * shape) {
  	p_ChooseButton->setEnabled(true);
  	p_NoneButton->setEnabled(true);
 
-	//	QListViewItem * shapeitem = new QListViewItem(p_ListView, "shape");
-	ListItem * shapeitem = new ListItem(p_ListView, "shape");
+	ListItem * shapeitem = new ListItem(p_PolygonListView, "shape");
 	shapeitem->setOpen(TRUE);
 
  	int polyindex = 0;
- 	Polygon * poly = shape->getPolygon(polyindex);
+	Polygon * poly = shape->getPolygon(polyindex);
+	//Polygon * poly = p_Doc->getSelectedPolygon(polyindex);
  	// all polys
  	while (poly != NULL) {
-		//QListViewItem * polyitem = new QListViewItem(shapeitem, QString().setNum(polyindex) + " polygon");
 		ListItem * polyitem = new ListItem(shapeitem, QString().setNum(polyindex) + " polygon");
 		polyitem->setObject(poly, LISTITEM_POLYGON);
 		// hash it
-		// 		m_hPolygon.insert(pair<QListViewItem *, Polygon *>(polyitem, poly));
-		// 		m_hListViewItem.insert(pair<Polygon *, QListViewItem *>(poly, polyitem));
 		m_hPolyListItem.insert(pair<Polygon*, ListItem*>(poly, polyitem));
 		
 		int index = 0;
@@ -254,7 +253,7 @@ void PolygonView::setShape(Shape3D * shape) {
 		Vertex3D * vtx = shape->getVertex3D(vtxindex);
 		Color * color = poly->getColor(index);
 		TexCoord * texcoord = poly->getTexCoord(index);
-		while (vtx != NULL) {
+		while (vtx != NULL && false) {
 			assert(color != NULL);
 			assert(texcoord != NULL);
 			QString str = QString().setNum(index) +
@@ -270,12 +269,8 @@ void PolygonView::setShape(Shape3D * shape) {
 				" tex " + 
 				QString().setNum(texcoord->u, 'g', 2) + " " +
 				QString().setNum(texcoord->v, 'g', 2);
-			//			QListViewItem * vtxitem = new QListViewItem(polyitem, str);
 			ListItem * vtxitem = new ListItem(polyitem, str);
 			vtxitem->setObject(INT2OBJ(vtxindex), LISTITEM_VERTEX);
-			//hash it
-			//			m_hVertexIndex.insert(pair<QListViewItem *, int>(vtxitem, vtxindex));
-			//			m_hColorIndex.insert(pair<QListViewItem *, int>(vtxitem, index));
 
 			index++;
 			vtxindex = poly->getIndex(index);
@@ -287,15 +282,16 @@ void PolygonView::setShape(Shape3D * shape) {
 
  		polyindex++;
  		poly = shape->getPolygon(polyindex);
+		//poly = p_Doc->getSelectedPolygon(polyindex);
  	}
 }
 
 void PolygonView::updateSelected() {
 	cerr << "PolygonView::updateSelected" << endl;
 	assert(p_Shape != NULL);
-	assert(p_ListView != NULL);
+	assert(p_PolygonListView != NULL);
 	m_bSelectionChanged = false;
-	p_ListView->selectAll(false);
+	p_PolygonListView->selectAll(false);
 	m_bSelectionChanged = true;
 	this->disableButtons();
  	p_ChooseButton->setEnabled(true);
@@ -304,20 +300,17 @@ void PolygonView::updateSelected() {
 	int index = 0;
 	Polygon * poly = p_Doc->getSelectedPolygon(index);
 	while (poly != NULL) {
-		//map<Polygon *, QListViewItem *>::iterator poly_item = m_hListViewItem.find(poly);
 		map<Polygon*, ListItem*>::iterator poly_item = m_hPolyListItem.find(poly);
-		if (poly_item != m_hPolyListItem.end()) {
-				p_ApplyColorButton->setEnabled(true);
-				p_ApplyPropButton->setEnabled(true);
-				if (p_Shape->getTexture() != NULL) {
-					p_TexButton->setEnabled(true);
-					p_AutoButton->setEnabled(true);
-				}
-				m_bSelectionChanged = false;
-				p_ListView->setSelected((*poly_item).second, true);
-				m_bSelectionChanged = true;
-				cerr << "PolygonView::updateSelected selected polygon" << endl;
+		assert(poly_item != m_hPolyListItem.end());
+		p_ApplyColorButton->setEnabled(true);
+		p_ApplyPropButton->setEnabled(true);
+		if (p_Shape->getTexture() != NULL) {
+			p_TexButton->setEnabled(true);
+			p_AutoButton->setEnabled(true);
 		}
+		m_bSelectionChanged = false;
+		(*poly_item).second->setSelected(true);
+		m_bSelectionChanged = true;
 		++index;
 		poly = p_Doc->getSelectedPolygon(index);
 	}
@@ -332,14 +325,12 @@ void PolygonView::findSelected() {
 	p_NoneButton->setEnabled(true);
 	int selected = 0;
   // Create an iterator and give the listview as argument
-	QListViewItemIterator iter(p_ListView);
+	QListViewItemIterator iter(p_PolygonListView);
 	// iterate through all items of the listview
 	for (; iter.current(); ++iter) {
 		if (iter.current()->isSelected()) {
 			selected++;
 			// is it a polygon
-			//map<QListViewItem *, Polygon *>::iterator item_poly = m_hPolygon.find(iter.current());
-			//if (item_poly != m_hPolygon.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_POLYGON) {
 				p_ApplyColorButton->setEnabled(true);
 				p_ApplyPropButton->setEnabled(true);
@@ -348,7 +339,6 @@ void PolygonView::findSelected() {
 					p_AutoButton->setEnabled(true);
 				}
 				// TODO do it as an command so it can be undon
-				//Polygon * poly = (*item_poly).second;
 				Polygon * poly = (Polygon*)((ListItem*)iter.current())->getObject();
 				assert(poly != NULL);
 				int vtxindex = 0;
@@ -378,15 +368,11 @@ void PolygonView::findSelected() {
 				cerr << "PolygonView::findSelected selected a polygon" << endl;
 			}
 			// if it was a vertex, set x,y,z and enable some buttons
-			//map<QListViewItem *, int>::iterator vtxitem = m_hVertexIndex.find(iter.current());
-			//if (vtxitem != m_hVertexIndex.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_VERTEX) {
 				p_ButtonUp->setEnabled(true);
 				p_ButtonDown->setEnabled(true);
 				p_ApplyVertexButton->setEnabled(true);
-				//Vertex3D * vtx = p_Shape->getVertex3D((*vtxitem).second);
 				Vertex3D * vtx = p_Shape->getVertex3D(OBJ2INT(((ListItem*)iter.current())->getObject()));
-				//p_Doc->selectVertex((*vtxitem).second);
 				p_Doc->selectVertex(OBJ2INT(((ListItem*)iter.current())->getObject()));
 				p_EditX->setText(QString().setNum(vtx->x));
 				p_EditY->setText(QString().setNum(vtx->y));
@@ -400,64 +386,50 @@ void PolygonView::findSelected() {
 void PolygonView::slotVertexUp() {
 	cerr << "PolygonView::slotVertexUp" << endl;
 	assert(p_Shape != NULL);
-	QListViewItemIterator iter(p_ListView);
+	QListViewItemIterator iter(p_PolygonListView);
 	// iterate through all items of the listview
 	for (; iter.current(); ++iter) {
 		if (iter.current()->isSelected()) {
-			//map<QListViewItem *, int>::iterator item_vtx = m_hVertexIndex.find(iter.current());
-			//if (item_vtx != m_hVertexIndex.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_VERTEX) {
 				int vtxindex = OBJ2INT(((ListItem*)iter.current())->getObject());
 				// the polygon is the parent to the vertex
-				//				QListViewItem* polyitem = (*item_vtx).first->parent();
 				ListItem * polyitem = (ListItem*)iter.current()->parent();
 				assert(polyitem != NULL);
 				assert(polyitem->getObjectType() == LISTITEM_POLYGON);
 				Polygon * poly = (Polygon*)polyitem->getObject();
 				assert(poly != NULL);
-// 				map<QListViewItem *, Polygon *>::iterator item_poly = m_hPolygon.find(polyitem);
-// 				assert(item_poly != m_hPolygon.end());
-// 				(*item_poly).second->moveUp((*item_poly).second->includes((*item_vtx).second));
 				poly->moveUp(poly->includes(vtxindex));
 			}
 		}
 	}
-	//p_Doc->rebuildAll();
-	this->doRebuild();
 	p_Doc->updateAll("polygon");
 }
 
 void PolygonView::slotVertexDown() {
 	cerr << "PolygonView::slotVertexDown" << endl;
 	assert(p_Shape != NULL);
-	QListViewItemIterator iter(p_ListView);
+	QListViewItemIterator iter(p_PolygonListView);
 	// iterate through all items of the listview
 	for (; iter.current(); ++iter) {
 		if (iter.current()->isSelected()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_VERTEX) {
 				int vtxindex = OBJ2INT(((ListItem*)iter.current())->getObject());
 				// the polygon is the parent to the vertex
-				//				QListViewItem* polyitem = (*item_vtx).first->parent();
 				ListItem * polyitem = (ListItem*)iter.current()->parent();
 				assert(polyitem != NULL);
 				assert(polyitem->getObjectType() == LISTITEM_POLYGON);
 				Polygon * poly = (Polygon*)polyitem->getObject();
 				assert(poly != NULL);
-// 				map<QListViewItem *, Polygon *>::iterator item_poly = m_hPolygon.find(polyitem);
-// 				assert(item_poly != m_hPolygon.end());
-// 				(*item_poly).second->moveUp((*item_poly).second->includes((*item_vtx).second));
 				poly->moveDown(poly->includes(vtxindex));
 			}
 		}
 	}
-	//p_Doc->rebuildAll();
-	this->doRebuild();
 	p_Doc->updateAll("polygon");
 }
 
-void PolygonView::slotChanged() {
- 	cerr << "PolygonView::slotChanged" << endl;
-	assert(p_ListView != NULL);
+void PolygonView::slotVertexChanged() {
+ 	cerr << "PolygonView::slotVertexChanged" << endl;
+	assert(p_PolygonListView != NULL);
 	if (!m_bSelectionChanged) return;
 	p_Doc->clearSelectedVertex();
 	p_Doc->clearSelectedPolygon();
@@ -466,13 +438,35 @@ void PolygonView::slotChanged() {
 	assert(p_Shape != NULL);
 	if (p_Shape->getTexture() != NULL) {
 		p_EditTexture->setText(TextureUtil::getInstance()->getTextureName(p_Shape->getTexture()));
-		//map<QListViewItem *, Polygon *>::iterator polyitem = 	m_hPolygon.find(p_ListView->currentItem());
-		//if (polyitem != m_hPolygon.end()) {
-		if (p_ListView->currentItem() != NULL &&
-				((ListItem*)p_ListView->currentItem())->getObjectType() == LISTITEM_POLYGON) {
+		if (p_PolygonListView->currentItem() != NULL &&
+				((ListItem*)p_PolygonListView->currentItem())->getObjectType() == LISTITEM_POLYGON) {
 			QImage * qimage = p_Doc->loadQImage(p_EditTexture->text());
 			p_TextureDialog->reload(p_Shape, 
-															(Polygon*)((ListItem*)p_ListView->currentItem())->getObject(), qimage);
+															(Polygon*)((ListItem*)p_PolygonListView->currentItem())->getObject(), qimage);
+		}
+	} else {
+		p_EditTexture->setText(QString());
+	}
+ 	// DO NOT update the view itself
+	p_Doc->updateAllExclude("polygon", this);
+}
+
+void PolygonView::slotChanged() {
+ 	cerr << "PolygonView::slotChanged" << endl;
+	assert(p_PolygonListView != NULL);
+	if (!m_bSelectionChanged) return;
+	p_Doc->clearSelectedVertex();
+	p_Doc->clearSelectedPolygon();
+	this->findSelected();
+	// texture
+	assert(p_Shape != NULL);
+	if (p_Shape->getTexture() != NULL) {
+		p_EditTexture->setText(TextureUtil::getInstance()->getTextureName(p_Shape->getTexture()));
+		if (p_PolygonListView->currentItem() != NULL &&
+				((ListItem*)p_PolygonListView->currentItem())->getObjectType() == LISTITEM_POLYGON) {
+			QImage * qimage = p_Doc->loadQImage(p_EditTexture->text());
+			p_TextureDialog->reload(p_Shape, 
+															(Polygon*)((ListItem*)p_PolygonListView->currentItem())->getObject(), qimage);
 		}
 	} else {
 		p_EditTexture->setText(QString());
@@ -485,13 +479,11 @@ void PolygonView::slotApplyVertex() {
 	cerr << "polygonview::slotvertexchanged" << endl;
 	assert(p_Shape != NULL);
   // Create an iterator and give the listview as argument
-	QListViewItemIterator iter(p_ListView);
+	QListViewItemIterator iter(p_PolygonListView);
 	// iterate through all items of the listview
 	for (; iter.current(); ++iter) {
 		if (iter.current()->isSelected()) {
 			// if it was a vertex, set x y z
-			//map<QListViewItem *, int>::iterator item_vtx = m_hVertexIndex.find(iter.current());
-			//if (item_vtx != m_hVertexIndex.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_VERTEX) {
 				//				Vertex3D * vtx = p_Shape->getVertex3D((*item_vtx).second);
 				Vertex3D * vtx = p_Shape->getVertex3D(OBJ2INT(((ListItem*)iter.current())->getObject()));
@@ -507,8 +499,6 @@ void PolygonView::slotApplyVertex() {
 			}
 		}
 	}
-
-	//p_Doc->updateAllExclude(this);
 	p_Doc->updateAll("polygon");
 }
 
@@ -537,12 +527,9 @@ void PolygonView::slotTexCoord() {
 	if (tex != NULL) {
 		p_Shape->setTexture(tex);
 		// get first selected vertex
-		ListItem * current = (ListItem*)p_ListView->currentItem();
-		//		map<QListViewItem *, Polygon *>::iterator polyitem = m_hPolygon.find(current);
-		//		if (polyitem != m_hPolygon.end()) {
+		ListItem * current = (ListItem*)p_PolygonListView->currentItem();
 		if (current != NULL && current->getObjectType() == LISTITEM_POLYGON) {
 			QImage * qimage = p_Doc->loadQImage(p_EditTexture->text());
-			//			p_TextureDialog->edit(p_Shape, (*polyitem).second, qimage);
 			p_TextureDialog->edit(p_Shape, (Polygon*)current->getObject(), qimage);
 		}
 	} else {
@@ -567,13 +554,11 @@ void PolygonView::slotAutoTexCoord() {
 void PolygonView::slotApplyColor() {
 	cerr << "Polygonview::slotApplyColor" << endl;
   // Create an iterator and give the listview as argument
-	QListViewItemIterator iter(p_ListView);
+	QListViewItemIterator iter(p_PolygonListView);
 	// iterate through all items of the listview
 	for (; iter.current(); ++iter) {
 		if (iter.current()->isSelected()) {
 			// is it a polygon
-			//			map<QListViewItem *, Polygon *>::iterator polyitem = m_hPolygon.find(iter.current());
-			//			if (polyitem != m_hPolygon.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_POLYGON) {
 				//				Polygon * poly = (*polyitem).second;
 				Polygon * poly = (Polygon*)((ListItem*)iter.current())->getObject();
@@ -585,8 +570,6 @@ void PolygonView::slotApplyColor() {
 				cerr << "PolygonView::slotApplyColor polygon" << endl;
 			}
 			// if it was a vertex, set rgb
-// 			map<QListViewItem *, int>::iterator coloritem = m_hColorIndex.find(iter.current());
-// 			if (coloritem != m_hColorIndex.end()) {
 			if (((ListItem*)iter.current())->getObjectType() == LISTITEM_VERTEX) {
 // 				Color * color = poly->getColor((*coloritem).second);
 // 				assert(color != NULL);

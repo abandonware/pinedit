@@ -2,7 +2,7 @@
                           glengine.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Henrik Enqvist IB
+    copyright            : (C) 2001 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 

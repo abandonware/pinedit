@@ -20,7 +20,7 @@
 
 #include <command.h>
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandAddSelect : public Command  {
  public:
 	CommandAddSelect(PinEditDoc * doc);

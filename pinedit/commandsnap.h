@@ -26,7 +26,7 @@ using namespace std;
 
 #include "EMath.h"
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandSnap : public Command  {
  public:
 	CommandSnap(PinEditDoc * doc);

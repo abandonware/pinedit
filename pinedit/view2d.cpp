@@ -2,7 +2,7 @@
                           view2d.cpp  -  description
                              -------------------
     begin                : Wed Apr 10 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -59,7 +59,11 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
 View2D::~View2D(){
 }
 
-void View2D::mousePressEvent(QMouseEvent* e) {
+void View2D::resizeEvent(QResizeEvent * e) {
+	cerr << "View2D::resizeEvent" << endl;
+}
+
+void View2D::mousePressEvent(QMouseEvent * e) {
 	cerr << "View2D::mousePressEvent" << endl;
 	m_iX2 = m_iX1 = e->x();
 	m_iY2 = m_iY1 = e->y();
@@ -69,8 +73,8 @@ void View2D::mousePressEvent(QMouseEvent* e) {
 		m_iMouse = 2;
 	} else if (e->button() == QMouseEvent::MidButton) {
 		m_iMouse = 0;
-		m_iXOffset = 150;
-		m_iYOffset = 120;
+		m_iXOffset = this->size().width()/2;
+		m_iYOffset = this->size().height()/2;
 	}
 }
 
@@ -298,7 +302,9 @@ void View2D::drawShapeMode() {
 
 	CommandContext context;
 	context.clear();
-	Command * command = p_Doc->buildCommand();
+	// TODO
+	//Command * command = p_Doc->buildCommand();
+	Command * command = p_Doc->getCommand();
 	if (command != NULL) {
 		switch (m_iType) {
 		case XY: 
@@ -381,7 +387,9 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
 
 	CommandContext context;
 	context.clear();
-	Command * command = p_Doc->buildCommand();
+	// TODO
+	//Command * command = p_Doc->buildCommand();
+	Command * command = p_Doc->getCommand();
 	if (command != NULL) {
 		switch (m_iType) {
 		case XY: 
@@ -424,19 +432,23 @@ void View2D::drawGrid() {
 	QString str = QString().setNum(this->localx(m_iX2)) + " " + QString().setNum(this->localy(m_iY2));
 	p_QPainter->setPen(Qt::lightGray);
 	float step = m_fZoom;
-	float xoffset = (m_iXOffset-150)%(int)m_fZoom;
-	float yoffset = (m_iYOffset-120)%(int)m_fZoom;
-	for (float x=150; x<300; x+=step) {
-		p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), 240);
+	int w = this->size().width();
+	int h = this->size().height();
+	int w_2 = w/2;
+	int h_2 = h/2;
+	float xoffset = (m_iXOffset - w_2)%(int)m_fZoom;
+	float yoffset = (m_iYOffset - h_2)%(int)m_fZoom;
+	for (float x=w_2; x<w; x += step) {
+		p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
 	}
-	for (float x=150-step; x>0; x-=step) {
-		p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), 240);
+	for (float x=w_2-step; x>0; x-=step) {
+		p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
 	}
-	for (float y=120; y<240; y+=step) {
-		p_QPainter->drawLine(0, (int)(y+yoffset), 300, (int)(y+yoffset));
+	for (float y=h_2; y<h; y+=step) {
+		p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
 	}
-	for (float y=120-step; y>0; y-=step) {
-		p_QPainter->drawLine(0, (int)(y+yoffset), 300, (int)(y+yoffset));
+	for (float y=h_2-step; y>0; y-=step) {
+		p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
 	}
 
 	p_QPainter->setPen(Qt::darkGray);

@@ -2,7 +2,7 @@
                           pineditdoc.cpp  -  description
                              -------------------
     begin                : Tue Nov 27 19:39:03 EET 2001
-    copyright            : (C) 2001 by Henrik Enqvist IB
+    copyright            : (C) 2001 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -18,10 +18,13 @@
 // qt includes
 #include <qimage.h>
 #include <qcolor.h>
+#include <qapplication.h>
+#include <qcursor.h>
 // application includes
 #include "pineditdoc.h"
 #include "command.h"
 #include "fileutil.h"
+#include "pineditview.h"
 // emilia includes
 #include "Private.h"
 #include "Engine.h"
@@ -94,7 +97,9 @@ bool PinEditDoc::save() {
 		cerr << "PinEditDoc::save file name is empty" << endl;
 		return false;
 	}
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	p_FileUtil->saveFile(this->getFileName(), p_Engine);
+	QApplication::restoreOverrideCursor();
 	this->setModified(false);
   return true;
 }
@@ -105,7 +110,9 @@ bool PinEditDoc::saveAs(const QString &filename) {
 		cerr << "PinEditDoc::saveAs file name is empty" << endl;
 		return false;
 	}
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	p_FileUtil->saveFile(filename, p_Engine);
+	QApplication::restoreOverrideCursor();
   return true;
 }
 
@@ -116,7 +123,9 @@ bool PinEditDoc::saveGroup(const QString & filename, Group * group) {
 		cerr << "PinEditDoc::saveGroup file name is empty" << endl;
 		return false;
 	}
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	p_FileUtil->saveFile(filename, group);
+	QApplication::restoreOverrideCursor();
 	return true;
 }
 
@@ -140,6 +149,7 @@ bool PinEditDoc::load(const QString &filename) {
 	dir.truncate(filename.findRev('/'));
 	cerr << dir << endl;
 	this->newDoc();
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	Config::getInstance()->setDataDir(dir.latin1());
 	Loader::getInstance()->clearSignalVariable();
 	Loader::getInstance()->useModules(false);
@@ -148,6 +158,7 @@ bool PinEditDoc::load(const QString &filename) {
 	p_GroupCameraRot->unsetPropertyRecursive(EM_GROUP_NO_BEHAVIOR);
 	this->rebuildAll("all");
 	this->updateAll("all");
+	QApplication::restoreOverrideCursor();
   emit documentChanged();
   return true;
 }
@@ -262,10 +273,6 @@ void PinEditDoc::undo() {
 	delete command;
 }
 
-void PinEditDoc::setCommand(Command * command) {
-	p_Command = command;
-}
- 
 Command * PinEditDoc::buildCommand() {
 	cerr << "PinEditDoc::buildCommand" << endl;
 	if (p_Command == NULL) return NULL;
@@ -327,6 +334,8 @@ void PinEditDoc::registerRebuildable(Rebuildable * r, const QString & phasename)
 }
 
 void PinEditDoc::rebuildAll(const QString & phasename) {
+	cerr << "PinEditDoc::rebuildAll" << endl;
+	QApplication::setOverrideCursor(Qt::WaitCursor);
 	vector<pair<Rebuildable*, QString> >::iterator iter = m_vRebuildable.begin();
 	vector<pair<Rebuildable*, QString> >::iterator end = m_vRebuildable.end();
 	for (; iter != end; ++iter) {
@@ -335,7 +344,8 @@ void PinEditDoc::rebuildAll(const QString & phasename) {
 			(*iter).first->doRebuild();
 		}
 	}
-	cerr << "pineditdoc::updateall updated " << m_vRebuildable.size() << " objects" << endl;
+	QApplication::restoreOverrideCursor();
+	cerr << "PinEditDoc::rebuildAll " << m_vRebuildable.size() << " objects" << endl;
 }
 
 /*
@@ -540,4 +550,69 @@ void PinEditDoc::getSelectedCenter(Vertex3D & vtxM) {
 		vtxM.y /= index;
 		vtxM.z /= index;
 	}
+}
+
+void PinEditDoc::clearClipBoard() {
+	m_vCBVertex.clear();;
+	m_vCBColor.clear();
+	m_vCBTexCoord.clear();
+	m_vCBPolygon.clear();
+}
+
+void PinEditDoc::addClipBoard(const Vertex3D & vtx, const Color & color, 
+															const TexCoord & texcoord) {
+	m_vCBVertex.push_back(vtx);
+	m_vCBColor.push_back(color);
+	m_vCBTexCoord.push_back(texcoord);
+	cerr << "clipboard size" << m_vCBVertex.size() << endl;
+}
+
+
+void PinEditDoc::setClipBoard(vector<Vertex3D> & vVertex, 
+															vector<Color> & vColor, 
+															vector<TexCoord> & vTexCoord,  
+															vector<Polygon> & vPolygon) {
+	assert(vVertex.size() == vColor.size());
+	assert(vVertex.size() == vTexCoord.size());
+	vector<Vertex3D>::iterator viter = vVertex.begin();
+	vector<Vertex3D>::iterator vend = vVertex.begin();
+	for (; viter != vend; ++viter) {
+		m_vCBVertex.push_back(*viter);
+	}
+	vector<Color>::iterator citer = vColor.begin();
+	vector<Color>::iterator cend = vColor.begin();
+	for (; citer != cend; ++citer) {
+		m_vCBColor.push_back(*citer);
+	}
+	vector<TexCoord>::iterator titer = vTexCoord.begin();
+	vector<TexCoord>::iterator tend = vTexCoord.begin();
+	for (; titer != tend; ++titer) {
+		m_vCBTexCoord.push_back(*titer);
+	}
+	// TODO Polygons
+}
+
+void PinEditDoc::getClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+															vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon) {
+	vVertex.clear();;
+	vColor.clear();
+	vTexCoord.clear();
+	vPolygon.clear();
+	vector<Vertex3D>::iterator viter = m_vCBVertex.begin();
+	vector<Vertex3D>::iterator vend = m_vCBVertex.end();
+	for (; viter != vend; ++viter) {
+		vVertex.push_back(*viter);
+		cerr << "push_back" << endl;
+	}
+	vector<Color>::iterator citer = m_vCBColor.begin();
+	vector<Color>::iterator cend = m_vCBColor.end();
+	for (; citer != cend; ++citer) {
+		vColor.push_back(*citer);
+	}
+	vector<TexCoord>::iterator titer = m_vCBTexCoord.begin();
+	vector<TexCoord>::iterator tend = m_vCBTexCoord.end();
+	for (; titer != tend; ++titer) {
+		vTexCoord.push_back(*titer);
+	}
+	// TODO polygons
 }

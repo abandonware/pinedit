@@ -35,6 +35,7 @@ class PinEditDoc;
 class QComboBox;
 class QSpinBox;
 class SnapDialog;
+class TextDialog;
 class CommandNewVertex;
 class CommandSelect;
 class CommandUnSelect;
@@ -93,19 +94,14 @@ class PinEditApp : public QMainWindow {
 	void slotFilePrint();
 	/** Exits the application */
 	void slotFileQuit();
-	/** Put the marked text/object into the clipboard and remove
-	 ** it from the document */
-	void slotEditCut();
-	/** Put the marked text/object into the clipboard*/
-	void slotEditCopy();
-	/** Paste the clipboard into the document*/
-	void slotEditPaste();
 	/** Toggle the toolbar*/
 	void slotViewToolBar(bool toggle);
 	/** Toggle the statusbar*/
 	void slotViewStatusBar(bool toggle);
 	/** Ahows an about dlg*/
 	void slotHelpAbout();
+	void slotTutorial();
+	void slotManual();
 	
 /* 	void slotLoadShape(); */
 	void slotUndo();
@@ -114,6 +110,10 @@ class PinEditApp : public QMainWindow {
 	void slotSelect();
 	void slotAddSelect();
 	void slotUnSelect();
+	void slotCut();
+	void slotCopy();
+	void slotPaste();
+
 	void slotMove();
 	void slotRotate();
 	void slotRotateLocal();
@@ -134,7 +134,7 @@ class PinEditApp : public QMainWindow {
 	void slotExtrude();
 	void slotSnap();
 	
-	void slotMode(int index);
+/* 	void slotMode(int index); */
 	void slotZoom(int index);
 	
 	void setMode(int mode);
@@ -150,6 +150,7 @@ class PinEditApp : public QMainWindow {
 	 * information such as filename and does the serialization of your files. */
 	PinEditDoc *p_Doc;
 
+	TextDialog *p_TextDialog;
 	SnapDialog *p_SnapDialog;
 	
 	QPopupMenu *fileMenu;
@@ -172,14 +173,12 @@ class PinEditApp : public QMainWindow {
 	QAction *filePrint;
 	QAction *fileQuit;
 	
-	QAction *editCut;
-	QAction *editCopy;
-	QAction *editPaste;
-	
 	QAction *viewToolBar;
 	QAction *viewStatusBar;
 	
 	QAction *helpAboutApp;
+	QAction *helpTutorial;
+	QAction *helpManual;
 	
 	/** the work toolbar */
 	QToolBar *workToolbar;
@@ -192,6 +191,8 @@ class PinEditApp : public QMainWindow {
 	QAction *workSelect;
 	QAction *workAddSelect;
 	QAction *workUnSelect;
+	QAction *workCopy;
+	QAction *workPaste;
 	QAction *workMove;
 	QAction *workRotate;
 	QAction *workRotateLocal;

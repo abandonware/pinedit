@@ -1,7 +1,7 @@
 /***************************************************************************
-                          commandflip.h  -  description
+                          snapdialog.cpp  -  description
                              -------------------
-    begin                : Fri Apr 12 2002
+    begin                : Thu Jul 11 19:39:03 EET 2002
     copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
@@ -15,30 +15,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMMANDFLIP_H
-#define COMMANDFLIP_H
-
 using namespace std;
 
-#include <vector>
+// general includes
+#include <iostream>
+// qt includes
+#include <qtextbrowser.h>
+#include <qlayout.h>
+// application includes
+#include "textdialog.h"
 
-#include <command.h>
+TextDialog::TextDialog(QWidget * parent, const char * name, WFlags f) : QDialog(parent, name, f) {
+	p_TextBrowser = new QTextBrowser(this);
+	p_TextBrowser->setMinimumSize(400,300);
+	QBoxLayout * layout = new QVBoxLayout(this);
+	layout->addWidget(p_TextBrowser);
+}
 
-class Polygon;
+TextDialog::~TextDialog() {
+}
 
-/** @author Henrik Enqvist */
-class CommandFlip : public Command  {
- public:
-	CommandFlip(PinEditDoc * doc);
-	~CommandFlip();
-	Command * build();
-	void undo();
-	void clearObjects();
-	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandFlip"; };
- private:
-	vector<Polygon*> m_vPolygon;
-};
+void TextDialog::setSource(const QString & name) {
+	p_TextBrowser->setSource(name);
+}	
 
-#endif
+void TextDialog::slotBack() {
+	cerr << "TextDialog::slotBack" << endl;
+}
+
+void TextDialog::slotCancel() {
+	this->done(0);
+	cerr << "TextDialog::slotCancel" << endl;
+}

@@ -42,6 +42,8 @@ commandresizelocal.cpp \
 commandextrude.cpp \
 commandtexcoord.cpp \
 commandhideselected.cpp \
+commandcopy.cpp \
+commandpaste.cpp \
 glengine.cpp \
 view2d.cpp \
 shapeview.cpp \
@@ -52,6 +54,7 @@ lightdialog.cpp \
 texturedialog.cpp \
 texcoorddialog.cpp \
 snapdialog.cpp \
+textdialog.cpp \
 polygonview.cpp \
 pineditview.cpp \
 pineditdoc.cpp \
@@ -71,6 +74,7 @@ moc_armdialog.cpp \
 moc_lightdialog.cpp \
 moc_texturedialog.cpp \
 moc_snapdialog.cpp \
+moc_textdialog.cpp \
 moc_polygonview.cpp \
 moc_texcoorddialog.cpp \
 moc_moduledialog.cpp
@@ -101,6 +105,8 @@ commandresizelocal.h \
 commandextrude.h \
 commandtexcoord.h \
 commandhideselected.h \
+commandcopy.h \
+commandpaste.h \
 commandtest.h \
 glengine.h \
 view2d.h \
@@ -113,6 +119,7 @@ listitem.h \
 texturedialog.h \
 texcoorddialog.h \
 snapdialog.h \
+textdialog.h \
 polygonview.h \
 pinedit.h \
 pineditdoc.h \
@@ -121,6 +128,9 @@ fileutil.h \
 moduledialog.h \
 lo32-app-pinedit.png \
 lo16-app-pinedit.png \
+editicon.xpm \
+manual.xpm \
+tutorial.xpm \
 filesave.xpm \
 fileopen.xpm \
 filenew.xpm \

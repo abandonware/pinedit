@@ -2,7 +2,7 @@
                           commandmovegroup.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -36,7 +36,9 @@ void CommandMoveGroup::clearObjects() {
 }
 
 void CommandMoveGroup::execute(const CommandContext & context) {
+	cerr << "CommandMoveGroup::execute" << endl;
 	assert(context.group != NULL);
+	p_Context->copy(context);
 
 	float dx = context.x2 - context.x1;
 	float dy = context.y2 - context.y1;
@@ -47,12 +49,14 @@ void CommandMoveGroup::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("group");
 	p_Doc->pushUndo(this);
-	cerr << "move group from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+	cerr << "CommandMoveGroup::execute " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) {
+	cerr << "CommandMoveGroup::preview" << endl;
 	if (context.group == NULL) return;
+	context.group->getTranslation(m_vtxTrans.x, m_vtxTrans.y, m_vtxTrans.z);
 
 	Matrix mtxA = EMath::identityMatrix;
 	Matrix mtxB = EMath::identityMatrix;
@@ -92,12 +96,17 @@ void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) 
 		shindex++;
 		shape = g->getShape3D(shindex);
 	}
-	cerr << "CommandMoveGroup::preview" << endl;
 }
 
 void CommandMoveGroup::undo() {
+	cerr << "CommandMoveGroup::undo" << endl;
+	assert(p_Context->group != NULL);
+	p_Context->group->setTranslation(m_vtxTrans.x, m_vtxTrans.y, m_vtxTrans.z);
+	p_Doc->updateAll("group");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandMoveGroup::build() {
+	cerr << "CommandMoveGroup::build" << endl;
 	return new CommandMoveGroup(p_Doc);
 }

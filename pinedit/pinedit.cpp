@@ -31,6 +31,7 @@
 #include "pineditdoc.h"
 #include "pinedit.h"
 #include "snapdialog.h"
+#include "textdialog.h"
 // pixmaps
 #include "filesave.xpm"
 #include "fileopen.xpm"
@@ -38,6 +39,9 @@
 #include "filesavegroup.xpm"
 // #include "filesaveshape.xpm"
 // #include "workloadshape.xpm"
+#include "editicon.xpm"
+#include "manual.xpm"
+#include "tutorial.xpm"
 #include "workloadgroup.xpm"
 #include "worknewvertex.xpm"
 #include "workselect.xpm"
@@ -62,12 +66,16 @@
 #include "workextrude.xpm"
 #include "workhideselected.xpm"
 #include "workundo.xpm"
+#include "workcopy.xpm"
+#include "workpaste.xpm"
 // commands
 #include "command.h"
 #include "commandhideselected.h"
 #include "commandnewvertex.h"
 #include "commandselect.h"
 #include "commandaddselect.h"
+#include "commandcopy.h"
+#include "commandpaste.h"
 #include "commandnewpolygon.h"
 #include "commandunselect.h"
 #include "commandnewgroup.h"
@@ -113,6 +121,7 @@ PinEditApp::PinEditApp() : QMainWindow() {
 
   initDoc();
 	initView();
+	this->setMode(EM_GROUP_MODE);
 	// initdoc must be called before initcommands
 	initCommands();
 
@@ -125,7 +134,11 @@ PinEditApp::~PinEditApp() {
 
 /** initializes all QActions of the application */
 void PinEditApp::initActions() {
+	cerr << "PinEditApp::initActions" << endl;
 
+	QPixmap pineditIcon = QPixmap(editicon);
+	QPixmap tutorialIcon = QPixmap(tutorial);
+	QPixmap manualIcon = QPixmap(manual);
   QPixmap newIcon = QPixmap(filenew);
   QPixmap openIcon = QPixmap(fileopen);
   QPixmap saveIcon = QPixmap(filesave);
@@ -140,6 +153,8 @@ void PinEditApp::initActions() {
 	QPixmap newVertexIcon = QPixmap(worknewvertex);
 	QPixmap selectIcon = QPixmap(workselect);
 	QPixmap addSelectIcon = QPixmap(workaddselect);
+	QPixmap copyIcon = QPixmap(workcopy);
+	QPixmap pasteIcon = QPixmap(workpaste);
 	QPixmap newPolygonIcon = QPixmap(worknewpolygon);
 	QPixmap hideSelectedIcon = QPixmap(workhideselected);
 	QPixmap unSelectIcon = QPixmap(workunselect);
@@ -206,21 +221,6 @@ void PinEditApp::initActions() {
   fileQuit->setWhatsThis(tr("Exit\n\nQuits the application"));
   connect(fileQuit, SIGNAL(activated()), this, SLOT(slotFileQuit()));
 
-  editCut = new QAction(tr("Cut"), tr("Cu&t"), QAccel::stringToKey(tr("Ctrl+X")), this);
-  editCut->setStatusTip(tr("Cuts the selected section and puts it to the clipboard"));
-  editCut->setWhatsThis(tr("Cut\n\nCuts the selected section and puts it to the clipboard"));
-  connect(editCut, SIGNAL(activated()), this, SLOT(slotEditCut()));
-
-  editCopy = new QAction(tr("Copy"), tr("&Copy"), QAccel::stringToKey(tr("Ctrl+C")), this);
-  editCopy->setStatusTip(tr("Copies the selected section to the clipboard"));
-  editCopy->setWhatsThis(tr("Copy\n\nCopies the selected section to the clipboard"));
-  connect(editCopy, SIGNAL(activated()), this, SLOT(slotEditCopy()));
-
-  editPaste = new QAction(tr("Paste"), tr("&Paste"), QAccel::stringToKey(tr("Ctrl+V")), this);
-  editPaste->setStatusTip(tr("Pastes the clipboard contents to actual position"));
-  editPaste->setWhatsThis(tr("Paste\n\nPastes the clipboard contents to actual position"));
-  connect(editPaste, SIGNAL(activated()), this, SLOT(slotEditPaste()));
-
   viewToolBar = new QAction(tr("Toolbar"), tr("Tool&bar"), 0, this, 0, true);
   viewToolBar->setStatusTip(tr("Enables/disables the toolbar"));
   viewToolBar->setWhatsThis(tr("Toolbar\n\nEnables/disables the toolbar"));
@@ -231,10 +231,25 @@ void PinEditApp::initActions() {
   viewStatusBar->setWhatsThis(tr("Statusbar\n\nEnables/disables the statusbar"));
   connect(viewStatusBar, SIGNAL(toggled(bool)), this, SLOT(slotViewStatusBar(bool)));
 
-  helpAboutApp = new QAction(tr("About"), tr("&About..."), 0, this);
+  helpAboutApp = new QAction(tr("About"), pineditIcon, tr("&About..."), 0, this);
   helpAboutApp->setStatusTip(tr("About the application"));
   helpAboutApp->setWhatsThis(tr("About\n\nAbout the application"));
   connect(helpAboutApp, SIGNAL(activated()), this, SLOT(slotHelpAbout()));
+
+  helpTutorial = new QAction(tr("Tutorial"), tutorialIcon, tr("Tutorial..."), 0, this);
+  helpTutorial->setStatusTip(tr("Tutorial for the editor"));
+  helpTutorial->setWhatsThis(tr("Tutorial\n\nTutorial for the editor"));
+  connect(helpTutorial, SIGNAL(activated()), this, SLOT(slotTutorial()));
+
+  helpManual = new QAction(tr("Manual"), manualIcon, tr("Manual..."), 0, this);
+  helpManual->setStatusTip(tr("Manual for the editor"));
+  helpManual->setWhatsThis(tr("Manual\n\nManual for the editor"));
+  connect(helpManual, SIGNAL(activated()), this, SLOT(slotManual()));
+
+	workLoadGroup = new QAction(tr("Load Group"), loadGroupIcon, tr("Load Group"), 0, this);
+  workLoadGroup->setStatusTip(tr("Load a group to the table"));
+  workLoadGroup->setWhatsThis(tr("Load Group\n\nUse this to load the 3d groups such as walls"));
+  connect(workLoadGroup, SIGNAL(activated()), this, SLOT(slotLoadGroup()));
 
   // work actions
 	workGroup = new QActionGroup(this);
@@ -243,11 +258,6 @@ void PinEditApp::initActions() {
 //   workLoadShape->setStatusTip(tr("Load a shape to the table"));
 //   workLoadShape->setWhatsThis(tr("Load Shape\n\nUse this to load 3d shapes such as walls"));
 //   connect(workLoadShape, SIGNAL(activated()), this, SLOT(slotLoadShape()));
-
-	workLoadGroup = new QAction(tr("Load Group"), loadGroupIcon, tr("Load Group"), 0, this);
-  workLoadGroup->setStatusTip(tr("Load a group to the table"));
-  workLoadGroup->setWhatsThis(tr("Load Group\n\nUse this to load the 3d groups such as walls"));
-  connect(workLoadGroup, SIGNAL(activated()), this, SLOT(slotLoadGroup()));
 
 //  	workLock = new QAction(tr("New Lock"), lockIcon, tr("New Lock"), 0, this);
 //   workLock->setStatusTip(tr("Add a lock the game"));
@@ -287,6 +297,23 @@ void PinEditApp::initActions() {
   workUnSelect->setStatusTip(tr("Unselects selected vertices"));
   workUnSelect->setWhatsThis(tr("Unselect vertices\n\nUnselect vertices."));
   connect(workUnSelect, SIGNAL(activated()), this, SLOT(slotUnSelect()));
+
+//   workCut = new QAction(tr("Cut"), cutIcon, tr("Cu&t"), QAccel::stringToKey(tr("Ctrl+X")), this);
+//   workCut->setStatusTip(tr("Cuts the selected section and puts it to the clipboard"));
+//   workCut->setWhatsThis(tr("Cut\n\nCuts the selected section and puts it to the clipboard"));
+//   connect(workCut, SIGNAL(activated()), this, SLOT(slotCut()));
+
+  workCopy = new QAction(tr("Copy"), copyIcon, tr("&Copy"), 
+												 QAccel::stringToKey(tr("Ctrl+C")), this);
+  workCopy->setStatusTip(tr("Copies the selected section to the clipboard"));
+  workCopy->setWhatsThis(tr("Copy\n\nCopies the selected section to the clipboard"));
+  connect(workCopy, SIGNAL(activated()), this, SLOT(slotCopy()));
+
+  workPaste = new QAction(tr("Paste"), pasteIcon, tr("&Paste"), 
+													QAccel::stringToKey(tr("Ctrl+V")), this);
+  workPaste->setStatusTip(tr("Pastes the clipboard contents to actual position"));
+  workPaste->setWhatsThis(tr("Paste\n\nPastes the clipboard contents to actual position"));
+  connect(workPaste, SIGNAL(activated()), this, SLOT(slotPaste()));
 
   workMove = new QAction(tr("Move"), moveIcon, tr("Move"), 0, this);
   workMove->setToggleAction(true);
@@ -389,10 +416,7 @@ void PinEditApp::initActions() {
 }
 
 void PinEditApp::initMenuBar() {
-  ///////////////////////////////////////////////////////////////////
-  // MENUBAR
-
-  ///////////////////////////////////////////////////////////////////
+	cerr << "PinEditApp::initMenuBar" << endl;
   // menuBar entry fileMenu
   fileMenu=new QPopupMenu();
   fileNew->addTo(fileMenu);
@@ -408,21 +432,14 @@ void PinEditApp::initMenuBar() {
   fileMenu->insertSeparator();
   fileQuit->addTo(fileMenu);
 
-  ///////////////////////////////////////////////////////////////////
   // menuBar entry editMenu
-  editMenu=new QPopupMenu();
-  editCut->addTo(editMenu);
-  editCopy->addTo(editMenu);
-  editPaste->addTo(editMenu);
+  //editMenu=new QPopupMenu();
 
-  ///////////////////////////////////////////////////////////////////
   // menuBar entry viewMenu
   viewMenu=new QPopupMenu();
   viewMenu->setCheckable(true);
   viewToolBar->addTo(viewMenu);
   viewStatusBar->addTo(viewMenu);
-  ///////////////////////////////////////////////////////////////////
-  // EDIT YOUR APPLICATION SPECIFIC MENUENTRIES HERE
 
   // menuBar entry workMenu
   workMenu = new QPopupMenu();
@@ -432,11 +449,15 @@ void PinEditApp::initMenuBar() {
   workSelect->addTo(workMenu);
 	workAddSelect->addTo(workMenu);
 	workUnSelect->addTo(workMenu);
+	workCopy->addTo(workMenu);
+	workPaste->addTo(workMenu);
 	workMove->addTo(workMenu);
 	workRotate->addTo(workMenu);
 	workRotateLocal->addTo(workMenu);
 	workResize->addTo(workMenu);
 	workResizeLocal->addTo(workMenu);
+	workCopy->addTo(workMenu);
+	workPaste->addTo(workMenu);
 	workFlip->addTo(workMenu);
 	workHideSelected->addTo(workMenu);
 	workNewPolygon->addTo(workMenu);
@@ -451,15 +472,14 @@ void PinEditApp::initMenuBar() {
 	workDeleteShape->addTo(workMenu);
 	workExtrude->addTo(workMenu);
 
-  ///////////////////////////////////////////////////////////////////
   // menuBar entry helpMenu
   helpMenu = new QPopupMenu();
   helpAboutApp->addTo(helpMenu);
+  helpTutorial->addTo(helpMenu);
 
-  ///////////////////////////////////////////////////////////////////
   // MENUBAR CONFIGURATION
   menuBar()->insertItem(tr("&File"), fileMenu);
-  menuBar()->insertItem(tr("&Edit"), editMenu);
+	//menuBar()->insertItem(tr("&Edit"), editMenu);
   menuBar()->insertItem(tr("&View"), viewMenu);
   menuBar()->insertItem(tr("&Work"), workMenu);
   menuBar()->insertSeparator();
@@ -467,24 +487,24 @@ void PinEditApp::initMenuBar() {
 }
 
 void PinEditApp::initToolBar() {
-  ///////////////////////////////////////////////////////////////////
+	cerr << "PinEditApp::initToolBar" << endl;
   // TOOLBAR
   fileToolbar = new QToolBar(this, "file operations");
   fileNew->addTo(fileToolbar);
   fileOpen->addTo(fileToolbar);
   fileSave->addTo(fileToolbar);
 	fileSaveGroup->addTo(fileToolbar);
+	workLoadGroup->addTo(fileToolbar);
 // 	fileSaveShape->addTo(fileToolbar);
   fileToolbar->addSeparator();
   QWhatsThis::whatsThisButton(fileToolbar);
 }
 
 void PinEditApp::initWorkBar() {
-  ///////////////////////////////////////////////////////////////////
+	cerr << "PinEditApp::initWorkBar" << endl;
   // WORKBAR
   workToolbar = new QToolBar(this, "work operations");
 // 	workLoadShape->addTo(workToolbar);
-	workLoadGroup->addTo(workToolbar);
 	workUndo->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
   workSelect->addTo(workToolbar);
@@ -497,6 +517,8 @@ void PinEditApp::initWorkBar() {
 	workResizeLocal->addTo(workToolbar);
 	workToolbar->addSeparator();
 
+	workCopy->addTo(workToolbar);
+	workPaste->addTo(workToolbar);
 	workHideSelected->addTo(workToolbar);
 	workFlip->addTo(workToolbar);
 	workNewPolygon->addTo(workToolbar);
@@ -504,6 +526,7 @@ void PinEditApp::initWorkBar() {
 	workDeleteVertex->addTo(workToolbar);
 	workSnap->addTo(workToolbar);
 	workExtrude->addTo(workToolbar);
+	workDeleteShape->addTo(workToolbar);
   workToolbar->addSeparator();
 
 	workMoveGroup->addTo(workToolbar);
@@ -513,13 +536,12 @@ void PinEditApp::initWorkBar() {
 	workNewGroup->addTo(workToolbar);
 	workNewShape->addTo(workToolbar);
 	workDeleteGroup->addTo(workToolbar);
-	workDeleteShape->addTo(workToolbar);
   workToolbar->addSeparator();
 
-	workMode = new QComboBox(workToolbar);
-	workMode->insertItem("shapes");
-	workMode->insertItem("groups");
-	connect(workMode, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
+// 	workMode = new QComboBox(workToolbar);
+// 	workMode->insertItem("shapes");
+// 	workMode->insertItem("groups");
+// 	connect(workMode, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
 
 	workZoom = new QSpinBox(5, 50, 1, workToolbar);
 	workZoom->setValue(10);
@@ -539,26 +561,28 @@ void PinEditApp::initWorkBar() {
 }
 
 void PinEditApp::initStatusBar() {
+	cerr << "PinEditApp::initStatusBar" << endl;
   ///////////////////////////////////////////////////////////////////
   //STATUSBAR
   statusBar()->message(tr("Ready."), 2000);
 }
 
 void PinEditApp::initDoc() {
+	cerr << "PinEditApp::initDoc" << endl;
 	p_Doc = new PinEditDoc();
 }
 
 void PinEditApp::initView() {
-  ////////////////////////////////////////////////////////////////////
+	cerr << "PinEditApp::initView" << endl;
   // set the main widget here
 	p_View = new PinEditView(this, p_Doc);
   setCentralWidget(p_View);
 }
 
 void PinEditApp::initCommands() {
-	////////////////////////////////////////////////////////////////////
+	cerr << "PinEditApp::initCommands" << endl;
 	// create one object for each command here
-	// make sure initDoc is called
+	// make sure initDoc is called before this
 	p_CommandContext = new CommandContext();
 	p_CommandNewVertex = new CommandNewVertex(p_Doc);
 	p_CommandSelect = new CommandSelect(p_Doc);
@@ -573,9 +597,11 @@ void PinEditApp::initCommands() {
 	p_CommandResizeLocal = new CommandResizeLocal(p_Doc);
 
 	p_SnapDialog = new SnapDialog(p_Doc, this, 0, 0);
+	p_TextDialog = new TextDialog(this, 0, 0);
 }
 
 bool PinEditApp::queryExit() {
+	cerr << "PinEditApp::queryExit" << endl;
   int exit = QMessageBox::information(this, tr("Quit..."),
              	  	                    tr("Do your really want to quit?"),
               	                      QMessageBox::Ok, QMessageBox::Cancel);
@@ -583,6 +609,7 @@ bool PinEditApp::queryExit() {
 }
 
 bool PinEditApp::queryModified() {
+	cerr << "PinEditApp::queryModified" << endl;
 	int discard = QMessageBox::information(this, tr("Edited..."),
 																				 tr("Document modified but not saved. Discard edits?"),
 																				 QMessageBox::Ok, QMessageBox::Cancel);
@@ -594,6 +621,7 @@ bool PinEditApp::queryModified() {
 /////////////////////////////////////////////////////////////////////
 
 void PinEditApp::slotFileNew() {
+	cerr << "PinEditApp::slotFilwNew" << endl;
 	if (p_Doc->isModified()) {
 		if (!this->queryModified()) return;
 	}
@@ -603,6 +631,7 @@ void PinEditApp::slotFileNew() {
 }
 
 void PinEditApp::slotFileOpen() {
+	cerr << "PinEditApp::slotFileOpen" << endl;
 	if (p_Doc->isModified()) {
 		if (!this->queryModified()) return;
 	}
@@ -619,6 +648,7 @@ void PinEditApp::slotFileOpen() {
 }
 
 void PinEditApp::slotFileSave() {
+	cerr << "PinEditApp::slotFileSave" << endl;
   statusBar()->message(tr("Saving file..."));
 	if (p_Doc->getFileName().isEmpty()) {
 		this->slotFileSaveAs();
@@ -629,6 +659,7 @@ void PinEditApp::slotFileSave() {
 }
 
 void PinEditApp::slotFileSaveAs() {
+	cerr << "PinEditApp::slotFileSaveAs" << endl;
   statusBar()->message(tr("Saving file under new filename..."));
   QString fn = QFileDialog::getSaveFileName(0, 0, this);
   if (!fn.isEmpty()) {
@@ -640,8 +671,8 @@ void PinEditApp::slotFileSaveAs() {
 }
 
 void PinEditApp::slotFileSaveGroup() {
+	cerr << "PinEditApp::slotFileSaveGroup" << endl;
   statusBar()->message(tr("Saving group in file..."));
-
 	Group * group = p_Doc->getCurrentGroup();
 	if (group == NULL) {
 		QMessageBox::information( this, "Save Group", "No Group selected.");
@@ -706,20 +737,6 @@ void PinEditApp::slotFileQuit() {
   statusBar()->message(tr("Ready."));
 }
 
-void PinEditApp::slotEditCut() {
-  statusBar()->message(tr("Cutting selection..."));
-  statusBar()->message(tr("Ready."));
-}
-
-void PinEditApp::slotEditCopy() {
-  statusBar()->message(tr("Copying selection to clipboard..."));
-  statusBar()->message(tr("Ready."));
-}
-
-void PinEditApp::slotEditPaste() {
-  statusBar()->message(tr("Inserting clipboard contents..."));
-  statusBar()->message(tr("Ready."));
-}
 
 
 void PinEditApp::slotViewToolBar(bool toggle) {
@@ -747,7 +764,20 @@ void PinEditApp::slotViewStatusBar(bool toggle) {
 }
 
 void PinEditApp::slotHelpAbout() {
-  QMessageBox::about(this, tr("About..."), tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist IB") );
+  QMessageBox::about(this, tr("About..."), 
+										 tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist") );
+}
+
+void PinEditApp::slotTutorial() {
+	cerr << "PinEditApp::slotTutorial" << endl;
+	p_TextDialog->setSource("/home/henqvist/Develop/pinedit/doc/tutorial.html");
+	p_TextDialog->show();
+}
+
+void PinEditApp::slotManual() {
+	cerr << "PinEditApp::slotManual" << endl;
+	p_TextDialog->setSource("/home/henqvist/Develop/pinedit/doc/manual.html");
+	p_TextDialog->show();
 }
 
 // void PinEditApp::slotLoadShape() {
@@ -788,56 +818,84 @@ void PinEditApp::slotUndo() {
 
 void PinEditApp::slotNewVertex() {
 	cerr << "PinEditApp::slotNewVertex" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandNewVertex);
 }
 
 void PinEditApp::slotSelect() {
 	cerr << "PinEditApp::slotSelect" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandSelect);
 }
 
 void PinEditApp::slotAddSelect() {
 	cerr << "PinEditApp::slotAddSelect" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandAddSelect);
 }
 
 void PinEditApp::slotUnSelect() {
 	cerr << "PinEditApp::slotUnselect" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandUnSelect);
 }
 
 void PinEditApp::slotMove() {
 	cerr << "PinEditApp::slotMove" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandMove);
 }
 
 void PinEditApp::slotRotate() {
 	cerr << "PinEditApp::slotRotate" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandRotate);
 }
 
 void PinEditApp::slotRotateLocal() {
 	cerr << "PinEditApp::slotRotateLocal" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandRotateLocal);
 }
 
 void PinEditApp::slotResize() {
 	cerr << "PinEditApp::slotResize" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandResize);
 }
 
 void PinEditApp::slotResizeLocal() {
 	cerr << "PinEditApp::slotResizeLocal" << endl;
-	this->setMode(EM_SHAPE_MODE);
+// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandResizeLocal);
+}
+
+
+void PinEditApp::slotCut() {
+  statusBar()->message(tr("Cutting selection..."));
+  statusBar()->message(tr("Ready."));
+}
+
+void PinEditApp::slotCopy() {
+	cerr << "PinEditApp::slotCopy" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		Command * command = new CommandCopy(p_Doc);
+		command->execute(context);
+	}
+}
+
+void PinEditApp::slotPaste() {
+	cerr << "PinEditApp::slotPaste" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		Command * command = new CommandPaste(p_Doc);
+		command->execute(context);
+	}
 }
 
 void PinEditApp::slotNewPolygon() {
@@ -881,13 +939,13 @@ void PinEditApp::slotFlip() {
 
 void PinEditApp::slotMoveGroup() {
 	cerr << "pinedit::slotmovegroup" << endl;
-	this->setMode(EM_GROUP_MODE);
+// 	this->setMode(EM_GROUP_MODE);
 	p_Doc->setCommand(p_CommandMoveGroup);
 }
 
 void PinEditApp::slotRotateGroup() {
 	cerr << "pinedit::slotrotategroup" << endl;
-	this->setMode(EM_GROUP_MODE);
+// 	this->setMode(EM_GROUP_MODE);
 	p_Doc->setCommand(p_CommandRotateGroup);
 }
 
@@ -970,14 +1028,14 @@ void PinEditApp::slotDeleteShape() {
 	}
 }
 
-void PinEditApp::slotMode(int index) {
-	cerr << "pineditapp::slotmode " << index << endl;
-	if (index == 0) {
-		this->setMode(EM_SHAPE_MODE);
-	} else if (index == 1) {
-		this->setMode(EM_GROUP_MODE);
-	}
-}
+// void PinEditApp::slotMode(int index) {
+// 	cerr << "pineditapp::slotmode " << index << endl;
+// 	if (index == 0) {
+// 		this->setMode(EM_SHAPE_MODE);
+// 	} else if (index == 1) {
+// 		this->setMode(EM_GROUP_MODE);
+// 	}
+// }
 
 void PinEditApp::slotZoom(int zoom) {
 	cerr << "pineditapp::slotzoom " << zoom << endl;
@@ -989,11 +1047,57 @@ void PinEditApp::setMode(int mode) {
 	switch (mode) {
 	case EM_SHAPE_MODE:
 		p_View->setViewMode(EM_SHAPE_MODE);
-		workMode->setCurrentItem(0);
+		workNewVertex->setEnabled(true);
+		workSelect->setEnabled(true);
+		workAddSelect->setEnabled(true);
+		workUnSelect->setEnabled(true);
+		workCopy->setEnabled(true);
+		workPaste->setEnabled(true);
+		workMove->setEnabled(true);
+		workRotate->setEnabled(true);
+		workRotateLocal->setEnabled(true);
+		workResize->setEnabled(true);
+		workResizeLocal->setEnabled(true);
+		workHideSelected->setEnabled(true);
+		workNewPolygon->setEnabled(true);
+		workFlip->setEnabled(true);
+		workDeletePolygon->setEnabled(true);
+		workDeleteVertex->setEnabled(true);
+		workSnap->setEnabled(true);
+		workExtrude->setEnabled(true);
+		workDeleteShape->setEnabled(true);
+
+		workDeleteGroup->setEnabled(false);
+		workMoveGroup->setEnabled(false);
+		workRotateGroup->setEnabled(false);
+		//		workMode->setCurrentItem(0);
 		break;
 	case EM_GROUP_MODE:
 		p_View->setViewMode(EM_GROUP_MODE);
-		workMode->setCurrentItem(1);
+		workNewVertex->setEnabled(false);
+		workSelect->setEnabled(false);
+		workAddSelect->setEnabled(false);
+		workUnSelect->setEnabled(false);
+		workCopy->setEnabled(false);
+		workPaste->setEnabled(false);
+		workMove->setEnabled(false);
+		workRotate->setEnabled(false);
+		workRotateLocal->setEnabled(false);
+		workResize->setEnabled(false);
+		workResizeLocal->setEnabled(false);
+		workHideSelected->setEnabled(false);
+		workNewPolygon->setEnabled(false);
+		workFlip->setEnabled(false);
+		workDeletePolygon->setEnabled(false);
+		workDeleteVertex->setEnabled(false);
+		workSnap->setEnabled(false);
+		workExtrude->setEnabled(false);
+		workDeleteShape->setEnabled(false);
+
+		workDeleteGroup->setEnabled(true);
+		workMoveGroup->setEnabled(true);
+		workRotateGroup->setEnabled(true);
+		//		workMode->setCurrentItem(1);
 		break;
 	}
 	p_Doc->updateAll("polygon");

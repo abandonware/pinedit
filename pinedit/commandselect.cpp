@@ -2,7 +2,7 @@
                           commandselect.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 

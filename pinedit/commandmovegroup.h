@@ -2,7 +2,7 @@
                           commandmovegroup.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
 
 #include <command.h>
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandMoveGroup : public Command  {
  public:
 	CommandMoveGroup(PinEditDoc * doc);
@@ -31,6 +31,8 @@ class CommandMoveGroup : public Command  {
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
 	const char * type() { return "CommandMoveGroup"; };
+ private:
+	Vertex3D m_vtxTrans;
 };
 
 #endif

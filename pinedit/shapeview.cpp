@@ -36,6 +36,8 @@
 #include "pineditdoc.h"
 #include "listitem.h"
 #include "commandnewbehavior.h"
+#include "pinedit.h"
+#include "pineditview.h"
 // emilia includes
 #include "Private.h"
 #include "Engine.h"
@@ -69,7 +71,8 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 	p_ListView->setSelectionMode(QListView::Single);
 	p_ListView->addColumn(QString("elements"));
 	// TODO better resizing
-	p_ListView->setFixedSize(200, 250);
+	//p_ListView->setFixedSize(200, 250);
+	p_ListView->setMinimumSize(200, 250);
 		
 	// widget stack
 	p_WidgetStack = new QWidgetStack(this);
@@ -251,6 +254,7 @@ void ShapeView::slotChanged() {
 // 			p_Doc->setCurrentGroup((*(m_hGroup.find(currentitem))).second);
 			p_Doc->setCurrentGroup((Group*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetGroup);
+			PinEditApp::p_CurrentApp->setMode(EM_GROUP_MODE);
 			cerr << "ShapeView::slotChanged selected a group" << endl;
 		} break;
 		case LISTITEM_SHAPE: {
@@ -260,6 +264,7 @@ void ShapeView::slotChanged() {
 // 			p_Doc->setCurrentShape((*(m_hShape.find(currentitem))).second);
 			p_Doc->setCurrentShape((Shape3D*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetShape);
+			PinEditApp::p_CurrentApp->setMode(EM_SHAPE_MODE);
 			cerr << "ShapeView::slotChanged selected a shape" << endl;
 		} break;
 		case LISTITEM_BEHAVIOR: {

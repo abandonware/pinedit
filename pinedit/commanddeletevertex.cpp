@@ -2,7 +2,7 @@
                           commanddeletevertex.cpp  -  description
                              -------------------
     begin                : Sat Jun 1 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -60,16 +60,13 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 	vector<int>::reverse_iterator riter = v_index.rbegin();
 	vector<int>::reverse_iterator rend = v_index.rend();
 	for(; riter != rend; ++riter) {
-		Vertex3D * vtx = context.shape->getVertex3D(*riter);
-		Color * color = context.shape->getColor(*riter);
-		TexCoord * texcoord = context.shape->getTexCoord(*riter);
+		Vertex3D vtx = *(context.shape->getVertex3D(*riter));
+		Color color = *(context.shape->getColor(*riter));
+		TexCoord texcoord = *(context.shape->getTexCoord(*riter));
 		if (context.shape->removeLooseVertex3D(*riter)) {
-			assert(vtx != NULL);
-			assert(color != NULL);
-			assert(color != NULL);
-			m_vVertex.push_back(*vtx);
-			m_vColor.push_back(*color);
-			m_vTexCoord.push_back(*texcoord);
+			m_vVertex.push_back(vtx);
+			m_vColor.push_back(color);
+			m_vTexCoord.push_back(texcoord);
 			m_vIndex.push_back(*riter);
 		} else {
 			cerr << "CommandDeleteVertex::execute could not remove vertex " << (*riter) << endl;

@@ -22,7 +22,7 @@
 
 class Group;
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandNewGroup : public Command  {
  public:
 	CommandNewGroup(PinEditDoc * doc);

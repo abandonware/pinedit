@@ -79,9 +79,13 @@ class PinEditDoc : public QObject {
 	QImage * loadQImage(const QString & filename);
 
 	bool isModified() const;
-	void setModified(bool m) { modified = m; };  	
+	inline void setModified(bool m) { modified = m; };  	
 
-	void setCommand(Command * command);
+	inline void setCommand(Command * command) { p_Command = command; };
+	/** Do NOT execute this command use it only for preview.
+	 * If you want to execute it use 'buildCommand' */
+	inline Command * getCommand() { return p_Command; };
+
 	Command * buildCommand();
 	const char * getCommandName();
 	void pushUndo(Command * command);
@@ -131,6 +135,16 @@ class PinEditDoc : public QObject {
 	bool isVertexHidden(int index);
 	bool isPolygonHidden(Polygon * poly);
 	void hideVertex(int index);
+	/** Clears the clipboard. */
+	void clearClipBoard();
+	void addClipBoard(const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
+	/** Copies the contents of the vectors to the clip board. vVertex, vColor,
+	 * and vTexCoord must be of the same size. */
+	void setClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+										vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon);
+	/** Clears the vectors and copies the contents of the clipboard to the vectors. */
+	void getClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+										vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon);
 
  signals:
 	void documentChanged();
@@ -156,6 +170,10 @@ class PinEditDoc : public QObject {
 	vector<pair<Updateable*, QString> > m_vUpdateable;
 	vector<pair<Rebuildable*, QString> > m_vRebuildable;
 	map<int, bool> m_hHiddenVertex;
+	vector<Vertex3D> m_vCBVertex;
+	vector<Color> m_vCBColor;
+	vector<TexCoord> m_vCBTexCoord;
+	vector<Polygon> m_vCBPolygon;
 };
 
 #endif

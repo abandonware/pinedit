@@ -1,5 +1,5 @@
 /***************************************************************************
-                          commandextrude.cpp  -  description
+                          commandpaste.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Henrik Enqvist
@@ -18,7 +18,7 @@
 // qt includes
 #include <qpainter.h>
 // application includes
-#include "commandextrude.h"
+#include "commandpaste.h"
 #include "pineditdoc.h"
 #include "view2d.h"
 // emilia
@@ -27,21 +27,61 @@
 #include "EMath.h"
 #include "Polygon.h"
 
-CommandExtrude::CommandExtrude(PinEditDoc * doc) : Command(doc) {
+CommandPaste::CommandPaste(PinEditDoc * doc) : Command(doc) {
+	m_iUndoIndex = -1;
 }
 
-CommandExtrude::~CommandExtrude() {
+CommandPaste::~CommandPaste() {
 }
 
-void CommandExtrude::clearObjects() {
+void CommandPaste::clearObjects() {
 }
 
-void CommandExtrude::execute(const CommandContext & context) {
-	cerr << "CommandExtrude::execute" << endl;
+void CommandPaste::execute(const CommandContext & context) {
+	cerr << "CommandPaste::execute" << endl;
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 
-	// extrude needs at least two vertices
+	m_iUndoIndex = context.shape->getVertex3DSize();
+
+	vector<Vertex3D> vVertex;
+	vector<Color> vColor;
+	vector<TexCoord> vTexCoord;
+	vector<Polygon> vPolygon;
+
+	p_Doc->getClipBoard(vVertex, vColor, vTexCoord, vPolygon);
+
+	assert(vVertex.size() == vColor.size());
+	assert(vVertex.size() == vTexCoord.size());
+	cerr << "adding " << vVertex.size() << " vertices " << endl;
+
+	vector<Vertex3D>::iterator viter = vVertex.begin();
+	vector<Vertex3D>::iterator vend = vVertex.end();
+	vector<Color>::iterator citer = vColor.begin();
+	vector<TexCoord>::iterator titer = vTexCoord.begin();
+	for (; viter != vend; ++viter, ++citer, ++titer) {
+		context.shape->add((*viter).x, (*viter).y, (*viter).z,
+											(*citer).r, (*citer).g, (*citer).b, (*citer).a,
+											(*titer).u, (*titer).v);
+		
+	}
+
+	/*
+
+	Vertex3D * vtx;
+	int index = 0;
+	while ( (vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index))) != NULL) {
+		Color * color = context.shape->getColor(p_Doc->getSelectedVertex(index));
+		TexCoord * tex = context.shape->getTexCoord(p_Doc->getSelectedVertex(index));
+		assert(color != NULL);
+		assert(tex != NULL);
+		int newvtx = context.shape->add(vtx->x + 0.5, vtx->y, vtx->z, 
+																		color->r, color->g, color->b, color->a, tex->u , tex->v);
+		m_vNewVertex.push_back(newvtx);
+		++index;
+	}
+
+	// paste needs at least two vertices
 	if (p_Doc->getSelectedVertex(1) == -1) return;
 	// create a copy for each selected vertex
 	int size = context.shape->getVertex3DSize();
@@ -73,8 +113,8 @@ void CommandExtrude::execute(const CommandContext & context) {
 				if (poly->connected(vtxIndexA, vtxIndexB)) {
 					Polygon * newpoly = new Polygon(context.shape, 4);
 					newpoly->add(vtxIndexA);
-					newpoly->add(size + indexA); // this is the vertex extruded from vtxIndexA
-					newpoly->add(size + indexB); // this is the vertex extruded from vtxIndexB
+					newpoly->add(size + indexA); // this is the vertex pasted from vtxIndexA
+					newpoly->add(size + indexB); // this is the vertex pasted from vtxIndexB
 					newpoly->add(vtxIndexB);
 					context.shape->add(newpoly);
 					m_vPolygon.push_back(newpoly);
@@ -99,12 +139,14 @@ void CommandExtrude::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->rebuildAll("polygon");
 	p_Doc->updateAll("polygon");
+	*/
 	p_Doc->pushUndo(this);
 }
 
-void CommandExtrude::undo() {
-	cerr << "CommandExtrude::undo" << endl;
+void CommandPaste::undo() {
+	cerr << "CommandPaste::undo" << endl;
 	assert(p_Context->shape != NULL);
+	/*
 	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
 	vector<Polygon*>::iterator polyend = m_vPolygon.end();
 	for (; polyiter != polyend; ++polyiter) {
@@ -115,9 +157,10 @@ void CommandExtrude::undo() {
 	for (; vtxiter != vtxend; ++vtxiter) {
 		p_Context->shape->removeLooseVertex3D((*vtxiter));
 	}
+	*/
 }
 
-Command * CommandExtrude::build() {
-	cerr << "CommandExtrude::build" << endl;
-	return new CommandExtrude(p_Doc);
+Command * CommandPaste::build() {
+	cerr << "CommandPaste::build" << endl;
+	return new CommandPaste(p_Doc);
 }

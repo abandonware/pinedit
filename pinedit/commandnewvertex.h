@@ -2,7 +2,7 @@
                           commandnewvertex.h  -  description
                              -------------------
     begin                : Thu Apr 11 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -20,7 +20,7 @@
 
 #include "command.h"
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandNewVertex : public Command  {
  public:
 	CommandNewVertex(PinEditDoc * doc);

@@ -85,9 +85,9 @@ void SnapDialog::slotSnap() {
 	p_CommandSnap->build()->execute(context);
 	this->done(0);
 	cerr << "SnapDialog::slotSnap" << endl;
-};
+}
 
 void SnapDialog::slotCancel() {
 	this->done(0);
 	cerr << "SnapDialog::slotCancel" << endl;
-};
+}

@@ -10,8 +10,8 @@
  * Unit testing
  ***************************************************************************/
 
-#ifndef COMMANDTEST_H
-#define COMMANDTEST_H
+#ifndef TESTCOMMAND_H
+#define TESTCOMMAND_H
 
 #if EM_UNIT_TEST
 
@@ -29,7 +29,7 @@
 #include "commandnewgroup.h"
 #include "pinedit.h"
 
-class CommandTest : public CppUnit::TestFixture {
+class TestCommand : public CppUnit::TestFixture {
  public:
   void setUp() {
 		//		pineditapp = new PinEditApp();
@@ -50,7 +50,7 @@ class CommandTest : public CppUnit::TestFixture {
 		CPPUNIT_ASSERT(true);
   };
 
-	CPPUNIT_TEST_SUITE(CommandTest);
+	CPPUNIT_TEST_SUITE(TestCommand);
 
 	CPPUNIT_TEST(testTrue);
 	CPPUNIT_TEST(testNewGroup);

@@ -18,7 +18,13 @@
 #ifndef COMMANDEXTRUDE_H
 #define COMMANDEXTRUDE_H
 
+using namespace std;
+
+#include <vector>
+
 #include <command.h>
+
+class Polygon;
 
 /** @author Henrik Enqvist IB */
 class CommandExtrude : public Command  {
@@ -31,7 +37,9 @@ class CommandExtrude : public Command  {
 	void execute(const CommandContext & context);
 	void preview (const CommandContext &, View2D *) {};
 	virtual const char * type() { return "CommandExtrude"; };
-
+ private:
+	vector<int> m_vNewVertex;
+	vector<Polygon*> m_vPolygon;
 };
 
 #endif

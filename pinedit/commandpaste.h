@@ -1,8 +1,8 @@
 /***************************************************************************
-                          commandflip.h  -  description
+                          commandpaste.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist
+    copyright            : (C) 2002 by Henrik Enqvist IB
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMMANDFLIP_H
-#define COMMANDFLIP_H
+#ifndef COMMANDPASTE_H
+#define COMMANDPASTE_H
 
 using namespace std;
 
@@ -26,19 +26,21 @@ using namespace std;
 
 class Polygon;
 
-/** @author Henrik Enqvist */
-class CommandFlip : public Command  {
+/** @author Henrik Enqvist IB */
+class CommandPaste : public Command  {
  public:
-	CommandFlip(PinEditDoc * doc);
-	~CommandFlip();
+	CommandPaste(PinEditDoc * doc);
+	~CommandPaste();
 	Command * build();
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
 	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandFlip"; };
+	virtual const char * type() { return "CommandPaste"; };
  private:
-	vector<Polygon*> m_vPolygon;
+	int m_iUndoIndex;
+	//vector<int> m_vNewVertex;
+	//vector<Polygon*> m_vPolygon;
 };
 
 #endif

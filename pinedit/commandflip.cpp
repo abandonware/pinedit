@@ -2,7 +2,7 @@
                           commandflip.cpp  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -33,11 +33,14 @@ void CommandFlip::clearObjects() {
 }
 
 void CommandFlip::execute(const CommandContext & context) {
+	cerr << "CommandFlip::execute" << endl;
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	int index = 0;
 	Polygon * poly = p_Doc->getSelectedPolygon(index);
 	while (poly != NULL) {
+		m_vPolygon.push_back(poly);
 		// oooh, this is a ugly and slow implementation
 		vector<int> vIndex;
 		vector<int>::reverse_iterator riter = poly->m_vIndex.rbegin();
@@ -61,14 +64,39 @@ void CommandFlip::execute(const CommandContext & context) {
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
 	p_Doc->rebuildAll("polygon");
-	//p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "flipped polygons" << endl;
 }
 
 void CommandFlip::undo() {
+	cerr << "CommandFlip::undo" << endl;
+	assert(p_Context->shape != NULL);
+	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
+	vector<Polygon*>::iterator polyend = m_vPolygon.end();
+
+	for (; polyiter != polyend; ++polyiter) {
+		// oooh, this is a ugly and slow implementation
+		vector<int> vIndex;
+		vector<int>::reverse_iterator riter = (*polyiter)->m_vIndex.rbegin();
+		vector<int>::reverse_iterator rend = (*polyiter)->m_vIndex.rend();
+		// TODO flip color and texcoord or not?
+		for (; riter != rend; riter++) {
+			vIndex.push_back(*riter);
+		}			
+		vector<int>::iterator iter = vIndex.begin();
+		vector<int>::iterator end = vIndex.end();
+		(*polyiter)->m_vIndex.clear();
+		for (; iter != end; iter++) {
+			(*polyiter)->m_vIndex.push_back(*iter);
+		}
+		(*polyiter)->countNormal();
+	}
+	p_Context->shape->countNormals();
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandFlip::build() {
+	cerr << "CommandFlip::bulld" << endl;
 	return new CommandFlip(p_Doc);
 }

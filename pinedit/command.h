@@ -2,7 +2,7 @@
                           command.h  -  description
                              -------------------
     begin                : Thu Apr 11 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -32,7 +32,7 @@ class PinEditDoc;
 class Group;
 class Shape3D;
 
-/** @author Henrik Enqvist IB */
+/** @author Henrik Enqvist */
 class CommandContext {
  public:
 	CommandContext() {};
@@ -66,29 +66,32 @@ class CommandContext {
 };
 
 /** Commands are the operation that we can perform on the object(s) that 
- ** we are editing. E.g. adding vertices, moving group, deleting behaviors etc. */
+ * we are editing. E.g. adding vertices, moving group, deleting behaviors etc. */
 class Command {
  public:
 	/** Constucts a command that can be executed and undon. */
 	Command(PinEditDoc * doc);
 	virtual ~Command();
 	/** Some classes manages an 'current command' object. This class is used
-	 ** when we want to construct a command of the same (unknown) type. 
-	 ** Subclasses should implement this function by only only creating a
-	 ** new object and returning it. */
+	 * when we want to construct a command of the same (unknown) type. 
+	 * Subclasses should implement this function by only only creating a
+	 * new object and returning it. */
 	virtual Command * build() = 0;
 	/** Reverses the action of the command. The command must first be executed. */
 	virtual void undo() = 0;
 	/** Performs the action implemented by this action on a given context. 
-	 ** The context can be used to pass 'arguments' to the command. */
+	 * The context can be used to pass 'arguments' to the command. */
 	virtual void execute(const CommandContext & context) = 0;
 	/** Some commands wishes to  generate a preview of the action onto a View2D. E.g.
-	 ** movement of objects. */
+	 * movement of objects. */
 	virtual void preview(const CommandContext & context, View2D * view2d) = 0;
 	/** Returns the name of the command subclass. Subclasses should implement
-	 ** this function by returning a name that exaclty matches the name of 
-	 ** the class. */
+	 * this function by returning a name that exaclty matches the name of 
+	 * the class. */
 	virtual const char * type() = 0;
+	/** Clears any temporary objects needed by the undo operation. This function
+	 * is called when the command is pushed out from the undo stack. This function
+	 * is NOT called if command is undon. */
 	virtual void clearObjects() = 0;
  protected:
 	PinEditDoc * p_Doc;

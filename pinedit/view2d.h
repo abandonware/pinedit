@@ -37,6 +37,7 @@ class View2D : public QWidget, public Updateable {
  public:
 	View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
 	~View2D();
+	void resizeEvent(QResizeEvent * e);
 	void mousePressEvent(QMouseEvent * e);
 	void mouseMoveEvent(QMouseEvent * e);
 	void mouseReleaseEvent(QMouseEvent * e);
