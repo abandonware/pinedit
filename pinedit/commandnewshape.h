@@ -25,6 +25,7 @@
 #define SHAPE_SPHERE_2 2
 #define SHAPE_SPHERE_3 3
 #define SHAPE_CUBE 4
+#define SHAPE_CONE 5
 
 class Shape3D;
 
