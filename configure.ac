@@ -1,21 +1,20 @@
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT(pinedit/pinedit.cpp)
+dnl Process this file with autoconf-2.53 to produce a configure script.
+
+dnl init autoconf and automake
+AC_INIT(pinedit, 0.0.4, [[henqvist@users.sourceforge.net]])
+
+AM_CONFIG_HEADER(editconfig.h)
+
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
+AM_INIT_AUTOMAKE
 
 dnl this is a c++ program
 CFLAGS="-g -W -Wall"
 CXXFLAGS="-g -W -Wall"
 
-PINBALL_VERSION=0.2.0
-SDL_VERSION=1.2.0
-ALLEGRO_VERSION=4.0.0
-
-AC_CANONICAL_HOST
-AC_CANONICAL_TARGET
-
 AC_CONFIG_SUBDIRS(libltdl)
-
-AM_INIT_AUTOMAKE(pinedit, 0.0.4)
-AM_CONFIG_HEADER(editconfig.h)
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -41,10 +40,9 @@ if test "x$exec_prefix" = xNONE; then
 fi
 
 PIN_DATADIR="$datadir/$PACKAGE"
-eval PIN_DATAPATH=`eval echo "$PIN_DATADIR"`
-AC_DEFINE_UNQUOTED(PIN_DATADIR, "$PIN_DATAPATH")
-AC_SUBST(PIN_DATAPATH)
 AC_SUBST(PIN_DATADIR)
+eval PIN_DATAPATH=`eval echo "$PIN_DATADIR"`
+AC_DEFINE_UNQUOTED(PIN_DATADIR, "$PIN_DATAPATH", [The datadir for the pinball game])
 
 dnl *******************************************
 dnl OPENGL ************************************
@@ -99,7 +97,7 @@ LIBS="$GL_LIBS $LIBS"
 
 dnl *******************************************
 dnl SDL ***************************************
-AM_PATH_SDL( $SDL_VERSION, , AC_MSG_ERROR([*** SDL version $SDL_VERSION not found! Make sure you have the development package of SDL installed - (www.libsdl.org) - or try to use the --with-sdl-prefix option]) )
+AM_PATH_SDL( 1.2.0, , AC_MSG_ERROR([*** SDL version $SDL_VERSION not found! Make sure you have the development package of SDL installed - (www.libsdl.org) - or try to use the --with-sdl-prefix option]) )
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 LIBS="$SDL_LIBS $LIBS"
@@ -136,7 +134,7 @@ LIBS="$LIBS -lSDL_mixer"
 
 dnl ********************************************
 dnl PINBALL ************************************
-AM_PATH_PINBALL( $PINBALL_VERSION, , AC_MSG_ERROR([*** Pinball version $PINBALL_VERSION not found! Make sure you pinball installed - (pinball.sourceforge.net) - or try to use the --with-pinball-prefix option]) )
+AM_PATH_PINBALL( 0.2.0, , AC_MSG_ERROR([*** Pinball version $PINBALL_VERSION not found! Make sure you pinball installed - (pinball.sourceforge.net) - or try to use the --with-pinball-prefix option]) )
 CFLAGS="$CFLAGS $PINBALL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $PINBALL_CFLAGS"
 LIBS="$PINBALL_LIBS $LIBS"
@@ -149,7 +147,7 @@ AC_ARG_WITH(unittest, [  --with-unittest         Try to use unitest], use_unitte
 if test x"$use_unittest" == "xyes"; then
 
 AM_PATH_CPPUNIT(1.8.0, [
-  AC_DEFINE(EM_UNIT_TEST) 
+  AC_DEFINE_UNQUOTED(EM_UNIT_TEST, [1], [Unittests]) 
   CPPFLAGS="$CPPFLAGS $CPPUNIT_CFLAGS"	
   CFLAGS="$CFLAGS $CPPUNIT_CFLAGS" 
   LIBS="$LIBS $CPPUNIT_LIBS"
@@ -174,9 +172,11 @@ AC_HEADER_STDC
 AC_ARG_WITH(debug, [  --with-debug            Compile debug version], use_debug="yes", use_debug="no")
 
 if test x"$use_debug" == "xyes"; then
-AC_DEFINE(EM_DEBUG)
+AC_DEFINE_UNQUOTED(EM_DEBUG, [1], [Build a debug version])
 fi
 
-AC_DEFINE(EM_USE_SDL)
+AC_DEFINE_UNQUOTED(EM_USE_SDL, [1], [Build a sdl version])
 
-AC_OUTPUT(Makefile pinedit/Makefile data/Makefile data/audio/Makefile data/template/Makefile data/template/pinball-template data/template/Make-template data/objects/Makefile doc/Makefile)
+AC_CONFIG_FILES(Makefile pinedit/Makefile data/Makefile data/audio/Makefile data/template/Makefile data/template/pinball-template data/template/Make-template data/objects/Makefile doc/Makefile)
+
+AC_OUTPUT
