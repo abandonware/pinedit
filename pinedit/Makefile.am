@@ -7,8 +7,8 @@ bin_PROGRAMS = pinedit #unittest
 pinedit_LDADD   = -lGL -lGLU -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11 $(QT_LDADD) @LIBLTDL@ 
 pinedit_LDFLAGS = -L. -export-dynamic
 
-#unittest_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
-#unittest_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
+unittest_LDADD   = -lGL -lGLU -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11 $(QT_LDADD) @LIBLTDL@ 
+unittest_LDFLAGS = -L. -export-dynamic
 
 INCLUDES = @INCLTDL@
 
@@ -18,11 +18,8 @@ moc_%.cpp : %.h
 	@echo "Creating Meta $< ..."
 	$(MOC) $< -o $@
 
-#unittest_SOURCES = \
-#unittest.cpp
-
-#pinedit_SOURCES = \
-#main.cpp
+unittest_SOURCES = \
+unittest.cpp
 
 pinedit_SOURCES = \
 main.cpp \

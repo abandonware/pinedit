@@ -7,67 +7,69 @@
       <h1><a name="top"></a>Tutorial</h1>
       
       <ul>
-				<li><a href="#introduction">Introduction</a></li>
-				<li><a href="#creating a table">Creating a Table</a></li>
-				<li><a href="#adding objects">Adding Objects</a></li>
-				<ul>
-					<li><a href="#walls">Walls</a></li>
-					<li><a href="#bumpers">Bumpers</a></li>
-					<li><a href="#arms">Arms</a></li>
-					<li><a href="#locks and caves">Locks and Caves</a></li>
-					<li><a href="#ramps">Ramps</a></li>
-				</ul>
-				<li><a href="#writing scripts">Writing Scripts</a></li>
+	<li><a href="#introduction">Introduction</a></li>
+	<li><a href="#creating a table">Creating a Table</a></li>
+	<li><a href="#adding objects">Adding Objects</a></li>
+	<ul>
+	  <li><a href="#walls">Walls</a></li>
+	  <li><a href="#bumpers">Bumpers</a></li>
+	  <li><a href="#arms">Arms</a></li>
+	  <li><a href="#locks and caves">Locks and Caves</a></li>
+	  <li><a href="#ramps">Ramps</a></li>
+	</ul>
+	<li><a href="#writing scripts">Writing Scripts</a></li>
       </ul>
       
       <h2><a name="introduction">Introduction</a></h2>
       <p>
-				This tutorial will learn you the basics of how to create pinball tables with 
-				the editor. It is assumed that you have some basic knowledge
-				of 3D modelling, you need at least to know what a vertex and a polygon
-				is. You also have to, at least once in your life, written a hello-world
-				c/c++ program and compiled it. Beware that the editor is at an alpha stage
-				and that some things ain't that intiutive and others are purely clumsy.
-				Remember to save often, the editor may crash (no surprise). 
-				Know that that's said let's start.
+	This tutorial will learn you the basics of how to create pinball tables with 
+	the editor. It is assumed that you have some basic knowledge
+	of 3D modelling, you need at least to know what a vertex and a polygon
+	is. You also have to, at least once in your life, written a hello-world
+	c/c++ program and compiled it. Beware that the editor is at an alpha stage
+	and that some things ain't that intiutive and others are purely clumsy.
+	Remember to save often, the editor may crash (no surprise). 
+	Know that that's said let's start.
       </p>
       <a href="#top">top</a>
-			
+      
       <h2><a name="creating a table">Creating a Table</a></h2>
       <p>
-				First you have to create a working directory for your table. 
-				Do this with the 'pinball-template' script, the script is installed
-				in the same director as the 'pinedit' program. Execute
-				'pinball-template mytable MyMod' to create a directory 
-				with the name 'mytable' and a module with the name 'MyMod'.
-				The script will copy a makefile, an empty table and a module to
-				your directory.	Compile the table with 'make' (the Makefile is
-				still a bit of alpha hack so if you come across any problems
-				or make some patches please mail them to henqvist@users.sourceforge.net).
-				Now you have a new fresh table which we will load into the editor.
-				Press the 'open file' <img src="fileopen.xpm"></img> button, and choose the
-				'mytable/pinball.pbl' file. Now a simple table pops up in the editor.
-				Do no confuse the open button with the 'load object' button.
+	First you have to create a working directory for your table. 
+	Do this with the 'pinball-template' script, the script is installed
+	in the same director as the 'pinedit' program. Execute
+	'pinball-template mytable MyMod' to create a directory 
+	with the name 'mytable' and a module with the name 'MyMod'.
+	The script will copy a makefile, an empty table and a module to
+	your directory.	Compile the table with 'make' (the Makefile is
+	still a bit of alpha hack so if you come across any problems
+	or make some patches please mail them to henqvist@users.sourceforge.net).
+	Then install the table with 'make install'. If you have installed
+	the pinball game as root you'll have to do the 'make install' step as root.
+	Now you have a new fresh table which we will load into the editor.
+	Press the 'open file' <img src="fileopen.xpm"></img> button, and choose the
+	'mytable/pinball.pbl' file. Now a simple table pops up in the editor.
+	Do no confuse the open button with the 'load object' button.
       </p>
+      <!-- p>
+	The first thing we will add to our table is the main script, with out it
+	we will not be able to test the level. Click the new 'New Object'
+	<img src="worknewgroup.xpm"></img> button and name the new object 'module'.
+	Select the object and from the combo-box at bottom right in the objects panel 
+	choose 'module' and press the 'new behavior' button, finally choose the newly
+	compiled 'libModuleMyMod.la' to bee the module. Save the table and
+	install it with 'make install' (you might have to be root for this).
+	Before we start adding objects let's test play the table. 
+      </p-->
       <p>
-				The first thing we will add to our table is the main script, with out it
-				we will not be able to test the level. Click the new 'New Object'
-				<img src="worknewgroup.xpm"></img> button and name the new object 'module'.
-				Select the object and from the combo-box at bottom right in the objects panel 
-				choose 'module' and press the 'new behavior' button, finally choose the newly
-				compiled 'libModuleMyMod.la' to bee the module. Save the table and
-				install it with 'make install' (you might have to be root for this).
-				Before we start adding objects let's test play the table. 
-      </p>
-      <p>
-				Start up the pinball game and you should
-				now see 'mytable' alongside 'tux' and 'professor' in the table meny.
-				Each directory that is found in the data directory is added to the loadable 
-				tables in the game, the game will look for the 'pinball.pbl' file when trying 
-				to load a table. It is not yet possible to test play the table from editor so 
-				this is how you debug your tables. If you have compiled the game as a debug
-				version (configure --with-debug) you can steer the ball with the 'i' ,'j', 'k' 
-				and 'l' keys.
+	Start up the pinball game and you should
+	now see 'mytable' alongside 'tux' and 'professor' in the table meny.
+	Each directory that is found in the data directory is added to the loadable 
+	tables in the game, the game will look for the 'pinball.pbl' file when trying 
+	to load a table. It is not yet possible to test play the table from editor so 
+	this is how you debug your tables. If you have compiled the game as a debug
+	version (configure --with-debug) you can steer the ball with the 'i' ,'j', 'k' 
+	and 'l' keys.
       </p>
       <a href="#top">top</a>
       

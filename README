@@ -1,2 +1,11 @@
 
-Read 'pinsuite/README' or 'pinsuite-x.x.x/pinball/README'.
+This is a 3d editor for the emilia pinball game. You need SDL 1.2.x, SDL_image 1.2.x, 
+SDL_mixer 1.2.x. and QT 3.x.x.
+
+Install it with:
+./configure
+make
+make install (as root)
+
+If make complains about moc_* files simply delete all moc_* files, they will
+be regenerated to fit your version of QT.
