@@ -60,6 +60,7 @@ View2D::~View2D(){
 }
 
 void View2D::mousePressEvent(QMouseEvent* e) {
+	cerr << "View2D::mousePressEvent" << endl;
 	m_iX2 = m_iX1 = e->x();
 	m_iY2 = m_iY1 = e->y();
 	if (e->button() ==  QMouseEvent::LeftButton) {
@@ -74,6 +75,7 @@ void View2D::mousePressEvent(QMouseEvent* e) {
 }
 
 void View2D::mouseReleaseEvent(QMouseEvent * e) {
+	cerr << "View2D::mouseReleaseEvent" << endl;
 	m_iMouse = 0;
 	m_iX2 = e->x();
 	m_iY2 = e->y();
@@ -197,7 +199,7 @@ void View2D::drawVertex(Shape3D * shape, const Vertex3D & vtx, const Matrix & mt
 }
 
 void View2D::drawShapeMode() {
-	// cerr << "View2D::drawShapeMode" << endl;
+	cerr << "View2D::drawShapeMode" << endl;
 	// draw other shapes in group with lightgray
 	if (p_Doc->getCurrentGroup() == NULL) return;
 
@@ -327,7 +329,7 @@ void View2D::drawShapeMode() {
 }
 
 void View2D::drawGroupMode() {
-	//cerr << "View2D::drawGroupMode" << endl;
+	cerr << "View2D::drawGroupMode" << endl;
 	Matrix mtx = EMath::identityMatrix;
 	// draw all groups
 	this->drawGroup(p_Doc->getEngine(), mtx);
@@ -438,9 +440,11 @@ void View2D::drawGrid() {
 	}
 
 	p_QPainter->setPen(Qt::darkGray);
-	p_QPainter->drawLine(this->screenx(-100), this->screeny(0), this->screenx(100), this->screeny(0));
-	p_QPainter->drawLine(this->screenx(0), this->screeny(-100), this->screenx(0), this->screeny(100));
-	p_QPainter->drawText(0, 0, str);
+	p_QPainter->drawLine(this->screenx(-100), this->screeny(0), 
+											 this->screenx(100), this->screeny(0));
+	p_QPainter->drawLine(this->screenx(0), this->screeny(-100), 
+											 this->screenx(0), this->screeny(100));
+	//p_QPainter->drawText(0, 0, str);
 }
 
 // this is the function who draws stuff to the screen
@@ -459,5 +463,6 @@ void View2D::paintEvent(QPaintEvent * e) {
 }
 
 void View2D::doUpdate() {
+	cerr << "View2D::doUpdate" << endl;
 	this->repaint();
 }

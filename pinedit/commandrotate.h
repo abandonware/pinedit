@@ -18,7 +18,13 @@
 #ifndef COMMANDROTATE_H
 #define COMMANDROTATE_H
 
-#include <command.h>
+using namespace std;
+
+#include <vector>
+
+#include "command.h"
+
+#include "EMath.h"
 
 /** @author Henrik Enqvist IB */
 class CommandRotate : public Command  {
@@ -31,7 +37,9 @@ class CommandRotate : public Command  {
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
 	virtual const char * type() { return "CommandRotate"; };
-
+ private:
+	vector<Vertex3D> m_vVertex;
+	vector<int> m_vIndex;
 };
 
 #endif

@@ -32,9 +32,9 @@
 class CommandTest : public CppUnit::TestFixture {
  public:
   void setUp() {
-		pineditapp = new PinEditApp();
-		commandnewgroup = new CommandNewGroup(pineditapp->getDoc());
-		commandnewvertex = new CommandNewVertex(pineditapp->getDoc());
+		//		pineditapp = new PinEditApp();
+		//		commandnewgroup = new CommandNewGroup(pineditapp->getDoc());
+		//		commandnewvertex = new CommandNewVertex(pineditapp->getDoc());
   };
 
   void tearDown() {

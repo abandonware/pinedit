@@ -184,7 +184,7 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 	cerr << "ShapeView::addGroup added a group" << endl;
 // 	QListViewItem * groupitem = new QListViewItem(parent, QString("group ") + 
 // 																								QString(group->getName()));
-	ListItem * groupitem = new ListItem(parent, QString("group") + QString(group->getName()));
+	ListItem * groupitem = new ListItem(parent, QString("group ") + QString(group->getName()));
 	groupitem->setObject(group, LISTITEM_GROUP);
 	if (p_Doc->getEngine() == group) {
 		groupitem->setOpen(TRUE);

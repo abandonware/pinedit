@@ -24,6 +24,7 @@
 #include <qwidget.h>
 // application includes
 #include "pineditdoc.h"
+#include "listitem.h"
 // emilia includes
 #include "EMath.h"
 
@@ -86,9 +87,6 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	QLineEdit * p_EditG;
 	QLineEdit * p_EditB;
 	QLineEdit * p_EditA;
-	//QRadioButton * p_VertexButton;
-	//QRadioButton * p_PolygonButton;
-	//QButtonGroup * p_ButtonGroup;
 	QCheckBox * p_TransBox;
 	QLineEdit * p_EditTexture;
 	QPushButton * p_ChooseButton;
@@ -100,11 +98,11 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	QPushButton * p_ApplyColorButton;
 	QPushButton * p_ApplyPropButton;
 
-	map<QListViewItem *, Polygon *> m_hPolygon;
-	map<Polygon *, QListViewItem *> m_hListViewItem;
-	//map<QListViewItem *, Vertex3D *> m_hVertex;
-	map<QListViewItem *, int> m_hVertexIndex;
-	map<QListViewItem *, int> m_hColorIndex;
+	//	map<QListViewItem *, Polygon *> m_hPolygon;
+	//	map<Polygon *, QListViewItem *> m_hListViewItem;
+	map<Polygon*, ListItem*> m_hPolyListItem;
+	//	map<QListViewItem *, int> m_hVertexIndex;
+	//	map<QListViewItem *, int> m_hColorIndex;
 };
 
 #endif

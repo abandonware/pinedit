@@ -37,6 +37,8 @@ void CommandRotateLocal::clearObjects() {
 
 void CommandRotateLocal::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	p_Context->copy(context);
+
 	// build matrix stack for temporary translation
 	// mtxB is global rotion matrix, mtxC fixes the translation in local rotation
 	// mtxC is the final matrix
@@ -63,9 +65,10 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	Vertex3D vtxA;
 	while (vtx != NULL) {
+		m_vVertex.push_back(*vtx);
+		m_vIndex.push_back(p_Doc->getSelectedVertex(index));
 		EMath::applyMatrix(mtxC, *vtx, vtxA);
 		*vtx = vtxA;
-		// TODO rotation
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
@@ -80,10 +83,6 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 
 void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d) {
 	if (context.shape == NULL) return;
-	// build matrix stack for temporary translation
-	// mtxB is global rotion matrix, mtxC fixes the translation in local rotation
-	// mtxC is the final matrix
-	
 	// build matrix stack for temporary translation
 	// mtxA is moves and rotates , mtxB fixes the translation to local rotation
 	// mtxC is the final matrix
@@ -132,7 +131,21 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 }
 
 void CommandRotateLocal::undo() {
-	cerr << "CommandRotateLocal::undo not implemented" << endl;
+	cerr << "CommandRotateLocal::undo" << endl;
+	assert(p_Context->shape != NULL);
+	assert(m_vVertex.size() == m_vIndex.size());
+	vector<int>::iterator indexiter = m_vIndex.begin();
+	vector<int>::iterator indexend = m_vIndex.end();
+	vector<Vertex3D>::iterator vtxiter = m_vVertex.begin();
+	for (; indexiter != indexend; ++indexiter, ++vtxiter) {
+		Vertex3D * vtx = p_Context->shape->getVertex3D(*indexiter);
+		assert(vtx != NULL);
+		vtx->x = (*vtxiter).x;
+		vtx->y = (*vtxiter).y;
+		vtx->z = (*vtxiter).z;
+	}
+	p_Doc->updateAll("polygon");
+
 }
 
 Command * CommandRotateLocal::build() {

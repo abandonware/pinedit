@@ -37,25 +37,29 @@ void CommandRotateGroup::clearObjects() {
 
 void CommandRotateGroup::execute(const CommandContext & context) {
 	assert(context.group != NULL);
+	p_Context->copy(context);
 
+	context.group->getRotation(m_vtxRot.x, m_vtxRot.y, m_vtxRot.z);
 	float dx = context.x2 - context.x1;
 	float dz = context.z2 - context.z1;
 	switch (context.type) {
-	case XY: context.group->addRotation(0, 0, dx/PE_ROTATION_FACTOR); break;
-	case XZ: context.group->addRotation(0, dx/PE_ROTATION_FACTOR, 0); break;
-	case ZY: context.group->addRotation(dz/PE_ROTATION_FACTOR, 0, 0); break;
+	case XY: context.group->addRotation(0, 0, dx/PE_ROTATION_FACTOR);	break;
+	case XZ: context.group->addRotation(0, dx/PE_ROTATION_FACTOR, 0);	break;
+	case ZY: context.group->addRotation(dz/PE_ROTATION_FACTOR, 0, 0);	break;
 	}
 	
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
 	p_Doc->updateAll("group");
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 	cerr << "CommandRotateGroup::execute from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d) {
-	if (context.group != NULL) return;
+	cerr << "CommandRotateGroup::preview" << endl;
+	if (context.group == NULL) return;
 
 	Matrix mtxA = EMath::identityMatrix;
 	Matrix mtxB = EMath::identityMatrix;
@@ -100,8 +104,14 @@ void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d
 }
 
 void CommandRotateGroup::undo() {
+	cerr << "CommandRotateGroup::undo" << endl;
+	assert(p_Context->group != NULL);
+	p_Context->group->setRotation(m_vtxRot.x, m_vtxRot.y, m_vtxRot.z);
+	p_Doc->updateAll("group");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandRotateGroup::build() {
+	cerr << "CommandRotateGroup::build" << endl;
 	return new CommandRotateGroup(p_Doc);
 }

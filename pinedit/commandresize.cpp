@@ -34,12 +34,16 @@ CommandResize::~CommandResize() {
 
 void CommandResize::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	p_Context->copy(context);
+
 	float dx = context.x2 - context.x1;
 	float dy = context.y2 - context.y1;
 	float dz = context.z2 - context.z1;
 	int index = 0;
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	while (vtx != NULL) {
+		m_vVertex.push_back(*vtx);
+		m_vIndex.push_back(p_Doc->getSelectedVertex(index));
 		vtx->x *= (float)(PE_RESIZE_FACTOR + dx)/PE_RESIZE_FACTOR;
 		vtx->y *= (float)(PE_RESIZE_FACTOR + dy)/PE_RESIZE_FACTOR;
 		vtx->z *= (float)(PE_RESIZE_FACTOR + dz)/PE_RESIZE_FACTOR;
@@ -86,6 +90,20 @@ void CommandResize::preview(const CommandContext & context, View2D * view2d) {
 }
 
 void CommandResize::undo() {
+	cerr << "CommandResize::undo" << endl;
+	assert(p_Context->shape != NULL);
+	assert(m_vVertex.size() == m_vIndex.size());
+	vector<int>::iterator indexiter = m_vIndex.begin();
+	vector<int>::iterator indexend = m_vIndex.end();
+	vector<Vertex3D>::iterator vtxiter = m_vVertex.begin();
+	for (; indexiter != indexend; ++indexiter, ++vtxiter) {
+		Vertex3D * vtx = p_Context->shape->getVertex3D(*indexiter);
+		assert(vtx != NULL);
+		vtx->x = (*vtxiter).x;
+		vtx->y = (*vtxiter).y;
+		vtx->z = (*vtxiter).z;
+	}
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandResize::build() {

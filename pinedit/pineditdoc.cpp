@@ -267,6 +267,7 @@ void PinEditDoc::setCommand(Command * command) {
 }
  
 Command * PinEditDoc::buildCommand() {
+	cerr << "PinEditDoc::buildCommand" << endl;
 	if (p_Command == NULL) return NULL;
 	return p_Command->build();
 }
@@ -288,6 +289,21 @@ void PinEditDoc::updateAll(const QString & phasename) {
 		if ( (*iter).second != QString::null && phasename != QString::null &&
 				 (phasename.compare("all") == 0 || (*iter).second.compare(phasename) == 0) ) {
 			(*iter).first->doUpdate();
+		}
+	}
+	cerr << "PinEditdoc::updateAll updated " << m_vUpdateable.size() << " objects" << endl;
+}
+
+void PinEditDoc::updateAllExclude(const QString & phasename, Updateable * u) {
+	cerr << "PinEditDoc::updateAll" << endl;
+	vector<pair<Updateable*, QString> >::iterator iter = m_vUpdateable.begin();
+	vector<pair<Updateable*, QString> >::iterator end = m_vUpdateable.end();
+	for (; iter != end; ++iter) {
+		if ( (*iter).second != QString::null && phasename != QString::null &&
+				 (phasename.compare("all") == 0 || (*iter).second.compare(phasename) == 0) ) {
+			if ((*iter).first != u) {
+				(*iter).first->doUpdate();
+			}
 		}
 	}
 	cerr << "PinEditdoc::updateAll updated " << m_vUpdateable.size() << " objects" << endl;
@@ -365,6 +381,8 @@ void PinEditDoc::setCurrentGroup(Group * g) {
 	} else {
 		p_CurrentShape = p_CurrentGroup->getShape3D(0);
 	}
+	this->updateAll("group");
+	this->updateAll("polygon");
 }
 
 void PinEditDoc::setCurrentShape(Shape3D * s) {
@@ -374,6 +392,8 @@ void PinEditDoc::setCurrentShape(Shape3D * s) {
 	} else {
 		p_CurrentGroup = s->getParent();
 	}
+	this->updateAll("group");
+	this->updateAll("polygon");
 }
 
 /////////////////////////////////////////////////////////////

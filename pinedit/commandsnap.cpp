@@ -77,6 +77,7 @@ void CommandSnap::undo() {
 		vtx->y = (*vtxiter).y;
 		vtx->z = (*vtxiter).z;
 	}
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandSnap::build() {

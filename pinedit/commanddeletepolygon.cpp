@@ -46,6 +46,7 @@ void CommandDeletePolygon::execute(const CommandContext & context) {
 	int polyindex = 0;
 	Polygon * poly = p_Doc->getSelectedPolygon(polyindex);
 	while (poly != NULL) {
+		m_vPolygon.push_back(poly);
 		context.shape->removePolygon(poly);
 		++polyindex;
 		poly = p_Doc->getSelectedPolygon(polyindex);

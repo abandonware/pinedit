@@ -25,13 +25,10 @@
 #include "Shape3D.h"
 
 CommandNewVertex::CommandNewVertex(PinEditDoc * doc) : Command(doc) {
-	p_Context = new CommandContext();
-	p_Context->clear();
 	m_iVtxIndex = -1;
 }
 
 CommandNewVertex::~CommandNewVertex() {
-	delete p_Context;
 }
 
 void CommandNewVertex::clearObjects() {

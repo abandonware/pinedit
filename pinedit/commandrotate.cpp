@@ -34,6 +34,7 @@ CommandRotate::~CommandRotate() {
 
 void CommandRotate::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	Matrix mtxA = EMath::identityMatrix;
 	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0};
@@ -48,9 +49,10 @@ void CommandRotate::execute(const CommandContext & context) {
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	Vertex3D vtxTmp;
 	while (vtx != NULL) {
+		m_vVertex.push_back(*vtx);
+		m_vIndex.push_back(p_Doc->getSelectedVertex(index));
 		EMath::applyMatrixRot(mtxA, *vtx, vtxTmp);
 		*vtx = vtxTmp;
-		// TODO rotation
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
@@ -100,8 +102,23 @@ void CommandRotate::preview(const CommandContext & context, View2D * view2d) {
 }
 
 void CommandRotate::undo() {
+	cerr << "CommandRotate::undo" << endl;
+	assert(p_Context->shape != NULL);
+	assert(m_vVertex.size() == m_vIndex.size());
+	vector<int>::iterator indexiter = m_vIndex.begin();
+	vector<int>::iterator indexend = m_vIndex.end();
+	vector<Vertex3D>::iterator vtxiter = m_vVertex.begin();
+	for (; indexiter != indexend; ++indexiter, ++vtxiter) {
+		Vertex3D * vtx = p_Context->shape->getVertex3D(*indexiter);
+		assert(vtx != NULL);
+		vtx->x = (*vtxiter).x;
+		vtx->y = (*vtxiter).y;
+		vtx->z = (*vtxiter).z;
+	}
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandRotate::build() {
+	cerr << "CommandRotate::build" << endl;
 	return new CommandRotate(p_Doc);
 }

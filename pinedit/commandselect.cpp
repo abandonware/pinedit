@@ -73,23 +73,25 @@ void CommandSelect::execute(const CommandContext & context) {
 	p_Doc->pushUndo(this);
 	// this one reports for some strange reason that all are zero ???
 	// but selection is made correct !!!
-	cerr << "CommandSeelect::execute select vertices at " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+	cerr << "CommandSelect::execute select vertices at " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandSelect::preview(const CommandContext & context, View2D * view2d) {
+	cerr << "CommandSelect::drawpreview" << endl;
 	view2d->getPainter()->setPen(Qt::blue);
 	view2d->getPainter()->drawRect(context.sx1, context.sy1, 
 										 context.sx2 - context.sx1, context.sy2 - context.sy1);
-	cerr << "commandselect::drawpreview" << endl;
 }
 
 void CommandSelect::undo() {
+	cerr << "CommandSelect::undo" << endl;
 	p_Doc->clearSelectedPolygon();
 	p_Doc->clearSelectedVertex();
 	p_Doc->updateAll("polygon");
 }
 
 Command * CommandSelect::build() {
+	cerr << "CommandSelect::build" << endl;
 	return new CommandSelect(p_Doc);
 }

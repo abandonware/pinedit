@@ -26,7 +26,6 @@ Command::Command(PinEditDoc * doc){
 	p_Doc = doc;
 	p_Context = new CommandContext();
 	p_Context->clear();
-
 }
 
 Command::~Command(){

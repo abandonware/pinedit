@@ -20,6 +20,8 @@
 
 #include <command.h>
 
+#include "EMath.h"
+
 /** @author Henrik Enqvist IB */
 class CommandRotateGroup : public Command  {
  public:
@@ -31,7 +33,8 @@ class CommandRotateGroup : public Command  {
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
 	virtual const char * type() { return "CommandRotateGroup"; };
-
+ private:
+	Vertex3D m_vtxRot;
 };
 
 #endif

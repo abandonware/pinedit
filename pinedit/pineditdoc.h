@@ -92,6 +92,7 @@ class PinEditDoc : public QObject {
 	void registerUpdateable(Updateable * u, const QString & phasename);
 	/** Triggers the 'doUpdate()' function of all updateable objects. */
 	void updateAll(const QString & phasename);
+	void updateAllExclude(const QString & phasename, Updateable * u);
 	/** Triggers the 'doUpdate()' function of all updateable objects but u. */
 	//void updateAllExclude(Updateable * u);
 	/** Adds an rebuildable object to the list of rebuildables. 
