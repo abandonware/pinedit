@@ -2,7 +2,7 @@
 ** SnapDialog meta object code from reading C++ file 'snapdialog.h'
 **
 ** Created: Fri Sep 27 14:12:50 2002
-**      by: The Qt MOC ($Id: moc_snapdialog.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+**      by: The Qt MOC ($Id: moc_snapdialog.cpp,v 1.1.1.1 2002/09/27 13:23:40 henqvist Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
