@@ -1,8 +1,8 @@
 /****************************************************************************
 ** LightDialog meta object code from reading C++ file 'lightdialog.h'
 **
-** Created: Fri Sep 27 14:12:43 2002
-**      by: The Qt MOC ($Id: moc_lightdialog.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+** Created: Wed Oct 30 13:27:22 2002
+**      by: The Qt MOC ($Id: moc_lightdialog.cpp,v 1.2 2002/10/30 14:53:28 henqvist Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

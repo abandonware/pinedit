@@ -32,6 +32,9 @@ CommandUnSelect::CommandUnSelect(PinEditDoc * doc) : Command(doc) {
 CommandUnSelect::~CommandUnSelect() {
 }
 
+void CommandUnSelect::clearObjects() {
+}
+
 void CommandUnSelect::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
 
@@ -60,7 +63,7 @@ void CommandUnSelect::execute(const CommandContext & context) {
 		vtx = ct.shape->getVertex3D(index);
 	}
 	p_Doc->doSelectPolygons();
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 	cerr << "CommandUnSelect::execute from " << ct.x1 <<" "<< ct.y1 <<" "<< ct.z1 << 
 		" to " << ct.x2 <<"  "<< ct.y2 <<" "<< ct.z2 << endl;

@@ -29,6 +29,9 @@ CommandNewShape::CommandNewShape(PinEditDoc * doc) : Command(doc) {
 CommandNewShape::~CommandNewShape() {
 }
 
+void CommandNewShape::clearObjects() {
+}
+
 void CommandNewShape::execute(const CommandContext & context) {
 	assert(context.group != NULL);
 
@@ -38,15 +41,16 @@ void CommandNewShape::execute(const CommandContext & context) {
 	p_Doc->clearSelectedPolygon();
 	p_Doc->setCurrentShape(p_Shape);
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandNewShape::execute" << endl;
 }
 
 void CommandNewShape::undo() {
-	cerr << "undo for this command not implented" << endl;
+	cerr << "CommandNewShape::undo" << endl;
+	
 }
 
 Command * CommandNewShape::build() {

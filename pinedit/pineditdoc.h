@@ -20,6 +20,7 @@
 // general includes
 #include <vector>
 #include <map>
+#include <deque>
 // include files for QT
 #include <qobject.h>
 #include <qstring.h>
@@ -71,7 +72,7 @@ class PinEditDoc : public QObject {
 	bool save();
 	bool saveAs(const QString & filename);
 	bool saveGroup(const QString & filename, Group * group);
-	bool saveShape(const QString & filename, Shape3D * shape);
+	//bool saveShape(const QString & filename, Shape3D * shape);
 	bool load(const QString & filename);
 	bool loadShape(const QString & filename);
 	bool loadGroup(const QString & filename);
@@ -84,21 +85,22 @@ class PinEditDoc : public QObject {
 	Command * buildCommand();
 	const char * getCommandName();
 	void pushUndo(Command * command);
+	void undo();
 
 	/** Adds an updateable object to the list of updatables. 
 	 ** @see Updateable */
-	void registerUpdateable(Updateable * u);
+	void registerUpdateable(Updateable * u, const QString & phasename);
 	/** Triggers the 'doUpdate()' function of all updateable objects. */
-	void updateAll();
+	void updateAll(const QString & phasename);
 	/** Triggers the 'doUpdate()' function of all updateable objects but u. */
-	void updateAllExclude(Updateable * u);
+	//void updateAllExclude(Updateable * u);
 	/** Adds an rebuildable object to the list of rebuildables. 
 	 ** @see Rebuildable */
-	void registerRebuildable(Rebuildable * r);
+	void registerRebuildable(Rebuildable * r, const QString & phasename);
 	/** Triggers the 'doRebuild()' function of all rebuildable objects. */
-	void rebuildAll();
+	void rebuildAll(const QString & phasename);
 	/** Triggers the 'doRebuild()' function of all rebuildable objects but r. */
-	void rebuildAllExclude(Rebuildable * r);
+	//void rebuildAllExclude(Rebuildable * r);
 
 	const QString & getFileName();
 
@@ -146,12 +148,12 @@ class PinEditDoc : public QObject {
 	Shape3D * p_CurrentShape;
 	int m_iVertexExtra;
 
+	deque<Command *>m_qCommand;
 	map<QString, QImage*> m_hQImage;
 	vector<int> m_vSelectedVertex;
 	vector<Polygon*> m_vSelectedPolygon;
-	vector<Updateable*> m_vUpdateable;
-	vector<Rebuildable*> m_vRebuildable;
-	// a bit unsafe to use Vertex3D* as it may change
+	vector<pair<Updateable*, QString> > m_vUpdateable;
+	vector<pair<Rebuildable*, QString> > m_vRebuildable;
 	map<int, bool> m_hHiddenVertex;
 };
 

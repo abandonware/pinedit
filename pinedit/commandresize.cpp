@@ -49,10 +49,10 @@ void CommandResize::execute(const CommandContext & context) {
 
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandResize::execute " << p_Context->x1 <<" "<< p_Context->y1 <<" "<< p_Context->z1 << 
-		" to " << p_Context->x2 <<"  "<< p_Context->y2 <<" "<< p_Context->z2 << endl;
+	cerr << "CommandResize::execute " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandResize::preview(const CommandContext & context, View2D * view2d) {

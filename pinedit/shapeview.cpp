@@ -55,8 +55,8 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 	cerr << "shapeview::shapeview" << endl;
 	assert(doc != NULL);
 	p_Doc = doc;
-	p_Doc->registerUpdateable(this);
-	p_Doc->registerRebuildable(this);
+	p_Doc->registerUpdateable(this, "group");
+	p_Doc->registerRebuildable(this, "group");
 
 	p_StateDialog = new StateDialog(doc, this, 0, 0);
 	p_LightDialog = new LightDialog(doc, this, 0, 0);
@@ -222,9 +222,8 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 		shape = group->getShape3D(shindex);
 	}
 	// add behaviors
-	int behindex = 0;
-	Behavior * beh = group->getBehavior(behindex);
-	while (beh != NULL) {
+	Behavior * beh = group->getBehavior();
+	if (beh != NULL) {
 		QString str;
 		switch (beh->getType()) {
 		case PBL_TYPE_BUMPERBEH: str = QString("bumper behavior"); break;
@@ -237,8 +236,6 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 		behitem->setObject(beh, LISTITEM_BEHAVIOR);
 		// hash it
 // 		m_hBehavior.insert(pair<QListViewItem *, Behavior *>(behitem, beh));
-		behindex++;
-		beh = group->getBehavior(behindex);
 	}
 }
 
@@ -254,7 +251,7 @@ void ShapeView::slotChanged() {
 // 			p_Doc->setCurrentGroup((*(m_hGroup.find(currentitem))).second);
 			p_Doc->setCurrentGroup((Group*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetGroup);
-			cerr << "shapeview::slotchanged selected a group" << endl;
+			cerr << "ShapeView::slotChanged selected a group" << endl;
 		} break;
 		case LISTITEM_SHAPE: {
 // 		if (m_hShape.find(currentitem) != m_hShape.end()) {
@@ -263,7 +260,7 @@ void ShapeView::slotChanged() {
 // 			p_Doc->setCurrentShape((*(m_hShape.find(currentitem))).second);
 			p_Doc->setCurrentShape((Shape3D*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetShape);
-			cerr << "shapeview::slotchanged selected a shape" << endl;
+			cerr << "ShapeView::slotChanged selected a shape" << endl;
 		} break;
 		case LISTITEM_BEHAVIOR: {
 			p_WidgetStack->raiseWidget(p_WidgetBehavior);
@@ -273,8 +270,9 @@ void ShapeView::slotChanged() {
 	}
 	this->updateProperties();
 	// DO NOT update the view it self!
-	p_Doc->rebuildAllExclude(this);
-	p_Doc->updateAllExclude(this);
+	//p_Doc->rebuildAllExclude(this);
+	//p_Doc->updateAllExclude(this);
+	p_Doc->rebuildAll("polygon");
 }
 
 void ShapeView::disableProperties() {
@@ -455,7 +453,7 @@ void ShapeView::slotApplyProp() {
 			shape->unsetProperty(EM_SHAPE3D_ALLWAYSLIT);
 		}
 	}
-	p_Doc->rebuildAll();
+	p_Doc->rebuildAll("group");
 }
 
 void ShapeView::slotEdit() {

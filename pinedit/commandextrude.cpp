@@ -33,6 +33,9 @@ CommandExtrude::CommandExtrude(PinEditDoc * doc) : Command(doc) {
 CommandExtrude::~CommandExtrude() {
 }
 
+void CommandExtrude::clearObjects() {
+}
+
 void CommandExtrude::execute(const CommandContext & context) {
 	cerr << "CommandExtrude::execute" << endl;
 	assert(context.shape != NULL);
@@ -91,8 +94,8 @@ void CommandExtrude::execute(const CommandContext & context) {
 	p_Doc->doSelectPolygons();
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	//p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("polygon");
+	//p_Doc->updateAll();
 	p_Doc->pushUndo(this);
 }
 

@@ -27,8 +27,10 @@ class CommandFlip : public Command  {
 	~CommandFlip();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
-	virtual const char * type() { return "CommandFlip"; };
+	void preview (const CommandContext &, View2D *) {};
+	const char * type() { return "CommandFlip"; };
 };
 
 #endif

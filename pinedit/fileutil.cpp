@@ -113,13 +113,17 @@ int FileUtil::writeGroup(QTextStream & file, Group * group) {
 		shape = group->getShape3D(shindex);
 	}
 	// write behaviors
-	int behindex = 0;
-	Behavior * beh = group->getBehavior(behindex);
-	while (beh != NULL) {
-		this->writeBehavior(file, beh);
-		++behindex;
-		beh = group->getBehavior(behindex);
-	}
+// 	int behindex = 0;
+// 	Behavior * beh = group->getBehavior(behindex);
+// 	while (beh != NULL) {
+// 		this->writeBehavior(file, beh);
+// 		++behindex;
+// 		beh = group->getBehavior(behindex);
+// 	}
+ 	Behavior * beh = group->getBehavior();
+ 	if (beh != NULL) {
+ 		this->writeBehavior(file, beh);
+ 	}
 
 	file << "  properties {" << endl;
 	if (group->getCollisionBounds() != NULL) {
@@ -233,12 +237,12 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
 }
 
 int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
+	cerr << "FileUtil::writeBehavior" << endl;
 	assert(beh != NULL);
 	// bumper behavior
 	if (beh->getType() == PBL_TYPE_BUMPERBEH) {
 		BumperBehavior * bumperbeh = (BumperBehavior*) beh;
 		file << "  bumper_behavior {" << endl;
-		file << "    " << bumperbeh->getScore() << endl;
 		if (bumperbeh->getSound() != -1) {
 			QString filename(SoundUtil::getInstance()->getSoundName(bumperbeh->getSound()));
 			int last = filename.findRev("/");
@@ -360,48 +364,6 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
 			++index;
 			stateitem = statebeh->getStateItem(index);
 		}
-	}
-	// script
-	else if (beh->getType() == PBL_TYPE_SCRIPTBEH) {
-		Script * script = (Script*) beh;
-		file << "  script {" << endl;
-		vector<QueryItem*>::iterator iter = script->m_vQueryItem.begin();
-		vector<QueryItem*>::iterator end = script->m_vQueryItem.end();
-		for (; iter != end; ++iter) {
-			// query
-			switch ((*iter)->m_iQuery) {
-			case EM_SCRIPT_ONSIGNAL: {
-				file << "    onsignal";
-				file << " " << (*iter)->m_vQueryParm.size();
-				vector<int>::iterator sigiter = (*iter)->m_vQueryParm.begin();
-				vector<int>::iterator sigend = (*iter)->m_vQueryParm.end();
-				for (;sigiter != sigend; ++sigiter) {
-					file << " " << (*sigiter);
-				}
-			} break;
-			}
-			// action
-			switch ((*iter)->m_iAction) {
-			case EM_SCRIPT_SENDSIGNAL: {
-				file << "    sendsignal";
-				if ((*iter)->m_vActionParm.size() < 2) {
-					file << " 0 0" << endl;
-				} else {
-					file << " " << (*iter)->m_vActionParm[0] << " " << (*iter)->m_vActionParm[1];
-				}
-			} break;
-			case EM_SCRIPT_SETVAR: {
-				file << "    setvar";
-				if ((*iter)->m_vActionParm.size() < 2) {
-					file << " 0 0" << endl;
-				} else {
-					file << " " << (*iter)->m_vActionParm[0] << " " << (*iter)->m_vActionParm[1];
-				}
-			} break;
-			}
-			file << endl;
-		}
-		file << "  }" << endl;
 	} else {
 		file << "  error {" << endl;
 	}
@@ -413,21 +375,20 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
 		file << "    light {" << endl;
 		file << "      " << r <<" "<< g <<" "<< b << endl;
 		file << "      0 3 0" << endl;
-		file << "    }" << endl;
 		Group * lp = light->getParent();
 		assert(lp != NULL);
-		Behavior * anim = lp->getBehavior(0);
+		Behavior * anim = lp->getBehavior();
 		if (anim != NULL && anim->getType() == EM_TYPE_STDANIMATION) {
-			file << "   anim {" << endl;
-			file << "     2" << endl;
-			file << "      " << r <<" "<< g <<" "<< b << endl;
-			file << "      0 0 0" << endl;
-			file << "   }" << endl;
+			file << "      animation {" << endl;
+			file << "        light " << ((StdAnimation*)anim)->getStep() << endl;
+			file << "        2" << endl;
+			file << "        " << r <<" "<< g <<" "<< b << endl;
+			file << "        0 0 0" << endl;
+			file << "      }" << endl;
 		}
+		file << "    }" << endl;
 	}
 
 	file << "  }" << endl;
-
-	cerr << "fileutil::writebehavior" << endl;
 	return 0;
 }

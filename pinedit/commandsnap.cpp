@@ -38,7 +38,11 @@ CommandSnap::CommandSnap(PinEditDoc * doc) : Command(doc) {
 CommandSnap::~CommandSnap() {
 }
 
+void CommandSnap::clearObjects() {
+}
+
 void CommandSnap::execute(const CommandContext & context) {
+	cerr << "CommandSnap::execute " << m_fFactor << endl;
 	assert(context.shape != NULL);
 
 	int index = 0;
@@ -53,9 +57,8 @@ void CommandSnap::execute(const CommandContext & context) {
 
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "commandsnap::execute " << m_fFactor << endl;
 }
 
 void CommandSnap::undo() {

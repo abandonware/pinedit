@@ -27,10 +27,12 @@ class CommandNewVertex : public Command  {
 	~CommandNewVertex();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
-	virtual const char * type() { return "CommandNewVertex"; };
+	void preview (const CommandContext &, View2D *) {};
+	const char * type() { return "CommandNewVertex"; };
  private:
-	int m_VtxIndex;
+	int m_iVtxIndex;
 };
 
 #endif

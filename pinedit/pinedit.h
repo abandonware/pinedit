@@ -38,8 +38,8 @@ class SnapDialog;
 class CommandNewVertex;
 class CommandSelect;
 class CommandUnSelect;
-class CommandNewGroup;
-class CommandNewShape;
+//class CommandNewGroup;
+//class CommandNewShape;
 class CommandMove;
 class CommandMoveGroup;
 class CommandRotateGroup;
@@ -107,6 +107,7 @@ class PinEditApp : public QMainWindow {
 	void slotHelpAbout();
 	
 /* 	void slotLoadShape(); */
+	void slotUndo();
 	void slotLoadGroup();
 	void slotNewVertex();
 	void slotSelect();
@@ -184,6 +185,7 @@ class PinEditApp : public QMainWindow {
 	QActionGroup *workGroup;
 	
 /* 	QAction *workLoadShape; */
+	QAction *workUndo;
 	QAction *workLoadGroup;
 	QAction *workNewVertex;
 	QAction *workSelect;

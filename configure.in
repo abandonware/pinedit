@@ -10,10 +10,11 @@ SDL_VERSION=1.2.0
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(pinball, 0.0.7)
+AM_INIT_AUTOMAKE(pinedit, 0.1.0)
 AM_CONFIG_HEADER(editconfig.h)
 
 dnl Checks for programs.
+AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 AC_PROG_RANLIB
@@ -135,7 +136,7 @@ dnl fi
 
 dnl ********************************************
 dnl QT TODO ************************************
-EM_QTDIR=/usr/lib/qt-3.0.5
+EM_QTDIR=/usr/lib/qt3
 AC_SUBST(EM_QTDIR)
 CPPFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
 CFLAGS="$CPPFLAGS -I$EM_QTDIR/include"

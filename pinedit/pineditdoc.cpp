@@ -84,8 +84,8 @@ void PinEditDoc::newDoc() {
 	p_Engine->addLight(light);
 	p_Engine->setEngineCamera(p_GroupCameraTrans);
 
-	this->rebuildAll();
-	this->updateAll();
+	this->rebuildAll("all");
+	this->updateAll("all");
 }
 
 bool PinEditDoc::save() {
@@ -95,6 +95,7 @@ bool PinEditDoc::save() {
 		return false;
 	}
 	p_FileUtil->saveFile(this->getFileName(), p_Engine);
+	this->setModified(false);
   return true;
 }
 
@@ -119,6 +120,7 @@ bool PinEditDoc::saveGroup(const QString & filename, Group * group) {
 	return true;
 }
 
+/*
 bool PinEditDoc::saveShape(const QString & filename, Shape3D * shape) {
 	cerr << "PinEditDoc::saveShape" << endl;
 	assert(shape != NULL);
@@ -128,6 +130,7 @@ bool PinEditDoc::saveShape(const QString & filename, Shape3D * shape) {
 	}
 	return true;
 }
+*/
 
 bool PinEditDoc::load(const QString &filename) {
 	cerr << "PinEditDoc::load" << endl;
@@ -143,8 +146,8 @@ bool PinEditDoc::load(const QString &filename) {
 	Loader::getInstance()->loadFile(filename.latin1(), this->getEngine());
 	this->getEngine()->setPropertyRecursive(EM_GROUP_NO_BEHAVIOR);
 	p_GroupCameraRot->unsetPropertyRecursive(EM_GROUP_NO_BEHAVIOR);
-	this->rebuildAll();
-	this->updateAll();
+	this->rebuildAll("all");
+	this->updateAll("all");
   emit documentChanged();
   return true;
 }
@@ -178,8 +181,8 @@ bool PinEditDoc::loadShape(const QString &filename) {
 	}
 	group->addShape3D(s);
 	
-	this->rebuildAll();
-	this->updateAll();
+	this->rebuildAll("all");
+	this->updateAll("all");
   emit documentChanged();
   return true;
 }
@@ -212,8 +215,8 @@ bool PinEditDoc::loadGroup(const QString &filename) {
 		cerr << str << endl;
 	}
 
-	this->rebuildAll();
-	this->updateAll();
+	this->rebuildAll("all");
+	this->updateAll("all");
   emit documentChanged();
   return true;
 }
@@ -239,6 +242,23 @@ bool PinEditDoc::isModified() const {
 }
 
 void PinEditDoc::pushUndo(Command * command) {
+	cerr << "PinEditDoc::pushUndo" << endl;
+	m_qCommand.push_back(command);
+	if (m_qCommand.size() > 50) {
+		Command * c = m_qCommand.front();
+		m_qCommand.pop_front();
+		c->clearObjects();
+		delete c;
+	}
+}
+
+void PinEditDoc::undo() {
+	cerr << "PinEditDoc::undo" << endl;
+	if (m_qCommand.size() == 0) return;
+	cerr << "PinEditDoc::undo size " << m_qCommand.size() << endl;
+	Command * command = m_qCommand.back();
+	m_qCommand.pop_back();
+	command->undo();
 	delete command;
 }
 
@@ -256,20 +276,24 @@ const char * PinEditDoc::getCommandName() {
 	return p_Command->type();
 }
 
-void PinEditDoc::registerUpdateable(Updateable * u) {
-	m_vUpdateable.push_back(u);
+void PinEditDoc::registerUpdateable(Updateable * u, const QString & phasename) {
+	m_vUpdateable.push_back(pair<Updateable *, QString>(u, phasename));
 }
 
-void PinEditDoc::updateAll() {
+void PinEditDoc::updateAll(const QString & phasename) {
 	cerr << "PinEditDoc::updateAll" << endl;
-	vector<Updateable*>::iterator iter = m_vUpdateable.begin();
-	vector<Updateable*>::iterator end = m_vUpdateable.end();
+	vector<pair<Updateable*, QString> >::iterator iter = m_vUpdateable.begin();
+	vector<pair<Updateable*, QString> >::iterator end = m_vUpdateable.end();
 	for (; iter != end; ++iter) {
-		(*iter)->doUpdate();
+		if ( (*iter).second != QString::null && phasename != QString::null &&
+				 (phasename.compare("all") == 0 || (*iter).second.compare(phasename) == 0) ) {
+			(*iter).first->doUpdate();
+		}
 	}
 	cerr << "PinEditdoc::updateAll updated " << m_vUpdateable.size() << " objects" << endl;
 }
 
+/*
 void PinEditDoc::updateAllExclude(Updateable * u) {
 	vector<Updateable*>::iterator iter = m_vUpdateable.begin();
 	vector<Updateable*>::iterator end = m_vUpdateable.end();
@@ -280,20 +304,25 @@ void PinEditDoc::updateAllExclude(Updateable * u) {
 	}
 	cerr << "pineditdoc::updateallexclude updated " << m_vUpdateable.size() << " objects" << endl;
 }
+*/
 
-void PinEditDoc::registerRebuildable(Rebuildable * r) {
-	m_vRebuildable.push_back(r);
+void PinEditDoc::registerRebuildable(Rebuildable * r, const QString & phasename) {
+	m_vRebuildable.push_back(pair<Rebuildable *, QString>(r, phasename));
 }
 
-void PinEditDoc::rebuildAll() {
-	vector<Rebuildable*>::iterator iter = m_vRebuildable.begin();
-	vector<Rebuildable*>::iterator end = m_vRebuildable.end();
+void PinEditDoc::rebuildAll(const QString & phasename) {
+	vector<pair<Rebuildable*, QString> >::iterator iter = m_vRebuildable.begin();
+	vector<pair<Rebuildable*, QString> >::iterator end = m_vRebuildable.end();
 	for (; iter != end; ++iter) {
-		(*iter)->doRebuild();
+		if ( (*iter).second != QString::null && phasename != QString::null &&
+				 (phasename.compare("all") == 0 || (*iter).second.compare(phasename) == 0) ) {
+			(*iter).first->doRebuild();
+		}
 	}
 	cerr << "pineditdoc::updateall updated " << m_vRebuildable.size() << " objects" << endl;
 }
 
+/*
 void PinEditDoc::rebuildAllExclude(Rebuildable * u) {
 	vector<Rebuildable*>::iterator iter = m_vRebuildable.begin();
 	vector<Rebuildable*>::iterator end = m_vRebuildable.end();
@@ -304,6 +333,7 @@ void PinEditDoc::rebuildAllExclude(Rebuildable * u) {
 	}
 	cerr << "pineditdoc::updateallexclude updated " << m_vRebuildable.size() << " objects" << endl;
 }
+*/
 
 ////////////////////////////////////////////////////////////
 // Engine functions

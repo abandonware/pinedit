@@ -127,7 +127,7 @@ void CommandTexCoord::execute(const CommandContext & context) {
 
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 }
 

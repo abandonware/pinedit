@@ -33,7 +33,7 @@ GLEngine::GLEngine(QGLFormat & format, QWidget *parent, const char *name, PinEdi
 : QGLWidget(format, parent, name) {
 	assert(doc != NULL);
 	p_Doc = doc;
-	p_Doc->registerUpdateable(this);
+	p_Doc->registerUpdateable(this, "polygon");
 	m_RotX = 0;
 	m_RotY = 0;
 	m_RotZ = 0;

@@ -24,13 +24,21 @@
 #include "Group.h"
 
 CommandDeleteGroup::CommandDeleteGroup(PinEditDoc * doc) : Command(doc) {
+	p_Context = new CommandContext();
+	p_Context->clear();
 }
 
 CommandDeleteGroup::~CommandDeleteGroup() {
+	delete p_Context;
+}
+
+void CommandDeleteGroup::clearObjects() {
+	delete p_Context->group;
 }
 
 void CommandDeleteGroup::execute(const CommandContext & context) {
 	assert(context.group != NULL);
+	p_Context->copy(context);
 
 	Group * parent = context.group->getParent();
 	assert(parent != NULL);
@@ -42,14 +50,21 @@ void CommandDeleteGroup::execute(const CommandContext & context) {
 	p_Doc->setCurrentGroup(NULL);
 	p_Doc->setCurrentShape(NULL);
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandDeleteGroup::execute" << endl;
 }
 
 void CommandDeleteGroup::undo() {
+	cerr << "CommandDeleteGroup::undo" << endl;
+	assert(p_Context->group != NULL);
+	assert(p_Context->group->getParent() != NULL);
+	
+	p_Context->group->getParent()->add(p_Context->group);
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandDeleteGroup::build() {

@@ -109,6 +109,18 @@ void LightDialog::edit(Behavior * beh) {
 			p_EditY->setText(QString().setNum(y));
 			p_EditZ->setText(QString().setNum(z));
 		}
+		if (gl->getBehavior() != NULL) {
+			if (gl->getBehavior()->getType == EM_TYPE_STDANIMATION) {
+				
+				StdAnimation * anim = ((StdAnimation*)gl->getBehavior())->getStep();
+				
+			} else {
+				p_BoxBlink->setChecked(false);
+				cerr << "LightDialog::edit behavior in light group not of type animation" << endl;
+			}
+		} else {
+			p_BoxBlink->setChecked(false);
+		}
 	}
 	this->show();
 }
@@ -144,12 +156,19 @@ void LightDialog::slotDone() {
 									p_EditG->text().toFloat(), 
 									p_EditB->text().toFloat());
 
+	cerr << "**** "<< p_EditR->text().toFloat() << endl;
+
 	if (p_BoxBlink->isChecked()) {
-		Behavior * beh = gl->getBehavior(0);
+// 		Behavior * beh = gl->getBehavior(0);
+ 		Behavior * beh = gl->getBehavior();
 		if (beh == NULL) {
-			beh = new StdAnimation(100, EM_LIGHT);
+			cerr << "LightDialog::slotDone added a behavior" << endl;
+			beh = new StdAnimation(p_SpinDelay100, EM_LIGHT);
+// 			gl->addBehavior(beh);
+			gl->setBehavior(beh);
 		}
 		if (beh->getType() == EM_TYPE_STDANIMATION) {
+			cerr << "LightDialog::slotDone already a animation in the group" << endl;
 			StdAnimation  * anim = (StdAnimation*) beh;
 			anim->clear();
 			anim->setStep(p_SpinDelay->value());
@@ -157,17 +176,21 @@ void LightDialog::slotDone() {
 								p_EditG->text().toFloat(), 
 								p_EditB->text().toFloat());
 			anim->setEnd(0.0f, 0.0f, 0.0f);
+		} else {
+			cerr << "LightDialog::slotDone group already has a behavior but it is not an animation" 
+					 << endl;
 		}
 	} else {
-		Behavior * beh = gl->getBehavior(0);
+		Behavior * beh = gl->getBehavior();
 		if (beh != NULL && beh->getType() == EM_TYPE_STDANIMATION) {
-			gl->removeBehavior(beh);
+// 			gl->removeBehavior(beh);
+			gl->setBehavior(NULL);
 			delete(beh);
 		}
 	}
 
-	//	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	//p_Doc->updateAll();
 	this->done(0);
 	cerr << "lightdialog::slotdone" << endl;
 }

@@ -27,6 +27,7 @@ class CommandHideSelected : public Command  {
 	~CommandHideSelected();
 	Command * build();
 	void undo();
+	void clearObjects() {};
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
 	const char * type() { return "CommandHideSelected"; };

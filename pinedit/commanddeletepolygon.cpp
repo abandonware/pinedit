@@ -31,6 +31,14 @@ CommandDeletePolygon::CommandDeletePolygon(PinEditDoc * doc) : Command(doc) {
 CommandDeletePolygon::~CommandDeletePolygon() {
 }
 
+void CommandDeletePolygon::clearObjects() {
+	vector<Polygon*>::iterator iter = m_vPolygon.begin();
+	vector<Polygon*>::iterator end = m_vPolygon.end();
+	for (; iter != end; ++iter) {
+		delete (*iter);
+	}
+}
+
 void CommandDeletePolygon::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
 
@@ -44,14 +52,23 @@ void CommandDeletePolygon::execute(const CommandContext & context) {
 
 	p_Doc->clearSelectedPolygon();
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandDeletePolygon::execute" << endl;
 }
 
 void CommandDeletePolygon::undo() {
+	cerr << "CommandDeletePolygon::undo" << endl;
+	assert(p_Context->shape != NULL);
+	vector<Polygon*>::iterator iter = m_vPolygon.begin();
+	vector<Polygon*>::iterator end = m_vPolygon.end();
+	for (; iter != end; ++iter) {
+		p_Context->shape->add((*iter));
+	}
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandDeletePolygon::build() {

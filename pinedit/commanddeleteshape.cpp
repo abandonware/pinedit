@@ -43,8 +43,8 @@ void CommandDeleteShape::execute(const CommandContext & context) {
 
 	p_Doc->setCurrentShape(NULL);
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandDeleteShape::execute" << endl;

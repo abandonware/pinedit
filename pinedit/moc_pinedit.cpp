@@ -1,8 +1,8 @@
 /****************************************************************************
 ** PinEditApp meta object code from reading C++ file 'pinedit.h'
 **
-** Created: Fri Sep 27 14:12:10 2002
-**      by: The Qt MOC ($Id: moc_pinedit.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+** Created: Wed Oct 30 13:26:46 2002
+**      by: The Qt MOC ($Id: moc_pinedit.cpp,v 1.2 2002/10/30 14:53:28 henqvist Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -57,33 +57,33 @@ QMetaObject* PinEditApp::staticMetaObject()
     static const QUMethod slot_2 = {"slotFileSave", 0, 0 };
     static const QUMethod slot_3 = {"slotFileSaveAs", 0, 0 };
     static const QUMethod slot_4 = {"slotFileSaveGroup", 0, 0 };
-    static const QUMethod slot_5 = {"slotFileSaveShape", 0, 0 };
-    static const QUMethod slot_6 = {"slotFileClose", 0, 0 };
-    static const QUMethod slot_7 = {"slotFilePrint", 0, 0 };
-    static const QUMethod slot_8 = {"slotFileQuit", 0, 0 };
-    static const QUMethod slot_9 = {"slotEditCut", 0, 0 };
-    static const QUMethod slot_10 = {"slotEditCopy", 0, 0 };
-    static const QUMethod slot_11 = {"slotEditPaste", 0, 0 };
+    static const QUMethod slot_5 = {"slotFileClose", 0, 0 };
+    static const QUMethod slot_6 = {"slotFilePrint", 0, 0 };
+    static const QUMethod slot_7 = {"slotFileQuit", 0, 0 };
+    static const QUMethod slot_8 = {"slotEditCut", 0, 0 };
+    static const QUMethod slot_9 = {"slotEditCopy", 0, 0 };
+    static const QUMethod slot_10 = {"slotEditPaste", 0, 0 };
+    static const QUParameter param_slot_11[] = {
+	{ "toggle", &static_QUType_bool, 0, QUParameter::In }
+    };
+    static const QUMethod slot_11 = {"slotViewToolBar", 1, param_slot_11 };
     static const QUParameter param_slot_12[] = {
 	{ "toggle", &static_QUType_bool, 0, QUParameter::In }
     };
-    static const QUMethod slot_12 = {"slotViewToolBar", 1, param_slot_12 };
-    static const QUParameter param_slot_13[] = {
-	{ "toggle", &static_QUType_bool, 0, QUParameter::In }
-    };
-    static const QUMethod slot_13 = {"slotViewStatusBar", 1, param_slot_13 };
-    static const QUMethod slot_14 = {"slotHelpAbout", 0, 0 };
-    static const QUMethod slot_15 = {"slotLoadShape", 0, 0 };
-    static const QUMethod slot_16 = {"slotLoadGroup", 0, 0 };
-    static const QUMethod slot_17 = {"slotNewVertex", 0, 0 };
-    static const QUMethod slot_18 = {"slotSelect", 0, 0 };
-    static const QUMethod slot_19 = {"slotAddSelect", 0, 0 };
-    static const QUMethod slot_20 = {"slotUnSelect", 0, 0 };
-    static const QUMethod slot_21 = {"slotMove", 0, 0 };
-    static const QUMethod slot_22 = {"slotRotate", 0, 0 };
-    static const QUMethod slot_23 = {"slotRotateLocal", 0, 0 };
-    static const QUMethod slot_24 = {"slotResize", 0, 0 };
-    static const QUMethod slot_25 = {"slotResizeLocal", 0, 0 };
+    static const QUMethod slot_12 = {"slotViewStatusBar", 1, param_slot_12 };
+    static const QUMethod slot_13 = {"slotHelpAbout", 0, 0 };
+    static const QUMethod slot_14 = {"slotUndo", 0, 0 };
+    static const QUMethod slot_15 = {"slotLoadGroup", 0, 0 };
+    static const QUMethod slot_16 = {"slotNewVertex", 0, 0 };
+    static const QUMethod slot_17 = {"slotSelect", 0, 0 };
+    static const QUMethod slot_18 = {"slotAddSelect", 0, 0 };
+    static const QUMethod slot_19 = {"slotUnSelect", 0, 0 };
+    static const QUMethod slot_20 = {"slotMove", 0, 0 };
+    static const QUMethod slot_21 = {"slotRotate", 0, 0 };
+    static const QUMethod slot_22 = {"slotRotateLocal", 0, 0 };
+    static const QUMethod slot_23 = {"slotResize", 0, 0 };
+    static const QUMethod slot_24 = {"slotResizeLocal", 0, 0 };
+    static const QUMethod slot_25 = {"slotHideSelected", 0, 0 };
     static const QUMethod slot_26 = {"slotNewPolygon", 0, 0 };
     static const QUMethod slot_27 = {"slotNewGroup", 0, 0 };
     static const QUMethod slot_28 = {"slotNewShape", 0, 0 };
@@ -114,27 +114,27 @@ QMetaObject* PinEditApp::staticMetaObject()
 	{ "slotFileSave()", &slot_2, QMetaData::Public },
 	{ "slotFileSaveAs()", &slot_3, QMetaData::Public },
 	{ "slotFileSaveGroup()", &slot_4, QMetaData::Public },
-	{ "slotFileSaveShape()", &slot_5, QMetaData::Public },
-	{ "slotFileClose()", &slot_6, QMetaData::Public },
-	{ "slotFilePrint()", &slot_7, QMetaData::Public },
-	{ "slotFileQuit()", &slot_8, QMetaData::Public },
-	{ "slotEditCut()", &slot_9, QMetaData::Public },
-	{ "slotEditCopy()", &slot_10, QMetaData::Public },
-	{ "slotEditPaste()", &slot_11, QMetaData::Public },
-	{ "slotViewToolBar(bool)", &slot_12, QMetaData::Public },
-	{ "slotViewStatusBar(bool)", &slot_13, QMetaData::Public },
-	{ "slotHelpAbout()", &slot_14, QMetaData::Public },
-	{ "slotLoadShape()", &slot_15, QMetaData::Public },
-	{ "slotLoadGroup()", &slot_16, QMetaData::Public },
-	{ "slotNewVertex()", &slot_17, QMetaData::Public },
-	{ "slotSelect()", &slot_18, QMetaData::Public },
-	{ "slotAddSelect()", &slot_19, QMetaData::Public },
-	{ "slotUnSelect()", &slot_20, QMetaData::Public },
-	{ "slotMove()", &slot_21, QMetaData::Public },
-	{ "slotRotate()", &slot_22, QMetaData::Public },
-	{ "slotRotateLocal()", &slot_23, QMetaData::Public },
-	{ "slotResize()", &slot_24, QMetaData::Public },
-	{ "slotResizeLocal()", &slot_25, QMetaData::Public },
+	{ "slotFileClose()", &slot_5, QMetaData::Public },
+	{ "slotFilePrint()", &slot_6, QMetaData::Public },
+	{ "slotFileQuit()", &slot_7, QMetaData::Public },
+	{ "slotEditCut()", &slot_8, QMetaData::Public },
+	{ "slotEditCopy()", &slot_9, QMetaData::Public },
+	{ "slotEditPaste()", &slot_10, QMetaData::Public },
+	{ "slotViewToolBar(bool)", &slot_11, QMetaData::Public },
+	{ "slotViewStatusBar(bool)", &slot_12, QMetaData::Public },
+	{ "slotHelpAbout()", &slot_13, QMetaData::Public },
+	{ "slotUndo()", &slot_14, QMetaData::Public },
+	{ "slotLoadGroup()", &slot_15, QMetaData::Public },
+	{ "slotNewVertex()", &slot_16, QMetaData::Public },
+	{ "slotSelect()", &slot_17, QMetaData::Public },
+	{ "slotAddSelect()", &slot_18, QMetaData::Public },
+	{ "slotUnSelect()", &slot_19, QMetaData::Public },
+	{ "slotMove()", &slot_20, QMetaData::Public },
+	{ "slotRotate()", &slot_21, QMetaData::Public },
+	{ "slotRotateLocal()", &slot_22, QMetaData::Public },
+	{ "slotResize()", &slot_23, QMetaData::Public },
+	{ "slotResizeLocal()", &slot_24, QMetaData::Public },
+	{ "slotHideSelected()", &slot_25, QMetaData::Public },
 	{ "slotNewPolygon()", &slot_26, QMetaData::Public },
 	{ "slotNewGroup()", &slot_27, QMetaData::Public },
 	{ "slotNewShape()", &slot_28, QMetaData::Public },
@@ -178,27 +178,27 @@ bool PinEditApp::qt_invoke( int _id, QUObject* _o )
     case 2: slotFileSave(); break;
     case 3: slotFileSaveAs(); break;
     case 4: slotFileSaveGroup(); break;
-    case 5: slotFileSaveShape(); break;
-    case 6: slotFileClose(); break;
-    case 7: slotFilePrint(); break;
-    case 8: slotFileQuit(); break;
-    case 9: slotEditCut(); break;
-    case 10: slotEditCopy(); break;
-    case 11: slotEditPaste(); break;
-    case 12: slotViewToolBar((bool)static_QUType_bool.get(_o+1)); break;
-    case 13: slotViewStatusBar((bool)static_QUType_bool.get(_o+1)); break;
-    case 14: slotHelpAbout(); break;
-    case 15: slotLoadShape(); break;
-    case 16: slotLoadGroup(); break;
-    case 17: slotNewVertex(); break;
-    case 18: slotSelect(); break;
-    case 19: slotAddSelect(); break;
-    case 20: slotUnSelect(); break;
-    case 21: slotMove(); break;
-    case 22: slotRotate(); break;
-    case 23: slotRotateLocal(); break;
-    case 24: slotResize(); break;
-    case 25: slotResizeLocal(); break;
+    case 5: slotFileClose(); break;
+    case 6: slotFilePrint(); break;
+    case 7: slotFileQuit(); break;
+    case 8: slotEditCut(); break;
+    case 9: slotEditCopy(); break;
+    case 10: slotEditPaste(); break;
+    case 11: slotViewToolBar((bool)static_QUType_bool.get(_o+1)); break;
+    case 12: slotViewStatusBar((bool)static_QUType_bool.get(_o+1)); break;
+    case 13: slotHelpAbout(); break;
+    case 14: slotUndo(); break;
+    case 15: slotLoadGroup(); break;
+    case 16: slotNewVertex(); break;
+    case 17: slotSelect(); break;
+    case 18: slotAddSelect(); break;
+    case 19: slotUnSelect(); break;
+    case 20: slotMove(); break;
+    case 21: slotRotate(); break;
+    case 22: slotRotateLocal(); break;
+    case 23: slotResize(); break;
+    case 24: slotResizeLocal(); break;
+    case 25: slotHideSelected(); break;
     case 26: slotNewPolygon(); break;
     case 27: slotNewGroup(); break;
     case 28: slotNewShape(); break;

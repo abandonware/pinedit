@@ -2,7 +2,7 @@
                           commandnewpolygon.h  -  description
                              -------------------
     begin                : Fri Apr 12 2002
-    copyright            : (C) 2002 by Henrik Enqvist IB
+    copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
  ***************************************************************************/
 
@@ -20,18 +20,21 @@
 
 #include <command.h>
 
-/**
-  *@author Henrik Enqvist IB
-  */
+class Polygon;
 
+/** @author Henrik Enqvist */
 class CommandNewPolygon : public Command  {
  public:
 	CommandNewPolygon(PinEditDoc * doc);
 	~CommandNewPolygon();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
+	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandNewPolygon"; };
+ private:
+	Polygon * p_Polygon;
 };
 
 #endif

@@ -29,6 +29,7 @@ class CommandAddSelect : public Command  {
 	void undo();
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
+	void clearObjects();
 	const char * type() { return "CommandAddSelect"; };
 };
 

@@ -29,12 +29,13 @@ class CommandNewBehavior : public Command  {
 	CommandNewBehavior(PinEditDoc * doc);
 	~CommandNewBehavior();
 	Command * build();
+	void clearObjects();
 	inline void setBehaviorType(int t) { m_iBehaviorType = t; };
-	/** Gets the behavior, the command must be executed before a
-	 ** behavior will exist. */
+	/** Gets the behavior, the command must be executed before a behavior will exist. */
 	inline Behavior * getBehavior() { return p_Behavior; };
 	void undo();
 	void execute(const CommandContext & context);
+	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandNewBehavior"; };
  private:
 	Group * p_Group;

@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = gnu
 
-bin_PROGRAMS = pinedit
+bin_PROGRAMS = pinedit unittest
 
 pinedit_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
 pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src
@@ -13,6 +13,8 @@ moc_%.cpp : %.h
 	@echo "Creating Meta $< ..."
 	$(MOC) $< -o $@
 
+unittest_SOURCES = \
+unittest.cpp
 
 pinedit_SOURCES = \
 command.cpp \
@@ -99,6 +101,7 @@ commandresizelocal.h \
 commandextrude.h \
 commandtexcoord.h \
 commandhideselected.h \
+commandtest.h \
 glengine.h \
 view2d.h \
 shapeview.h \
@@ -146,6 +149,7 @@ worksnap.xpm \
 workresize.xpm \
 workresizelocal.xpm \
 workextrude.xpm \
-workhideselected.xpm
+workhideselected.xpm \
+workundo.xpm
 
 

@@ -29,8 +29,10 @@ class CommandNewGroup : public Command  {
 	~CommandNewGroup();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
 	const char * type() { return "CommandNewGroup"; };
+	void preview (const CommandContext &, View2D *) {};
  private:
 	Group * p_Group;
 };

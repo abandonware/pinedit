@@ -27,6 +27,7 @@ class CommandResizeLocal : public Command  {
 	~CommandResizeLocal();
 	Command * build();
 	void undo();
+	void clearObjects() {};
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
 	virtual const char * type() { return "CommandResizeLocal"; };

@@ -42,7 +42,7 @@ void CommandHideSelected::execute(const CommandContext & context) {
 		shindex = p_Doc->getSelectedVertex(index);
 	}
 
-	p_Doc->updateAll();
+	//p_Doc->updateAll();
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	// this one reports for some strange reason that all are zero ???

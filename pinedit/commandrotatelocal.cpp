@@ -32,6 +32,9 @@ CommandRotateLocal::CommandRotateLocal(PinEditDoc * doc) : Command(doc) {
 CommandRotateLocal::~CommandRotateLocal() {
 }
 
+void CommandRotateLocal::clearObjects() {
+}
+
 void CommandRotateLocal::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
 	// build matrix stack for temporary translation
@@ -69,10 +72,10 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandRotateLocal::execute from " << p_Context->x1 <<" "<< p_Context->y1 <<" "<< p_Context->z1 << 
-		" to " << p_Context->x2 <<"  "<< p_Context->y2 <<" "<< p_Context->z2 << endl;
+	cerr << "CommandRotateLocal::execute from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d) {

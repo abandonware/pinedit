@@ -44,6 +44,17 @@ class CommandContext {
 		group = NULL; 
 		shape = NULL;
 	};
+	void copy(const CommandContext & cc) {
+		x1 = cc.x1;
+		x2 = cc.x2;
+		y1 = cc.y1;
+		y2 = cc.y2;
+		z1 = cc.z1;
+		z2 = cc.y2;
+		type = cc.type;
+		group = cc.group;
+		shape = cc.shape;
+	};
 	float x1, x2;
 	float y1, y2;
 	float z1, z2;
@@ -73,11 +84,12 @@ class Command {
 	virtual void execute(const CommandContext & context) = 0;
 	/** Some commands wishes to  generate a preview of the action onto a View2D. E.g.
 	 ** movement of objects. */
-	virtual void preview(const CommandContext & context, View2D * view2d) {};
+	virtual void preview(const CommandContext & context, View2D * view2d) = 0;
 	/** Returns the name of the command subclass. Subclasses should implement
 	 ** this function by returning a name that exaclty matches the name of 
 	 ** the class. */
 	virtual const char * type() = 0;
+	virtual void clearObjects() = 0;
  protected:
 	PinEditDoc * p_Doc;
 	CommandContext * p_Context;

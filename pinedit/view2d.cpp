@@ -41,7 +41,7 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
 : QWidget(parent, name, f ) {
 	assert(doc != NULL);
 	p_Doc = doc;
-	p_Doc->registerUpdateable(this);
+	p_Doc->registerUpdateable(this, "polygon");
 
 	m_iMode = EM_SHAPE_MODE;
 	m_bGrid = true;
@@ -54,7 +54,6 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
 	p_Context = new CommandContext();
 	p_QPainter = new QPainter(this);
 	this->setBackgroundMode(PaletteBase);
-	cerr << "view2d::view2d" << endl;
 }
 
 View2D::~View2D(){
@@ -65,15 +64,12 @@ void View2D::mousePressEvent(QMouseEvent* e) {
 	m_iY2 = m_iY1 = e->y();
 	if (e->button() ==  QMouseEvent::LeftButton) {
 		m_iMouse = 1;
-		cerr << "left mouse pressed in view2d" << endl;
 	} else if (e->button() == QMouseEvent::RightButton) {
 		m_iMouse = 2;
-		cerr << "right mouse pressed in view2d" << endl;
 	} else if (e->button() == QMouseEvent::MidButton) {
 		m_iMouse = 0;
 		m_iXOffset = 150;
 		m_iYOffset = 120;
-		cerr << "middle mouse pressed in view2d" << endl;
 	}
 }
 
@@ -112,11 +108,8 @@ void View2D::mouseReleaseEvent(QMouseEvent * e) {
 				QMessageBox::information( this, "Command", "No Shape selected.");
 			}
 		}
-		cerr << "left mouse button released in view2d" << endl;
 	} else if (e->button() == QMouseEvent::RightButton) {
-		cerr << "right mouse button released in view2d" << endl;
 	} else if (e->button() == QMouseEvent::MidButton) {
-		cerr << "middle mouse button released in view2d" << endl;
 	}
 	m_iX1 = m_iX2;
 	m_iY1 = m_iY2;

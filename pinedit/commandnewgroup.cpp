@@ -32,12 +32,12 @@ CommandNewGroup::CommandNewGroup(PinEditDoc * doc) : Command(doc) {
 CommandNewGroup::~CommandNewGroup() {
 }
 
+void CommandNewGroup::clearObjects() {
+}
+
 void CommandNewGroup::execute(const CommandContext & context) {
 	assert(context.group != NULL);
-
   bool ok = FALSE;
-
-
 
   QString text = QInputDialog::getText( p_Doc->tr( "Enter name for group" ), p_Doc->tr("Input"), 
 																				QLineEdit::Normal, QString::null, &ok, 0, 0 );
@@ -50,8 +50,8 @@ void CommandNewGroup::execute(const CommandContext & context) {
 	context.group->add(p_Group);
 	p_Doc->setCurrentGroup(p_Group);
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandNewGroup::execute" << endl;

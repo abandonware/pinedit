@@ -42,6 +42,8 @@ class PinEditView : public QWidget {
 	~PinEditView();
 	void setViewMode(int mode);
 	void setZoom(int zoom);
+	ShapeView * getShapeView() { return p_ShapeView; };
+	PolygonView * getPolygonView() { return p_PolygonView; };
   
  protected slots:
 	void slotDocumentChanged();

@@ -27,9 +27,10 @@ class CommandUnSelect : public Command  {
 	~CommandUnSelect();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d);
-	virtual const char * type() { return "CommandUnSelect"; };
+	const char * type() { return "CommandUnSelect"; };
 };
 
 #endif

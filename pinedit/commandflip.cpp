@@ -29,6 +29,9 @@ CommandFlip::CommandFlip(PinEditDoc * doc) : Command(doc) {
 CommandFlip::~CommandFlip() {
 }
 
+void CommandFlip::clearObjects() {
+}
+
 void CommandFlip::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
 
@@ -57,7 +60,8 @@ void CommandFlip::execute(const CommandContext & context) {
 
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("polygon");
+	//p_Doc->updateAll();
 	p_Doc->pushUndo(this);
 	cerr << "flipped polygons" << endl;
 }

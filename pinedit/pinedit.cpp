@@ -61,6 +61,7 @@
 #include "workresizelocal.xpm"
 #include "workextrude.xpm"
 #include "workhideselected.xpm"
+#include "workundo.xpm"
 // commands
 #include "command.h"
 #include "commandhideselected.h"
@@ -135,6 +136,7 @@ void PinEditApp::initActions() {
 //   QPixmap loadShapeIcon = QPixmap(workloadshape);
   QPixmap loadGroupIcon = QPixmap(workloadgroup);
 	//QPixmap caveIcon = QPixmap(workcave);
+	QPixmap undoIcon = QPixmap(workundo);
 	QPixmap newVertexIcon = QPixmap(worknewvertex);
 	QPixmap selectIcon = QPixmap(workselect);
 	QPixmap addSelectIcon = QPixmap(workaddselect);
@@ -256,6 +258,11 @@ void PinEditApp::initActions() {
 //   workCave->setStatusTip(tr("Add a cave the game"));
 //   workCave->setWhatsThis(tr("New Cave\n\nUse this to create a cave that captures the balls for a while and then shoots it out"));
 //   connect(workCave, SIGNAL(activated()), this, SLOT(slotNewCave()));
+
+ 	workUndo = new QAction(tr("Undo"), undoIcon, tr("Undo"), 0, this);
+  workUndo->setStatusTip(tr("Undo recent action"));
+  workUndo->setWhatsThis(tr("Undo\n\nUndo recent action."));
+  connect(workUndo, SIGNAL(activated()), this, SLOT(slotUndo()));
 
  	workNewVertex = new QAction(tr("New Vertex"), newVertexIcon, tr("New Vertex"), 0, this);
  	workNewVertex->setToggleAction(true);
@@ -420,6 +427,7 @@ void PinEditApp::initMenuBar() {
   // menuBar entry workMenu
   workMenu = new QPopupMenu();
 //   workLoadShape->addTo(workMenu);
+	workUndo->addTo(workMenu);
   workNewVertex->addTo(workMenu);
   workSelect->addTo(workMenu);
 	workAddSelect->addTo(workMenu);
@@ -477,6 +485,7 @@ void PinEditApp::initWorkBar() {
   workToolbar = new QToolBar(this, "work operations");
 // 	workLoadShape->addTo(workToolbar);
 	workLoadGroup->addTo(workToolbar);
+	workUndo->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
   workSelect->addTo(workToolbar);
 	workAddSelect->addTo(workToolbar);
@@ -771,16 +780,22 @@ void PinEditApp::slotLoadGroup() {
 // void PinEditApp::slotNewCave() {
 //}
 
+
+void PinEditApp::slotUndo() {
+	cerr << "PinEditApp::slotUndo" << endl;
+	p_Doc->undo();
+}
+
 void PinEditApp::slotNewVertex() {
+	cerr << "PinEditApp::slotNewVertex" << endl;
 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandNewVertex);
-	cerr << "pineditapp::slotnewvertex" << endl;
 }
 
 void PinEditApp::slotSelect() {
+	cerr << "PinEditApp::slotSelect" << endl;
 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandSelect);
-	cerr << "pineditapp::slotselect" << endl;
 }
 
 void PinEditApp::slotAddSelect() {
@@ -967,7 +982,7 @@ void PinEditApp::slotMode(int index) {
 void PinEditApp::slotZoom(int zoom) {
 	cerr << "pineditapp::slotzoom " << zoom << endl;
 	p_View->setZoom(zoom);
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 }
 
 void PinEditApp::setMode(int mode) {
@@ -981,7 +996,7 @@ void PinEditApp::setMode(int mode) {
 		workMode->setCurrentItem(1);
 		break;
 	}
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 }
 
 void PinEditApp::slotSnap() {

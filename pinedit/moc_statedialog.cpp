@@ -1,8 +1,8 @@
 /****************************************************************************
 ** StateDialog meta object code from reading C++ file 'statedialog.h'
 **
-** Created: Mon Sep 30 14:01:36 2002
-**      by: The Qt MOC ($Id: moc_statedialog.cpp,v 1.2 2002/10/08 09:02:53 henqvist Exp $)
+** Created: Tue Oct 8 13:04:18 2002
+**      by: The Qt MOC ($Id: moc_statedialog.cpp,v 1.3 2002/10/30 14:53:29 henqvist Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

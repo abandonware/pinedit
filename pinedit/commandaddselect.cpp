@@ -31,6 +31,9 @@ CommandAddSelect::CommandAddSelect(PinEditDoc * doc) : Command(doc) {
 CommandAddSelect::~CommandAddSelect() {
 }
 
+void CommandAddSelect::clearObjects() {
+}
+
 void CommandAddSelect::execute(const CommandContext & context) {
 	cerr << "CommandAddSelect::execute " << endl;
 	assert(context.shape != NULL);
@@ -59,7 +62,7 @@ void CommandAddSelect::execute(const CommandContext & context) {
 		vtx = ct.shape->getVertex3D(index);
 	}
 	p_Doc->doSelectPolygons();
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	// this one reports for some strange reason that all are zero ???
@@ -76,6 +79,8 @@ void CommandAddSelect::preview(const CommandContext & context, View2D * view2d) 
 }
 
 void CommandAddSelect::undo() {
+	p_Doc->clearSelectedVertex();
+	p_Doc->clearSelectedPolygon();
 }
 
 Command * CommandAddSelect::build() {

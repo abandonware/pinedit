@@ -32,6 +32,9 @@ CommandSelect::CommandSelect(PinEditDoc * doc) : Command(doc) {
 CommandSelect::~CommandSelect() {
 }
 
+void CommandSelect::clearObjects() {
+}
+
 void CommandSelect::execute(const CommandContext & context) {
 	p_Doc->clearSelectedVertex();
 	p_Doc->clearSelectedPolygon();
@@ -43,12 +46,12 @@ void CommandSelect::execute(const CommandContext & context) {
 	case XY: ct.z1 = -1000; ct.z2 = 1000; break;
 	case XZ: ct.y1 = -1000; ct.y2 = 1000; break;
 	case ZY: ct.x1 = -1000; ct.x2 = 1000; break;
-	default: cerr << "unknown type in commandselect::execute" << endl;
+	default: cerr << "CommandSelect::execute unknown type" << endl;
 	}
 
 	Shape3D * shape = p_Doc->getCurrentShape();
 	if (shape == NULL) {
-		cerr << "no shape selected" << endl;
+		cerr << "CommandSelect::execute no shape selected" << endl;
 		return;
 	}
 	int index = 0;
@@ -66,11 +69,11 @@ void CommandSelect::execute(const CommandContext & context) {
 		vtx = shape->getVertex3D(index);
 	}
 	p_Doc->doSelectPolygons();
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 	// this one reports for some strange reason that all are zero ???
 	// but selection is made correct !!!
-	cerr << "selecting vertices at " << context.x1 <<" "<< (p_Context->y1) <<" "<< p_Context->z1 << 
+	cerr << "CommandSeelect::execute select vertices at " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 

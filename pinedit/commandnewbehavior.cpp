@@ -36,6 +36,9 @@ CommandNewBehavior::CommandNewBehavior(PinEditDoc * doc) : Command(doc) {
 CommandNewBehavior::~CommandNewBehavior() {
 }
 
+void CommandNewBehavior::clearObjects() {
+}
+
 void CommandNewBehavior::execute(const CommandContext & context) {
 	cerr << "CommandNewBehavior::execute" << endl;
 	assert(context.group != NULL);
@@ -56,11 +59,11 @@ void CommandNewBehavior::execute(const CommandContext & context) {
 	default:
 		p_Behavior = NULL;
 	}
-	context.group->addBehavior(p_Behavior);
+	context.group->setBehavior(p_Behavior);
 
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	p_Doc->rebuildAll("group");
+	//p_Doc->updateAll();
 	p_Doc->pushUndo(this);
 	//p_Context = new CommandContext(context);
 	cerr << "CommandNewBehavior::execute done" << endl;

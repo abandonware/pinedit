@@ -51,8 +51,8 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
 	p_Doc = doc;
 	p_Shape = NULL;
 	m_bSelectionChanged = true;
-	p_Doc->registerUpdateable(this);
-	p_Doc->registerRebuildable(this);
+	p_Doc->registerUpdateable(this, "polygon");
+	p_Doc->registerRebuildable(this, "polygon");
 	//m_bSilent = true;
 	p_TextureDialog = new TextureDialog(doc, this, 0, 0);
 	p_TexCoordDialog = new TexCoordDialog(doc, this, 0, 0);
@@ -400,7 +400,7 @@ void PolygonView::slotVertexUp() {
 	}
 	//p_Doc->rebuildAll();
 	this->doRebuild();
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 }
 
 void PolygonView::slotVertexDown() {
@@ -423,7 +423,7 @@ void PolygonView::slotVertexDown() {
 	}
 	//p_Doc->rebuildAll();
 	this->doRebuild();
-	p_Doc->updateAll();
+	p_Doc->updateAll("polygon");
 }
 
 void PolygonView::slotChanged() {
@@ -448,7 +448,8 @@ void PolygonView::slotChanged() {
 		p_EditTexture->setText(QString());
 	}
  	// DO NOT update the view itself
-	p_Doc->updateAllExclude(this);
+	//p_Doc->updateAllExclude(this);
+	p_Doc->updateAll("group");
 }
 
 void PolygonView::slotApplyVertex() {
@@ -476,7 +477,8 @@ void PolygonView::slotApplyVertex() {
 		}
 	}
 
-	p_Doc->updateAllExclude(this);
+	//p_Doc->updateAllExclude(this);
+	p_Doc->updateAll("group");
 }
 
 void PolygonView::slotChoose() {

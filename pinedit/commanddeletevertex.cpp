@@ -34,6 +34,9 @@ CommandDeleteVertex::CommandDeleteVertex(PinEditDoc * doc) : Command(doc) {
 CommandDeleteVertex::~CommandDeleteVertex() {
 }
 
+void CommandDeleteVertex::clearObjects() {
+}
+
 void CommandDeleteVertex::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
 
@@ -61,8 +64,8 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 
 	p_Doc->clearSelectedVertex();
 	p_Doc->setModified(true);
-	p_Doc->rebuildAll();
-	p_Doc->updateAll();
+	//p_Doc->rebuildAll("");
+	//p_Doc->updateAll("");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
 	cerr << "CommandDeleteVertex::execute" << endl;

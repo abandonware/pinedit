@@ -44,7 +44,7 @@ class BumperDialog : public QDialog  {
  private:
 	PinEditDoc * p_Doc;
 
-	QSpinBox * p_SpinScore;
+	//	QSpinBox * p_SpinScore;
 	QLineEdit * p_EditSound;
 	BumperBehavior * p_BumperBehavior;
 };

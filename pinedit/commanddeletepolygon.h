@@ -18,6 +18,8 @@
 #ifndef COMMANDDELETEPOLYGON_H
 #define COMMANDDELETEPOLYGON_H
 
+#include <vector>
+
 #include <command.h>
 
 class Group;
@@ -28,9 +30,12 @@ class CommandDeletePolygon : public Command  {
 	~CommandDeletePolygon();
 	Command * build();
 	void undo();
+	void clearObjects();
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d) {};
 	const char * type() { return "CommandDeletePolygon"; };
+ private:
+	vector<Polygon*> m_vPolygon;
 };
 
 #endif
