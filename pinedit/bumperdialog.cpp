@@ -22,6 +22,7 @@
 #include <qlineedit.h>
 #include <qfiledialog.h>
 #include <qlayout.h>
+#include <qspinbox.h>
 // application includes
 #include "bumperdialog.h"
 #include "pineditdoc.h"
@@ -37,6 +38,7 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
 	p_Doc = doc;
 	p_BumperBehavior = NULL;
 
+	p_SpinScore = new QSpinBox(0, 10000, 50, this);
 	p_EditSound = new QLineEdit(this);
 	QPushButton * choosebutton = new QPushButton("choose", this);
 	connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
@@ -45,6 +47,7 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
 	connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
 	QBoxLayout * hlayout = new QHBoxLayout(this);
+	hlayout->addWidget(p_SpinScore);
 	hlayout->addWidget(p_EditSound);
 	hlayout->addWidget(choosebutton);
 	hlayout->addWidget(donebutton);
@@ -56,6 +59,7 @@ BumperDialog::~BumperDialog() {
 void BumperDialog::reload() {
 	cerr << "BumperDialog::reload" << endl;
 	assert(p_BumperBehavior != NULL);
+	p_SpinScore->setValue(p_BumperBehavior->getScore());
 	if (p_BumperBehavior->getSound() != -1 && 
 			SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound()) != NULL) {
 		p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound())));
@@ -76,6 +80,7 @@ void BumperDialog::edit(BumperBehavior * beh) {
 void BumperDialog::applyChanges() {
 	assert(p_BumperBehavior != NULL);
 	cerr << "BumperDialog::applyChanges" << endl;
+	p_BumperBehavior->setScore(p_SpinScore->value());
 	if (!(p_EditSound->text().isEmpty())) {
 		int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
 		if (sound != -1) {

@@ -312,6 +312,14 @@ void StateDialog::reload() {
 	p_ComboCollSig->insertItem("tilt");
 	m_hIndex.insert(pair<QString, int>("tilt", count));
 	++count;
+	p_ComboActSig->insertItem("extraball");
+	p_ComboCollSig->insertItem("extraball");
+	m_hIndex.insert(pair<QString, int>("extraball", count));
+	++count;
+	p_ComboActSig->insertItem("multiball_off");
+	p_ComboCollSig->insertItem("multiball_off");
+	m_hIndex.insert(pair<QString, int>("multiball_off", count));
+	++count;
 	p_ComboActSig->insertItem("lock1");
 	p_ComboCollSig->insertItem("lock1");
 	m_hIndex.insert(pair<QString, int>("lock1", count));
@@ -345,7 +353,7 @@ void StateDialog::edit(StateBehavior * beh) {
 	assert(beh != NULL);
 	p_StateBehavior = beh;
 	// TODO load behavior
-	//this->reload();
+	this->reload();
 	this->show();
 	cerr << "statedialog::edit" << endl;
 }

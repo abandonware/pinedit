@@ -237,6 +237,7 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
 	if (beh->getType() == PBL_TYPE_BUMPERBEH) {
 		BumperBehavior * bumperbeh = (BumperBehavior*) beh;
 		file << "  bumper_behavior {" << endl;
+		file << "    " << bumperbeh->getScore() << endl;
 		if (bumperbeh->getSound() != -1) {
 			QString filename(SoundUtil::getInstance()->getSoundName(bumperbeh->getSound()));
 			int last = filename.findRev("/");
