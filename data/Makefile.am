@@ -4,10 +4,21 @@ pkgdata_DATA = \
 left_arm.pbl \
 right_arm.pbl \
 bumper.pbl \
+lock1.pbl \
+lock2.pbl \
+releaselock.pbl \
 floor.pbl \
-floor_target.pbl \
 stopper.pbl \
-font_34.png \
-face.png
+bumphard.wav \
+bumpsoft.wav \
+bump.wav \
+flip.wav \
+gameover.wav \
+lock.wav \
+loop.wav \
+nudge.wav \
+opentux.wav \
+shoot.wav \
+up.wav
 
 EXTRA_DIST = $(pkgdata_DATA)

@@ -53,22 +53,11 @@ object left_stopper {
       no_texcoord
       no_shape
     }
-    light {
-      1 1 0
-      0 3 0
-    }
   }
   properties {
     collision
     transform_once
     wall_one_way
-    group_1
-  }
-}
-object light {
-  0 3 0
-  0 0 0
-  properties {
     group_1
   }
 }

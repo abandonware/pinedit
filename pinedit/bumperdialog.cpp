@@ -18,6 +18,7 @@
 // general includes
 #include <cassert>
 // qt includes
+#include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qfiledialog.h>
@@ -39,6 +40,8 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
 	p_Doc = doc;
 	p_BumperBehavior = NULL;
 
+	QLabel * label = new QLabel("sound", this);
+
 	//	p_SpinScore = new QSpinBox(0, 10000, 50, this);
 	p_EditSound = new QLineEdit(this);
 	QPushButton * choosebutton = new QPushButton("choose", this);
@@ -49,6 +52,7 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
 
 	QBoxLayout * hlayout = new QHBoxLayout(this);
 	//	hlayout->addWidget(p_SpinScore);
+	hlayout->addWidget(label);
 	hlayout->addWidget(p_EditSound);
 	hlayout->addWidget(choosebutton);
 	hlayout->addWidget(donebutton);

@@ -402,10 +402,6 @@ object bumper {
   }
   bumper_behavior {
     no_sound
-    light {
-      1 0 0
-      0 3 0
-    }
   }
   properties {
     collision

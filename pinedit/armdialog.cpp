@@ -18,6 +18,7 @@
 // general includes
 #include <cassert>
 // qt includes
+#include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
 #include <qfiledialog.h>
@@ -37,6 +38,8 @@ ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 	p_Doc = doc;
 	p_ArmBehavior = NULL;
 
+	QLabel * label = new QLabel("sound", this);
+
 	p_EditSound = new QLineEdit(this);
 	QPushButton * choosebutton = new QPushButton("choose", this);
 	connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
@@ -45,6 +48,7 @@ ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 	connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
 	QBoxLayout * hlayout = new QHBoxLayout(this);
+	hlayout->addWidget(label);
 	hlayout->addWidget(p_EditSound);
 	hlayout->addWidget(choosebutton);
 	hlayout->addWidget(donebutton);

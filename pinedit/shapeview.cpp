@@ -85,7 +85,7 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 		p_BoxTransformOnce = new QCheckBox("transform once", p_WidgetGroup);
 		p_BoxWall = new QCheckBox("wall", p_WidgetGroup);
 		p_BoxOneWay = new QCheckBox("one way", p_WidgetGroup);
-		QPushButton * applybutton = new QPushButton("apply1", p_WidgetGroup);
+		QPushButton * applybutton = new QPushButton("apply", p_WidgetGroup);
 		connect(applybutton, SIGNAL(clicked()), this, SLOT(slotApplyProp()));
 		// behavior choice
 		p_ChoiceBehavior = new QComboBox(p_WidgetGroup);
@@ -156,10 +156,21 @@ ShapeView::~ShapeView(){
 
 void ShapeView::doRebuild() {
 	cerr << "ShapeView::doRebuild" << endl;
+	assert(p_Doc->getEngine() != NULL);
 	p_ListView->clear();
 	ListItem * firstitem = new ListItem(p_ListView, "bottom");
 	// insert all children
-	this->addGroup(p_Doc->getEngine(), firstitem);
+	//this->addGroup(p_Doc->getEngine(), firstitem);
+	int index = 0;
+	Group * child = p_Doc->getEngine()->getGroup(index);
+ 	while (child != NULL) {
+ 		this->addGroup(child, firstitem);
+ 		index++;
+ 		child = p_Doc->getEngine()->getGroup(index);
+ 		// open up groups with children
+ 		//groupitem->setOpen(TRUE);
+ 	}
+
 	firstitem->setOpen(TRUE);
 	p_ListView->show();
 }
@@ -174,6 +185,8 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 	if (group == NULL) return;
 	cerr << "ShapeView::addGroup added a group" << endl;
 
+	if (QString(group->getName()).find('#', 0, true) == 0) return;
+
 	ListItem * groupitem = new ListItem(parent, QString("object ") + QString(group->getName()));
 	groupitem->setObject(group, LISTITEM_GROUP);
 	if (p_Doc->getEngine() == group) {
@@ -185,14 +198,14 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 
 	int index = 0;
 	Group * child = group->getGroup(index);
-	// all children
-	while (child != NULL) {
-		this->addGroup(child, groupitem);
-		index++;
-		child = group->getGroup(index);
-		// open up groups with children
-		//groupitem->setOpen(TRUE);
-	}
+	// do not add  children
+// 	while (child != NULL) {
+// 		this->addGroup(child, groupitem);
+// 		index++;
+// 		child = group->getGroup(index);
+// 		// open up groups with children
+// 		//groupitem->setOpen(TRUE);
+// 	}
 	// add shapes
 	int shindex = 0;
 	Shape3D * shape = group->getShape3D(shindex);

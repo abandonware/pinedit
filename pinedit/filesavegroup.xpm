@@ -18,7 +18,7 @@ static const char *filesavegroup[]={
 ".##......aaaaa",
 ".#####dddadeed",
 ".##......aeaae",
-".dd......aeaaa",
-".dd......aeaee",
+".dd......aeaae",
+".dd......aeaae",
 ".dd......aeaae",
 "b........adeed"};

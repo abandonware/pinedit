@@ -210,9 +210,9 @@ void PinEditApp::initActions() {
   fileSaveAs->setWhatsThis(tr("Save As\n\nSaves the actual document under a new filename"));
   connect(fileSaveAs, SIGNAL(activated()), this, SLOT(slotFileSaveAs()));
  
-  fileSaveGroup = new QAction(tr("Save Group"), saveGroupIcon, tr("Save group..."), 0, this);
-  fileSaveGroup->setStatusTip(tr("Saves the selected group to a file"));
-  fileSaveGroup->setWhatsThis(tr("Save Group\n\nSaves the selected group to a file"));
+  fileSaveGroup = new QAction(tr("Save Object"), saveGroupIcon, tr("Save Object..."), 0, this);
+  fileSaveGroup->setStatusTip(tr("Saves the selected object to a file"));
+  fileSaveGroup->setWhatsThis(tr("Save Object\n\nSaves the selected object to a file"));
   connect(fileSaveGroup, SIGNAL(activated()), this, SLOT(slotFileSaveGroup()));
 
 //   fileSaveShape = new QAction(tr("Save Shape"), saveShapeIcon, tr("Save shape..."), 0, this);
@@ -260,9 +260,9 @@ void PinEditApp::initActions() {
   helpManual->setWhatsThis(tr("Manual\n\nManual for the editor"));
   connect(helpManual, SIGNAL(activated()), this, SLOT(slotManual()));
 
-	workLoadGroup = new QAction(tr("Load Group"), loadGroupIcon, tr("Load Group"), 0, this);
-  workLoadGroup->setStatusTip(tr("Load a group to the table"));
-  workLoadGroup->setWhatsThis(tr("Load Group\n\nUse this to load the 3d groups such as walls"));
+	workLoadGroup = new QAction(tr("Load Object"), loadGroupIcon, tr("Load Object"), 0, this);
+  workLoadGroup->setStatusTip(tr("Loads an object to the table"));
+  workLoadGroup->setWhatsThis(tr("Load Object\n\nLoads an object to the table"));
   connect(workLoadGroup, SIGNAL(activated()), this, SLOT(slotLoadGroup()));
 
   // work actions
@@ -359,16 +359,16 @@ void PinEditApp::initActions() {
   workResizeLocal->setWhatsThis(tr("Resize vertices\n\nScales vertices around the local origo."));
   connect(workResizeLocal, SIGNAL(activated()), this, SLOT(slotResizeLocal()));
 
-  workMoveGroup = new QAction(tr("Move Group"), moveGroupIcon, tr("Move Group"), 0, this);
+  workMoveGroup = new QAction(tr("Move Object"), moveGroupIcon, tr("Move Object"), 0, this);
   workMoveGroup->setToggleAction(true);
-  workMoveGroup->setStatusTip(tr("Move current group"));
-  workMoveGroup->setWhatsThis(tr("Move group\n\n"));
+  workMoveGroup->setStatusTip(tr("Move current object"));
+  workMoveGroup->setWhatsThis(tr("Move Object\n\n"));
   connect(workMoveGroup, SIGNAL(activated()), this, SLOT(slotMoveGroup()));
 
-  workRotateGroup = new QAction(tr("Rotate Group"), rotateGroupIcon, tr("Rotate Group"), 0, this);
+  workRotateGroup = new QAction(tr("Rotate Object"), rotateGroupIcon, tr("Rotate Object"), 0, this);
   workRotateGroup->setToggleAction(true);
-  workRotateGroup->setStatusTip(tr("Rotate current group"));
-  workRotateGroup->setWhatsThis(tr("Rotate group\n\n"));
+  workRotateGroup->setStatusTip(tr("Rotate current object"));
+  workRotateGroup->setWhatsThis(tr("Rotate Object\n\n"));
   connect(workRotateGroup, SIGNAL(activated()), this, SLOT(slotRotateGroup()));
 
   workHideSelected = new QAction(tr("Hide Selected Vertices"), hideSelectedIcon, tr("Hide Selected Vertices"), 0, this);
@@ -422,18 +422,18 @@ void PinEditApp::initActions() {
   connect(workMirrorLocalZ, SIGNAL(activated()), this, SLOT(slotMirrorLocalZ()));
 
 	workNewShape = new QAction(tr("New Shape"), newShapeIcon, tr("New Shape"), 0, this);
-	workNewShape->setStatusTip(tr("Creates a new shape in the current group"));
-	workNewShape->setWhatsThis(tr("New Shape\n\nFirst select a group in the group tree then create the shape."));
+	workNewShape->setStatusTip(tr("Creates a new shape in the current object"));
+	workNewShape->setWhatsThis(tr("New Shape\n\nCreates a new shape in the current object"));
 	connect(workNewShape, SIGNAL(activated()), this, SLOT(slotNewShape()));
 
-	workNewGroup = new QAction(tr("New Group"), newGroupIcon, tr("New Group"), 0, this);
-	workNewGroup->setStatusTip(tr("Creates a new group in the current group"));
-	workNewGroup->setWhatsThis(tr("New Group\n\nFirst select a group in the group tree then create the group. Create the group with the engine as a parent to create a base level group."));
+	workNewGroup = new QAction(tr("New Object"), newGroupIcon, tr("New Object"), 0, this);
+	workNewGroup->setStatusTip(tr("Creates a new object"));
+	workNewGroup->setWhatsThis(tr("New Group\n\nCreates a new object"));
 	connect(workNewGroup, SIGNAL(activated()), this, SLOT(slotNewGroup()));
 
-	workDeleteGroup = new QAction(tr("Delete Group"), deleteGroupIcon, 	tr("Delete Group"), 0, this);
-	workDeleteGroup->setStatusTip(tr("Deletes the current group"));
-	workDeleteGroup->setWhatsThis(tr("Delete Group\n\nFirst select the group in the group tree."));
+	workDeleteGroup = new QAction(tr("Delete Object"), deleteGroupIcon,tr("Delete Object"), 0, this);
+	workDeleteGroup->setStatusTip(tr("Deletes the current object"));
+	workDeleteGroup->setWhatsThis(tr("Delete Object\n\nDeletes the current object"));
 	connect(workDeleteGroup, SIGNAL(activated()), this, SLOT(slotDeleteGroup()));
 
 	workDeleteShape = new QAction(tr("Delete Shape"), deleteShapeIcon,	tr("Delete Shape"), 0, this);
@@ -696,7 +696,7 @@ void PinEditApp::slotFileOpen() {
   QString fileName = QFileDialog::getOpenFileName(0,0,this);
   if (!fileName.isEmpty()) {
     p_Doc->load(fileName);
-    setCaption(fileName);
+    this->setCaption(fileName);
     QString message=tr("Loaded document: ")+fileName;
     statusBar()->message(message, 2000);
   } else {
@@ -721,6 +721,7 @@ void PinEditApp::slotFileSaveAs() {
   QString fn = QFileDialog::getSaveFileName(0, 0, this);
   if (!fn.isEmpty()) {
     p_Doc->saveAs(fn);
+    this->setCaption(fn);
   } else {
     statusBar()->message(tr("Saving aborted"), 2000);
   }
@@ -732,7 +733,7 @@ void PinEditApp::slotFileSaveGroup() {
   statusBar()->message(tr("Saving group in file..."));
 	Group * group = p_Doc->getCurrentGroup();
 	if (group == NULL) {
-		QMessageBox::information( this, "Save Group", "No Group selected.");
+		QMessageBox::information( this, "Save Object", "No object selected.");
 	} else {
 		QString fn = QFileDialog::getSaveFileName(0, 0, this);
 		if (!fn.isEmpty()) {
@@ -1115,7 +1116,7 @@ void PinEditApp::slotDeleteGroup() {
 	context.clear();
 	context.group = p_Doc->getCurrentGroup();
 	if (context.group == NULL) {
-		QMessageBox::information( this, "Delete Group", "No Group selected.");
+		QMessageBox::information( this, "Delete Object", "No object selected.");
 	} else {
 		Command * command = new CommandDeleteGroup(p_Doc);
 		command->execute(context);
@@ -1132,7 +1133,7 @@ void PinEditApp::slotNewShape() {
 		Command * command = new CommandNewShape(p_Doc);
 		command->execute(context);
 	} else {
-		QMessageBox::information( this, "New Polygon", "No Shape selected.");
+		QMessageBox::information( this, "New Polygon", "No shape selected.");
 	}
 }
 
@@ -1143,9 +1144,9 @@ void PinEditApp::slotDeleteShape() {
 	context.shape = p_Doc->getCurrentShape();
 	context.group = p_Doc->getCurrentGroup();
 	if (context.group == NULL) {
-		QMessageBox::information( this, "Delete Shape", "No Group selected.");
+		QMessageBox::information( this, "Delete Shape", "No object selected.");
 	} else if (context.shape == NULL) {
-		QMessageBox::information( this, "Delete Shape", "No Shape selected.");
+		QMessageBox::information( this, "Delete Shape", "No shape selected.");
 	} else {
 		Command * command = new CommandDeleteShape(p_Doc);
 		command->execute(context);

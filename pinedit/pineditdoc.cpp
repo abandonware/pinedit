@@ -112,6 +112,7 @@ bool PinEditDoc::saveAs(const QString &filename) {
 	}
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 	p_FileUtil->saveFile(filename, p_Engine);
+	m_sFileName = filename;
 	QApplication::restoreOverrideCursor();
   return true;
 }

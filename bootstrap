@@ -3,5 +3,3 @@ autoheader
 aclocal
 autoconf
 autoheader
-configure
-make

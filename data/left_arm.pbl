@@ -509,7 +509,7 @@ object left_arm {
   }
   arm_behavior {
     left
-    sound flip.wav
+    no_sound
   }
   properties {
     collision

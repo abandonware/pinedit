@@ -57,10 +57,10 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 	p_ListView->addColumn(QString("d state"));
 	p_ListView->addColumn(QString("delay"));
 	p_ListView->addColumn(QString("light"));
-	p_ListView->addColumn(QString("property"));
+	p_ListView->addColumn(QString("type"));
 	p_ListView->addColumn(QString("sound"));
 	p_ListView->addColumn(QString("music"));
-	p_ListView->setFixedSize(450, 200);
+	p_ListView->setMinimumSize(500, 200);
 	
 	QPushButton * addbutton = new QPushButton("new", this);
 	connect(addbutton, SIGNAL(clicked()), this, SLOT(slotAdd()));
@@ -91,7 +91,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 		QLabel * labelCollSig = new QLabel("collision signal", widget);
 		p_ComboCollSig = new QComboBox(widget);
 
-		QPushButton * newButton = new QPushButton("new", widget);
+		QPushButton * newButton = new QPushButton("new signal name", widget);
 		connect(newButton, SIGNAL(clicked()), this, SLOT(slotNewSignal()));
 
 		p_EditSignal = new QLineEdit(widget);
