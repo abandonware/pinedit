@@ -110,6 +110,12 @@
 // must include editconfig.h after Private.h cause Private.h changes the
 // package name and version
 #ifdef HAVE_CONFIG_H
+#undef PACKAGE
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#undef VERSION
 #include "editconfig.h"
 #endif
 
@@ -671,7 +677,7 @@ void PinEditApp::initCommands() {
 bool PinEditApp::queryExit() {
   EM_CERR("PinEditApp::queryExit");
   int exit = QMessageBox::information(this, tr("Quit..."),
-				      tr("Do your really want to quit?"),
+                                      tr("Do your really want to quit?"),
               	                      QMessageBox::Ok, QMessageBox::Cancel);
   return (exit == 1);
 }
@@ -679,8 +685,8 @@ bool PinEditApp::queryExit() {
 bool PinEditApp::queryModified() {
   EM_CERR("PinEditApp::queryModified");
   int discard = QMessageBox::information(this, tr("Edited..."),
-					 tr("Document modified but not saved. Discard edits?"),
-					 QMessageBox::Ok, QMessageBox::Cancel);
+                                         tr("Document modified but not saved. Discard edits?"),
+                                         QMessageBox::Ok, QMessageBox::Cancel);
   return (discard == 1);
 }
 
@@ -695,6 +701,7 @@ void PinEditApp::slotFileNew() {
   }
   statusBar()->message(tr("Creating new file..."));
   p_Doc->newDoc();
+  this->setCaption(p_Doc->getFileName());
   statusBar()->message(tr("Ready."));
 }
 

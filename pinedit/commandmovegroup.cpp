@@ -65,13 +65,14 @@ void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) 
 
 	Group * g = context.group;
 	// build matrix for temporary translation
-	Vertex3D vtxT, vtxR;
+	Vertex3D vtxT, vtxR, vtxS;
 	g->getRotation(vtxR.x, vtxR.y, vtxR.z);
 	g->getTranslation(vtxT.x, vtxT.y, vtxT.z);
+	g->getScale(vtxS.x, vtxS.y, vtxS.z);
 	vtxT.x += context.x2 - context.x1;	
 	vtxT.y += context.y2 - context.y1;	
 	vtxT.z += context.z2 - context.z1;
-	EMath::getTransformationMatrix(mtxC, vtxT, vtxR);
+	EMath::getTransformationMatrix(mtxC, vtxT, vtxR, vtxS);
 	// build backwards matrix stack
 	g = g->getParent();
 	while (g != NULL) {

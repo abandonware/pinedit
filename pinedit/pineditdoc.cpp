@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
-
 // qt includes
 #include <qimage.h>
 #include <qcolor.h>
@@ -62,6 +60,7 @@ PinEditDoc::~PinEditDoc() {
 
 void PinEditDoc::newDoc() {
   EM_CERR("PinEditDoc::newDoc");
+  m_sFileName = "";
   this->clearSelectedVertex();
   this->clearSelectedPolygon();
   this->setCurrentShape(NULL);
@@ -147,12 +146,12 @@ bool PinEditDoc::saveGroup(const QString & filename, Group * group) {
 
 bool PinEditDoc::load(const QString &filename) {
   EM_CERR("PinEditDoc::load");
+  this->newDoc();
   m_sFileName = filename;
   // TODO: fix the data dir problem
   QString dir = filename;
   dir.truncate(filename.findRev('/'));
   EM_CERR(dir);
-  this->newDoc();
   QApplication::setOverrideCursor(Qt::WaitCursor);
   Config::getInstance()->setDataDir(dir.latin1());
   Loader::getInstance()->clearSignalVariable();

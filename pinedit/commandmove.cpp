@@ -69,11 +69,11 @@ void CommandMove::preview(const CommandContext & context, View2D * view2d) {
 	// mtxB is global rotion matrix, mtxC fixes the translation in local rotation
 	// mtxC is the final matrix
 	Matrix mtxA = EMath::identityMatrix;
-	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0};
+	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0}, vtxSA = {1,1,1};
 	vtxTA.x = context.x2 - context.x1;	
 	vtxTA.y = context.y2 - context.y1;	
 	vtxTA.z = context.z2 - context.z1;	
-	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA);
+	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA, vtxSA);
 
 	// draw selected polygons
 	view2d->getPainter()->setPen(Qt::green);

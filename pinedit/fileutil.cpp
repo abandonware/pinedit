@@ -84,7 +84,7 @@ int FileUtil::saveFile(const QString & fn, Group * group) {
     }
     QTextStream file(&f);
     // write version
-    WriteLine(file, "version { 0 2 1 }");
+    WriteLine(file, "version { 0 3 0 }");
     // write root group
     Vertex3D vtxT, vtxR;
     group->getTranslation(vtxT.x, vtxT.y, vtxT.z);
@@ -123,12 +123,14 @@ int FileUtil::writeGroup(QTextStream & file, Group * group) {
   }
   // header
   WriteLine(file, "object " << group->getName() << " {");
-  Vertex3D vtxT, vtxR;
+  Vertex3D vtxT, vtxR, vtxS;
   group->getTranslation(vtxT.x, vtxT.y, vtxT.z);
   group->getRotation(vtxR.x, vtxR.y, vtxR.z);
+  group->getScale(vtxS.x, vtxS.y, vtxS.z);
   this->incIndent();
   WriteLine(file, vtxT.x <<" "<< vtxT.y <<" "<< vtxT.z );
   WriteLine(file, vtxR.x <<" "<< vtxR.y <<" "<< vtxR.z );
+  WriteLine(file, vtxS.x <<" "<< vtxS.y <<" "<< vtxS.z );
   
   int gindex = 0;
   Group * subgroup = group->getGroup(gindex);
@@ -218,7 +220,6 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
 
   int vtxindex = 0;
   Vertex3D * vtx = shape->getVertex3D(vtxindex);
-#if EM_USE_SHARED_COLOR
   Color * color = shape->getColor(vtxindex);
   TexCoord * tex = shape->getTexCoord(vtxindex);
   while (vtx != NULL) {
@@ -232,13 +233,6 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
     color = shape->getColor(vtxindex);
     tex = shape->getTexCoord(vtxindex);
   }
-#else
-  while (vtx != NULL) {
-    WriteLine(file, "vtx { " << vtx->x <<" "<< vtx->y <<" "<< vtx->z << " }" );
-    vtxindex++;
-    vtx = shape->getVertex3D(vtxindex);
-  }
-#endif
 
   int polyindex = 0;
   Polygon3D * poly = shape->getPolygon(polyindex);
@@ -252,18 +246,7 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
     int edgeindex = 0;
     int index = poly->getIndex(edgeindex);
     while (index != -1) {
-#if EM_USE_SHARED_COLOR
       WriteLine(file, "  ple { " << index <<" }");
-#else
-      TexCoord * tex = poly->getTexCoord(edgeindex);
-      Color * color = poly->getColor(edgeindex);
-      assert(tex != NULL);
-      assert(color != NULL);
-      WriteLine(file, "  ple { " << index <<" ");
-      WriteLine(file, tex->u <<" "<< tex->v <<" ");
-      WriteLine(file, color->r <<" "<< color->g <<" "<< color->b <<" "<< color->a <<" ");
-      WriteLine(file, "  }" );
-#endif
       ++edgeindex;
       index = poly->getIndex(edgeindex);
     }
@@ -284,6 +267,7 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
   if (beh->getType() == PBL_TYPE_BUMPERBEH) {
     BumperBehavior * bumperbeh = (BumperBehavior*) beh;
     WriteLine(file, "bumper_behavior {" );
+    WriteLine(file, "  " << bumperbeh->getPower());
     if (bumperbeh->getSound() != -1) {
       QString filename(SoundUtil::getInstance()->getSoundName(bumperbeh->getSound()));
       int last = filename.findRev("/");

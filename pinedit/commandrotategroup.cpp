@@ -68,15 +68,16 @@ void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d
 
 	Group * g = context.group;
 	// build matrix for temporary translation
-	Vertex3D vtxT, vtxR;
+	Vertex3D vtxT, vtxR, vtxS;
 	g->getRotation(vtxR.x, vtxR.y, vtxR.z);
 	g->getTranslation(vtxT.x, vtxT.y, vtxT.z);
+  g->getScale(vtxS.x, vtxS.y, vtxS.z);
 	switch (context.type) {
 	case XY: vtxR.z += (context.x2-context.x1)/PE_ROTATION_FACTOR; break;
 	case XZ: vtxR.y += (context.x2-context.x1)/PE_ROTATION_FACTOR; break;
 	case ZY: vtxR.x += (context.z2-context.z1)/PE_ROTATION_FACTOR; break;
 	}
-	EMath::getTransformationMatrix(mtxC, vtxT, vtxR);
+	EMath::getTransformationMatrix(mtxC, vtxT, vtxR, vtxS);
 	// build backwards matrix stack
 	g = g->getParent();
 	while (g != NULL) {

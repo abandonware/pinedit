@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 // general includes
-#include <GL/gl.h>
+#include <SDL_opengl.h>
 #include <cassert>
 // qt includes
 #include <qevent.h>
@@ -86,6 +86,7 @@ void GLEngine::paintGL() {
 void GLEngine::mouseMoveEvent(QMouseEvent * event) {
   int x = event->x();
   int y = event->y();
+  Vertex3D vtxS = {1,1,1};
   //EM_CERR("mouse moved" << x - m_MouseX <<" "<< y - m_MouseY);
   switch(m_ButtonState) {
   case LeftButton:
@@ -116,7 +117,7 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
     EMath::quaternionMulti(qRot, m_qRot, qTmp);
     m_qRot = qTmp;
 
-    EMath::getTransformationMatrix(p_Doc->getCameraRot()->m_mtxSrc, vtxT, m_qRot);
+    EMath::getTransformationMatrix(p_Doc->getCameraRot()->m_mtxSrc, vtxT, m_qRot, vtxS);
 
     //p_Doc->getCameraRot()->setRotation(vtxRot.x, vtxRot.y, vtxRot.z);
     break;
@@ -126,6 +127,7 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
   case MidButton:
     p_Doc->getCameraTrans()->addTranslation((float)(m_MouseX-x)/10, (float)(y-m_MouseY)/10, 0);
     break;
+  default: break;
   }
   m_MouseX = x;
   m_MouseY = y;

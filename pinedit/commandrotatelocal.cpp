@@ -45,8 +45,8 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 	Matrix mtxA = EMath::identityMatrix;
 	Matrix mtxB = EMath::identityMatrix;
 	Matrix mtxC = EMath::identityMatrix;
-	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0};
-	Vertex3D vtxTB = {0,0,0}, vtxRB = {0,0,0};
+	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0}, vtxSA = {1,1,1};
+	Vertex3D vtxTB = {0,0,0}, vtxRB = {0,0,0}, vtxSB = {1,1,1};
 	// get local center of gravity
 	p_Doc->getSelectedCenter(vtxTA);
 	vtxTB.x = -vtxTA.x;
@@ -57,8 +57,8 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 	case XZ: vtxRA.y = (context.x2-context.x1)/PE_ROTATION_FACTOR; break;
 	case ZY: vtxRA.x = (context.z2-context.z1)/PE_ROTATION_FACTOR; break;
 	}
-	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA);
-	EMath::getTransformationMatrix(mtxB, vtxTB, vtxRB);
+	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA, vtxSA);
+	EMath::getTransformationMatrix(mtxB, vtxTB, vtxRB, vtxSB);
 	EMath::matrixMulti(mtxB, mtxA, mtxC);
 
 	int index = 0;
@@ -91,8 +91,8 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 	Matrix mtxA = EMath::identityMatrix;
 	Matrix mtxB = EMath::identityMatrix;
 	Matrix mtxC = EMath::identityMatrix;
-	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0};
-	Vertex3D vtxTB = {0,0,0}, vtxRB = {0,0,0};
+	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0}, vtxSA = {1,1,1};
+	Vertex3D vtxTB = {0,0,0}, vtxRB = {0,0,0}, vtxSB = {1,1,1};
 	
 	switch (context.type) {
 	case XY: vtxRA.z = (context.x2-context.x1)/PE_ROTATION_FACTOR; break;
@@ -105,8 +105,8 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 	vtxTB.y = -vtxTA.y;
 	vtxTB.z = -vtxTA.z;
 	
-	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA);
-	EMath::getTransformationMatrix(mtxB, vtxTB, vtxRB);
+	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA, vtxSA);
+	EMath::getTransformationMatrix(mtxB, vtxTB, vtxRB, vtxSB);
 	EMath::matrixMulti(mtxB, mtxA, mtxC);
 	
 	// draw selected polygons

@@ -29,24 +29,24 @@ class BumperBehavior;
 
 /** @author Henrik Enqvist IB  */
 class BumperDialog : public QDialog  {
-	Q_OBJECT        // must include this if you use Qt signals/slots
+  Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
-	~BumperDialog();
-	/** Pops up a dialog to edit the BumperBehavior. */
-	void edit(BumperBehavior * beh);
+  BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+  ~BumperDialog();
+  /** Pops up a dialog to edit the BumperBehavior. */
+  void edit(BumperBehavior * beh);
  protected:
-	void reload();
-	void applyChanges();
- protected slots:
-	void slotDone();
-	void slotChooseSound();
+  void reload();
+  void applyChanges();
+  protected slots:
+    void slotDone();
+  void slotChooseSound();
  private:
-	PinEditDoc * p_Doc;
-
-	//	QSpinBox * p_SpinScore;
-	QLineEdit * p_EditSound;
-	BumperBehavior * p_BumperBehavior;
+  PinEditDoc * p_Doc;
+  
+  QSpinBox * p_SpinPower;
+  QLineEdit * p_EditSound;
+  BumperBehavior * p_BumperBehavior;
 };
 
 #endif
