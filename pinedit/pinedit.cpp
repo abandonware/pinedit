@@ -54,6 +54,7 @@
 #include "worknewgroup.xpm"
 #include "workmove.xpm"
 #include "workflip.xpm"
+#include "workflipsmart.xpm"
 #include "workmovegroup.xpm"
 #include "workrotategroup.xpm"
 #include "workrotate.xpm"
@@ -91,6 +92,7 @@
 #include "commandmove.h"
 #include "commandrotate.h"
 #include "commandflip.h"
+#include "commandflipsmart.h"
 #include "commandmovegroup.h"
 #include "commandrotategroup.h"
 #include "commandrotatelocal.h"
@@ -178,6 +180,7 @@ void PinEditApp::initActions() {
   QPixmap newGroupIcon = QPixmap(worknewgroup);
   QPixmap moveIcon = QPixmap(workmove);
   QPixmap flipIcon = QPixmap(workflip);
+  QPixmap flipSmartIcon = QPixmap(workflipsmart);
   QPixmap moveGroupIcon = QPixmap(workmovegroup);
   QPixmap rotateGroupIcon = QPixmap(workrotategroup);
   QPixmap rotateIcon = QPixmap(workrotate);
@@ -394,6 +397,12 @@ void PinEditApp::initActions() {
   workFlip->setWhatsThis(tr("Flip Polygons\n\n"));
   connect(workFlip, SIGNAL(activated()), this, SLOT(slotFlip()));
 
+  workFlipSmart = new QAction(tr("Smart Flip Polygons"), flipSmartIcon, tr("Smart Flip Polygons"), 
+			      0, this);
+  workFlipSmart->setStatusTip(tr("Smart Flip polygons so that polygons are align outwards from the center of selectiion"));
+  workFlipSmart->setWhatsThis(tr("Smart Flip Polygons\n\n"));
+  connect(workFlipSmart, SIGNAL(activated()), this, SLOT(slotFlipSmart()));
+
   workExtrude = new QAction(tr("Extrude"), extrudeIcon, tr("Extrude"), 0, this);
   workExtrude->setStatusTip(tr("Extrude selected vertices"));
   workExtrude->setWhatsThis(tr("Extrude vertices\n\nExtrude vertices."));
@@ -511,6 +520,7 @@ void PinEditApp::initMenuBar() {
   workCopy->addTo(workMenu);
   workPaste->addTo(workMenu);
   workFlip->addTo(workMenu);
+  workFlipSmart->addTo(workMenu);
   workHideSelected->addTo(workMenu);
   workNewPolygon->addTo(workMenu);
   workDeletePolygon->addTo(workMenu);
@@ -580,6 +590,7 @@ void PinEditApp::initWorkBar() {
   workPaste->addTo(workToolbar);
   workHideSelected->addTo(workToolbar);
   workFlip->addTo(workToolbar);
+  workFlipSmart->addTo(workToolbar);
   workNewPolygon->addTo(workToolbar);
   workDeletePolygon->addTo(workToolbar);
   workDeleteVertex->addTo(workToolbar);
@@ -619,7 +630,7 @@ void PinEditApp::initWorkBar() {
   // 	workMode->insertItem("groups");
   // 	connect(workMode, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
 
-  workZoom = new QSpinBox(5, 50, 1, workToolbar);
+  workZoom = new QSpinBox(5, 100, 1, workToolbar);
   workZoom->setValue(10);
   connect(workZoom, SIGNAL(valueChanged(int)), this, SLOT(slotZoom(int)));
 
@@ -1001,6 +1012,19 @@ void PinEditApp::slotFlip() {
   }
 }
 
+void PinEditApp::slotFlipSmart() {
+  EM_CERR("pineditapp::slotflipsmart");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandFlipSmart(p_Doc);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Smart Flip Polygon", "No Shape selected.");
+  }
+}
+
 void PinEditApp::slotMirrorX() {
   EM_CERR("PinEditApp::slotMirrorX");
   CommandContext context;
@@ -1226,6 +1250,7 @@ void PinEditApp::setMode(int mode) {
     workHideSelected->setEnabled(true);
     workNewPolygon->setEnabled(true);
     workFlip->setEnabled(true);
+    workFlipSmart->setEnabled(true);
     workMirrorX->setEnabled(true);
     workMirrorY->setEnabled(true);
     workMirrorZ->setEnabled(true);
@@ -1259,6 +1284,7 @@ void PinEditApp::setMode(int mode) {
     workHideSelected->setEnabled(false);
     workNewPolygon->setEnabled(false);
     workFlip->setEnabled(false);
+    workFlipSmart->setEnabled(false);
     workMirrorX->setEnabled(false);
     workMirrorY->setEnabled(false);
     workMirrorZ->setEnabled(false);

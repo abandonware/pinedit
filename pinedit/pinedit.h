@@ -131,6 +131,7 @@ class PinEditApp : public QMainWindow {
 	void slotNewGroup();
 	void slotNewShape();
 	void slotFlip();
+	void slotFlipSmart();
 	void slotMoveGroup();
 	void slotRotateGroup();
 	void slotDeleteGroup();
@@ -216,6 +217,7 @@ class PinEditApp : public QMainWindow {
 	QAction *workNewShape;
 	QAction *workNewGroup;
 	QAction *workFlip;
+	QAction *workFlipSmart;
 	QAction *workMoveGroup;
 	QAction *workRotateGroup;
 	QAction *workDeleteGroup;

@@ -121,12 +121,22 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
 
     //p_Doc->getCameraRot()->setRotation(vtxRot.x, vtxRot.y, vtxRot.z);
     break;
-  case RightButton:
-    p_Doc->getCameraTrans()->addTranslation(0, 0, (float)(m_MouseY-y)/10);
-    break;
-  case MidButton:
-    p_Doc->getCameraTrans()->addTranslation((float)(m_MouseX-x)/10, (float)(y-m_MouseY)/10, 0);
-    break;
+  case MidButton: {
+    Vertex3D vtxA, vtxB;
+    vtxA.x = (float)(m_MouseX-x)/10;
+    vtxA.y = 0;
+    vtxA.z = (float)(m_MouseY-y)/10;
+    EMath::applyMatrixRot(p_Doc->getCameraRot()->m_mtxSrc, vtxA, vtxB);
+    p_Doc->getCameraTrans()->addTranslation(vtxB.x, vtxB.y, vtxB.z);
+  } break;
+  case RightButton: {
+    Vertex3D vtxA, vtxB;
+    vtxA.x = (float)(m_MouseX-x)/10;
+    vtxA.y = -(float)(m_MouseY-y)/10;
+    vtxA.z = 0.0f;
+    EMath::applyMatrixRot(p_Doc->getCameraRot()->m_mtxSrc, vtxA, vtxB);
+    p_Doc->getCameraTrans()->addTranslation(vtxB.x, vtxB.y, vtxB.z);
+  } break;
   default: break;
   }
   m_MouseX = x;

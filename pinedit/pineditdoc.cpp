@@ -73,23 +73,28 @@ void PinEditDoc::newDoc() {
   int my_argc = 6;
   p_Engine = new Engine(my_argc, my_argv);
   p_Engine->setLightning(0.5f, 0.5f);
-	//p_Engine->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//p_Engine->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   p_Engine->setName("#engine");
 
   // Add a camera. Move a bit.
   Camera* camera = new Camera();
   //Light* light = new Light(1, 0, 0);
-  p_GroupCameraRot = new Group();
-  p_GroupCameraRot->setName("#camera");
   p_GroupCameraTrans = new Group();
   p_GroupCameraTrans->setName("#camera");
-  p_Engine->add(p_GroupCameraRot);
-  p_GroupCameraRot->add(p_GroupCameraTrans);
-  p_GroupCameraTrans->setCamera(camera);
+  p_Engine->add(p_GroupCameraTrans);
+
+  p_GroupCameraRot = new Group();
+  p_GroupCameraRot->setName("#camera");
+  p_GroupCameraTrans->add(p_GroupCameraRot);
+
+  p_GroupCameraZoom = new Group();
+  p_GroupCameraZoom->setName("#camera");
+  p_GroupCameraRot->add(p_GroupCameraZoom);
+  p_GroupCameraZoom->setCamera(camera);
+  p_GroupCameraZoom->setTranslation(0, 0, 10);
   //p_GroupCameraTrans->setLight(light);
-  p_GroupCameraTrans->setTranslation(0, 0, 10);
   //p_Engine->addLight(light);
-  p_Engine->setEngineCamera(p_GroupCameraTrans);
+  p_Engine->setEngineCamera(p_GroupCameraZoom);
 
   this->rebuildAll("all");
   this->updateAll("all");
@@ -384,14 +389,6 @@ void PinEditDoc::rebuildAll(const QString & phasename) {
 
 Engine * PinEditDoc::getEngine() {
   return p_Engine;
-}
-
-Group * PinEditDoc::getCameraRot() {
-  return p_GroupCameraRot;
-}
-
-Group * PinEditDoc::getCameraTrans() {
-  return p_GroupCameraTrans;
 }
 
 Shape3D * PinEditDoc::getCurrentShape() {

@@ -53,7 +53,7 @@ void CommandExtrude::execute(const CommandContext & context) {
     assert(color != NULL);
     assert(tex != NULL);
     int newvtx = context.shape->add(vtx->x + 0.5, vtx->y, vtx->z, 
-																		color->r, color->g, color->b, color->a, tex->u , tex->v);
+				    color->r, color->g, color->b, color->a, tex->u , tex->v);
     m_vNewVertex.push_back(newvtx);
     ++index;
   }
@@ -70,21 +70,23 @@ void CommandExtrude::execute(const CommandContext & context) {
       int polyindex = 0;
       int polymax = context.shape->getPolygonSize();
       while ( (poly = context.shape->getPolygon(polyindex)) != NULL && polyindex < polymax) {
-				if (poly->connected(vtxIndexA, vtxIndexB)) {
-					Polygon3D * newpoly = new Polygon3D(context.shape, 4);
-					newpoly->add(vtxIndexA);
-					newpoly->add(size + indexA); // this is the vertex extruded from vtxIndexA
-					newpoly->add(size + indexB); // this is the vertex extruded from vtxIndexB
-					newpoly->add(vtxIndexB);
-					context.shape->add(newpoly);
-					m_vPolygon.push_back(newpoly);
-				}
-				++polyindex;
+	if (poly->connected(vtxIndexA, vtxIndexB)) {
+	  Polygon3D * newpoly = new Polygon3D(context.shape, 4);
+	  newpoly->add(vtxIndexA);
+	  newpoly->add(size + indexA); // this is the vertex extruded from vtxIndexA
+	  newpoly->add(size + indexB); // this is the vertex extruded from vtxIndexB
+	  newpoly->add(vtxIndexB);
+	  newpoly->countNormal();
+	  context.shape->add(newpoly);
+	  m_vPolygon.push_back(newpoly);
+	}
+	++polyindex;
       }
       ++indexB;
     }
     ++indexA;
   }
+  context.shape->countNormals();
   
   // select vertices and polygons
   p_Doc->clearSelectedPolygon();
@@ -118,6 +120,6 @@ void CommandExtrude::undo() {
 }
 
 Command * CommandExtrude::build() {
-	EM_CERR("CommandExtrude::build");
-	return new CommandExtrude(p_Doc);
+  EM_CERR("CommandExtrude::build");
+  return new CommandExtrude(p_Doc);
 }

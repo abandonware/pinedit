@@ -37,6 +37,7 @@ commandnewshape.cpp \
 commandnewbehavior.cpp \
 commandmove.cpp \
 commandflip.cpp \
+commandflipsmart.cpp \
 commandmovegroup.cpp \
 commandrotategroup.cpp \
 commandrotate.cpp \
@@ -101,6 +102,7 @@ commandnewshape.h \
 commandnewbehavior.h \
 commandmove.h \
 commandflip.h \
+commandflipsmart.h \
 commandmovegroup.h \
 commandrotategroup.h \
 commandrotate.h \

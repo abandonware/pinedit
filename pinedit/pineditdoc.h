@@ -45,9 +45,9 @@ class Polygon3D;
  * @see Rebuildable */
 class Updateable {
  public:
-	Updateable() {};
-	virtual ~Updateable() {};
-	virtual void doUpdate() = 0;
+  Updateable() {};
+  virtual ~Updateable() {};
+  virtual void doUpdate() = 0;
 };
 
 /** Classes may inherit this class and register itself to the PinEditDoc
@@ -57,127 +57,129 @@ class Updateable {
  * @see Updateable */
 class Rebuildable {
  public:
-	Rebuildable() {};
-	virtual ~Rebuildable() {};
-	virtual void doRebuild() = 0;
+  Rebuildable() {};
+  virtual ~Rebuildable() {};
+  virtual void doRebuild() = 0;
 };
 
 /** The Document Class */
 class PinEditDoc : public QObject {
   Q_OBJECT
-
- public:
-	PinEditDoc();
-	~PinEditDoc();
-	void newDoc();
-	bool save();
-	bool saveAs(const QString & filename);
-	bool saveGroup(const QString & filename, Group * group);
+    
+    public:
+  PinEditDoc();
+  ~PinEditDoc();
+  void newDoc();
+  bool save();
+  bool saveAs(const QString & filename);
+  bool saveGroup(const QString & filename, Group * group);
 	//bool saveShape(const QString & filename, Shape3D * shape);
-	bool load(const QString & filename);
-	bool loadShape(const QString & filename);
-	bool loadGroup(const QString & filename);
-	QImage * loadQImage(const QString & filename);
-
-	bool isModified() const;
-	inline void setModified(bool m) { modified = m; };  	
-
-	inline void setCommand(Command * command) { p_Command = command; };
-	/** Do NOT execute this command use it only for preview.
-	 * If you want to execute it use 'buildCommand' */
-	inline Command * getCommand() { return p_Command; };
-
-	Command * buildCommand();
-	const char * getCommandName();
-	void pushUndo(Command * command);
-	void undo();
-
-	/** Adds an updateable object to the list of updatables. 
-	 ** @see Updateable */
-	void registerUpdateable(Updateable * u, const QString & phasename);
-	/** Triggers the 'doUpdate()' function of all updateable objects. */
-	void updateAll(const QString & phasename);
-	void updateAllExclude(const QString & phasename, Updateable * u);
-	/** Triggers the 'doUpdate()' function of all updateable objects but u. */
-	//void updateAllExclude(Updateable * u);
-	/** Adds an rebuildable object to the list of rebuildables. 
-	 ** @see Rebuildable */
-	void registerRebuildable(Rebuildable * r, const QString & phasename);
-	/** Triggers the 'doRebuild()' function of all rebuildable objects. */
-	void rebuildAll(const QString & phasename);
-	/** Triggers the 'doRebuild()' function of all rebuildable objects but r. */
-	//void rebuildAllExclude(Rebuildable * r);
-
-	const QString & getFileName();
-
-	Engine * getEngine();
-	Group * getCameraRot();
-	Group * getCameraTrans();
-	Shape3D * getCurrentShape();
-	Group * getCurrentGroup();
-	/** Also set the current shape to the first shape in the group */
-	void setCurrentGroup(Group * g);
-	/** Also set the current group to the group owning the shape */
-	void setCurrentShape(Shape3D * s);
-	
-	void clearSelectedVertex();
-	void clearSelectedPolygon();
-	bool isVertexSelected(int index);
-	void selectVertex(int index);
-	void selectVertexExtra(int index);
-	void selectPolygon(Polygon3D * poly);
-	void unSelectVertex(int index);
-	int getSelectedVertexExtra();
-	int getSelectedVertex(int index);
-	Polygon3D * getSelectedPolygon(int index);
-	void doSelectPolygons();
-	void getSelectedCenter(Vertex3D & vtxM);
-	void clearHiddenVertex();
-	bool isVertexHidden(int index);
-	bool isPolygonHidden(Polygon3D * poly);
-	void hideVertex(int index);
-	/** Clears the clipboard. */
-	void clearClipBoard();
-	/** Adds the polygon to the clip board (the polygon is copied) */
-	void addClipBoard(Polygon3D * poly);
-	void addClipBoard(int index, const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
-	/** Copies the contents of the vectors to the clip board. vVertex, vColor,
-	 * and vTexCoord must be of the same size. */
-	void setClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
-	/** Clears the vectors and copies the contents of the clipboard to the vectors. */
-	void getClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
-
+  bool load(const QString & filename);
+  bool loadShape(const QString & filename);
+  bool loadGroup(const QString & filename);
+  QImage * loadQImage(const QString & filename);
+  
+  bool isModified() const;
+  inline void setModified(bool m) { modified = m; };  	
+  
+  inline void setCommand(Command * command) { p_Command = command; };
+  /** Do NOT execute this command use it only for preview.
+   * If you want to execute it use 'buildCommand' */
+  inline Command * getCommand() { return p_Command; };
+  
+  Command * buildCommand();
+  const char * getCommandName();
+  void pushUndo(Command * command);
+  void undo();
+  
+  /** Adds an updateable object to the list of updatables. 
+   ** @see Updateable */
+  void registerUpdateable(Updateable * u, const QString & phasename);
+  /** Triggers the 'doUpdate()' function of all updateable objects. */
+  void updateAll(const QString & phasename);
+  void updateAllExclude(const QString & phasename, Updateable * u);
+  /** Triggers the 'doUpdate()' function of all updateable objects but u. */
+  //void updateAllExclude(Updateable * u);
+  /** Adds an rebuildable object to the list of rebuildables. 
+   ** @see Rebuildable */
+  void registerRebuildable(Rebuildable * r, const QString & phasename);
+  /** Triggers the 'doRebuild()' function of all rebuildable objects. */
+  void rebuildAll(const QString & phasename);
+  /** Triggers the 'doRebuild()' function of all rebuildable objects but r. */
+  //void rebuildAllExclude(Rebuildable * r);
+  
+  const QString & getFileName();
+  
+  Engine * getEngine();
+  inline Group * getCameraTrans() { return p_GroupCameraTrans; };
+  inline Group * getCameraRot() { return p_GroupCameraRot; };
+  inline Group * getCameraZoom() { return p_GroupCameraZoom; };
+  Shape3D * getCurrentShape();
+  Group * getCurrentGroup();
+  /** Also set the current shape to the first shape in the group */
+  void setCurrentGroup(Group * g);
+  /** Also set the current group to the group owning the shape */
+  void setCurrentShape(Shape3D * s);
+  
+  void clearSelectedVertex();
+  void clearSelectedPolygon();
+  bool isVertexSelected(int index);
+  void selectVertex(int index);
+  void selectVertexExtra(int index);
+  void selectPolygon(Polygon3D * poly);
+  void unSelectVertex(int index);
+  int getSelectedVertexExtra();
+  int getSelectedVertex(int index);
+  Polygon3D * getSelectedPolygon(int index);
+  void doSelectPolygons();
+  void getSelectedCenter(Vertex3D & vtxM);
+  void clearHiddenVertex();
+  bool isVertexHidden(int index);
+  bool isPolygonHidden(Polygon3D * poly);
+  void hideVertex(int index);
+  /** Clears the clipboard. */
+  void clearClipBoard();
+  /** Adds the polygon to the clip board (the polygon is copied) */
+  void addClipBoard(Polygon3D * poly);
+  void addClipBoard(int index, const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
+  /** Copies the contents of the vectors to the clip board. vVertex, vColor,
+   * and vTexCoord must be of the same size. */
+  void setClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+		    vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
+  /** Clears the vectors and copies the contents of the clipboard to the vectors. */
+  void getClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+		    vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
+  
  signals:
-	void documentChanged();
-	
+  void documentChanged();
+  
  protected:
-	bool modified;
-	
+  bool modified;
+  
  private:
-	QString m_sFileName;
-	FileUtil * p_FileUtil;
-	Engine * p_Engine;
-	Group * p_GroupCameraRot;
-	Group * p_GroupCameraTrans;
-	Command * p_Command;
-	Group * p_CurrentGroup;
-	Shape3D * p_CurrentShape;
-	int m_iVertexExtra;
-
-	deque<Command *>m_qCommand;
-	map<QString, QImage*> m_hQImage;
-	vector<int> m_vSelectedVertex;
-	vector<Polygon3D*> m_vSelectedPolygon;
-	vector<pair<Updateable*, QString> > m_vUpdateable;
-	vector<pair<Rebuildable*, QString> > m_vRebuildable;
-	map<int, bool> m_hHiddenVertex;
-	vector<int> m_vCBIndex;
-	vector<Vertex3D> m_vCBVertex;
-	vector<Color> m_vCBColor;
-	vector<TexCoord> m_vCBTexCoord;
-	vector<Polygon3D*> m_vCBPolygon;
+  QString m_sFileName;
+  FileUtil * p_FileUtil;
+  Engine * p_Engine;
+  Group * p_GroupCameraRot;
+  Group * p_GroupCameraTrans;
+  Group * p_GroupCameraZoom;
+  Command * p_Command;
+  Group * p_CurrentGroup;
+  Shape3D * p_CurrentShape;
+  int m_iVertexExtra;
+  
+  deque<Command *>m_qCommand;
+  map<QString, QImage*> m_hQImage;
+  vector<int> m_vSelectedVertex;
+  vector<Polygon3D*> m_vSelectedPolygon;
+  vector<pair<Updateable*, QString> > m_vUpdateable;
+  vector<pair<Rebuildable*, QString> > m_vRebuildable;
+  map<int, bool> m_hHiddenVertex;
+  vector<int> m_vCBIndex;
+  vector<Vertex3D> m_vCBVertex;
+  vector<Color> m_vCBColor;
+  vector<TexCoord> m_vCBTexCoord;
+  vector<Polygon3D*> m_vCBPolygon;
 };
 
 #endif

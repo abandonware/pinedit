@@ -431,7 +431,8 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
 
 void View2D::drawGrid() {
   //EM_CERR("View2D::drawGrid");
-  QString str = QString().setNum(this->localx(m_iX2)) + " " + QString().setNum(this->localy(m_iY2));
+  QString str = QString().setNum(this->localx(m_iX2)) + " " + 
+    QString().setNum(this->localy(m_iY2));
   p_QPainter->setPen(Qt::lightGray);
   float step = m_fZoom;
   int w = this->size().width();
@@ -442,28 +443,30 @@ void View2D::drawGrid() {
   float yoffset = (m_iYOffset - h_2)%(int)m_fZoom;
   for (float x=w_2; x<w; x += step) {
     p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
-  }
+   }
   for (float x=w_2-step; x>0; x-=step) {
-    p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
+     p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
   }
   for (float y=h_2; y<h; y+=step) {
-    p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
+     p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
   }
   for (float y=h_2-step; y>0; y-=step) {
     p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
   }
-
+  
   p_QPainter->setPen(Qt::darkGray);
   p_QPainter->drawLine(this->screenx(-100), this->screeny(0), 
 		       this->screenx(100), this->screeny(0));
   p_QPainter->drawLine(this->screenx(0), this->screeny(-100), 
-		       this->screenx(0), this->screeny(100));
-  //p_QPainter->drawText(0, 0, str);
+ 		       this->screenx(0), this->screeny(100));
+  // drawing text triggers strange no-more resize qt bug!
+  //p_QPainter->setPen(Qt::black);
+  //p_QPainter->drawText(0, 12, str, -1, QPainter::LTR);
 }
 
 // this is the function who draws stuff to the screen
 void View2D::paintEvent(QPaintEvent *) {
-  //
+  //EM_CERR("view2d::paintevent");
   if (m_bGrid) {
     this->drawGrid();
   }
@@ -472,8 +475,6 @@ void View2D::paintEvent(QPaintEvent *) {
   } else if (m_iMode == EM_GROUP_MODE) {
     this->drawGroupMode();
   }
-
-  //EM_CERR("view2d::paintevent");
 }
 
 void View2D::doUpdate() {
