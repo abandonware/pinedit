@@ -1,0 +1,23 @@
+
+Ok, this is the first snapshot of the editor. It is a pre-alpha, seg-faulting,
+doc-less wretch. But be patient it will get better. Remember that I warned you 
+about the seg-faults.
+
+So, you need to have the latest _cvs_ 'pinball' source directory in the same
+directory as the 'pinedit' source directory.
+
+I.e.
+  home -> mydevdir -> pinball
+                   -> pinedit
+
+Then you need to change the EM_QTDIR variable in the 'configure.in' file
+in the 'pinedit' directory to point to your qt-3.x.x  develop directory. Do 
+a 'bootstrap', a 'configure' and a 'make'. I never do the 'make install', I just run 
+the app from the source dir with 'pinedit/pinedit'. (If anyone wants to
+fix the qt-thing in 'configure.in', be my guest.)
+
+I recommend that you build the pinball sources as a debug version. The cvs version
+is usually debug. Check that the 'configure.in' in the pinball sources has the line
+AC_DEFINE(EM_DEBUG) uncommented.
+
+Cheers, Henrik.
