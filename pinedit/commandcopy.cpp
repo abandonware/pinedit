@@ -46,13 +46,25 @@ void CommandCopy::execute(const CommandContext & context) {
 	int size = context.shape->getVertex3DSize();
 	Vertex3D * vtx;
 	int index = 0;
-	while ( (vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index))) != NULL) {
-		Color * color = context.shape->getColor(p_Doc->getSelectedVertex(index));
-		TexCoord * tex = context.shape->getTexCoord(p_Doc->getSelectedVertex(index));
+	int vtxindex = p_Doc->getSelectedVertex(index);
+	while (vtxindex != -1) {
+		Vertex3D * vtx = context.shape->getVertex3D(vtxindex);
+		Color * color = context.shape->getColor(vtxindex);
+		TexCoord * tex = context.shape->getTexCoord(vtxindex);
+		assert(vtx != NULL);
 		assert(color != NULL);
 		assert(tex != NULL);
-		p_Doc->addClipBoard(*vtx, *color, *tex);
+		p_Doc->addClipBoard(vtxindex, *vtx, *color, *tex);
 		++index;
+		vtxindex = p_Doc->getSelectedVertex(index);
+	}
+
+	index = 0;
+	Polygon * poly = p_Doc->getSelectedPolygon(index);
+	while (poly != NULL) {
+		p_Doc->addClipBoard(poly);
+		++index;
+		poly = p_Doc->getSelectedPolygon(index);
 	}
 
 	/*

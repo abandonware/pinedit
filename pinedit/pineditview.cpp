@@ -43,9 +43,8 @@ PinEditView::PinEditView(QWidget * parent, PinEditDoc * doc) : QWidget(parent) {
 	p_CurrentView = this;
   // connect doc with the view
   connect(doc, SIGNAL(documentChanged()), this, SLOT(slotDocumentChanged()));
-	
-//  QHBox * vbox = new QVBox(this);
-//	QSplitter *split = new QSplitter(this);
+
+	/*	
  	this->setMinimumSize(800, 480);
 	this->setMaximumSize(1600,960);
 	//this->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding,	1, 1));
@@ -67,50 +66,52 @@ PinEditView::PinEditView(QWidget * parent, PinEditDoc * doc) : QWidget(parent) {
 	hbox->setStretchFactor(vboxl, 3);
 	hbox->setStretchFactor(vboxm, 3);
 	hbox->setStretchFactor(vboxr, 2);
-
+	*/
 
 	QGLFormat format;
 	format.setDepth(true);
 	format.setDoubleBuffer(true);
-	p_GLEngine = new GLEngine(format, vboxm, "glengine", doc);
-	//	p_GLEngine->setFixedSize(300, 240); // must set to a fixed size otherwise it disappears
+	p_GLEngine = new GLEngine(format, this, "glengine", doc);
 	p_GLEngine->setMinimumSize(300, 240);
 
-	p_XYView = new View2D(XY, doc, vboxl, 0, 0);
-	//p_XYView->setFixedSize(300, 240);
+	p_XYView = new View2D(XY, doc, this, 0, 0);
 	p_XYView->setMinimumSize(300, 240);
-	//p_XYView->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding,	2, 2));
-	//p_XYView->setSizeIncrement(0, 0);
-	p_XZView = new View2D(XZ, doc, vboxm, 0, 0);
-	//p_XZView->setFixedSize(300, 240);
+
+	p_XZView = new View2D(XZ, doc, this, 0, 0);
 	p_XZView->setMinimumSize(300, 240);
-	p_ZYView = new View2D(ZY, doc, vboxl, 0, 0);
-	//p_ZYView->setFixedSize(300, 240);
+
+	p_ZYView = new View2D(ZY, doc, this, 0, 0);
 	p_ZYView->setMinimumSize(300, 240);
 	
-	p_TabWidget = new QTabWidget(vboxr);
+	p_TabWidget = new QTabWidget(this);
 	p_TabWidget->setMinimumSize(200, 480);
+	p_TabWidget->setMaximumSize(300, 1600);
 
 	p_ShapeView = new ShapeView(doc, this, 0, 0);
 	p_PolygonView = new PolygonView(doc, this, 0, 0);
-	p_TabWidget->addTab(p_ShapeView, "shapes");
+	p_TabWidget->addTab(p_ShapeView, "objects");
 	p_TabWidget->addTab(p_PolygonView, "polygons");
 
-	/*
   QBoxLayout * hlayout = new QHBoxLayout(this);
 
   QBoxLayout * vlayoutl = new QVBoxLayout(hlayout);
   QBoxLayout * vlayoutm = new QVBoxLayout(hlayout);
   QBoxLayout * vlayoutr = new QVBoxLayout(hlayout);
+	hlayout->setStretchFactor(vlayoutl, 4);
+	hlayout->setStretchFactor(vlayoutm, 4);
+	hlayout->setStretchFactor(vlayoutr, 2);
 
-	vlayoutl->addWidget(p_XYView);		
+	vlayoutl->addWidget(p_XYView);
 	vlayoutl->addWidget(p_ZYView);		
+	vlayoutl->setStretchFactor(p_XYView, 1);
+	vlayoutl->setStretchFactor(p_ZYView, 1);
 
 	vlayoutm->addWidget(p_XZView);		
 	vlayoutm->addWidget(p_GLEngine);
+	vlayoutm->setStretchFactor(p_XZView, 1);
+	vlayoutm->setStretchFactor(p_GLEngine, 1);
 
 	vlayoutr->addWidget(p_TabWidget);
-	*/
 }
 
 PinEditView::~PinEditView() {

@@ -69,10 +69,12 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	void updateSelected();
 	void findSelected();
 	void setShape(Shape3D * shape);
+	void setPolygon(Shape3D * shape, Polygon * poly);
 
 	bool m_bSelectionChanged;
 	PinEditDoc * p_Doc;
 	Shape3D * p_Shape;
+	Polygon * p_Polygon;
 
 	TextureDialog * p_TextureDialog;
 	TexCoordDialog * p_TexCoordDialog;

@@ -37,9 +37,6 @@ class CommandCopy : public Command  {
 	void execute(const CommandContext & context);
 	void preview (const CommandContext &, View2D *) {};
 	virtual const char * type() { return "CommandCopy"; };
- private:
-	//vector<int> m_vNewVertex;
-	//vector<Polygon*> m_vPolygon;
 };
 
 #endif

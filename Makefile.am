@@ -1,7 +1,5 @@
 AUTOMAKE_OPTIONS = gnu
 
-EXTRA_DIST = bootstrap
-
-SUBDIRS = pinedit data
+SUBDIRS = pinedit data doc
 
 EXTRA_DIST = bootstrap clean

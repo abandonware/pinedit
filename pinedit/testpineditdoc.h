@@ -30,12 +30,23 @@
 class TestPinEditDoc : public CppUnit::TestFixture {
  public:
   void setUp() {
+		pineditdoc = new PinEditDoc();
   };
 
   void tearDown() {
+		delete pineditdoc;
   };
 
 	void testSelect() {
+		pineditdoc->clearSelectedVertex();
+		pineditdoc->selectVertex(2);
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(-1) == -1);
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(0) == 2);
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(1) == -1);
+		pineditdoc->clearSelectedVertex();
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(-1) == -1);
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(0) == -1);
+		CPPUNIT_ASSERT(pineditdoc->getSelectedVertex(1) == -1);
 	};
 
 	void testAddSelect() {
@@ -56,6 +67,9 @@ class TestPinEditDoc : public CppUnit::TestFixture {
 	CPPUNIT_TEST(testUnSelect);
 	
 	CPPUNIT_TEST_SUITE_END();
+
+ private:
+	PinEditDoc * pineditdoc;
 };
 
 #endif // EM_UNIT_TEST

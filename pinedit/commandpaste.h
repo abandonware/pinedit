@@ -40,7 +40,7 @@ class CommandPaste : public Command  {
  private:
 	int m_iUndoIndex;
 	//vector<int> m_vNewVertex;
-	//vector<Polygon*> m_vPolygon;
+	vector<Polygon*> m_vPolygon;
 };
 
 #endif

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+// general includes
+#include <map>
 // qt includes
 #include <qpainter.h>
 // application includes
@@ -44,26 +46,51 @@ void CommandPaste::execute(const CommandContext & context) {
 
 	m_iUndoIndex = context.shape->getVertex3DSize();
 
+	vector<int> vIndex;
 	vector<Vertex3D> vVertex;
 	vector<Color> vColor;
 	vector<TexCoord> vTexCoord;
-	vector<Polygon> vPolygon;
+	vector<Polygon*> vPolygon;
+	map<int, int> hIndex;
 
-	p_Doc->getClipBoard(vVertex, vColor, vTexCoord, vPolygon);
+	p_Doc->getClipBoard(vIndex, vVertex, vColor, vTexCoord, vPolygon);
+	p_Doc->clearSelectedVertex();
+	p_Doc->clearSelectedPolygon();
 
+	assert(vVertex.size() == vIndex.size());
 	assert(vVertex.size() == vColor.size());
 	assert(vVertex.size() == vTexCoord.size());
 	cerr << "adding " << vVertex.size() << " vertices " << endl;
 
+	// copy vertices to the end of the shape
 	vector<Vertex3D>::iterator viter = vVertex.begin();
 	vector<Vertex3D>::iterator vend = vVertex.end();
+	vector<int>::iterator iiter = vIndex.begin();
 	vector<Color>::iterator citer = vColor.begin();
 	vector<TexCoord>::iterator titer = vTexCoord.begin();
-	for (; viter != vend; ++viter, ++citer, ++titer) {
-		context.shape->add((*viter).x, (*viter).y, (*viter).z,
-											(*citer).r, (*citer).g, (*citer).b, (*citer).a,
-											(*titer).u, (*titer).v);
-		
+	for (; viter != vend; ++viter, ++iiter, ++citer, ++titer) {
+ 		int index = context.shape->add((*viter).x + 0.5f, (*viter).y, (*viter).z,
+ 																	 (*citer).r, (*citer).g, (*citer).b, (*citer).a,
+ 																	 (*titer).u, (*titer).v);
+		hIndex.insert(pair<int, int>((*iiter), index));
+ 		p_Doc->selectVertex(index);
+	}
+	
+	// copy new polygons use table lookup for indices
+	vector<Polygon*>::iterator piter = vPolygon.begin();
+	vector<Polygon*>::iterator pend = vPolygon.end();
+	for (; piter != pend; ++piter) {
+		Polygon * newpoly = new Polygon(p_Context->shape);
+		int index = 0;
+		int vtxindex = (*piter)->getIndex(index);
+		while (vtxindex != -1) {
+			map<int, int>::iterator mapindex = hIndex.find(vtxindex);
+			assert(mapindex != hIndex.end());
+			newpoly->add((*mapindex).second);
+			++index;
+			vtxindex = (*piter)->getIndex(index);
+		}
+		p_Context->shape->add(newpoly);
 	}
 
 	/*
@@ -137,27 +164,29 @@ void CommandPaste::execute(const CommandContext & context) {
 	p_Doc->doSelectPolygons();
 	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
+	*/
 	p_Doc->rebuildAll("polygon");
 	p_Doc->updateAll("polygon");
-	*/
 	p_Doc->pushUndo(this);
 }
 
 void CommandPaste::undo() {
 	cerr << "CommandPaste::undo" << endl;
 	assert(p_Context->shape != NULL);
+
+	// delete vertices from end to undo index
+	for (int a=p_Context->shape->getVertex3DSize(); a >= m_iUndoIndex; --a) {
+		p_Context->shape->removeLooseVertex3D(a);
+	}
 	/*
 	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
 	vector<Polygon*>::iterator polyend = m_vPolygon.end();
 	for (; polyiter != polyend; ++polyiter) {
 		p_Context->shape->removePolygon((*polyiter));
 	}
-	vector<int>::iterator vtxiter = m_vNewVertex.begin();
-	vector<int>::iterator vtxend = m_vNewVertex.end();
-	for (; vtxiter != vtxend; ++vtxiter) {
-		p_Context->shape->removeLooseVertex3D((*vtxiter));
-	}
 	*/
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandPaste::build() {

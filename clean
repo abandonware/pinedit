@@ -6,6 +6,7 @@ rm -rf `find . -name "*.a"`
 rm -rf `find . -name "*.la"`
 rm -rf `find . -name "*.al"`
 rm -rf `find . -name ".libs"`
+rm -rf `find . -name "moc_*"`
 rm -rf config.*
 rm -rf stamp-h
 rm -rf aclocal*

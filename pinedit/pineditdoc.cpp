@@ -556,24 +556,46 @@ void PinEditDoc::clearClipBoard() {
 	m_vCBVertex.clear();;
 	m_vCBColor.clear();
 	m_vCBTexCoord.clear();
+	vector<Polygon*>::iterator iter = m_vCBPolygon.begin();
+	vector<Polygon*>::iterator end = m_vCBPolygon.end();
+	for (; iter != end; ++iter) {
+		delete (*iter);
+	}
 	m_vCBPolygon.clear();
 }
 
-void PinEditDoc::addClipBoard(const Vertex3D & vtx, const Color & color, 
-															const TexCoord & texcoord) {
+void PinEditDoc::addClipBoard(int index, const Vertex3D & vtx, 
+															const Color & color, const TexCoord & texcoord) {
+	m_vCBIndex.push_back(index);
 	m_vCBVertex.push_back(vtx);
 	m_vCBColor.push_back(color);
 	m_vCBTexCoord.push_back(texcoord);
 	cerr << "clipboard size" << m_vCBVertex.size() << endl;
 }
 
+void PinEditDoc::addClipBoard(Polygon * poly) {
+	assert(this->getCurrentShape() != NULL);
+	Polygon * newpoly = new Polygon(this->getCurrentShape());
+	newpoly->copy(poly);
+	m_vCBPolygon.push_back(newpoly);
+}
 
-void PinEditDoc::setClipBoard(vector<Vertex3D> & vVertex, 
-															vector<Color> & vColor, 
-															vector<TexCoord> & vTexCoord,  
-															vector<Polygon> & vPolygon) {
+void PinEditDoc::setClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, 
+															vector<Color> & vColor, vector<TexCoord> & vTexCoord, 
+															vector<Polygon*> & vPolygon) {
+	m_vCBIndex.clear();
+	m_vCBVertex.clear();
+	m_vCBColor.clear();
+	m_vCBTexCoord.clear();
+	m_vCBPolygon.clear();
+	assert(vVertex.size() == vIndex.size());
 	assert(vVertex.size() == vColor.size());
 	assert(vVertex.size() == vTexCoord.size());
+	vector<int>::iterator iiter = vIndex.begin();
+	vector<int>::iterator iend = vIndex.begin();
+	for (; iiter != iend; ++iiter) {
+		m_vCBIndex.push_back(*iiter);
+	}
 	vector<Vertex3D>::iterator viter = vVertex.begin();
 	vector<Vertex3D>::iterator vend = vVertex.begin();
 	for (; viter != vend; ++viter) {
@@ -589,20 +611,30 @@ void PinEditDoc::setClipBoard(vector<Vertex3D> & vVertex,
 	for (; titer != tend; ++titer) {
 		m_vCBTexCoord.push_back(*titer);
 	}
-	// TODO Polygons
+	vector<Polygon*>::iterator piter = vPolygon.begin();
+	vector<Polygon*>::iterator pend = vPolygon.end();
+	for (; piter != pend; ++piter) {
+		m_vCBPolygon.push_back(*piter);
+	}
 }
 
-void PinEditDoc::getClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-															vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon) {
-	vVertex.clear();;
+void PinEditDoc::getClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, 
+															vector<Color> & vColor, vector<TexCoord> & vTexCoord, 
+															vector<Polygon*> & vPolygon) {
+	vIndex.clear();
+	vVertex.clear();
 	vColor.clear();
 	vTexCoord.clear();
 	vPolygon.clear();
+	vector<int>::iterator iiter = m_vCBIndex.begin();
+	vector<int>::iterator iend = m_vCBIndex.end();
+	for (; iiter != iend; ++iiter) {
+		vIndex.push_back(*iiter);
+	}
 	vector<Vertex3D>::iterator viter = m_vCBVertex.begin();
 	vector<Vertex3D>::iterator vend = m_vCBVertex.end();
 	for (; viter != vend; ++viter) {
 		vVertex.push_back(*viter);
-		cerr << "push_back" << endl;
 	}
 	vector<Color>::iterator citer = m_vCBColor.begin();
 	vector<Color>::iterator cend = m_vCBColor.end();
@@ -614,5 +646,9 @@ void PinEditDoc::getClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor
 	for (; titer != tend; ++titer) {
 		vTexCoord.push_back(*titer);
 	}
-	// TODO polygons
+	vector<Polygon*>::iterator piter = m_vCBPolygon.begin();
+	vector<Polygon*>::iterator pend = m_vCBPolygon.end();
+	for (; piter != pend; ++piter) {
+		vPolygon.push_back(*piter);
+	}
 }

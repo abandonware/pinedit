@@ -148,4 +148,4 @@ dnl HEADERS ************************************
 dnl Checks for header files.
 AC_HEADER_STDC
 
-AC_OUTPUT(Makefile pinedit/Makefile data/Makefile)
+AC_OUTPUT(Makefile pinedit/Makefile data/Makefile doc/Makefile)

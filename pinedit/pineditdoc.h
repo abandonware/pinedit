@@ -137,14 +137,16 @@ class PinEditDoc : public QObject {
 	void hideVertex(int index);
 	/** Clears the clipboard. */
 	void clearClipBoard();
-	void addClipBoard(const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
+	/** Adds the polygon to the clip board (the polygon is copied) */
+	void addClipBoard(Polygon * poly);
+	void addClipBoard(int index, const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
 	/** Copies the contents of the vectors to the clip board. vVertex, vColor,
 	 * and vTexCoord must be of the same size. */
-	void setClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon);
+	void setClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
 	/** Clears the vectors and copies the contents of the clipboard to the vectors. */
-	void getClipBoard(vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon> & vPolygon);
+	void getClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
 
  signals:
 	void documentChanged();
@@ -170,10 +172,11 @@ class PinEditDoc : public QObject {
 	vector<pair<Updateable*, QString> > m_vUpdateable;
 	vector<pair<Rebuildable*, QString> > m_vRebuildable;
 	map<int, bool> m_hHiddenVertex;
+	vector<int> m_vCBIndex;
 	vector<Vertex3D> m_vCBVertex;
 	vector<Color> m_vCBColor;
 	vector<TexCoord> m_vCBTexCoord;
-	vector<Polygon> m_vCBPolygon;
+	vector<Polygon*> m_vCBPolygon;
 };
 
 #endif

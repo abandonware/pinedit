@@ -2,8 +2,13 @@ AUTOMAKE_OPTIONS = gnu
 
 bin_PROGRAMS = pinedit unittest
 
-pinedit_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
-pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src
+noinst_LIBRARIES = libeditstatic.a
+
+pinedit_LDADD   = -lGL -lGLU -lglut -leditstatic -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
+pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
+
+unittest_LDADD   = -lGL -lGLU -lglut -leditstatic -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
+unittest_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
 
 INCLUDES = -I../../pinball -I../../pinball/base -I../../pinball/addon -I../../pinball/visitor -I../../pinball/src
 
@@ -17,6 +22,9 @@ unittest_SOURCES = \
 unittest.cpp
 
 pinedit_SOURCES = \
+main.cpp
+
+libeditstatic_a_SOURCES = \
 command.cpp \
 commandselect.cpp \
 commandsnap.cpp \
@@ -59,7 +67,6 @@ polygonview.cpp \
 pineditview.cpp \
 pineditdoc.cpp \
 pinedit.cpp \
-main.cpp \
 fileutil.cpp \
 moduledialog.cpp \
 moc_glengine.cpp \
@@ -107,7 +114,8 @@ commandtexcoord.h \
 commandhideselected.h \
 commandcopy.h \
 commandpaste.h \
-commandtest.h \
+testcommand.h \
+testpineditdoc.h \
 glengine.h \
 view2d.h \
 shapeview.h \
