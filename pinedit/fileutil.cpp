@@ -239,7 +239,7 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
 #endif
 
   int polyindex = 0;
-  Polygon * poly = shape->getPolygon(polyindex);
+  Polygon3D * poly = shape->getPolygon(polyindex);
   while (poly != NULL) {
     WriteLine(file, "ply {" );
     WriteLine(file, "  pes { " << poly->getIndexSize() <<" }");

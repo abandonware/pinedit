@@ -25,6 +25,7 @@ using namespace std;
 #include <command.h>
 
 class Group;
+class Polygon3D;
 
 class CommandDeletePolygon : public Command  {
  public:
@@ -37,7 +38,7 @@ class CommandDeletePolygon : public Command  {
 	void preview(const CommandContext &, View2D *) {};
 	const char * type() { return "CommandDeletePolygon"; };
  private:
-	vector<Polygon*> m_vPolygon;
+	vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

@@ -78,7 +78,7 @@ void CommandMove::preview(const CommandContext & context, View2D * view2d) {
 	// draw selected polygons
 	view2d->getPainter()->setPen(Qt::green);
 	int index = 0;
-	Polygon * poly = p_Doc->getSelectedPolygon(index);
+	Polygon3D * poly = p_Doc->getSelectedPolygon(index);
 	while (poly != NULL) {
 		view2d->drawPolygon(context.shape, poly, mtxA);
 		index++;

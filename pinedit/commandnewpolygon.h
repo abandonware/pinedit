@@ -20,7 +20,7 @@
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist */
 class CommandNewPolygon : public Command  {
@@ -34,7 +34,7 @@ class CommandNewPolygon : public Command  {
 	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandNewPolygon"; };
  private:
-	Polygon * p_Polygon;
+	Polygon3D * p_Polygon;
 };
 
 #endif

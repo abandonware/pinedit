@@ -36,7 +36,7 @@ class QPushButton;
 class QRadioButton;
 class QButtonGroup;
 class QCheckBox;
-class Polygon;
+class Polygon3D;
 class Shape3D;
 /* class TextureDialog; */
 /* class TexCoordDialog; */
@@ -69,12 +69,12 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	void updateSelected();
 	void findSelected();
 	void setShape(Shape3D * shape);
-	void setPolygon(Shape3D * shape, Polygon * poly);
+	void setPolygon(Shape3D * shape, Polygon3D * poly);
 
 	bool m_bSelectionChanged;
 	PinEditDoc * p_Doc;
 	Shape3D * p_Shape;
-	Polygon * p_Polygon;
+	Polygon3D * p_Polygon;
 
 /* 	TextureDialog * p_TextureDialog; */
 /* 	TexCoordDialog * p_TexCoordDialog; */
@@ -101,7 +101,7 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	QPushButton * p_ApplyColorButton;
 	QPushButton * p_ApplyPropButton;
 
-	map<Polygon*, ListItem*> m_hPolyListItem;
+	map<Polygon3D*, ListItem*> m_hPolyListItem;
 };
 
 #endif

@@ -109,7 +109,7 @@ void TextureImageWidget::setInit(QImage * image, TextureView * view) {
   }
 }
 
-void TextureImageWidget::drawPolygon(Polygon * poly) {
+void TextureImageWidget::drawPolygon(Polygon3D * poly) {
   assert(poly != NULL);
   // draw lines between texcoords
   int texindex = 1;
@@ -140,7 +140,7 @@ void TextureImageWidget::paintEvent(QPaintEvent *) {
   // draw all polygons in green
   p_Painter->setPen(Qt::green);
   int polyindex = 0;
-  Polygon * poly = shape->getPolygon(polyindex);
+  Polygon3D * poly = shape->getPolygon(polyindex);
   while (poly != NULL) {
     this->drawPolygon(poly);
     ++polyindex;

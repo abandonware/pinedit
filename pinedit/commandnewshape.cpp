@@ -22,8 +22,11 @@
 #include "Private.h"
 #include "Group.h"
 #include "Shape3D.h"
+#include "BigSphere.h"
+#include "Cube.h"
 
 CommandNewShape::CommandNewShape(PinEditDoc * doc) : Command(doc) {
+	m_iType = SHAPE_EMPTY;
 }
 
 CommandNewShape::~CommandNewShape() {
@@ -37,7 +40,17 @@ void CommandNewShape::execute(const CommandContext & context) {
 	EM_CERR("CommandNewShape::execute");
 	p_Context->copy(context);
 
-	p_Context->shape = new Shape3D();
+	switch (m_iType) {
+	case SHAPE_SPHERE_1: p_Context->shape = new BigSphere(5.0f, 1, 1.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	case SHAPE_SPHERE_2: p_Context->shape = new BigSphere(5.0f, 2, 1.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	case SHAPE_SPHERE_3: p_Context->shape = new BigSphere(5.0f, 3, 1.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	case SHAPE_CUBE: p_Context->shape = new Cube(5.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	default: p_Context->shape = new Shape3D();
+	}
 	context.group->addShape3D(p_Context->shape);
 	p_Doc->clearSelectedVertex();
 	p_Doc->clearSelectedPolygon();

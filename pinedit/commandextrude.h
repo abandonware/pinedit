@@ -24,7 +24,7 @@ using namespace std;
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist IB */
 class CommandExtrude : public Command  {
@@ -39,7 +39,7 @@ class CommandExtrude : public Command  {
 	virtual const char * type() { return "CommandExtrude"; };
  private:
 	vector<int> m_vNewVertex;
-	vector<Polygon*> m_vPolygon;
+	vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

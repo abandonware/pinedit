@@ -51,7 +51,7 @@ void CommandPaste::execute(const CommandContext & context) {
 	vector<Vertex3D> vVertex;
 	vector<Color> vColor;
 	vector<TexCoord> vTexCoord;
-	vector<Polygon*> vPolygon;
+	vector<Polygon3D*> vPolygon;
 	map<int, int> hIndex;
 
 	p_Doc->getClipBoard(vIndex, vVertex, vColor, vTexCoord, vPolygon);
@@ -78,10 +78,10 @@ void CommandPaste::execute(const CommandContext & context) {
 	}
 	
 	// copy new polygons use table lookup for indices
-	vector<Polygon*>::iterator piter = vPolygon.begin();
-	vector<Polygon*>::iterator pend = vPolygon.end();
+	vector<Polygon3D*>::iterator piter = vPolygon.begin();
+	vector<Polygon3D*>::iterator pend = vPolygon.end();
 	for (; piter != pend; ++piter) {
-		Polygon * newpoly = new Polygon(p_Context->shape);
+		Polygon3D * newpoly = new Polygon3D(p_Context->shape);
 		int index = 0;
 		int vtxindex = (*piter)->getIndex(index);
 		while (vtxindex != -1) {
@@ -107,8 +107,8 @@ void CommandPaste::undo() {
 	assert(p_Context->shape != NULL);
 
 	// delete polygons
-	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
-	vector<Polygon*>::iterator polyend = m_vPolygon.end();
+	vector<Polygon3D*>::iterator polyiter = m_vPolygon.begin();
+	vector<Polygon3D*>::iterator polyend = m_vPolygon.end();
 	for (; polyiter != polyend; ++polyiter) {
 		p_Context->shape->removePolygon((*polyiter));
 	}

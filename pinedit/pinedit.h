@@ -227,6 +227,7 @@ class PinEditApp : public QMainWindow {
 	
 	QComboBox *workMode;
 	QSpinBox *workZoom;
+	QComboBox *workShapeType;
 	
 	/** commands */
 	CommandContext * p_CommandContext;

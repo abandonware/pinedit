@@ -592,6 +592,15 @@ void PinEditApp::initWorkBar() {
 
   workNewGroup->addTo(workToolbar);
   workNewShape->addTo(workToolbar);
+
+	workShapeType = new QComboBox(workToolbar);
+	workShapeType->insertItem("empty");
+	workShapeType->insertItem("sphere1");
+	workShapeType->insertItem("sphere2");
+	workShapeType->insertItem("sphere3");
+	workShapeType->insertItem("cube");
+	//connect(workSphere, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
+
   workDeleteGroup->addTo(workToolbar);
   workToolbar->addSeparator();
 
@@ -1135,7 +1144,18 @@ void PinEditApp::slotNewShape() {
   context.clear();
   context.group = p_Doc->getCurrentGroup();
   if (context.group != NULL) {
-    Command * command = new CommandNewShape(p_Doc);
+    CommandNewShape * command = new CommandNewShape(p_Doc);
+		switch (workShapeType->currentItem()) {
+		case 1: command->setType(SHAPE_SPHERE_1);
+			break;
+		case 2: command->setType(SHAPE_SPHERE_2);
+			break;
+		case 3: command->setType(SHAPE_SPHERE_3);
+			break;
+		case 4: command->setType(SHAPE_CUBE);
+			break;
+		default: command->setType(SHAPE_EMPTY);
+		}
     command->execute(context);
   } else {
     QMessageBox::information( this, "New Shape", "No object selected.");

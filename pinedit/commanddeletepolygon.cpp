@@ -32,40 +32,40 @@ CommandDeletePolygon::~CommandDeletePolygon() {
 }
 
 void CommandDeletePolygon::clearObjects() {
-	vector<Polygon*>::iterator iter = m_vPolygon.begin();
-	vector<Polygon*>::iterator end = m_vPolygon.end();
-	for (; iter != end; ++iter) {
-		delete (*iter);
-	}
+  vector<Polygon3D*>::iterator iter = m_vPolygon.begin();
+  vector<Polygon3D*>::iterator end = m_vPolygon.end();
+  for (; iter != end; ++iter) {
+    delete (*iter);
+  }
 }
 
 void CommandDeletePolygon::execute(const CommandContext & context) {
-	assert(context.shape != NULL);
-	p_Context->copy(context);
-
-	int polyindex = 0;
-	Polygon * poly = p_Doc->getSelectedPolygon(polyindex);
-	while (poly != NULL) {
-		m_vPolygon.push_back(poly);
-		context.shape->removePolygon(poly);
-		++polyindex;
-		poly = p_Doc->getSelectedPolygon(polyindex);
-	}
-
-	p_Doc->clearSelectedPolygon();
-	p_Doc->setModified(true);
-	p_Doc->rebuildAll("polygon");
-	p_Doc->updateAll("polygon");
-	//p_Context = new CommandContext(context);
-	p_Doc->pushUndo(this);
-	EM_CERR("CommandDeletePolygon::execute");
+  assert(context.shape != NULL);
+  p_Context->copy(context);
+  
+  int polyindex = 0;
+  Polygon3D * poly = p_Doc->getSelectedPolygon(polyindex);
+  while (poly != NULL) {
+    m_vPolygon.push_back(poly);
+    context.shape->removePolygon(poly);
+    ++polyindex;
+    poly = p_Doc->getSelectedPolygon(polyindex);
+  }
+  
+  p_Doc->clearSelectedPolygon();
+  p_Doc->setModified(true);
+  p_Doc->rebuildAll("polygon");
+  p_Doc->updateAll("polygon");
+  //p_Context = new CommandContext(context);
+  p_Doc->pushUndo(this);
+  EM_CERR("CommandDeletePolygon::execute");
 }
 
 void CommandDeletePolygon::undo() {
 	EM_CERR("CommandDeletePolygon::undo");
 	assert(p_Context->shape != NULL);
-	vector<Polygon*>::iterator iter = m_vPolygon.begin();
-	vector<Polygon*>::iterator end = m_vPolygon.end();
+	vector<Polygon3D*>::iterator iter = m_vPolygon.begin();
+	vector<Polygon3D*>::iterator end = m_vPolygon.end();
 	for (; iter != end; ++iter) {
 		p_Context->shape->add((*iter));
 	}

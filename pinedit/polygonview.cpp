@@ -203,7 +203,7 @@ void PolygonView::setShape(Shape3D * shape) {
   shapeitem->setOpen(TRUE);
 
   int polyindex = 0;
-  Polygon * poly = shape->getPolygon(polyindex);
+  Polygon3D * poly = shape->getPolygon(polyindex);
   // all polys
   while (poly != NULL) {
     QString str;
@@ -218,14 +218,14 @@ void PolygonView::setShape(Shape3D * shape) {
     ListItem * polyitem = new ListItem(shapeitem, str + " polygon");
     polyitem->setObject(poly, LISTITEM_POLYGON);
     // hash it
-    m_hPolyListItem.insert(pair<Polygon*, ListItem*>(poly, polyitem));
+    m_hPolyListItem.insert(pair<Polygon3D*, ListItem*>(poly, polyitem));
 		
     polyindex++;
     poly = shape->getPolygon(polyindex);
   }
 }
 
-void PolygonView::setPolygon(Shape3D * shape, Polygon * poly) {
+void PolygonView::setPolygon(Shape3D * shape, Polygon3D * poly) {
   EM_CERR("PolygonView::setPolygon");
   p_VertexListView->clear();
   assert(shape != NULL);
@@ -275,9 +275,9 @@ void PolygonView::updateSelected() {
   this->disableButtons();
   // Create an iterator and give the listview as argument
   int index = 0;
-  Polygon * poly = p_Doc->getSelectedPolygon(index);
+  Polygon3D * poly = p_Doc->getSelectedPolygon(index);
   while (poly != NULL) {
-    map<Polygon*, ListItem*>::iterator poly_item = m_hPolyListItem.find(poly);
+    map<Polygon3D*, ListItem*>::iterator poly_item = m_hPolyListItem.find(poly);
     assert(poly_item != m_hPolyListItem.end());
     p_ApplyColorButton->setEnabled(true);
     p_ApplyPropButton->setEnabled(true);
@@ -305,7 +305,7 @@ void PolygonView::findSelected() {
 	p_ApplyColorButton->setEnabled(true);
 	p_ApplyPropButton->setEnabled(true);
 	// TODO do it as an command so it can be undon
-	Polygon * poly = (Polygon*)((ListItem*)iter.current())->getObject();
+	Polygon3D * poly = (Polygon3D*)((ListItem*)iter.current())->getObject();
 	assert(poly != NULL);
 	int vtxindex = 0;
 	int i = poly->getIndex(vtxindex);
@@ -455,13 +455,13 @@ void PolygonView::slotApplyColor() {
   for (; piter.current() && !bVertex; ++piter) {
     if (piter.current()->isSelected()) {
       if (((ListItem*)piter.current())->getObjectType() == LISTITEM_POLYGON) {
-	Polygon * poly = (Polygon*)((ListItem*)piter.current())->getObject();
-	assert(poly != NULL);
-	poly->setColor(p_EditR->text().toFloat(), 
-		       p_EditG->text().toFloat(),
-		       p_EditB->text().toFloat(), 
-		       p_EditA->text().toFloat());
-	EM_CERR("PolygonView::slotApplyColor polygon");
+				Polygon3D * poly = (Polygon3D*)((ListItem*)piter.current())->getObject();
+				assert(poly != NULL);
+				poly->setColor(p_EditR->text().toFloat(), 
+											 p_EditG->text().toFloat(),
+											 p_EditB->text().toFloat(), 
+											 p_EditA->text().toFloat());
+				EM_CERR("PolygonView::slotApplyColor polygon");
       }
     }
   }
@@ -473,7 +473,7 @@ void PolygonView::slotApplyProp() {
   EM_CERR("polygonview::slotapply");
   assert (p_Shape != NULL);
   int index = 0;
-  Polygon * poly = p_Doc->getSelectedPolygon(index);
+  Polygon3D * poly = p_Doc->getSelectedPolygon(index);
   while (poly != NULL) {
     if (p_TransBox->isChecked()) {
       poly->setProperty(EM_POLY_TRANS);

@@ -24,7 +24,7 @@ using namespace std;
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist */
 class CommandMirror : public Command  {
@@ -42,7 +42,7 @@ class CommandMirror : public Command  {
  private:
 	int m_iXYZ;
 	vector<int> m_vIndex;
-	vector<Polygon*> m_vPolygon;
+	vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

@@ -138,7 +138,7 @@ void View2D::mouseMoveEvent(QMouseEvent* e) {
   //																								 QString().setNum(this->localy(m_iY2)));
 }
 
-void View2D::drawPolygon(Shape3D * shape, Polygon * poly, const Matrix & mtx) {
+void View2D::drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx) {
   //EM_CERR("View2D::drawPolygon");
   assert(shape != NULL);
   assert(poly != NULL);
@@ -226,7 +226,7 @@ void View2D::drawShapeMode() {
       vtx = shape->getVertex3D(index);
     }
     index = 0;
-    Polygon * poly = shape->getPolygon(index);
+    Polygon3D * poly = shape->getPolygon(index);
     while (poly != NULL) {
       this->drawPolygon(shape, poly, EMath::identityMatrix);
       index++;
@@ -283,7 +283,7 @@ void View2D::drawShapeMode() {
   { // normal polygons
     p_QPainter->setPen(Qt::black);
     int index = 0;
-    Polygon * poly = shape->getPolygon(index);
+    Polygon3D * poly = shape->getPolygon(index);
     while (poly != NULL) {
       this->drawPolygon(shape, poly, EMath::identityMatrix);
       index++;
@@ -294,7 +294,7 @@ void View2D::drawShapeMode() {
   { // selected polygons
     p_QPainter->setPen(Qt::red);
     int index = 0;
-    Polygon * poly = p_Doc->getSelectedPolygon(index);
+    Polygon3D * poly = p_Doc->getSelectedPolygon(index);
     while (poly != NULL) {
       this->drawPolygon(shape, poly, EMath::identityMatrix);
       index++;
@@ -377,7 +377,7 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
   Shape3D * shape = g->getShape3D(shindex);
   while (shape != NULL) {
     int polyindex = 0;
-    Polygon * poly = shape->getPolygon(polyindex);
+    Polygon3D * poly = shape->getPolygon(polyindex);
     while (poly != NULL) {
       this->drawPolygon(shape, poly, mtxT);
       polyindex++;

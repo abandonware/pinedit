@@ -24,7 +24,7 @@ using namespace std;
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist IB */
 class CommandPaste : public Command  {
@@ -40,7 +40,7 @@ class CommandPaste : public Command  {
  private:
 	int m_iUndoIndex;
 	//vector<int> m_vNewVertex;
-	vector<Polygon*> m_vPolygon;
+	vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

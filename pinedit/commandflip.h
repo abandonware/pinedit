@@ -24,7 +24,7 @@ using namespace std;
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist */
 class CommandFlip : public Command  {
@@ -38,7 +38,7 @@ class CommandFlip : public Command  {
 	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandFlip"; };
  private:
-	vector<Polygon*> m_vPolygon;
+	vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

@@ -38,7 +38,7 @@ void CommandFlip::execute(const CommandContext & context) {
 	p_Context->copy(context);
 
 	int index = 0;
-	Polygon * poly = p_Doc->getSelectedPolygon(index);
+	Polygon3D * poly = p_Doc->getSelectedPolygon(index);
 	while (poly != NULL) {
 		m_vPolygon.push_back(poly);
 		// oooh, this is a ugly and slow implementation
@@ -71,8 +71,8 @@ void CommandFlip::execute(const CommandContext & context) {
 void CommandFlip::undo() {
 	EM_CERR("CommandFlip::undo");
 	assert(p_Context->shape != NULL);
-	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
-	vector<Polygon*>::iterator polyend = m_vPolygon.end();
+	vector<Polygon3D*>::iterator polyiter = m_vPolygon.begin();
+	vector<Polygon3D*>::iterator polyend = m_vPolygon.end();
 
 	for (; polyiter != polyend; ++polyiter) {
 		// oooh, this is a ugly and slow implementation

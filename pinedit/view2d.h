@@ -28,7 +28,7 @@ class QPaintEvent;
 class QPen;
 class QPainter;
 class CommandContext;
-class Polygon;
+class Polygon3D;
 class Group;
 
 /** @author Henrik Enqvist IB */
@@ -52,7 +52,7 @@ class View2D : public QWidget, public Updateable {
 	inline float localx(int x) { return (float)(x - m_iXOffset) / m_fZoom; };
 	inline float localy(int y) { return (float)(y - m_iYOffset) / m_fZoom; };
 	void drawGroup(Group * g, const Matrix & mtx);
-	void drawPolygon(Shape3D * shape, Polygon * poly, const Matrix & mtx);
+	void drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx);
 	void drawVertex(Shape3D * shape, const Vertex3D & vtx, const Matrix & mtx);
  protected:
 	void drawShapeMode();

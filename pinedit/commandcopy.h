@@ -24,7 +24,7 @@ using namespace std;
 
 #include <command.h>
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist IB */
 class CommandCopy : public Command  {

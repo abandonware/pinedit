@@ -31,7 +31,7 @@ class QLineEdit;
 class QListViewItem;
 class QListView;
 class Behavior;
-class Polygon;
+class Polygon3D;
 class QPainter;
 class QImage;
 class TextureView;
@@ -50,7 +50,7 @@ class TextureImageWidget : public QWidget {
 	void setCurrent(int i);
 	void setInit(QImage * image, TextureView * view);
  private:
-	void drawPolygon(Polygon * poly);
+	void drawPolygon(Polygon3D * poly);
 
 	TextureView * p_TextureView;
 	TexCoord * p_texCurrent;

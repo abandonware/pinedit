@@ -20,6 +20,12 @@
 
 #include "command.h"
 
+#define SHAPE_EMPTY 0
+#define SHAPE_SPHERE_1 1
+#define SHAPE_SPHERE_2 2
+#define SHAPE_SPHERE_3 3
+#define SHAPE_CUBE 4
+
 class Shape3D;
 
 /** @author Henrik Enqvist */
@@ -29,10 +35,13 @@ class CommandNewShape : public Command  {
 	~CommandNewShape();
 	Command * build();
 	void undo();
+	void setType(int type) { m_iType = type; };
 	void clearObjects();
 	void execute(const CommandContext & context);
 	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandNewShape"; };
+ private:
+	int m_iType;
 };
 
 #endif

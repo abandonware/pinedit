@@ -36,7 +36,7 @@ class Engine;
 class Group;
 class Shape3D;
 class Command;
-class Polygon;
+class Polygon3D;
 
 /** Classes may inherit this class and register itself to the PinEditDoc
  * to get notifications every time the user performs changes on the
@@ -125,29 +125,29 @@ class PinEditDoc : public QObject {
 	bool isVertexSelected(int index);
 	void selectVertex(int index);
 	void selectVertexExtra(int index);
-	void selectPolygon(Polygon * poly);
+	void selectPolygon(Polygon3D * poly);
 	void unSelectVertex(int index);
 	int getSelectedVertexExtra();
 	int getSelectedVertex(int index);
-	Polygon * getSelectedPolygon(int index);
+	Polygon3D * getSelectedPolygon(int index);
 	void doSelectPolygons();
 	void getSelectedCenter(Vertex3D & vtxM);
 	void clearHiddenVertex();
 	bool isVertexHidden(int index);
-	bool isPolygonHidden(Polygon * poly);
+	bool isPolygonHidden(Polygon3D * poly);
 	void hideVertex(int index);
 	/** Clears the clipboard. */
 	void clearClipBoard();
 	/** Adds the polygon to the clip board (the polygon is copied) */
-	void addClipBoard(Polygon * poly);
+	void addClipBoard(Polygon3D * poly);
 	void addClipBoard(int index, const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
 	/** Copies the contents of the vectors to the clip board. vVertex, vColor,
 	 * and vTexCoord must be of the same size. */
 	void setClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
+										vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
 	/** Clears the vectors and copies the contents of the clipboard to the vectors. */
 	void getClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
-										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
+										vector<TexCoord> & vTexCoord, vector<Polygon3D*> & vPolygon);
 
  signals:
 	void documentChanged();
@@ -169,7 +169,7 @@ class PinEditDoc : public QObject {
 	deque<Command *>m_qCommand;
 	map<QString, QImage*> m_hQImage;
 	vector<int> m_vSelectedVertex;
-	vector<Polygon*> m_vSelectedPolygon;
+	vector<Polygon3D*> m_vSelectedPolygon;
 	vector<pair<Updateable*, QString> > m_vUpdateable;
 	vector<pair<Rebuildable*, QString> > m_vRebuildable;
 	map<int, bool> m_hHiddenVertex;
@@ -177,7 +177,7 @@ class PinEditDoc : public QObject {
 	vector<Vertex3D> m_vCBVertex;
 	vector<Color> m_vCBColor;
 	vector<TexCoord> m_vCBTexCoord;
-	vector<Polygon*> m_vCBPolygon;
+	vector<Polygon3D*> m_vCBPolygon;
 };
 
 #endif

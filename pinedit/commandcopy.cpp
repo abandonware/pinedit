@@ -58,7 +58,7 @@ void CommandCopy::execute(const CommandContext & context) {
   }
 
   index = 0;
-  Polygon * poly = p_Doc->getSelectedPolygon(index);
+  Polygon3D * poly = p_Doc->getSelectedPolygon(index);
   while (poly != NULL) {
     p_Doc->addClipBoard(poly);
     ++index;

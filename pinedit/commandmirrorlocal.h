@@ -26,26 +26,26 @@ using namespace std;
 
 #include "EMath.h"
 
-class Polygon;
+class Polygon3D;
 
 /** @author Henrik Enqvist */
 class CommandMirrorLocal : public Command  {
  public:
-	CommandMirrorLocal(PinEditDoc * doc);
-	~CommandMirrorLocal();
-	Command * build();
-	void undo();
-	void clearObjects();
-	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	/** 0 = x, 1 = y, 2 = z; */
-	void setXYZ(int xyz) { m_iXYZ = xyz; };
-	const char * type() { return "CommandMirrorLocal"; };
+  CommandMirrorLocal(PinEditDoc * doc);
+  ~CommandMirrorLocal();
+  Command * build();
+  void undo();
+  void clearObjects();
+  void execute(const CommandContext & context);
+  void preview (const CommandContext &, View2D *) {};
+  /** 0 = x, 1 = y, 2 = z; */
+  void setXYZ(int xyz) { m_iXYZ = xyz; };
+  const char * type() { return "CommandMirrorLocal"; };
  private:
-	int m_iXYZ;
-	Vertex3D m_vtxCenter;
-	vector<int> m_vIndex;
-	vector<Polygon*> m_vPolygon;
+  int m_iXYZ;
+  Vertex3D m_vtxCenter;
+  vector<int> m_vIndex;
+  vector<Polygon3D*> m_vPolygon;
 };
 
 #endif

@@ -38,7 +38,7 @@ void CommandNewPolygon::execute(const CommandContext & context) {
   EM_CERR("CommandNewPolygon::execute");
   p_Context->copy(context);
   
-  p_Polygon = new Polygon(context.shape);
+  p_Polygon = new Polygon3D(context.shape);
   
   int index = 0;
   int shindex = p_Doc->getSelectedVertex(index);

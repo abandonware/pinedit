@@ -92,7 +92,7 @@ void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d
 	Shape3D * shape = g->getShape3D(shindex);
 	while (shape != NULL) {
 		int polyindex = 0;
-		Polygon * poly = shape->getPolygon(polyindex);
+		Polygon3D * poly = shape->getPolygon(polyindex);
 		while (poly != NULL) {
 			view2d->drawPolygon(shape, poly, mtxB);
 			polyindex++;
