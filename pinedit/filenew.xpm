@@ -1,0 +1,23 @@
+/* XPM */
+static const char *filenew[]={
+"10 14 6 1",
+"# c None",
+". c #000000",
+"b c #c0c000",
+"d c #c0c0c0",
+"c c #ffffc0",
+"a c #ffffff",
+".......###",
+".aaaabb.##",
+".aaaabcb.#",
+".aaaabccb.",
+".aaaab....",
+".aaaaaddd.",
+".aaaaaacc.",
+".aaaaaacc.",
+".aaaaaacc.",
+".aaaaaacc.",
+".aaaaaccc.",
+".cccccccc.",
+".cccccccc.",
+".........."};

@@ -1,0 +1,22 @@
+/* XPM */
+static const char *workloadgroup[]={
+"16 13 6 1",
+"# c None",
+". c #000000",
+"a c #c0c000",
+"b c #ffff00",
+"d c #ffffc0",
+"c c #ffffff",
+".....###########",
+".aaa.###########",
+".aaa........####",
+".aaaaaaaaaa.####",
+".aaa...........#",
+".aa.abbbbbbbaa.#",
+".aa.bcccccdddddd",
+".a.abccdddbda..a",
+".a.bcccdbbbd.dd.",
+"..abcddbbbad.ddd",
+"..bddbbbbaad.d..",
+".abbbbaaaaad.dd.",
+"...........da..a"};

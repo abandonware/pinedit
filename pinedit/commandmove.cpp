@@ -1,0 +1,97 @@
+/***************************************************************************
+                          commandmove.cpp  -  description
+                             -------------------
+    begin                : Fri Apr 12 2002
+    copyright            : (C) 2002 by Henrik Enqvist IB
+    email                : henqvist@excite.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+// qt includes
+#include <qpainter.h>
+// application includes
+#include "commandmove.h"
+#include "pineditdoc.h"
+#include "view2d.h"
+// emilia
+#include "Private.h"
+#include "Shape3D.h"
+#include "EMath.h"
+
+CommandMove::CommandMove(PinEditDoc * doc) : Command(doc) {
+}
+
+CommandMove::~CommandMove() {
+}
+
+void CommandMove::execute(const CommandContext & context) {
+	assert(context.shape != NULL);
+	float dx = context.x2 - context.x1;
+	float dy = context.y2 - context.y1;
+	float dz = context.z2 - context.z1;
+	int index = 0;
+	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
+	while (vtx != NULL) {
+		vtx->x += dx;
+		vtx->y += dy;
+		vtx->z += dz;
+		index++;
+		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
+	}
+
+	//p_Context = new CommandContext(context);
+	p_Doc->setModified(true);
+	p_Doc->updateAll();
+	p_Doc->pushUndo(this);
+	cerr << "move vertices from " << p_Context->x1 <<" "<< p_Context->y1 <<" "<< p_Context->z1 << 
+		" to " << p_Context->x2 <<"  "<< p_Context->y2 <<" "<< p_Context->z2 << endl;
+}
+
+void CommandMove::preview(const CommandContext & context, View2D * view2d) {
+	if (context.shape == NULL) return;
+	// build matrix stack for temporary translation
+	// mtxB is global rotion matrix, mtxC fixes the translation in local rotation
+	// mtxC is the final matrix
+	Matrix mtxA = EMath::identityMatrix;
+	Vertex3D vtxTA = {0,0,0}, vtxRA = {0,0,0};
+	vtxTA.x = context.x2 - context.x1;	
+	vtxTA.y = context.y2 - context.y1;	
+	vtxTA.z = context.z2 - context.z1;	
+	EMath::getTransformationMatrix(mtxA, vtxTA, vtxRA);
+
+	// draw selected polygons
+	view2d->getPainter()->setPen(Qt::green);
+	int index = 0;
+	Polygon * poly = p_Doc->getSelectedPolygon(index);
+	while (poly != NULL) {
+		view2d->drawPolygon(context.shape, poly, mtxA);
+		index++;
+		poly = p_Doc->getSelectedPolygon(index);
+	}
+	// draw selected vertices
+	index = 0;
+	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
+	Vertex3D vtxA;
+	while (vtx != NULL) {
+		// the matrix will rotate and reapply the translation
+		view2d->drawVertex(context.shape, *vtx, mtxA);
+		index++;
+		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
+	}
+	cerr << "commandmove::preview" << endl;
+}
+
+void CommandMove::undo() {
+}
+
+Command * CommandMove::build() {
+	return new CommandMove(p_Doc);
+}

@@ -1,0 +1,23 @@
+/* XPM */
+static const char *filesave[]={
+"14 14 6 1",
+"b c None",
+". c #040404",
+"d c #585858",
+"# c #808080",
+"c c #c3c3c3",
+"a c #ffffff",
+"..............",
+".#.aaaaaaaa.b.",
+".#.acccccca...",
+".#.aaaaaaaa.d.",
+".#.acccaaaa.d.",
+".#.aaaaaaaa.d.",
+".#.aaaaaaaa.d.",
+".##........dd.",
+".#####ddddddd.",
+".##.........d.",
+".dd......##.d.",
+".dd......##.d.",
+".dd......##.d.",
+"b............."};

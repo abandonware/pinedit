@@ -1,0 +1,147 @@
+AUTOMAKE_OPTIONS = gnu
+
+bin_PROGRAMS = pinedit
+
+pinedit_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
+pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src
+
+INCLUDES = -I../../pinball -I../../pinball/base -I../../pinball/addon -I../../pinball/visitor -I../../pinball/src
+
+MOC = $(EM_QTDIR)/bin/moc
+
+moc_%.cpp : %.h
+	@echo "Creating Meta $< ..."
+	$(MOC) $< -o $@
+
+
+pinedit_SOURCES = \
+command.cpp \
+commandselect.cpp \
+commandsnap.cpp \
+commandaddselect.cpp \
+commandnewvertex.cpp \
+commandnewpolygon.cpp \
+commanddeletepolygon.cpp \
+commanddeletevertex.cpp \
+commandunselect.cpp \
+commandnewgroup.cpp \
+commandnewshape.cpp \
+commandnewbehavior.cpp \
+commandmove.cpp \
+commandflip.cpp \
+commandmovegroup.cpp \
+commandrotategroup.cpp \
+commandrotate.cpp \
+commandrotatelocal.cpp \
+commanddeletegroup.cpp \
+commanddeleteshape.cpp \
+commandresize.cpp \
+commandresizelocal.cpp \
+commandextrude.cpp \
+commandtexcoord.cpp \
+glengine.cpp \
+view2d.cpp \
+shapeview.cpp \
+statedialog.cpp \
+bumperdialog.cpp \
+armdialog.cpp \
+lightdialog.cpp \
+texturedialog.cpp \
+texcoorddialog.cpp \
+snapdialog.cpp \
+polygonview.cpp \
+pineditview.cpp \
+pineditdoc.cpp \
+pinedit.cpp \
+main.cpp \
+fileutil.cpp \
+moduledialog.cpp \
+moc_glengine.cpp \
+moc_pinedit.cpp \
+moc_pineditdoc.cpp \
+moc_pineditview.cpp \
+moc_view2d.cpp \
+moc_shapeview.cpp \
+moc_statedialog.cpp \
+moc_bumperdialog.cpp \
+moc_armdialog.cpp \
+moc_lightdialog.cpp \
+moc_texturedialog.cpp \
+moc_snapdialog.cpp \
+moc_polygonview.cpp \
+moc_texcoorddialog.cpp \
+moc_moduledialog.cpp
+
+noinst_HEADERS = \
+command.h \
+commandnewvertex.h \
+commandnewpolygon.h \
+commanddeletepolygon.h \
+commanddeletevertex.h \
+commandselect.h \
+commandsnap.h \
+commandaddselect.h \
+commandunselect.h \
+commandnewgroup.h \
+commandnewshape.h \
+commandnewbehavior.h \
+commandmove.h \
+commandflip.h \
+commandmovegroup.h \
+commandrotategroup.h \
+commandrotate.h \
+commandrotatelocal.h \
+commanddeletegroup.h \
+commanddeleteshape.h \
+commandresize.h \
+commandresizelocal.h \
+commandextrude.h \
+commandtexcoord.h \
+glengine.h \
+view2d.h \
+shapeview.h \
+statedialog.h \
+bumperdialog.h \
+armdialog.h \
+lightdialog.h \
+listitem.h \
+texturedialog.h \
+texcoorddialog.h \
+snapdialog.h \
+polygonview.h \
+pinedit.h \
+pineditdoc.h \
+pineditview.h \
+fileutil.h \
+moduledialog.h \
+lo32-app-pinedit.png \
+lo16-app-pinedit.png \
+filesave.xpm \
+fileopen.xpm \
+filenew.xpm \
+filesavegroup.xpm \
+filesaveshape.xpm \
+workloadshape.xpm \
+workloadgroup.xpm \
+worknewvertex.xpm \
+workselect.xpm \
+workaddselect.xpm \
+workunselect.xpm \
+worknewpolygon.xpm \
+worknewshape.xpm \
+worknewgroup.xpm \
+workmove.xpm \
+workflip.xpm \
+workmovegroup.xpm \
+workrotategroup.xpm \
+workrotate.xpm \
+workrotatelocal.xpm \
+workdeletegroup.xpm \
+workdeleteshape.xpm \
+workdeletepolygon.xpm \
+workdeletevertex.xpm \
+worksnap.xpm \
+workresize.xpm \
+workresizelocal.xpm \
+workextrude.xpm
+

@@ -1,0 +1,7 @@
+automake --add-missing
+autoheader
+aclocal
+autoconf
+autoheader
+configure
+make

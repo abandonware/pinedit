@@ -1,0 +1,201 @@
+commanddeleteshape.o: commanddeleteshape.cpp \
+  /usr/lib/qt-3.0.5/include/qinputdialog.h \
+  /usr/lib/qt-3.0.5/include/qdialog.h /usr/lib/qt-3.0.5/include/qwidget.h \
+  /usr/lib/qt-3.0.5/include/qwindowdefs.h \
+  /usr/lib/qt-3.0.5/include/qobjectdefs.h \
+  /usr/lib/qt-3.0.5/include/qglobal.h /usr/lib/qt-3.0.5/include/qconfig.h \
+  /usr/lib/qt-3.0.5/include/qmodules.h \
+  /usr/lib/qt-3.0.5/include/qfeatures.h \
+  /usr/lib/qt-3.0.5/include/qstring.h \
+  /usr/lib/qt-3.0.5/include/qcstring.h \
+  /usr/lib/qt-3.0.5/include/qmemarray.h \
+  /usr/lib/qt-3.0.5/include/qgarray.h /usr/lib/qt-3.0.5/include/qshared.h \
+  /usr/include/string.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h \
+  /usr/lib/qt-3.0.5/include/qnamespace.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/limits.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/syslimits.h \
+  /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+  /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+  /usr/include/bits/posix2_lim.h /usr/lib/qt-3.0.5/include/qobject.h \
+  /usr/lib/qt-3.0.5/include/qevent.h /usr/lib/qt-3.0.5/include/qregion.h \
+  /usr/lib/qt-3.0.5/include/qrect.h /usr/lib/qt-3.0.5/include/qsize.h \
+  /usr/lib/qt-3.0.5/include/qpoint.h /usr/lib/qt-3.0.5/include/qmime.h \
+  /usr/lib/qt-3.0.5/include/qmap.h \
+  /usr/lib/qt-3.0.5/include/qdatastream.h \
+  /usr/lib/qt-3.0.5/include/qiodevice.h /usr/lib/qt-3.0.5/include/qpair.h \
+  /usr/lib/qt-3.0.5/include/qtl.h /usr/lib/qt-3.0.5/include/qtextstream.h \
+  /usr/include/stdio.h /usr/include/bits/types.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/lib/qt-3.0.5/include/qvaluelist.h \
+  /usr/include/g++-3/iterator /usr/include/g++-3/stl_config.h \
+  /usr/include/g++-3/stl_relops.h /usr/include/g++-3/iostream.h \
+  /usr/include/g++-3/streambuf.h /usr/include/g++-3/stl_iterator.h \
+  /usr/include/g++-3/list /usr/include/g++-3/stl_algobase.h \
+  /usr/include/g++-3/stl_pair.h /usr/include/g++-3/type_traits.h \
+  /usr/include/stdlib.h /usr/include/sys/types.h /usr/include/time.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/bits/sigset.h /usr/include/bits/time.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/new.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/new \
+  /usr/lib/gcc-lib/i386-redhat-linux/2.96/include/exception \
+  /usr/include/g++-3/stl_alloc.h /usr/include/assert.h \
+  /usr/include/pthread.h /usr/include/sched.h /usr/include/signal.h \
+  /usr/include/bits/initspin.h /usr/include/bits/sigthread.h \
+  /usr/include/g++-3/stl_construct.h \
+  /usr/include/g++-3/stl_uninitialized.h /usr/include/g++-3/stl_list.h \
+  /usr/include/g++-3/map /usr/include/g++-3/stl_tree.h \
+  /usr/include/g++-3/stl_function.h /usr/include/g++-3/stl_map.h \
+  /usr/include/g++-3/stl_multimap.h \
+  /usr/lib/qt-3.0.5/include/qpaintdevice.h \
+  /usr/lib/qt-3.0.5/include/qpalette.h /usr/lib/qt-3.0.5/include/qcolor.h \
+  /usr/lib/qt-3.0.5/include/qbrush.h /usr/lib/qt-3.0.5/include/qfont.h \
+  /usr/lib/qt-3.0.5/include/qfontmetrics.h \
+  /usr/lib/qt-3.0.5/include/qfontinfo.h \
+  /usr/lib/qt-3.0.5/include/qsizepolicy.h \
+  /usr/lib/qt-3.0.5/include/qlineedit.h \
+  /usr/lib/qt-3.0.5/include/qframe.h pineditdoc.h \
+  /usr/include/g++-3/vector /usr/include/g++-3/stl_vector.h \
+  /usr/include/g++-3/stl_bvector.h ../../pinball/base/EMath.h \
+  commanddeleteshape.h command.h /usr/include/g++-3/cstdlib \
+  ../../pinball/base/Private.h ../../pinball/config.h \
+  ../../pinball/base/Group.h ../../pinball/base/Node.h \
+  ../../pinball/base/Shape3D.h ../../pinball/base/TextureUtil.h \
+  /usr/include/GL/gl.h /usr/include/GL/glext.h /usr/include/g++-3/string \
+  /usr/include/g++-3/std/bastring.h /usr/include/g++-3/cstddef \
+  /usr/include/g++-3/std/straits.h /usr/include/g++-3/cctype \
+  /usr/include/ctype.h /usr/include/g++-3/cstring \
+  /usr/include/g++-3/alloc.h /usr/include/g++-3/std/bastring.cc
+commanddeleteshape.cpp :
+/usr/lib/qt-3.0.5/include/qinputdialog.h :
+/usr/lib/qt-3.0.5/include/qdialog.h :
+/usr/lib/qt-3.0.5/include/qwidget.h :
+/usr/lib/qt-3.0.5/include/qwindowdefs.h :
+/usr/lib/qt-3.0.5/include/qobjectdefs.h :
+/usr/lib/qt-3.0.5/include/qglobal.h :
+/usr/lib/qt-3.0.5/include/qconfig.h :
+/usr/lib/qt-3.0.5/include/qmodules.h :
+/usr/lib/qt-3.0.5/include/qfeatures.h :
+/usr/lib/qt-3.0.5/include/qstring.h :
+/usr/lib/qt-3.0.5/include/qcstring.h :
+/usr/lib/qt-3.0.5/include/qmemarray.h :
+/usr/lib/qt-3.0.5/include/qgarray.h :
+/usr/lib/qt-3.0.5/include/qshared.h :
+/usr/include/string.h :
+/usr/include/features.h :
+/usr/include/sys/cdefs.h :
+/usr/include/gnu/stubs.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stddef.h :
+/usr/lib/qt-3.0.5/include/qnamespace.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/limits.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/syslimits.h :
+/usr/include/limits.h :
+/usr/include/bits/posix1_lim.h :
+/usr/include/bits/local_lim.h :
+/usr/include/linux/limits.h :
+/usr/include/bits/posix2_lim.h :
+/usr/lib/qt-3.0.5/include/qobject.h :
+/usr/lib/qt-3.0.5/include/qevent.h :
+/usr/lib/qt-3.0.5/include/qregion.h :
+/usr/lib/qt-3.0.5/include/qrect.h :
+/usr/lib/qt-3.0.5/include/qsize.h :
+/usr/lib/qt-3.0.5/include/qpoint.h :
+/usr/lib/qt-3.0.5/include/qmime.h :
+/usr/lib/qt-3.0.5/include/qmap.h :
+/usr/lib/qt-3.0.5/include/qdatastream.h :
+/usr/lib/qt-3.0.5/include/qiodevice.h :
+/usr/lib/qt-3.0.5/include/qpair.h :
+/usr/lib/qt-3.0.5/include/qtl.h :
+/usr/lib/qt-3.0.5/include/qtextstream.h :
+/usr/include/stdio.h :
+/usr/include/bits/types.h :
+/usr/include/bits/pthreadtypes.h :
+/usr/include/bits/sched.h :
+/usr/include/libio.h :
+/usr/include/_G_config.h :
+/usr/include/wchar.h :
+/usr/include/bits/wchar.h :
+/usr/include/gconv.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/stdarg.h :
+/usr/include/bits/stdio_lim.h :
+/usr/lib/qt-3.0.5/include/qvaluelist.h :
+/usr/include/g++-3/iterator :
+/usr/include/g++-3/stl_config.h :
+/usr/include/g++-3/stl_relops.h :
+/usr/include/g++-3/iostream.h :
+/usr/include/g++-3/streambuf.h :
+/usr/include/g++-3/stl_iterator.h :
+/usr/include/g++-3/list :
+/usr/include/g++-3/stl_algobase.h :
+/usr/include/g++-3/stl_pair.h :
+/usr/include/g++-3/type_traits.h :
+/usr/include/stdlib.h :
+/usr/include/sys/types.h :
+/usr/include/time.h :
+/usr/include/endian.h :
+/usr/include/bits/endian.h :
+/usr/include/sys/select.h :
+/usr/include/bits/select.h :
+/usr/include/bits/sigset.h :
+/usr/include/bits/time.h :
+/usr/include/sys/sysmacros.h :
+/usr/include/alloca.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/new.h :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/new :
+/usr/lib/gcc-lib/i386-redhat-linux/2.96/include/exception :
+/usr/include/g++-3/stl_alloc.h :
+/usr/include/assert.h :
+/usr/include/pthread.h :
+/usr/include/sched.h :
+/usr/include/signal.h :
+/usr/include/bits/initspin.h :
+/usr/include/bits/sigthread.h :
+/usr/include/g++-3/stl_construct.h :
+/usr/include/g++-3/stl_uninitialized.h :
+/usr/include/g++-3/stl_list.h :
+/usr/include/g++-3/map :
+/usr/include/g++-3/stl_tree.h :
+/usr/include/g++-3/stl_function.h :
+/usr/include/g++-3/stl_map.h :
+/usr/include/g++-3/stl_multimap.h :
+/usr/lib/qt-3.0.5/include/qpaintdevice.h :
+/usr/lib/qt-3.0.5/include/qpalette.h :
+/usr/lib/qt-3.0.5/include/qcolor.h :
+/usr/lib/qt-3.0.5/include/qbrush.h :
+/usr/lib/qt-3.0.5/include/qfont.h :
+/usr/lib/qt-3.0.5/include/qfontmetrics.h :
+/usr/lib/qt-3.0.5/include/qfontinfo.h :
+/usr/lib/qt-3.0.5/include/qsizepolicy.h :
+/usr/lib/qt-3.0.5/include/qlineedit.h :
+/usr/lib/qt-3.0.5/include/qframe.h :
+pineditdoc.h :
+/usr/include/g++-3/vector :
+/usr/include/g++-3/stl_vector.h :
+/usr/include/g++-3/stl_bvector.h :
+../../pinball/base/EMath.h :
+commanddeleteshape.h :
+command.h :
+/usr/include/g++-3/cstdlib :
+../../pinball/base/Private.h :
+../../pinball/config.h :
+../../pinball/base/Group.h :
+../../pinball/base/Node.h :
+../../pinball/base/Shape3D.h :
+../../pinball/base/TextureUtil.h :
+/usr/include/GL/gl.h :
+/usr/include/GL/glext.h :
+/usr/include/g++-3/string :
+/usr/include/g++-3/std/bastring.h :
+/usr/include/g++-3/cstddef :
+/usr/include/g++-3/std/straits.h :
+/usr/include/g++-3/cctype :
+/usr/include/ctype.h :
+/usr/include/g++-3/cstring :
+/usr/include/g++-3/alloc.h :
+/usr/include/g++-3/std/bastring.cc :
