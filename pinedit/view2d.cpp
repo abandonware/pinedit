@@ -205,7 +205,37 @@ void View2D::drawVertex(Shape3D * shape, const Vertex3D & vtx, const Matrix & mt
 
 void View2D::drawShapeMode() {
 	// cerr << "View2D::drawShapeMode" << endl;
-	Shape3D * shape = p_Doc->getCurrentShape();
+	// draw other shapes in group with lightgray
+	if (p_Doc->getCurrentGroup() == NULL) return;
+
+	int sh = 0;
+	Shape3D * shape = p_Doc->getCurrentGroup()->getShape3D(sh);
+	while (shape != NULL) {
+		p_QPainter->setPen(Qt::lightGray);
+		int index = 0;
+		Vertex3D * vtx = shape->getVertex3D(index);
+		while (vtx != NULL) {
+			//cerr << vtx->x <<" "<< vtx->y <<" "<< vtx->z << endl;
+			switch (m_iType) {
+			case XY: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+			case XZ: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
+			case ZY: p_QPainter->drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+			}
+			index++;
+			vtx = shape->getVertex3D(index);
+		}
+		index = 0;
+		Polygon * poly = shape->getPolygon(index);
+		while (poly != NULL) {
+			this->drawPolygon(shape, poly, EMath::identityMatrix);
+			index++;
+			poly = shape->getPolygon(index);
+		}
+		++sh;
+		shape = p_Doc->getCurrentGroup()->getShape3D(sh);
+	}
+	// current shape
+	shape = p_Doc->getCurrentShape();
 	if (shape == NULL) {
 		return;
 	}

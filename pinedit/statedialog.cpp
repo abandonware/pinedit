@@ -226,14 +226,22 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 		p_BoxShape[1] = new QCheckBox("shape 1", widget);
 		p_BoxShape[2] = new QCheckBox("shape 2", widget);
 		p_BoxShape[3] = new QCheckBox("shape 3", widget);
+		p_BoxShape[4] = new QCheckBox("shape 4", widget);
+		p_BoxShape[5] = new QCheckBox("shape 5", widget);
+		p_BoxShape[6] = new QCheckBox("shape 6", widget);
+		p_BoxShape[7] = new QCheckBox("shape 7", widget);
 
 		QBoxLayout * hlayout1 = new QHBoxLayout(widget);
 		QBoxLayout * vlayout1 = new QVBoxLayout(hlayout1);
 		QBoxLayout * vlayout2 = new QVBoxLayout(hlayout1);
 		vlayout1->addWidget(p_BoxShape[0]);
 		vlayout1->addWidget(p_BoxShape[1]);
-		vlayout2->addWidget(p_BoxShape[2]);
-		vlayout2->addWidget(p_BoxShape[3]);
+		vlayout1->addWidget(p_BoxShape[2]);
+		vlayout1->addWidget(p_BoxShape[3]);
+		vlayout2->addWidget(p_BoxShape[4]);
+		vlayout2->addWidget(p_BoxShape[5]);
+		vlayout2->addWidget(p_BoxShape[6]);
+		vlayout2->addWidget(p_BoxShape[7]);
 	}
 
 	p_BoxMove = new QCheckBox("move", this);
@@ -312,18 +320,18 @@ void StateDialog::reload() {
 	p_ComboCollSig->insertItem("tilt");
 	m_hIndex.insert(pair<QString, int>("tilt", count));
 	++count;
-	p_ComboActSig->insertItem("extraball");
-	p_ComboCollSig->insertItem("extraball");
-	m_hIndex.insert(pair<QString, int>("extraball", count));
-	++count;
-	p_ComboActSig->insertItem("multiball_off");
-	p_ComboCollSig->insertItem("multiball_off");
-	m_hIndex.insert(pair<QString, int>("multiball_off", count));
-	++count;
-	p_ComboActSig->insertItem("allballs_off");
-	p_ComboCollSig->insertItem("allballs_off");
-	m_hIndex.insert(pair<QString, int>("allballs_off", count));
-	++count;
+// 	p_ComboActSig->insertItem("extraball");
+// 	p_ComboCollSig->insertItem("extraball");
+// 	m_hIndex.insert(pair<QString, int>("extraball", count));
+// 	++count;
+// 	p_ComboActSig->insertItem("multiball_off");
+// 	p_ComboCollSig->insertItem("multiball_off");
+// 	m_hIndex.insert(pair<QString, int>("multiball_off", count));
+// 	++count;
+// 	p_ComboActSig->insertItem("allballs_off");
+// 	p_ComboCollSig->insertItem("allballs_off");
+// 	m_hIndex.insert(pair<QString, int>("allballs_off", count));
+// 	++count;
 	p_ComboActSig->insertItem("lock1");
 	p_ComboCollSig->insertItem("lock1");
 	m_hIndex.insert(pair<QString, int>("lock1", count));
@@ -421,7 +429,7 @@ void StateDialog::applyChanges(StateItem * stateitem) {
 		cerr << "StateDialog::applyChanges lineedit empty" << endl;
 	}
 
-	for (int a=0; a<4; ++a) {
+	for (int a=0; a<8; ++a) {
 		stateitem->addShapeEnable(a, p_BoxShape[a]->isChecked());
 	}
 }
@@ -532,7 +540,7 @@ void StateDialog::slotChanged() {
 	vector<bool>::iterator iter = stateitem->m_vShapeEnable.begin();
 	vector<bool>::iterator end = stateitem->m_vShapeEnable.end();
 	int a=0;
-	for (; iter != end && a<4; ++iter, ++a) {
+	for (; iter != end && a<8; ++iter, ++a) {
 		p_BoxShape[a]->setChecked(*iter);
 	}
 }

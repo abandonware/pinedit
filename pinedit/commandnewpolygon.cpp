@@ -53,7 +53,7 @@ void CommandNewPolygon::execute(const CommandContext & context) {
 		//p_Context = new CommandContext(context);
 		p_Doc->doSelectPolygons();
 		p_Doc->setModified(true);
-		p_Doc->rebuildAll();
+		//p_Doc->rebuildAll();
 		p_Doc->updateAll();
 		p_Doc->pushUndo(this);
 	}

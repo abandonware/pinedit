@@ -398,7 +398,8 @@ void PolygonView::slotVertexUp() {
 			}
 		}
 	}
-	p_Doc->rebuildAll();
+	//p_Doc->rebuildAll();
+	this->doRebuild();
 	p_Doc->updateAll();
 }
 
@@ -420,7 +421,8 @@ void PolygonView::slotVertexDown() {
 			}
 		}
 	}
-	p_Doc->rebuildAll();
+	//p_Doc->rebuildAll();
+	this->doRebuild();
 	p_Doc->updateAll();
 }
 

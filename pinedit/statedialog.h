@@ -78,7 +78,7 @@ class StateDialog : public QDialog  {
 	QCheckBox * p_BoxLight;
 	QCheckBox * p_BoxMove;
 	QCheckBox * p_BoxUseShape;
-	QCheckBox * p_BoxShape[4];
+	QCheckBox * p_BoxShape[8];
 /* 	map<QListViewItem *, StateItem *> m_hStateItem; */
 	map<QString, int> m_hIndex;
 };
