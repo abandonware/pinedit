@@ -52,6 +52,8 @@ commandtexcoord.cpp \
 commandhideselected.cpp \
 commandcopy.cpp \
 commandpaste.cpp \
+commandmirror.cpp \
+commandmirrorlocal.cpp \
 glengine.cpp \
 view2d.cpp \
 shapeview.cpp \
@@ -114,6 +116,8 @@ commandtexcoord.h \
 commandhideselected.h \
 commandcopy.h \
 commandpaste.h \
+commandmirror.h \
+commandmirrorlocal.h \
 testcommand.h \
 testpineditdoc.h \
 glengine.h \

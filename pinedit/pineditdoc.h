@@ -142,10 +142,10 @@ class PinEditDoc : public QObject {
 	void addClipBoard(int index, const Vertex3D & vtx, const Color & color, const TexCoord & texcoord);
 	/** Copies the contents of the vectors to the clip board. vVertex, vColor,
 	 * and vTexCoord must be of the same size. */
-	void setClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+	void setClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
 										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
 	/** Clears the vectors and copies the contents of the clipboard to the vectors. */
-	void getClipBoard(vector<int> vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
+	void getClipBoard(vector<int> & vIndex, vector<Vertex3D> & vVertex, vector<Color> & vColor, 
 										vector<TexCoord> & vTexCoord, vector<Polygon*> & vPolygon);
 
  signals:

@@ -110,9 +110,6 @@ class PinEditApp : public QMainWindow {
 	void slotSelect();
 	void slotAddSelect();
 	void slotUnSelect();
-	void slotCut();
-	void slotCopy();
-	void slotPaste();
 
 	void slotMove();
 	void slotRotate();
@@ -120,6 +117,15 @@ class PinEditApp : public QMainWindow {
 	void slotResize();
 	void slotResizeLocal();
 
+	void slotCut();
+	void slotCopy();
+	void slotPaste();
+	void slotMirrorX();
+	void slotMirrorY();
+	void slotMirrorZ();
+	void slotMirrorLocalX();
+	void slotMirrorLocalY();
+	void slotMirrorLocalZ();
 	void slotHideSelected();
 	void slotNewPolygon();
 	void slotNewGroup();
@@ -191,14 +197,20 @@ class PinEditApp : public QMainWindow {
 	QAction *workSelect;
 	QAction *workAddSelect;
 	QAction *workUnSelect;
-	QAction *workCopy;
-	QAction *workPaste;
 	QAction *workMove;
 	QAction *workRotate;
 	QAction *workRotateLocal;
 	QAction *workResize;
 	QAction *workResizeLocal;
 
+	QAction *workMirrorX;
+	QAction *workMirrorY;
+	QAction *workMirrorZ;
+	QAction *workMirrorLocalX;
+	QAction *workMirrorLocalY;
+	QAction *workMirrorLocalZ;
+	QAction *workCopy;
+	QAction *workPaste;
 	QAction *workHideSelected;
 	QAction *workNewPolygon;
 	QAction *workNewShape;

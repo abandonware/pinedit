@@ -43,8 +43,6 @@ void CommandCopy::execute(const CommandContext & context) {
 
 	p_Doc->clearClipBoard();
 	// create a copy for each selected vertex
-	int size = context.shape->getVertex3DSize();
-	Vertex3D * vtx;
 	int index = 0;
 	int vtxindex = p_Doc->getSelectedVertex(index);
 	while (vtxindex != -1) {
@@ -67,49 +65,6 @@ void CommandCopy::execute(const CommandContext & context) {
 		poly = p_Doc->getSelectedPolygon(index);
 	}
 
-	/*
-	int vtxIndexA;
-	int indexA = 0;
-	while ( (vtxIndexA = p_Doc->getSelectedVertex(indexA)) != -1) {
-		int vtxIndexB;
-		int indexB = indexA+1;
-		while ( (vtxIndexB = p_Doc->getSelectedVertex(indexB)) != -1) {
-			// create a new polygon if vertex A and B are following each other in the same polygon
-			// TODO this is a slow implemention
-			Polygon * poly;
-			int polyindex = 0;
-			int polymax = context.shape->getPolygonSize();
-			while ( (poly = context.shape->getPolygon(polyindex)) != NULL && polyindex < polymax) {
-				if (poly->connected(vtxIndexA, vtxIndexB)) {
-					Polygon * newpoly = new Polygon(context.shape, 4);
-					newpoly->add(vtxIndexA);
-					newpoly->add(size + indexA); // this is the vertex copyd from vtxIndexA
-					newpoly->add(size + indexB); // this is the vertex copyd from vtxIndexB
-					newpoly->add(vtxIndexB);
-					context.shape->add(newpoly);
-					m_vPolygon.push_back(newpoly);
-				}
-				++polyindex;
-			}
-			++indexB;
-		}
-		++indexA;
-	}
-
-	// select vertices and polygons
-	p_Doc->clearSelectedPolygon();
-	p_Doc->clearSelectedVertex();
-	vector<int>::iterator iter = m_vNewVertex.begin();
-	vector<int>::iterator end = m_vNewVertex.end();
-	for (; iter != end; ++iter) {
-		p_Doc->selectVertex(*iter);
-	}
-	p_Doc->doSelectPolygons();
-	//p_Context = new CommandContext(context);
-	p_Doc->setModified(true);
-	p_Doc->rebuildAll("polygon");
-	p_Doc->updateAll("polygon");
-	*/
 	p_Doc->pushUndo(this);
 }
 
@@ -119,18 +74,6 @@ void CommandCopy::undo() {
 
 	// TODO copy old clipboard
 	p_Doc->clearClipBoard();
-	/*
-	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
-	vector<Polygon*>::iterator polyend = m_vPolygon.end();
-	for (; polyiter != polyend; ++polyiter) {
-		p_Context->shape->removePolygon((*polyiter));
-	}
-	vector<int>::iterator vtxiter = m_vNewVertex.begin();
-	vector<int>::iterator vtxend = m_vNewVertex.end();
-	for (; vtxiter != vtxend; ++vtxiter) {
-		p_Context->shape->removeLooseVertex3D((*vtxiter));
-	}
-	*/
 }
 
 Command * CommandCopy::build() {

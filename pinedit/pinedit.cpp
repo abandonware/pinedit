@@ -68,6 +68,12 @@
 #include "workundo.xpm"
 #include "workcopy.xpm"
 #include "workpaste.xpm"
+#include "workmirrorx.xpm"
+#include "workmirrory.xpm"
+#include "workmirrorz.xpm"
+#include "workmirrorlocalx.xpm"
+#include "workmirrorlocaly.xpm"
+#include "workmirrorlocalz.xpm"
 // commands
 #include "command.h"
 #include "commandhideselected.h"
@@ -94,6 +100,8 @@
 #include "commandresize.h"
 #include "commandresizelocal.h"
 #include "commandextrude.h"
+#include "commandmirror.h"
+#include "commandmirrorlocal.h"
 // emilia includes
 #include "Private.h"
 #include "Group.h"
@@ -174,6 +182,12 @@ void PinEditApp::initActions() {
 	QPixmap resizeIcon = QPixmap(workresize);
 	QPixmap resizeLocalIcon = QPixmap(workresizelocal);
 	QPixmap extrudeIcon = QPixmap(workextrude);
+	QPixmap mirrorXIcon = QPixmap(workmirrorx);
+	QPixmap mirrorYIcon = QPixmap(workmirrory);
+	QPixmap mirrorZIcon = QPixmap(workmirrorz);
+	QPixmap mirrorLocalXIcon = QPixmap(workmirrorlocalx);
+	QPixmap mirrorLocalYIcon = QPixmap(workmirrorlocaly);
+	QPixmap mirrorLocalZIcon = QPixmap(workmirrorlocalz);
 
   fileNew = new QAction(tr("New File"), newIcon, tr("&New"), QAccel::stringToKey(tr("Ctrl+N")), this);
   fileNew->setStatusTip(tr("Creates a new document"));
@@ -377,6 +391,36 @@ void PinEditApp::initActions() {
   workExtrude->setWhatsThis(tr("Extrude vertices\n\nExtrude vertices."));
   connect(workExtrude, SIGNAL(activated()), this, SLOT(slotExtrude()));
 
+  workMirrorX = new QAction(tr("Mirror"), mirrorXIcon, tr("Mirror"), 0, this);
+  workMirrorX->setStatusTip(tr("Mirror selected vertices"));
+  workMirrorX->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
+  connect(workMirrorX, SIGNAL(activated()), this, SLOT(slotMirrorX()));
+
+  workMirrorY = new QAction(tr("Mirror"), mirrorYIcon, tr("Mirror"), 0, this);
+  workMirrorY->setStatusTip(tr("Mirror selected vertices"));
+  workMirrorY->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
+  connect(workMirrorY, SIGNAL(activated()), this, SLOT(slotMirrorY()));
+
+  workMirrorZ = new QAction(tr("Mirror"), mirrorZIcon, tr("Mirror"), 0, this);
+  workMirrorZ->setStatusTip(tr("Mirror selected vertices"));
+  workMirrorZ->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
+  connect(workMirrorZ, SIGNAL(activated()), this, SLOT(slotMirrorZ()));
+
+  workMirrorLocalX = new QAction(tr("MirrorLocal"), mirrorLocalXIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalX->setStatusTip(tr("MirrorLocal selected vertices"));
+  workMirrorLocalX->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
+  connect(workMirrorLocalX, SIGNAL(activated()), this, SLOT(slotMirrorLocalX()));
+
+  workMirrorLocalY = new QAction(tr("MirrorLocal"), mirrorLocalYIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalY->setStatusTip(tr("MirrorLocal selected vertices"));
+  workMirrorLocalY->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
+  connect(workMirrorLocalY, SIGNAL(activated()), this, SLOT(slotMirrorLocalY()));
+
+  workMirrorLocalZ = new QAction(tr("MirrorLocal"), mirrorLocalZIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalZ->setStatusTip(tr("MirrorLocal selected vertices"));
+  workMirrorLocalZ->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
+  connect(workMirrorLocalZ, SIGNAL(activated()), this, SLOT(slotMirrorLocalZ()));
+
 	workNewShape = new QAction(tr("New Shape"), newShapeIcon, tr("New Shape"), 0, this);
 	workNewShape->setStatusTip(tr("Creates a new shape in the current group"));
 	workNewShape->setWhatsThis(tr("New Shape\n\nFirst select a group in the group tree then create the shape."));
@@ -471,6 +515,12 @@ void PinEditApp::initMenuBar() {
 	workDeleteGroup->addTo(workMenu);
 	workDeleteShape->addTo(workMenu);
 	workExtrude->addTo(workMenu);
+	workMirrorX->addTo(workMenu);
+	workMirrorY->addTo(workMenu);
+	workMirrorZ->addTo(workMenu);
+	workMirrorLocalX->addTo(workMenu);
+	workMirrorLocalY->addTo(workMenu);
+	workMirrorLocalZ->addTo(workMenu);
 
   // menuBar entry helpMenu
   helpMenu = new QPopupMenu();
@@ -526,6 +576,12 @@ void PinEditApp::initWorkBar() {
 	workDeleteVertex->addTo(workToolbar);
 	workSnap->addTo(workToolbar);
 	workExtrude->addTo(workToolbar);
+	workMirrorX->addTo(workToolbar);
+	workMirrorY->addTo(workToolbar);
+	workMirrorZ->addTo(workToolbar);
+	workMirrorLocalX->addTo(workToolbar);
+	workMirrorLocalY->addTo(workToolbar);
+	workMirrorLocalZ->addTo(workToolbar);
 	workDeleteShape->addTo(workToolbar);
   workToolbar->addSeparator();
 
@@ -937,6 +993,90 @@ void PinEditApp::slotFlip() {
 	}
 }
 
+void PinEditApp::slotMirrorX() {
+	cerr << "PinEditApp::slotMirrorX" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirror * command = new CommandMirror(p_Doc);
+		command->setXYZ(0);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotMirrorY() {
+	cerr << "PinEditApp::slotMirrorY" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirror * command = new CommandMirror(p_Doc);
+		command->setXYZ(1);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotMirrorZ() {
+	cerr << "PinEditApp::slotMirrorZ" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirror * command = new CommandMirror(p_Doc);
+		command->setXYZ(2);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotMirrorLocalX() {
+	cerr << "PinEditApp::slotMirrorLocalX" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+		command->setXYZ(0);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotMirrorLocalY() {
+	cerr << "PinEditApp::slotMirrorLocalY" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+		command->setXYZ(1);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotMirrorLocalZ() {
+	cerr << "PinEditApp::slotMirrorLocalZ" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+		command->setXYZ(2);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+	}
+}
+
 void PinEditApp::slotMoveGroup() {
 	cerr << "pinedit::slotmovegroup" << endl;
 // 	this->setMode(EM_GROUP_MODE);
@@ -1061,6 +1201,12 @@ void PinEditApp::setMode(int mode) {
 		workHideSelected->setEnabled(true);
 		workNewPolygon->setEnabled(true);
 		workFlip->setEnabled(true);
+		workMirrorX->setEnabled(true);
+		workMirrorY->setEnabled(true);
+		workMirrorZ->setEnabled(true);
+		workMirrorLocalX->setEnabled(true);
+		workMirrorLocalY->setEnabled(true);
+		workMirrorLocalZ->setEnabled(true);
 		workDeletePolygon->setEnabled(true);
 		workDeleteVertex->setEnabled(true);
 		workSnap->setEnabled(true);
@@ -1088,6 +1234,12 @@ void PinEditApp::setMode(int mode) {
 		workHideSelected->setEnabled(false);
 		workNewPolygon->setEnabled(false);
 		workFlip->setEnabled(false);
+		workMirrorX->setEnabled(false);
+		workMirrorY->setEnabled(false);
+		workMirrorZ->setEnabled(false);
+		workMirrorLocalX->setEnabled(false);
+		workMirrorLocalY->setEnabled(false);
+		workMirrorLocalZ->setEnabled(false);
 		workDeletePolygon->setEnabled(false);
 		workDeleteVertex->setEnabled(false);
 		workSnap->setEnabled(false);
