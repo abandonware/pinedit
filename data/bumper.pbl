@@ -212,9 +212,6 @@ object bumper {
   shape {
     vts { 16 }
     pls { 17 }
-    tex { 
-      tiles.png
-    }
     vtx { 
       0.5 1.75 -1.125
       1 1 1 1
@@ -404,11 +401,23 @@ object bumper {
     }
   }
   bumper_behavior {
+    450
     no_sound
+    light {
+      1 0 0
+      0 3 0
+    }
   }
   properties {
     collision
     transform_once
+    group_1
+  }
+}
+object light {
+  0 3 0
+  0 0 0
+  properties {
     group_1
   }
 }

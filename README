@@ -1,4 +1,7 @@
 
+Installation
+============
+
 Ok, this is the first snapshot of the editor. It is a pre-alpha, seg-faulting,
 doc-less wretch. But be patient it will get better. Remember that I warned you 
 about the seg-faults.
@@ -19,5 +22,36 @@ fix the qt-thing in 'configure.in', be my guest.)
 I recommend that you build the pinball sources as a debug version. The cvs version
 is usually debug. Check that the 'configure.in' in the pinball sources has the line
 AC_DEFINE(EM_DEBUG) uncommented.
+
+Usage
+=====
+
+This is only short introduction how to work the editor.
+
+Start by openening the 'pinball.pbl' file in the 'data' directory.
+You can add walls by using the extrude button and draging the walls.
+If you want to add a bumper press the 'load group' button and select 
+the 'bumper.pbl' file, now a bumper will be merged to your 'pinball.pbl' 
+file. There are only a few objects at the moment in the data directory 
+to include to your project. 
+
+If you want to add a graphics to the floor first create a png-image
+with gimp or something. I recommend to set the size of the picture
+to 256x256. Then select the group 'groupfloor' in the in 
+the list in the shapes tab at right. Open up the group and select the 
+first shape 'shape0'. With the 'shape0' highlighted click on the 'polygons'
+tab to go to the polygons view. In the bottom of the polygonsview there
+is a tab called 'texture'. Make sure your image is in the same directory
+as the pinball.pbl file i.e. 'data'. Choose your image with the 'choose'
+button. The texture should now be applied to the floor. If the texture
+is not correct then edit the texcoord by selecting _one_ polygon and pressing
+'edit texcoords' or by selection _all_ polygons and pressing 'auto texcoords'
+
+To test play your level you have to save in a sub-directory of the 'data' 
+directory of the game. You can use the '-data' switch at command line
+to specify the data directory of the game. Look at how the 'professor' 
+and the 'tux' level are saved and save it the save way. You need to have
+the your 'pinball.pbl' file plus graphics files in the same directory 
+(you don't need to copy the 'bumper.pbl' file).
 
 Cheers, Henrik.

@@ -387,7 +387,7 @@ void PinEditApp::initMenuBar() {
   fileSave->addTo(fileMenu);
   fileSaveAs->addTo(fileMenu);
 	fileSaveGroup->addTo(fileMenu);
-	fileSaveShape->addTo(fileMenu);
+//fileSaveShape->addTo(fileMenu);
   fileMenu->insertSeparator();
   filePrint->addTo(fileMenu);
   fileMenu->insertSeparator();
@@ -411,7 +411,7 @@ void PinEditApp::initMenuBar() {
 
   // menuBar entry workMenu
   workMenu = new QPopupMenu();
-  workLoadShape->addTo(workMenu);
+//workLoadShape->addTo(workMenu);
   workNewVertex->addTo(workMenu);
   workSelect->addTo(workMenu);
 	workAddSelect->addTo(workMenu);
@@ -457,7 +457,7 @@ void PinEditApp::initToolBar() {
   fileOpen->addTo(fileToolbar);
   fileSave->addTo(fileToolbar);
 	fileSaveGroup->addTo(fileToolbar);
-	fileSaveShape->addTo(fileToolbar);
+//fileSaveShape->addTo(fileToolbar);
   fileToolbar->addSeparator();
   QWhatsThis::whatsThisButton(fileToolbar);
 }
@@ -466,7 +466,7 @@ void PinEditApp::initWorkBar() {
   ///////////////////////////////////////////////////////////////////
   // WORKBAR
   workToolbar = new QToolBar(this, "work operations");
-	workLoadShape->addTo(workToolbar);
+//workLoadShape->addTo(workToolbar);
 	workLoadGroup->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
   workSelect->addTo(workToolbar);

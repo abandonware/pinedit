@@ -36,9 +36,6 @@ object floor_b {
   shape {
     vts { 4 }
     pls { 1 }
-    tex { 
-      tiles.png
-    }
     vtx { 
       -1 -1 -1
       1 1 1 1

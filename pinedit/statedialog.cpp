@@ -320,6 +320,10 @@ void StateDialog::reload() {
 	p_ComboCollSig->insertItem("multiball_off");
 	m_hIndex.insert(pair<QString, int>("multiball_off", count));
 	++count;
+	p_ComboActSig->insertItem("allballs_off");
+	p_ComboCollSig->insertItem("allballs_off");
+	m_hIndex.insert(pair<QString, int>("allballs_off", count));
+	++count;
 	p_ComboActSig->insertItem("lock1");
 	p_ComboCollSig->insertItem("lock1");
 	m_hIndex.insert(pair<QString, int>("lock1", count));
@@ -477,7 +481,8 @@ void StateDialog::slotChanged() {
 	if (selecteditem == NULL || selecteditem->getObjectType() != LISTITEM_STATEITEM) return;
 	StateItem * stateitem = (StateItem*) selecteditem->getObject();
 	// the signals and delay TODO
-	map<QString, int>::iterator item = m_hIndex.find(Loader::getInstance()->getSignal(stateitem->getActSig()));
+	map<QString, int>::iterator item = 
+		m_hIndex.find(Loader::getInstance()->getSignal(stateitem->getActSig()));
 	if (item != m_hIndex.end() && (*item).second >= 0) {
 		cerr << (*item).first <<" "<< (*item).second << endl;
 		p_ComboActSig->setCurrentItem((*item).second);
