@@ -60,6 +60,7 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 	vector<int>::reverse_iterator riter = v_index.rbegin();
 	vector<int>::reverse_iterator rend = v_index.rend();
 	for(; riter != rend; ++riter) {
+		assert(context.shape->getVertex3D(*riter) != NULL);
 		Vertex3D vtx = *(context.shape->getVertex3D(*riter));
 		Color color = *(context.shape->getColor(*riter));
 		TexCoord texcoord = *(context.shape->getTexCoord(*riter));

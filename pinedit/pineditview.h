@@ -30,6 +30,7 @@ class GLEngine;
 class View2D;
 class ShapeView;
 class PolygonView;
+class TextureView;
 
 #define EM_SHAPE_MODE 1
 #define EM_GROUP_MODE 2
@@ -57,6 +58,7 @@ class PinEditView : public QWidget {
 	QTabWidget * p_TabWidget;
 	ShapeView * p_ShapeView;
 	PolygonView * p_PolygonView;
+	TextureView * p_TextureView;
 	GLEngine * p_GLEngine;
 };
 

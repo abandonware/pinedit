@@ -1,14 +1,14 @@
 AUTOMAKE_OPTIONS = gnu
 
-bin_PROGRAMS = pinedit unittest
+bin_PROGRAMS = pinedit #unittest
 
-noinst_LIBRARIES = libeditstatic.a
+#noinst_LIBRARIES = libeditstatic.a
 
-pinedit_LDADD   = -lGL -lGLU -lglut -leditstatic -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
+pinedit_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
 pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
 
-unittest_LDADD   = -lGL -lGLU -lglut -leditstatic -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
-unittest_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
+#unittest_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
+#unittest_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
 
 INCLUDES = -I../../pinball -I../../pinball/base -I../../pinball/addon -I../../pinball/visitor -I../../pinball/src
 
@@ -18,13 +18,14 @@ moc_%.cpp : %.h
 	@echo "Creating Meta $< ..."
 	$(MOC) $< -o $@
 
-unittest_SOURCES = \
-unittest.cpp
+#unittest_SOURCES = \
+#unittest.cpp
+
+#pinedit_SOURCES = \
+#main.cpp
 
 pinedit_SOURCES = \
-main.cpp
-
-libeditstatic_a_SOURCES = \
+main.cpp \
 command.cpp \
 commandselect.cpp \
 commandsnap.cpp \
@@ -57,11 +58,11 @@ commandmirrorlocal.cpp \
 glengine.cpp \
 view2d.cpp \
 shapeview.cpp \
+textureview.cpp \
 statedialog.cpp \
 bumperdialog.cpp \
 armdialog.cpp \
 lightdialog.cpp \
-texturedialog.cpp \
 texcoorddialog.cpp \
 snapdialog.cpp \
 textdialog.cpp \
@@ -77,11 +78,11 @@ moc_pineditdoc.cpp \
 moc_pineditview.cpp \
 moc_view2d.cpp \
 moc_shapeview.cpp \
+moc_textureview.cpp \
 moc_statedialog.cpp \
 moc_bumperdialog.cpp \
 moc_armdialog.cpp \
 moc_lightdialog.cpp \
-moc_texturedialog.cpp \
 moc_snapdialog.cpp \
 moc_textdialog.cpp \
 moc_polygonview.cpp \
@@ -123,12 +124,12 @@ testpineditdoc.h \
 glengine.h \
 view2d.h \
 shapeview.h \
+textureview.h \
 statedialog.h \
 bumperdialog.h \
 armdialog.h \
 lightdialog.h \
 listitem.h \
-texturedialog.h \
 texcoorddialog.h \
 snapdialog.h \
 textdialog.h \
@@ -172,6 +173,14 @@ workresize.xpm \
 workresizelocal.xpm \
 workextrude.xpm \
 workhideselected.xpm \
-workundo.xpm
+workundo.xpm \
+workcopy.xpm \
+workpaste.xpm \
+workmirrorx.xpm \
+workmirrory.xpm \
+workmirrorz.xpm \
+workmirrorlocalx.xpm \
+workmirrorlocaly.xpm \
+workmirrorlocalz.xpm
 
 

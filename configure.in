@@ -30,6 +30,13 @@ if test "x$prefix" = xNONE; then
    prefix="${ac_default_prefix}"
 fi
 
+EM_DATADIR="$datadir/$PACKAGE"
+eval EM_DATAPATH=`eval echo "$EM_DATADIR"`
+AC_DEFINE_UNQUOTED(EM_DATADIR, "$EM_DATAPATH")
+AC_SUBST(EM_DATAPATH)
+AC_SUBST(EM_DATADIR)
+
+
 dnl *******************************************
 dnl OPENGL ************************************
 dnl Figure out which math and GL library to use

@@ -70,13 +70,11 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 	connect(p_ListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
 	p_ListView->setSelectionMode(QListView::Single);
 	p_ListView->addColumn(QString("elements"));
-	// TODO better resizing
-	//p_ListView->setFixedSize(200, 250);
+
 	p_ListView->setMinimumSize(200, 250);
 		
 	// widget stack
 	p_WidgetStack = new QWidgetStack(this);
-	//p_WidgetStack->setFixedSize(200,100);
 
 	// group widget
 	{
@@ -125,9 +123,6 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 		connect(button, SIGNAL(clicked()), this, SLOT(slotApplyProp()));
 		// layout
 		QBoxLayout * vlayout1 = new QVBoxLayout(p_WidgetShape);
-		//QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
-		//QBoxLayout * hlayout2 = new QHBoxLayout(vlayout1);
-		//vlayout1->addWidget(p_LineEditName);
 		vlayout1->addWidget(p_BoxHidden);
 		vlayout1->addWidget(p_BoxBehind);
 		vlayout1->addWidget(p_BoxBehind2);
@@ -145,7 +140,6 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
 		connect(lightbutton, SIGNAL(clicked()), this, SLOT(slotLight()));
 		// layout
 		QBoxLayout * vlayout1 = new QVBoxLayout(p_WidgetBehavior);
-		//QBoxLayout * hlayout = new QHBoxLayout(vlayout1);
 		vlayout1->addWidget(editbutton);
 		vlayout1->addWidget(lightbutton);
 		p_WidgetBehavior->adjustSize();
@@ -163,17 +157,11 @@ ShapeView::~ShapeView(){
 void ShapeView::doRebuild() {
 	cerr << "ShapeView::doRebuild" << endl;
 	p_ListView->clear();
-// 	m_hShape.clear();
-// 	m_hGroup.clear();
-//  	QListViewItem * firstitem = new QListViewItem(p_ListView, "bottom");
 	ListItem * firstitem = new ListItem(p_ListView, "bottom");
 	// insert all children
 	this->addGroup(p_Doc->getEngine(), firstitem);
 	firstitem->setOpen(TRUE);
 	p_ListView->show();
-
-// 	cerr << "ShapeView::doRebuild hashed " << m_hGroup.size() << " groups" << endl;
-// 	cerr << "ShapeView::doRebuild hashed " << m_hShape.size() << " shape" << endl;
 }
 
 void ShapeView::doUpdate() {
@@ -185,8 +173,7 @@ void ShapeView::doUpdate() {
 void ShapeView::addGroup(Group * group, ListItem * parent) {
 	if (group == NULL) return;
 	cerr << "ShapeView::addGroup added a group" << endl;
-// 	QListViewItem * groupitem = new QListViewItem(parent, QString("group ") + 
-// 																								QString(group->getName()));
+
 	ListItem * groupitem = new ListItem(parent, QString("object ") + QString(group->getName()));
 	groupitem->setObject(group, LISTITEM_GROUP);
 	if (p_Doc->getEngine() == group) {
@@ -195,8 +182,7 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 	if (group == p_Doc->getCurrentGroup()) {
 		p_ListView->setCurrentItem(groupitem);
 	}
-	// hash it
-// 	m_hGroup.insert(pair<QListViewItem *, Group *>(groupitem, group));
+
 	int index = 0;
 	Group * child = group->getGroup(index);
 	// all children
@@ -211,16 +197,13 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 	int shindex = 0;
 	Shape3D * shape = group->getShape3D(shindex);
 	while (shape != NULL) {
-// 		QListViewItem * shapeitem = new QListViewItem(groupitem, QString("shape ") + 
-// 																									QString().setNum(shindex));
- 		ListItem * shapeitem = new ListItem(groupitem, QString("shape ") + QString().setNum(shindex));
+ 		ListItem * shapeitem = new ListItem(groupitem, QString("shape ") + 
+																				QString().setNum(shindex));
 		shapeitem->setObject(shape, LISTITEM_SHAPE);
 		if (shape == p_Doc->getCurrentShape()) {
 			p_ListView->setCurrentItem(shapeitem);
 			groupitem->setOpen(TRUE);
 		}
-		// hash it
-// 		m_hShape.insert(pair<QListViewItem *, Shape3D *>(shapeitem, shape));
 		shindex++;
 		shape = group->getShape3D(shindex);
 	}
@@ -234,11 +217,8 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 		case PBL_TYPE_STATEBEH: str = QString("state behavior"); break;
 		default: str = QString("behavior");
 		}
-// 		QListViewItem * behitem = new QListViewItem(groupitem, str);
  		ListItem * behitem = new ListItem(groupitem, str);
 		behitem->setObject(beh, LISTITEM_BEHAVIOR);
-		// hash it
-// 		m_hBehavior.insert(pair<QListViewItem *, Behavior *>(behitem, beh));
 	}
 }
 
@@ -246,22 +226,18 @@ void ShapeView::slotChanged() {
 	cerr << "ShapeView::slotChanged" << endl;
 	QListViewItem * currentitem = p_ListView->currentItem();
 	if (currentitem != NULL) {
-// 		if (m_hGroup.find(currentitem) != m_hGroup.end()) {
 		switch (((ListItem*)currentitem)->getObjectType()) {
 		case LISTITEM_GROUP: {
 			p_Doc->clearSelectedVertex();
 			p_Doc->clearSelectedPolygon();
-// 			p_Doc->setCurrentGroup((*(m_hGroup.find(currentitem))).second);
 			p_Doc->setCurrentGroup((Group*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetGroup);
 			PinEditApp::p_CurrentApp->setMode(EM_GROUP_MODE);
 			cerr << "ShapeView::slotChanged selected a group" << endl;
 		} break;
 		case LISTITEM_SHAPE: {
-// 		if (m_hShape.find(currentitem) != m_hShape.end()) {
 			p_Doc->clearSelectedVertex();
 			p_Doc->clearSelectedPolygon();
-// 			p_Doc->setCurrentShape((*(m_hShape.find(currentitem))).second);
 			p_Doc->setCurrentShape((Shape3D*)((ListItem*)currentitem)->getObject());
 			p_WidgetStack->raiseWidget(p_WidgetShape);
 			PinEditApp::p_CurrentApp->setMode(EM_SHAPE_MODE);
@@ -274,9 +250,6 @@ void ShapeView::slotChanged() {
 		}
 	}
 	this->updateProperties();
-	// DO NOT update the view it self!
-	//p_Doc->rebuildAllExclude(this);
-	//p_Doc->updateAllExclude(this);
 	p_Doc->rebuildAll("polygon");
 }
 
@@ -318,10 +291,8 @@ void ShapeView::updateProperties() {
 	if (currentitem == NULL) return;
 	this->disableProperties();
 	// group
-// 	if (m_hGroup.find(currentitem) != m_hGroup.end()) {
 	if (((ListItem*)currentitem)->getObjectType() == LISTITEM_GROUP) {
 		this->enableProperties(0);
-// 		Group * group = (*(m_hGroup.find(currentitem))).second;
 		Group * group = (Group*)((ListItem*)currentitem)->getObject();
 		// name
 		p_LineEditName->setText(group->getName());
@@ -402,7 +373,9 @@ void ShapeView::slotApplyProp() {
 			if (group->getCollisionBounds() == NULL) {
 				CollisionBounds * cb = new CollisionBounds(0.0f);
 				group->setCollisionBounds(cb);
-			} else {
+			}
+		} else {
+			if (group->getCollisionBounds() != NULL) {
 				delete(group->getCollisionBounds());
 				group->setCollisionBounds(NULL);
 			}

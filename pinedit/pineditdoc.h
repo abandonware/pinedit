@@ -17,6 +17,7 @@
 #ifndef PINEDITDOC_H
 #define PINEDITDOC_H
 
+using namespace std;
 // general includes
 #include <vector>
 #include <map>

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 // general includes
+#include <iostream>
 #include "assert.h"
 // qt includes
 #include <qsizepolicy.h>
@@ -35,6 +36,7 @@
 #include "command.h"
 #include "shapeview.h"
 #include "polygonview.h"
+#include "textureview.h"
 
 PinEditView * PinEditView::p_CurrentView = NULL;
 
@@ -84,13 +86,15 @@ PinEditView::PinEditView(QWidget * parent, PinEditDoc * doc) : QWidget(parent) {
 	p_ZYView->setMinimumSize(300, 240);
 	
 	p_TabWidget = new QTabWidget(this);
-	p_TabWidget->setMinimumSize(200, 480);
+	p_TabWidget->setMinimumSize(240, 480);
 	p_TabWidget->setMaximumSize(300, 1600);
 
 	p_ShapeView = new ShapeView(doc, this, 0, 0);
 	p_PolygonView = new PolygonView(doc, this, 0, 0);
+	p_TextureView = new TextureView(doc, this, 0, 0);
 	p_TabWidget->addTab(p_ShapeView, "objects");
 	p_TabWidget->addTab(p_PolygonView, "polygons");
+	p_TabWidget->addTab(p_TextureView, "texture");
 
   QBoxLayout * hlayout = new QHBoxLayout(this);
 

@@ -15,11 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+// general includes
+#include <iostream>
 // qt
 #include <qinputdialog.h>
-
-#include "pineditdoc.h"
 // application
+#include "pineditdoc.h"
 #include "commandnewgroup.h"
 
 // engine

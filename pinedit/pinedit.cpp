@@ -526,6 +526,7 @@ void PinEditApp::initMenuBar() {
   helpMenu = new QPopupMenu();
   helpAboutApp->addTo(helpMenu);
   helpTutorial->addTo(helpMenu);
+	helpManual->addTo(helpMenu);
 
   // MENUBAR CONFIGURATION
   menuBar()->insertItem(tr("&File"), fileMenu);
@@ -826,13 +827,14 @@ void PinEditApp::slotHelpAbout() {
 
 void PinEditApp::slotTutorial() {
 	cerr << "PinEditApp::slotTutorial" << endl;
-	p_TextDialog->setSource("/home/henqvist/Develop/pinedit/doc/tutorial.html");
+	// TODO fix path
+	p_TextDialog->setSource(QString(EM_DATADIR) + "/doc/tutorial.html");
 	p_TextDialog->show();
 }
 
 void PinEditApp::slotManual() {
 	cerr << "PinEditApp::slotManual" << endl;
-	p_TextDialog->setSource("/home/henqvist/Develop/pinedit/doc/manual.html");
+	p_TextDialog->setSource(QString(EM_DATADIR) + "/doc/manual.html");
 	p_TextDialog->show();
 }
 
@@ -860,13 +862,6 @@ void PinEditApp::slotLoadGroup() {
   }	
 }
 
-// void PinEditApp::slotNewLock() {
-// }
-
-// void PinEditApp::slotNewCave() {
-//}
-
-
 void PinEditApp::slotUndo() {
 	cerr << "PinEditApp::slotUndo" << endl;
 	p_Doc->undo();
@@ -874,55 +869,46 @@ void PinEditApp::slotUndo() {
 
 void PinEditApp::slotNewVertex() {
 	cerr << "PinEditApp::slotNewVertex" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandNewVertex);
 }
 
 void PinEditApp::slotSelect() {
 	cerr << "PinEditApp::slotSelect" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandSelect);
 }
 
 void PinEditApp::slotAddSelect() {
 	cerr << "PinEditApp::slotAddSelect" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandAddSelect);
 }
 
 void PinEditApp::slotUnSelect() {
 	cerr << "PinEditApp::slotUnselect" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandUnSelect);
 }
 
 void PinEditApp::slotMove() {
 	cerr << "PinEditApp::slotMove" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandMove);
 }
 
 void PinEditApp::slotRotate() {
 	cerr << "PinEditApp::slotRotate" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandRotate);
 }
 
 void PinEditApp::slotRotateLocal() {
 	cerr << "PinEditApp::slotRotateLocal" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandRotateLocal);
 }
 
 void PinEditApp::slotResize() {
 	cerr << "PinEditApp::slotResize" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandResize);
 }
 
 void PinEditApp::slotResizeLocal() {
 	cerr << "PinEditApp::slotResizeLocal" << endl;
-// 	this->setMode(EM_SHAPE_MODE);
 	p_Doc->setCommand(p_CommandResizeLocal);
 }
 
@@ -1079,13 +1065,11 @@ void PinEditApp::slotMirrorLocalZ() {
 
 void PinEditApp::slotMoveGroup() {
 	cerr << "pinedit::slotmovegroup" << endl;
-// 	this->setMode(EM_GROUP_MODE);
 	p_Doc->setCommand(p_CommandMoveGroup);
 }
 
 void PinEditApp::slotRotateGroup() {
 	cerr << "pinedit::slotrotategroup" << endl;
-// 	this->setMode(EM_GROUP_MODE);
 	p_Doc->setCommand(p_CommandRotateGroup);
 }
 

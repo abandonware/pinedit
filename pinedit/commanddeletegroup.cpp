@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+// general includes
+#include <iostream>
 // qt includes
 #include <qinputdialog.h>
 // application inlucdes

@@ -53,8 +53,27 @@ FileUtil::~FileUtil() {
 
 int FileUtil::saveFile(const QString & fn, Group * group) {
 	assert(group != NULL);
-	QFile f(fn);
+	
 	try {
+		QFile f(fn);
+    QFile fbak(fn + ".bak");
+		if (!f.open(IO_ReadOnly)) {
+			throw QString("FileUtil::saveFile could not open file for reading: ") + fn;
+		}
+		if (!fbak.open(IO_WriteOnly)) {
+ 			throw QString("FileUtil::saveFile could not open file for writing: ") + fn + ".bak";
+		}
+		
+		while (!f.atEnd()) {
+			if (fbak.putch(f.getch()) == -1) {
+				throw QString("FileUtil::saveFile error writing bakup file: ") + fn + ".bak";
+			}
+		}
+
+		f.close();
+		fbak.close();
+
+		//QFile f(fn);
 		if (!f.open(IO_WriteOnly)) {
 			throw QString("FileUtil::saveFile could not open file for writing: ") + QString(fn);
 		}

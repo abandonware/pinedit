@@ -27,7 +27,7 @@ using namespace std;
 
 TextDialog::TextDialog(QWidget * parent, const char * name, WFlags f) : QDialog(parent, name, f) {
 	p_TextBrowser = new QTextBrowser(this);
-	p_TextBrowser->setMinimumSize(400,300);
+	p_TextBrowser->setMinimumSize(600,600);
 	QBoxLayout * layout = new QVBoxLayout(this);
 	layout->addWidget(p_TextBrowser);
 }

@@ -28,7 +28,8 @@
 #define LISTITEM_STATEITEM 4
 #define LISTITEM_POLYGON 6
 #define LISTITEM_VERTEX 7
-#define LISTITEM_LAST 8
+#define LISTITEM_TEXCOORD 8
+#define LISTITEM_LAST 9
 
 /** @author Henrik Enqvist IB  */
 class ListItem : public QListViewItem {

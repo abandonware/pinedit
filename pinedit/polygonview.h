@@ -38,8 +38,8 @@ class QButtonGroup;
 class QCheckBox;
 class Polygon;
 class Shape3D;
-class TextureDialog;
-class TexCoordDialog;
+/* class TextureDialog; */
+/* class TexCoordDialog; */
 
 #define TRANS_BOX 0x1
 #define COLOR     0x2
@@ -58,10 +58,10 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
   void slotApplyVertex();
 	void slotApplyColor();
 	void slotApplyProp();
-	void slotTexCoord();
-	void slotChoose();
-	void slotNone();
-	void slotAutoTexCoord();
+/* 	void slotTexCoord(); */
+/* 	void slotChoose(); */
+/* 	void slotNone(); */
+/* 	void slotAutoTexCoord(); */
 	void slotVertexUp();
 	void slotVertexDown();
  private:
@@ -76,8 +76,8 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	Shape3D * p_Shape;
 	Polygon * p_Polygon;
 
-	TextureDialog * p_TextureDialog;
-	TexCoordDialog * p_TexCoordDialog;
+/* 	TextureDialog * p_TextureDialog; */
+/* 	TexCoordDialog * p_TexCoordDialog; */
 
 	QListView * p_PolygonListView;
 	QListView * p_VertexListView;
@@ -91,12 +91,12 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	QLineEdit * p_EditB;
 	QLineEdit * p_EditA;
 	QCheckBox * p_TransBox;
-	QLineEdit * p_EditTexture;
-	QPushButton * p_ChooseButton;
-	QPushButton * p_NoneButton;
-	QPushButton * p_TexButton;
-	QPushButton * p_AutoButton;
-	QPushButton * p_AutoTexCoord;
+/* 	QLineEdit * p_EditTexture; */
+/* 	QPushButton * p_ChooseButton; */
+/* 	QPushButton * p_NoneButton; */
+/* 	QPushButton * p_TexButton; */
+/* 	QPushButton * p_AutoButton; */
+/* 	QPushButton * p_AutoTexCoord; */
 	QPushButton * p_ApplyVertexButton;
 	QPushButton * p_ApplyColorButton;
 	QPushButton * p_ApplyPropButton;

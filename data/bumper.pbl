@@ -219,7 +219,7 @@ object bumper {
     }
     vtx { 
       1.5 1 -1.5
-      1 1 1 1
+      1 0 0 1
       0.375 0.75
     }
     vtx { 
@@ -229,7 +229,7 @@ object bumper {
     }
     vtx { 
       2.125 1 0
-      1 1 1 1
+      1 0 0 1
       0.375 0.875
     }
     vtx { 
@@ -239,7 +239,7 @@ object bumper {
     }
     vtx { 
       1.5 1 1.5
-      1 1 1 1
+      1 0 0 1
       0.375 1
     }
     vtx { 
@@ -249,7 +249,7 @@ object bumper {
     }
     vtx { 
       0 1 2.125
-      1 1 1 1
+      1 0 0 1
       0.25 1
     }
     vtx { 
@@ -259,7 +259,7 @@ object bumper {
     }
     vtx { 
       -1.5 1 1.5
-      1 1 1 1
+      1 0 0 1
       0.125 1
     }
     vtx { 
@@ -269,7 +269,7 @@ object bumper {
     }
     vtx { 
       -2.125 1 0
-      1 1 1 1
+      1 0 0 1
       0.125 0.875
     }
     vtx { 
@@ -279,7 +279,7 @@ object bumper {
     }
     vtx { 
       -1.5 1 -1.5
-      1 1 1 1
+      1 0 0 1
       0.125 0.75
     }
     vtx { 
@@ -289,7 +289,7 @@ object bumper {
     }
     vtx { 
       0 1 -2.125
-      1 1 1 1
+      1 0 0 1
       0.25 0.75
     }
     ply {
@@ -401,7 +401,6 @@ object bumper {
     }
   }
   bumper_behavior {
-    450
     no_sound
     light {
       1 0 0
@@ -411,13 +410,6 @@ object bumper {
   properties {
     collision
     transform_once
-    group_1
-  }
-}
-object light {
-  0 3 0
-  0 0 0
-  properties {
     group_1
   }
 }

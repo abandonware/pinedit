@@ -298,6 +298,17 @@ void PinEditDoc::updateAll(const QString & phasename) {
 			(*iter).first->doUpdate();
 		}
 	}
+	// transform once fix
+	Group * group = this->getCurrentGroup();
+	if (group != NULL && 
+			group->getProperties() & (EM_GROUP_TRANSFORM_ONCE | EM_GROUP_NO_TRANSFORM)) {
+		group->unsetProperty(EM_GROUP_NO_TRANSFORM);
+		group->setProperty(EM_GROUP_TRANSFORM_ONCE);
+	}
+	Shape3D * shape = this->getCurrentShape();
+	if (shape != NULL) {
+		shape->countNormals();
+	}
 	cerr << "PinEditdoc::updateAll updated " << m_vUpdateable.size() << " objects" << endl;
 }
 
