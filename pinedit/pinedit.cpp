@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
+
 // qt includes
 #include <qaccel.h>
 #include <qcombobox.h>

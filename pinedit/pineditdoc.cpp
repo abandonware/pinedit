@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <iostream>
+
 // qt includes
 #include <qimage.h>
 #include <qcolor.h>
