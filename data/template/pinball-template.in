@@ -23,4 +23,18 @@ cp @datadir@/pinedit/template/Make-template $1/Makefile
 cp @datadir@/pinedit/template/pinball.pbl $1/pinball.pbl
 cp @datadir@/pinedit/template/ModuleScript.cpp $1/Module$2.cpp
 cp @datadir@/pinedit/template/libtool $1/libtool
+
+echo "object module {
+  0 0 0
+  0 0 0
+  1 1 1
+  module {
+      libModule$2.la
+  }
+  properties {
+    transform_once
+    group_1
+  }
+}" >> $1/pinball.pbl
+
 chmod a+x $1/libtool

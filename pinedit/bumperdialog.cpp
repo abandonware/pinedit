@@ -42,7 +42,7 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
 
   QLabel * label = new QLabel("sound", this);
 
-  p_SpinPower = new QSpinBox(0, 10, 1, this);
+  p_SpinPower = new QSpinBox(0, 100, 1, this);
   p_EditSound = new QLineEdit(this);
   QPushButton * choosebutton = new QPushButton("choose", this);
   connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
@@ -64,7 +64,7 @@ BumperDialog::~BumperDialog() {
 void BumperDialog::reload() {
   EM_CERR("BumperDialog::reload");
   assert(p_BumperBehavior != NULL);
-  p_SpinPower->setValue((int)((float)p_BumperBehavior->getPower() * 10.0f));
+  p_SpinPower->setValue((int)((float)p_BumperBehavior->getPower() * 100.0f));
   if (p_BumperBehavior->getSound() != -1 && 
       SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound()) != NULL) {
     p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound())));
@@ -85,7 +85,7 @@ void BumperDialog::edit(BumperBehavior * beh) {
 void BumperDialog::applyChanges() {
   assert(p_BumperBehavior != NULL);
   EM_CERR("BumperDialog::applyChanges");
-  p_BumperBehavior->setPower((float)p_SpinPower->value()/10.0f);
+  p_BumperBehavior->setPower((float)p_SpinPower->value()/100.0f);
   if (!(p_EditSound->text().isEmpty())) {
     int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
     if (sound != -1) {
