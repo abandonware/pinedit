@@ -4,7 +4,7 @@
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -29,51 +29,70 @@
 #include "Pinball.h"
 
 CommandNewBehavior::CommandNewBehavior(PinEditDoc * doc) : Command(doc) {
-	p_Behavior = NULL;
-	m_iBehaviorType = 0;
+  p_Behavior = NULL;
+  p_OldBehavior = NULL;
+  p_OldLightGroup = NULL;
+  m_iBehaviorType = 0;
 }
 
 CommandNewBehavior::~CommandNewBehavior() {
 }
 
 void CommandNewBehavior::clearObjects() {
+  EM_CERR("CommandNewBehavior::clearObjects TODO");
+  // should delete undo behavior
 }
 
 void CommandNewBehavior::execute(const CommandContext & context) {
-	cerr << "CommandNewBehavior::execute" << endl;
-	assert(context.group != NULL);
+  EM_CERR("CommandNewBehavior::execute");
+  assert(context.group != NULL);
 
-	switch (m_iBehaviorType) {
-	case PBL_TYPE_BUMPERBEH:
-		p_Behavior = new BumperBehavior();
-		break;
-	case PBL_TYPE_ARMBEH:
-		p_Behavior = new ArmBehavior(true);
-		break;
-	case PBL_TYPE_STATEBEH:
-		p_Behavior = new StateBehavior();
-		break;
-	case PBL_TYPE_FAKEMODULEBEH:
-		p_Behavior = new FakeModuleBehavior("");
-		break;
-	default:
-		p_Behavior = NULL;
-	}
-	context.group->setBehavior(p_Behavior);
+  switch (m_iBehaviorType) {
+  case PBL_TYPE_BUMPERBEH:
+    p_Behavior = new BumperBehavior();
+    break;
+  case PBL_TYPE_ARMBEH:
+    p_Behavior = new ArmBehavior(true);
+    break;
+  case PBL_TYPE_STATEBEH:
+    p_Behavior = new StateBehavior();
+    break;
+  case PBL_TYPE_FAKEMODULEBEH:
+    p_Behavior = new FakeModuleBehavior("");
+    break;
+  default:
+    p_Behavior = NULL;
+  }
 
-	p_Doc->setModified(true);
-	p_Doc->rebuildAll("group");
-	//p_Doc->updateAll();
-	p_Doc->pushUndo(this);
-	//p_Context = new CommandContext(context);
-	cerr << "CommandNewBehavior::execute done" << endl;
+  // save old 
+  p_OldBehavior = context.group->getBehavior();
+  if (p_OldBehavior != NULL) {
+    Light * light = p_OldBehavior->getLight();
+    if (light != NULL) {
+      p_OldLightGroup = light->getParent();
+      assert(p_OldLightGroup != NULL);
+      Group * parent = p_OldLightGroup->getParent();
+      assert(parent != NULL);
+      assert(parent == context.group);
+      parent->removeGroup(p_OldLightGroup);
+    }
+  }
+
+  context.group->setBehavior(p_Behavior);
+
+  p_Doc->setModified(true);
+  p_Doc->rebuildAll("group");
+  //p_Doc->updateAll();
+  p_Doc->pushUndo(this);
+  //p_Context = new CommandContext(context);
+  EM_CERR("CommandNewBehavior::execute done");
 }
 
 void CommandNewBehavior::undo() {
-	cerr << "CommandNewBehavior::undo TODO" << endl;
+  EM_CERR("CommandNewBehavior::undo TODO");
 }
 
 Command * CommandNewBehavior::build() {
-	return new CommandNewBehavior(p_Doc);
+  return new CommandNewBehavior(p_Doc);
 }
 

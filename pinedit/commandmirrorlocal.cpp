@@ -37,7 +37,7 @@ void CommandMirrorLocal::clearObjects() {
 }
 
 void CommandMirrorLocal::execute(const CommandContext & context) {
-	cerr << "CommandMirrorLocal::execute" << endl;
+	EM_CERR("CommandMirrorLocal::execute");
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 	m_vIndex.clear();
@@ -93,7 +93,7 @@ void CommandMirrorLocal::execute(const CommandContext & context) {
 }
 
 void CommandMirrorLocal::undo() {
-	cerr << "CommandMirrorLocal::undo" << endl;
+	EM_CERR("CommandMirrorLocal::undo");
 	assert(p_Context->shape != NULL);
 
 	// mirrorlocal
@@ -135,6 +135,6 @@ void CommandMirrorLocal::undo() {
 }
 
 Command * CommandMirrorLocal::build() {
-	cerr << "CommandMirrorLocal::bulld" << endl;
+	EM_CERR("CommandMirrorLocal::bulld");
 	return new CommandMirrorLocal(p_Doc);
 }

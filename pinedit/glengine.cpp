@@ -37,7 +37,7 @@ GLEngine::GLEngine(QGLFormat & format, QWidget *parent, const char *name, PinEdi
 	m_RotX = 0;
 	m_RotY = 0;
 	m_RotZ = 0;
-	cerr << "glengine::glengine" << endl;
+	EM_CERR("glengine::glengine");
 }
 
 GLEngine::~GLEngine(){
@@ -78,13 +78,13 @@ void GLEngine::paintGL() {
   p_Doc->getEngine()->tick();
   p_Doc->getEngine()->render();
 
-  // cerr << "paint" << endl;
+  // EM_CERR("paint");
 }
 
 void GLEngine::mouseMoveEvent(QMouseEvent * event) {
 	int x = event->x();
 	int y = event->y();
-	//cerr << "mouse moved" << x - m_MouseX <<" "<< y - m_MouseY << endl;
+	//EM_CERR("mouse moved" << x - m_MouseX <<" "<< y - m_MouseY);
 	switch(m_ButtonState) {
 	case LeftButton:
 		m_RotY += (float)(x-m_MouseX)/200;

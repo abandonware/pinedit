@@ -107,8 +107,8 @@
 #include "Group.h"
 #include "Engine.h"
 
-// must include config.h after Private.h cause Private.h changes the
-// packate name and version
+// must include editconfig.h after Private.h cause Private.h changes the
+// package name and version
 #ifdef HAVE_CONFIG_H
 #include "editconfig.h"
 #endif
@@ -142,17 +142,17 @@ PinEditApp::~PinEditApp() {
 
 /** initializes all QActions of the application */
 void PinEditApp::initActions() {
-	cerr << "PinEditApp::initActions" << endl;
-
-	QPixmap pineditIcon = QPixmap(editicon);
-	QPixmap tutorialIcon = QPixmap(tutorial);
-	QPixmap manualIcon = QPixmap(manual);
+  EM_CERR("PinEditApp::initActions");
+  
+  QPixmap pineditIcon = QPixmap(editicon);
+  QPixmap tutorialIcon = QPixmap(tutorial);
+  QPixmap manualIcon = QPixmap(manual);
   QPixmap newIcon = QPixmap(filenew);
   QPixmap openIcon = QPixmap(fileopen);
   QPixmap saveIcon = QPixmap(filesave);
-	QPixmap saveGroupIcon = QPixmap(filesavegroup);
-// 	QPixmap saveShapeIcon = QPixmap(filesaveshape);
-
+  QPixmap saveGroupIcon = QPixmap(filesavegroup);
+  // 	QPixmap saveShapeIcon = QPixmap(filesaveshape);
+  
   //QPixmap lockIcon = QPixmap(worklock);
 //   QPixmap loadShapeIcon = QPixmap(workloadshape);
   QPixmap loadGroupIcon = QPixmap(workloadgroup);
@@ -460,7 +460,7 @@ void PinEditApp::initActions() {
 }
 
 void PinEditApp::initMenuBar() {
-	cerr << "PinEditApp::initMenuBar" << endl;
+  EM_CERR("PinEditApp::initMenuBar");
   // menuBar entry fileMenu
   fileMenu=new QPopupMenu();
   fileNew->addTo(fileMenu);
@@ -469,8 +469,8 @@ void PinEditApp::initMenuBar() {
   fileMenu->insertSeparator();
   fileSave->addTo(fileMenu);
   fileSaveAs->addTo(fileMenu);
-	fileSaveGroup->addTo(fileMenu);
-// 	fileSaveShape->addTo(fileMenu);
+  fileSaveGroup->addTo(fileMenu);
+  // 	fileSaveShape->addTo(fileMenu);
   fileMenu->insertSeparator();
   filePrint->addTo(fileMenu);
   fileMenu->insertSeparator();
@@ -487,50 +487,50 @@ void PinEditApp::initMenuBar() {
 
   // menuBar entry workMenu
   workMenu = new QPopupMenu();
-//   workLoadShape->addTo(workMenu);
-	workUndo->addTo(workMenu);
+  //   workLoadShape->addTo(workMenu);
+  workUndo->addTo(workMenu);
   workNewVertex->addTo(workMenu);
   workSelect->addTo(workMenu);
-	workAddSelect->addTo(workMenu);
-	workUnSelect->addTo(workMenu);
-	workCopy->addTo(workMenu);
-	workPaste->addTo(workMenu);
-	workMove->addTo(workMenu);
-	workRotate->addTo(workMenu);
-	workRotateLocal->addTo(workMenu);
-	workResize->addTo(workMenu);
-	workResizeLocal->addTo(workMenu);
-	workCopy->addTo(workMenu);
-	workPaste->addTo(workMenu);
-	workFlip->addTo(workMenu);
-	workHideSelected->addTo(workMenu);
-	workNewPolygon->addTo(workMenu);
-	workDeletePolygon->addTo(workMenu);
-	workDeleteVertex->addTo(workMenu);
-	workSnap->addTo(workMenu);
-	workMoveGroup->addTo(workMenu);
-	workRotateGroup->addTo(workMenu);
-	workNewGroup->addTo(workMenu);
-	workNewShape->addTo(workMenu);
-	workDeleteGroup->addTo(workMenu);
-	workDeleteShape->addTo(workMenu);
-	workExtrude->addTo(workMenu);
-	workMirrorX->addTo(workMenu);
-	workMirrorY->addTo(workMenu);
-	workMirrorZ->addTo(workMenu);
-	workMirrorLocalX->addTo(workMenu);
-	workMirrorLocalY->addTo(workMenu);
-	workMirrorLocalZ->addTo(workMenu);
+  workAddSelect->addTo(workMenu);
+  workUnSelect->addTo(workMenu);
+  workCopy->addTo(workMenu);
+  workPaste->addTo(workMenu);
+  workMove->addTo(workMenu);
+  workRotate->addTo(workMenu);
+  workRotateLocal->addTo(workMenu);
+  workResize->addTo(workMenu);
+  workResizeLocal->addTo(workMenu);
+  workCopy->addTo(workMenu);
+  workPaste->addTo(workMenu);
+  workFlip->addTo(workMenu);
+  workHideSelected->addTo(workMenu);
+  workNewPolygon->addTo(workMenu);
+  workDeletePolygon->addTo(workMenu);
+  workDeleteVertex->addTo(workMenu);
+  workSnap->addTo(workMenu);
+  workMoveGroup->addTo(workMenu);
+  workRotateGroup->addTo(workMenu);
+  workNewGroup->addTo(workMenu);
+  workNewShape->addTo(workMenu);
+  workDeleteGroup->addTo(workMenu);
+  workDeleteShape->addTo(workMenu);
+  workExtrude->addTo(workMenu);
+  workMirrorX->addTo(workMenu);
+  workMirrorY->addTo(workMenu);
+  workMirrorZ->addTo(workMenu);
+  workMirrorLocalX->addTo(workMenu);
+  workMirrorLocalY->addTo(workMenu);
+  workMirrorLocalZ->addTo(workMenu);
 
   // menuBar entry helpMenu
   helpMenu = new QPopupMenu();
   helpAboutApp->addTo(helpMenu);
   helpTutorial->addTo(helpMenu);
-	helpManual->addTo(helpMenu);
+  helpManual->addTo(helpMenu);
 
   // MENUBAR CONFIGURATION
   menuBar()->insertItem(tr("&File"), fileMenu);
-	//menuBar()->insertItem(tr("&Edit"), editMenu);
+  //menuBar()->insertItem(tr("&Edit"), editMenu);
   menuBar()->insertItem(tr("&View"), viewMenu);
   menuBar()->insertItem(tr("&Work"), workMenu);
   menuBar()->insertSeparator();
@@ -538,139 +538,139 @@ void PinEditApp::initMenuBar() {
 }
 
 void PinEditApp::initToolBar() {
-	cerr << "PinEditApp::initToolBar" << endl;
+  EM_CERR("PinEditApp::initToolBar");
   // TOOLBAR
   fileToolbar = new QToolBar(this, "file operations");
   fileNew->addTo(fileToolbar);
   fileOpen->addTo(fileToolbar);
   fileSave->addTo(fileToolbar);
-	fileSaveGroup->addTo(fileToolbar);
-	workLoadGroup->addTo(fileToolbar);
-// 	fileSaveShape->addTo(fileToolbar);
+  fileSaveGroup->addTo(fileToolbar);
+  workLoadGroup->addTo(fileToolbar);
+  // 	fileSaveShape->addTo(fileToolbar);
   fileToolbar->addSeparator();
   QWhatsThis::whatsThisButton(fileToolbar);
 }
 
 void PinEditApp::initWorkBar() {
-	cerr << "PinEditApp::initWorkBar" << endl;
+  EM_CERR("PinEditApp::initWorkBar");
   // WORKBAR
   workToolbar = new QToolBar(this, "work operations");
-// 	workLoadShape->addTo(workToolbar);
-	workUndo->addTo(workToolbar);
+  // 	workLoadShape->addTo(workToolbar);
+  workUndo->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
   workSelect->addTo(workToolbar);
-	workAddSelect->addTo(workToolbar);
-	workUnSelect->addTo(workToolbar);
-	workMove->addTo(workToolbar);
-	workRotate->addTo(workToolbar);
-	workRotateLocal->addTo(workToolbar);
-	workResize->addTo(workToolbar);
-	workResizeLocal->addTo(workToolbar);
-	workToolbar->addSeparator();
-
-	workCopy->addTo(workToolbar);
-	workPaste->addTo(workToolbar);
-	workHideSelected->addTo(workToolbar);
-	workFlip->addTo(workToolbar);
-	workNewPolygon->addTo(workToolbar);
-	workDeletePolygon->addTo(workToolbar);
-	workDeleteVertex->addTo(workToolbar);
-	workSnap->addTo(workToolbar);
-	workExtrude->addTo(workToolbar);
-	workMirrorX->addTo(workToolbar);
-	workMirrorY->addTo(workToolbar);
-	workMirrorZ->addTo(workToolbar);
-	workMirrorLocalX->addTo(workToolbar);
-	workMirrorLocalY->addTo(workToolbar);
-	workMirrorLocalZ->addTo(workToolbar);
-	workDeleteShape->addTo(workToolbar);
+  workAddSelect->addTo(workToolbar);
+  workUnSelect->addTo(workToolbar);
+  workMove->addTo(workToolbar);
+  workRotate->addTo(workToolbar);
+  workRotateLocal->addTo(workToolbar);
+  workResize->addTo(workToolbar);
+  workResizeLocal->addTo(workToolbar);
   workToolbar->addSeparator();
 
-	workMoveGroup->addTo(workToolbar);
-	workRotateGroup->addTo(workToolbar);
+  workCopy->addTo(workToolbar);
+  workPaste->addTo(workToolbar);
+  workHideSelected->addTo(workToolbar);
+  workFlip->addTo(workToolbar);
+  workNewPolygon->addTo(workToolbar);
+  workDeletePolygon->addTo(workToolbar);
+  workDeleteVertex->addTo(workToolbar);
+  workSnap->addTo(workToolbar);
+  workExtrude->addTo(workToolbar);
+  workMirrorX->addTo(workToolbar);
+  workMirrorY->addTo(workToolbar);
+  workMirrorZ->addTo(workToolbar);
+  workMirrorLocalX->addTo(workToolbar);
+  workMirrorLocalY->addTo(workToolbar);
+  workMirrorLocalZ->addTo(workToolbar);
+  workDeleteShape->addTo(workToolbar);
   workToolbar->addSeparator();
 
-	workNewGroup->addTo(workToolbar);
-	workNewShape->addTo(workToolbar);
-	workDeleteGroup->addTo(workToolbar);
+  workMoveGroup->addTo(workToolbar);
+  workRotateGroup->addTo(workToolbar);
   workToolbar->addSeparator();
 
-// 	workMode = new QComboBox(workToolbar);
-// 	workMode->insertItem("shapes");
-// 	workMode->insertItem("groups");
-// 	connect(workMode, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
+  workNewGroup->addTo(workToolbar);
+  workNewShape->addTo(workToolbar);
+  workDeleteGroup->addTo(workToolbar);
+  workToolbar->addSeparator();
 
-	workZoom = new QSpinBox(5, 50, 1, workToolbar);
-	workZoom->setValue(10);
-	connect(workZoom, SIGNAL(valueChanged(int)), this, SLOT(slotZoom(int)));
+  // 	workMode = new QComboBox(workToolbar);
+  // 	workMode->insertItem("shapes");
+  // 	workMode->insertItem("groups");
+  // 	connect(workMode, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
+
+  workZoom = new QSpinBox(5, 50, 1, workToolbar);
+  workZoom->setValue(10);
+  connect(workZoom, SIGNAL(valueChanged(int)), this, SLOT(slotZoom(int)));
 
   workGroup->insert(workNewVertex);
   workGroup->insert(workSelect);
-	workGroup->insert(workAddSelect);
-	workGroup->insert(workUnSelect);
-	workGroup->insert(workMove);
-	workGroup->insert(workRotate);
-	workGroup->insert(workRotateLocal);
-	workGroup->insert(workResize);
-	workGroup->insert(workResizeLocal);
-	workGroup->insert(workMoveGroup);
-	workGroup->insert(workRotateGroup);
+  workGroup->insert(workAddSelect);
+  workGroup->insert(workUnSelect);
+  workGroup->insert(workMove);
+  workGroup->insert(workRotate);
+  workGroup->insert(workRotateLocal);
+  workGroup->insert(workResize);
+  workGroup->insert(workResizeLocal);
+  workGroup->insert(workMoveGroup);
+  workGroup->insert(workRotateGroup);
 }
 
 void PinEditApp::initStatusBar() {
-	cerr << "PinEditApp::initStatusBar" << endl;
+  EM_CERR("PinEditApp::initStatusBar");
   ///////////////////////////////////////////////////////////////////
-  //STATUSBAR
-  statusBar()->message(tr("Ready."), 2000);
+    //STATUSBAR
+    statusBar()->message(tr("Ready."), 2000);
 }
 
 void PinEditApp::initDoc() {
-	cerr << "PinEditApp::initDoc" << endl;
-	p_Doc = new PinEditDoc();
+  EM_CERR("PinEditApp::initDoc");
+  p_Doc = new PinEditDoc();
 }
 
 void PinEditApp::initView() {
-	cerr << "PinEditApp::initView" << endl;
+  EM_CERR("PinEditApp::initView");
   // set the main widget here
-	p_View = new PinEditView(this, p_Doc);
+  p_View = new PinEditView(this, p_Doc);
   setCentralWidget(p_View);
 }
 
 void PinEditApp::initCommands() {
-	cerr << "PinEditApp::initCommands" << endl;
-	// create one object for each command here
-	// make sure initDoc is called before this
-	p_CommandContext = new CommandContext();
-	p_CommandNewVertex = new CommandNewVertex(p_Doc);
-	p_CommandSelect = new CommandSelect(p_Doc);
-	p_CommandAddSelect = new CommandAddSelect(p_Doc);
-	p_CommandUnSelect = new CommandUnSelect(p_Doc);
-	p_CommandMove = new CommandMove(p_Doc);
-	p_CommandRotate = new CommandRotate(p_Doc);
-	p_CommandMoveGroup = new CommandMoveGroup(p_Doc);
-	p_CommandRotateGroup = new CommandRotateGroup(p_Doc);
-	p_CommandRotateLocal = new CommandRotateLocal(p_Doc);
-	p_CommandResize = new CommandResize(p_Doc);
-	p_CommandResizeLocal = new CommandResizeLocal(p_Doc);
+  EM_CERR("PinEditApp::initCommands");
+  // create one object for each command here
+  // make sure initDoc is called before this
+  p_CommandContext = new CommandContext();
+  p_CommandNewVertex = new CommandNewVertex(p_Doc);
+  p_CommandSelect = new CommandSelect(p_Doc);
+  p_CommandAddSelect = new CommandAddSelect(p_Doc);
+  p_CommandUnSelect = new CommandUnSelect(p_Doc);
+  p_CommandMove = new CommandMove(p_Doc);
+  p_CommandRotate = new CommandRotate(p_Doc);
+  p_CommandMoveGroup = new CommandMoveGroup(p_Doc);
+  p_CommandRotateGroup = new CommandRotateGroup(p_Doc);
+  p_CommandRotateLocal = new CommandRotateLocal(p_Doc);
+  p_CommandResize = new CommandResize(p_Doc);
+  p_CommandResizeLocal = new CommandResizeLocal(p_Doc);
 
-	p_SnapDialog = new SnapDialog(p_Doc, this, 0, 0);
-	p_TextDialog = new TextDialog(this, 0, 0);
+  p_SnapDialog = new SnapDialog(p_Doc, this, 0, 0);
+  p_TextDialog = new TextDialog(this, 0, 0);
 }
 
 bool PinEditApp::queryExit() {
-	cerr << "PinEditApp::queryExit" << endl;
+  EM_CERR("PinEditApp::queryExit");
   int exit = QMessageBox::information(this, tr("Quit..."),
-             	  	                    tr("Do your really want to quit?"),
+				      tr("Do your really want to quit?"),
               	                      QMessageBox::Ok, QMessageBox::Cancel);
   return (exit == 1);
 }
 
 bool PinEditApp::queryModified() {
-	cerr << "PinEditApp::queryModified" << endl;
-	int discard = QMessageBox::information(this, tr("Edited..."),
-																				 tr("Document modified but not saved. Discard edits?"),
-																				 QMessageBox::Ok, QMessageBox::Cancel);
-	return (discard == 1);
+  EM_CERR("PinEditApp::queryModified");
+  int discard = QMessageBox::information(this, tr("Edited..."),
+					 tr("Document modified but not saved. Discard edits?"),
+					 QMessageBox::Ok, QMessageBox::Cancel);
+  return (discard == 1);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -678,20 +678,20 @@ bool PinEditApp::queryModified() {
 /////////////////////////////////////////////////////////////////////
 
 void PinEditApp::slotFileNew() {
-	cerr << "PinEditApp::slotFilwNew" << endl;
-	if (p_Doc->isModified()) {
-		if (!this->queryModified()) return;
-	}
+  EM_CERR("PinEditApp::slotFilwNew");
+  if (p_Doc->isModified()) {
+    if (!this->queryModified()) return;
+  }
   statusBar()->message(tr("Creating new file..."));
   p_Doc->newDoc();
   statusBar()->message(tr("Ready."));
 }
 
 void PinEditApp::slotFileOpen() {
-	cerr << "PinEditApp::slotFileOpen" << endl;
-	if (p_Doc->isModified()) {
-		if (!this->queryModified()) return;
-	}
+  EM_CERR("PinEditApp::slotFileOpen");
+  if (p_Doc->isModified()) {
+    if (!this->queryModified()) return;
+  }
   statusBar()->message(tr("Opening file..."));
   QString fileName = QFileDialog::getOpenFileName(0,0,this);
   if (!fileName.isEmpty()) {
@@ -705,18 +705,18 @@ void PinEditApp::slotFileOpen() {
 }
 
 void PinEditApp::slotFileSave() {
-	cerr << "PinEditApp::slotFileSave" << endl;
+  EM_CERR("PinEditApp::slotFileSave");
   statusBar()->message(tr("Saving file..."));
-	if (p_Doc->getFileName().isEmpty()) {
-		this->slotFileSaveAs();
-	} else {
-		p_Doc->save();
-	}
+  if (p_Doc->getFileName().isEmpty()) {
+    this->slotFileSaveAs();
+  } else {
+    p_Doc->save();
+  }
   statusBar()->message(tr("Ready."));
 }
 
 void PinEditApp::slotFileSaveAs() {
-	cerr << "PinEditApp::slotFileSaveAs" << endl;
+  EM_CERR("PinEditApp::slotFileSaveAs");
   statusBar()->message(tr("Saving file under new filename..."));
   QString fn = QFileDialog::getSaveFileName(0, 0, this);
   if (!fn.isEmpty()) {
@@ -729,19 +729,19 @@ void PinEditApp::slotFileSaveAs() {
 }
 
 void PinEditApp::slotFileSaveGroup() {
-	cerr << "PinEditApp::slotFileSaveGroup" << endl;
+  EM_CERR("PinEditApp::slotFileSaveGroup");
   statusBar()->message(tr("Saving group in file..."));
-	Group * group = p_Doc->getCurrentGroup();
-	if (group == NULL) {
-		QMessageBox::information( this, "Save Object", "No object selected.");
-	} else {
-		QString fn = QFileDialog::getSaveFileName(0, 0, this);
-		if (!fn.isEmpty()) {
-			p_Doc->saveGroup(fn, group);
-		} else {
-			statusBar()->message(tr("Saving aborted"), 2000);
-		}
-	}
+  Group * group = p_Doc->getCurrentGroup();
+  if (group == NULL) {
+    QMessageBox::information( this, "Save Object", "No object selected.");
+  } else {
+    QString fn = QFileDialog::getSaveFileName(0, 0, this);
+    if (!fn.isEmpty()) {
+      p_Doc->saveGroup(fn, group);
+    } else {
+      statusBar()->message(tr("Saving aborted"), 2000);
+    }
+  }
   statusBar()->message(tr("Ready."));
 }
 
@@ -774,8 +774,8 @@ void PinEditApp::slotFilePrint() {
     QPainter painter;
     painter.begin(&printer);
     ///////////////////////////////////////////////////////////////////
-    // TODO: Define printing by using the QPainter methods here
-    painter.end();
+      // TODO: Define printing by using the QPainter methods here
+      painter.end();
   };
   statusBar()->message(tr("Ready."));
 }
@@ -783,16 +783,16 @@ void PinEditApp::slotFilePrint() {
 void PinEditApp::slotFileQuit() {
   statusBar()->message(tr("Exiting application..."));
   ///////////////////////////////////////////////////////////////////
-  // exits the Application
-  if(p_Doc->isModified()) {
-    if(queryExit()) {
-      qApp->quit();
+    // exits the Application
+    if(p_Doc->isModified()) {
+      if(queryExit()) {
+	qApp->quit();
+      } else {
+      };
     } else {
+      qApp->quit();
     };
-  } else {
-    qApp->quit();
-  };
-  statusBar()->message(tr("Ready."));
+    statusBar()->message(tr("Ready."));
 }
 
 
@@ -800,43 +800,43 @@ void PinEditApp::slotFileQuit() {
 void PinEditApp::slotViewToolBar(bool toggle) {
   statusBar()->message(tr("Toggle toolbar..."));
   ///////////////////////////////////////////////////////////////////
-  // turn Toolbar on or off
-  if (toggle== false) {
-    fileToolbar->hide();
-  } else {
-    fileToolbar->show();
-  };
-  statusBar()->message(tr("Ready."));
+    // turn Toolbar on or off
+    if (toggle== false) {
+      fileToolbar->hide();
+    } else {
+      fileToolbar->show();
+    };
+    statusBar()->message(tr("Ready."));
 }
 
 void PinEditApp::slotViewStatusBar(bool toggle) {
   statusBar()->message(tr("Toggle statusbar..."));
   ///////////////////////////////////////////////////////////////////
-  //turn Statusbar on or off
-  if (toggle == false) {
-    statusBar()->hide();
-  } else {
-    statusBar()->show();
-  }
-  statusBar()->message(tr("Ready."));
+    //turn Statusbar on or off
+    if (toggle == false) {
+      statusBar()->hide();
+    } else {
+      statusBar()->show();
+    }
+    statusBar()->message(tr("Ready."));
 }
 
 void PinEditApp::slotHelpAbout() {
   QMessageBox::about(this, tr("About..."), 
-										 tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist") );
+		     tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist") );
 }
 
 void PinEditApp::slotTutorial() {
-	cerr << "PinEditApp::slotTutorial" << endl;
-	// TODO fix path
-	p_TextDialog->setSource(QString(EM_DATADIR) + "/doc/tutorial.html");
-	p_TextDialog->show();
+  EM_CERR("PinEditApp::slotTutorial");
+  // TODO fix path
+  p_TextDialog->setSource(QString(PIN_DATADIR) + "/doc/tutorial.html");
+  p_TextDialog->show();
 }
 
 void PinEditApp::slotManual() {
-	cerr << "PinEditApp::slotManual" << endl;
-	p_TextDialog->setSource(QString(EM_DATADIR) + "/doc/manual.html");
-	p_TextDialog->show();
+  EM_CERR("PinEditApp::slotManual");
+  p_TextDialog->setSource(QString(PIN_DATADIR) + "/doc/manual.html");
+  p_TextDialog->show();
 }
 
 // void PinEditApp::slotLoadShape() {
@@ -864,53 +864,53 @@ void PinEditApp::slotLoadGroup() {
 }
 
 void PinEditApp::slotUndo() {
-	cerr << "PinEditApp::slotUndo" << endl;
-	p_Doc->undo();
+  EM_CERR("PinEditApp::slotUndo");
+  p_Doc->undo();
 }
 
 void PinEditApp::slotNewVertex() {
-	cerr << "PinEditApp::slotNewVertex" << endl;
-	p_Doc->setCommand(p_CommandNewVertex);
+  EM_CERR("PinEditApp::slotNewVertex");
+  p_Doc->setCommand(p_CommandNewVertex);
 }
 
 void PinEditApp::slotSelect() {
-	cerr << "PinEditApp::slotSelect" << endl;
-	p_Doc->setCommand(p_CommandSelect);
+  EM_CERR("PinEditApp::slotSelect");
+  p_Doc->setCommand(p_CommandSelect);
 }
 
 void PinEditApp::slotAddSelect() {
-	cerr << "PinEditApp::slotAddSelect" << endl;
-	p_Doc->setCommand(p_CommandAddSelect);
+  EM_CERR("PinEditApp::slotAddSelect");
+  p_Doc->setCommand(p_CommandAddSelect);
 }
 
 void PinEditApp::slotUnSelect() {
-	cerr << "PinEditApp::slotUnselect" << endl;
-	p_Doc->setCommand(p_CommandUnSelect);
+  EM_CERR("PinEditApp::slotUnselect");
+  p_Doc->setCommand(p_CommandUnSelect);
 }
 
 void PinEditApp::slotMove() {
-	cerr << "PinEditApp::slotMove" << endl;
-	p_Doc->setCommand(p_CommandMove);
+  EM_CERR("PinEditApp::slotMove");
+  p_Doc->setCommand(p_CommandMove);
 }
 
 void PinEditApp::slotRotate() {
-	cerr << "PinEditApp::slotRotate" << endl;
-	p_Doc->setCommand(p_CommandRotate);
+  EM_CERR("PinEditApp::slotRotate");
+  p_Doc->setCommand(p_CommandRotate);
 }
 
 void PinEditApp::slotRotateLocal() {
-	cerr << "PinEditApp::slotRotateLocal" << endl;
-	p_Doc->setCommand(p_CommandRotateLocal);
+  EM_CERR("PinEditApp::slotRotateLocal");
+  p_Doc->setCommand(p_CommandRotateLocal);
 }
 
 void PinEditApp::slotResize() {
-	cerr << "PinEditApp::slotResize" << endl;
-	p_Doc->setCommand(p_CommandResize);
+  EM_CERR("PinEditApp::slotResize");
+  p_Doc->setCommand(p_CommandResize);
 }
 
 void PinEditApp::slotResizeLocal() {
-	cerr << "PinEditApp::slotResizeLocal" << endl;
-	p_Doc->setCommand(p_CommandResizeLocal);
+  EM_CERR("PinEditApp::slotResizeLocal");
+  p_Doc->setCommand(p_CommandResizeLocal);
 }
 
 
@@ -920,241 +920,241 @@ void PinEditApp::slotCut() {
 }
 
 void PinEditApp::slotCopy() {
-	cerr << "PinEditApp::slotCopy" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		Command * command = new CommandCopy(p_Doc);
-		command->execute(context);
-	}
+  EM_CERR("PinEditApp::slotCopy");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandCopy(p_Doc);
+    command->execute(context);
+  }
 }
 
 void PinEditApp::slotPaste() {
-	cerr << "PinEditApp::slotPaste" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		Command * command = new CommandPaste(p_Doc);
-		command->execute(context);
-	}
+  EM_CERR("PinEditApp::slotPaste");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandPaste(p_Doc);
+    command->execute(context);
+  }
 }
 
 void PinEditApp::slotNewPolygon() {
-	cerr << "PinEditApp::slotNewPolygon" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		Command * command = new CommandNewPolygon(p_Doc);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "New Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotNewPolygon");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandNewPolygon(p_Doc);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "New Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotHideSelected() {
-	cerr << "PinEditApp::slotHideSelected" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		Command * command = new CommandHideSelected(p_Doc);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "Hide Selected", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotHideSelected");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandHideSelected(p_Doc);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Hide Selected", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotFlip() {
-	cerr << "pineditapp::slotflip" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		Command * command = new CommandFlip(p_Doc);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "Flip Polygon", "No Shape selected.");
-	}
+  EM_CERR("pineditapp::slotflip");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    Command * command = new CommandFlip(p_Doc);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Flip Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorX() {
-	cerr << "PinEditApp::slotMirrorX" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirror * command = new CommandMirror(p_Doc);
-		command->setXYZ(0);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorX");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirror * command = new CommandMirror(p_Doc);
+    command->setXYZ(0);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorY() {
-	cerr << "PinEditApp::slotMirrorY" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirror * command = new CommandMirror(p_Doc);
-		command->setXYZ(1);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorY");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirror * command = new CommandMirror(p_Doc);
+    command->setXYZ(1);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorZ() {
-	cerr << "PinEditApp::slotMirrorZ" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirror * command = new CommandMirror(p_Doc);
-		command->setXYZ(2);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorZ");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirror * command = new CommandMirror(p_Doc);
+    command->setXYZ(2);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "Mirror Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorLocalX() {
-	cerr << "PinEditApp::slotMirrorLocalX" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
-		command->setXYZ(0);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorLocalX");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+    command->setXYZ(0);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorLocalY() {
-	cerr << "PinEditApp::slotMirrorLocalY" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
-		command->setXYZ(1);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorLocalY");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+    command->setXYZ(1);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMirrorLocalZ() {
-	cerr << "PinEditApp::slotMirrorLocalZ" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape != NULL) {
-		CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
-		command->setXYZ(2);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
-	}
+  EM_CERR("PinEditApp::slotMirrorLocalZ");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape != NULL) {
+    CommandMirrorLocal * command = new CommandMirrorLocal(p_Doc);
+    command->setXYZ(2);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "MirrorLocal Polygon", "No Shape selected.");
+  }
 }
 
 void PinEditApp::slotMoveGroup() {
-	cerr << "pinedit::slotmovegroup" << endl;
-	p_Doc->setCommand(p_CommandMoveGroup);
+  EM_CERR("pinedit::slotmovegroup");
+  p_Doc->setCommand(p_CommandMoveGroup);
 }
 
 void PinEditApp::slotRotateGroup() {
-	cerr << "pinedit::slotrotategroup" << endl;
-	p_Doc->setCommand(p_CommandRotateGroup);
+  EM_CERR("pinedit::slotrotategroup");
+  p_Doc->setCommand(p_CommandRotateGroup);
 }
 
 void PinEditApp::slotNewGroup() {
-	cerr << "pineditapp::slotnewgroup" << endl;
-	CommandContext context;
-	context.clear();
-	// only add groups to engine
-	context.group = p_Doc->getEngine();
-	assert(context.group != NULL);
-	Command * command = new CommandNewGroup(p_Doc);
-	command->execute(context);
+  EM_CERR("pineditapp::slotnewgroup");
+  CommandContext context;
+  context.clear();
+  // only add groups to engine
+  context.group = p_Doc->getEngine();
+  assert(context.group != NULL);
+  Command * command = new CommandNewGroup(p_Doc);
+  command->execute(context);
 }
 
 void PinEditApp::slotDeletePolygon() {
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape == NULL) {
-		QMessageBox::information( this, "Delete Polygon", "No Shape selected.");
-	} else {
-		Command * command = new CommandDeletePolygon(p_Doc);
-		command->execute(context);
-	}
-	cerr << "PinEditApp::slotDeletePolygon" << endl;
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape == NULL) {
+    QMessageBox::information( this, "Delete Polygon", "No Shape selected.");
+  } else {
+    Command * command = new CommandDeletePolygon(p_Doc);
+    command->execute(context);
+  }
+  EM_CERR("PinEditApp::slotDeletePolygon");
 }
  
 void PinEditApp::slotDeleteVertex() {
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape == NULL) {
-		QMessageBox::information(this, "Delete Vertex", "No Shape selected.");
-	} else {
-		Command * command = new CommandDeleteVertex(p_Doc);
-		command->execute(context);
-	}
-	cerr << "PinEditApp::slotDeleteVertex" << endl;
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape == NULL) {
+    QMessageBox::information(this, "Delete Vertex", "No Shape selected.");
+  } else {
+    Command * command = new CommandDeleteVertex(p_Doc);
+    command->execute(context);
+  }
+  EM_CERR("PinEditApp::slotDeleteVertex");
 }
 
 void PinEditApp::slotDeleteGroup() {
-	CommandContext context;
-	context.clear();
-	context.group = p_Doc->getCurrentGroup();
-	if (context.group == NULL) {
-		QMessageBox::information( this, "Delete Object", "No object selected.");
-	} else {
-		Command * command = new CommandDeleteGroup(p_Doc);
-		command->execute(context);
-	}
-	cerr << "PinEditApp::slotDeleteGroup" << endl;
+  CommandContext context;
+  context.clear();
+  context.group = p_Doc->getCurrentGroup();
+  if (context.group == NULL) {
+    QMessageBox::information( this, "Delete Object", "No object selected.");
+  } else {
+    Command * command = new CommandDeleteGroup(p_Doc);
+    command->execute(context);
+  }
+  EM_CERR("PinEditApp::slotDeleteGroup");
 }
 
 void PinEditApp::slotNewShape() {
-	cerr << "PinEditApp::slotNewShape" << endl;
-	CommandContext context;
-	context.clear();
-	context.group = p_Doc->getCurrentGroup();
-	if (context.group != NULL) {
-		Command * command = new CommandNewShape(p_Doc);
-		command->execute(context);
-	} else {
-		QMessageBox::information( this, "New Polygon", "No shape selected.");
-	}
+  EM_CERR("PinEditApp::slotNewShape");
+  CommandContext context;
+  context.clear();
+  context.group = p_Doc->getCurrentGroup();
+  if (context.group != NULL) {
+    Command * command = new CommandNewShape(p_Doc);
+    command->execute(context);
+  } else {
+    QMessageBox::information( this, "New Polygon", "No shape selected.");
+  }
 }
 
 void PinEditApp::slotDeleteShape() {
-	cerr << "PinEditApp::slotDeleteShape" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	context.group = p_Doc->getCurrentGroup();
-	if (context.group == NULL) {
-		QMessageBox::information( this, "Delete Shape", "No object selected.");
-	} else if (context.shape == NULL) {
-		QMessageBox::information( this, "Delete Shape", "No shape selected.");
-	} else {
-		Command * command = new CommandDeleteShape(p_Doc);
-		command->execute(context);
-	}
+  EM_CERR("PinEditApp::slotDeleteShape");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  context.group = p_Doc->getCurrentGroup();
+  if (context.group == NULL) {
+    QMessageBox::information( this, "Delete Shape", "No object selected.");
+  } else if (context.shape == NULL) {
+    QMessageBox::information( this, "Delete Shape", "No shape selected.");
+  } else {
+    Command * command = new CommandDeleteShape(p_Doc);
+    command->execute(context);
+  }
 }
 
 // void PinEditApp::slotMode(int index) {
-// 	cerr << "pineditapp::slotmode " << index << endl;
+// 	EM_CERR("pineditapp::slotmode " << index);
 // 	if (index == 0) {
 // 		this->setMode(EM_SHAPE_MODE);
 // 	} else if (index == 1) {
@@ -1163,98 +1163,98 @@ void PinEditApp::slotDeleteShape() {
 // }
 
 void PinEditApp::slotZoom(int zoom) {
-	cerr << "pineditapp::slotzoom " << zoom << endl;
-	p_View->setZoom(zoom);
-	p_Doc->updateAll("polygon");
+  EM_CERR("pineditapp::slotzoom " << zoom);
+  p_View->setZoom(zoom);
+  p_Doc->updateAll("polygon");
 }
 
 void PinEditApp::setMode(int mode) {
-	switch (mode) {
-	case EM_SHAPE_MODE:
-		p_View->setViewMode(EM_SHAPE_MODE);
-		workNewVertex->setEnabled(true);
-		workSelect->setEnabled(true);
-		workAddSelect->setEnabled(true);
-		workUnSelect->setEnabled(true);
-		workCopy->setEnabled(true);
-		workPaste->setEnabled(true);
-		workMove->setEnabled(true);
-		workRotate->setEnabled(true);
-		workRotateLocal->setEnabled(true);
-		workResize->setEnabled(true);
-		workResizeLocal->setEnabled(true);
-		workHideSelected->setEnabled(true);
-		workNewPolygon->setEnabled(true);
-		workFlip->setEnabled(true);
-		workMirrorX->setEnabled(true);
-		workMirrorY->setEnabled(true);
-		workMirrorZ->setEnabled(true);
-		workMirrorLocalX->setEnabled(true);
-		workMirrorLocalY->setEnabled(true);
-		workMirrorLocalZ->setEnabled(true);
-		workDeletePolygon->setEnabled(true);
-		workDeleteVertex->setEnabled(true);
-		workSnap->setEnabled(true);
-		workExtrude->setEnabled(true);
-		workDeleteShape->setEnabled(true);
+  switch (mode) {
+  case EM_SHAPE_MODE:
+    p_View->setViewMode(EM_SHAPE_MODE);
+    workNewVertex->setEnabled(true);
+    workSelect->setEnabled(true);
+    workAddSelect->setEnabled(true);
+    workUnSelect->setEnabled(true);
+    workCopy->setEnabled(true);
+    workPaste->setEnabled(true);
+    workMove->setEnabled(true);
+    workRotate->setEnabled(true);
+    workRotateLocal->setEnabled(true);
+    workResize->setEnabled(true);
+    workResizeLocal->setEnabled(true);
+    workHideSelected->setEnabled(true);
+    workNewPolygon->setEnabled(true);
+    workFlip->setEnabled(true);
+    workMirrorX->setEnabled(true);
+    workMirrorY->setEnabled(true);
+    workMirrorZ->setEnabled(true);
+    workMirrorLocalX->setEnabled(true);
+    workMirrorLocalY->setEnabled(true);
+    workMirrorLocalZ->setEnabled(true);
+    workDeletePolygon->setEnabled(true);
+    workDeleteVertex->setEnabled(true);
+    workSnap->setEnabled(true);
+    workExtrude->setEnabled(true);
+    workDeleteShape->setEnabled(true);
 
-		workDeleteGroup->setEnabled(false);
-		workMoveGroup->setEnabled(false);
-		workRotateGroup->setEnabled(false);
-		//		workMode->setCurrentItem(0);
-		break;
-	case EM_GROUP_MODE:
-		p_View->setViewMode(EM_GROUP_MODE);
-		workNewVertex->setEnabled(false);
-		workSelect->setEnabled(false);
-		workAddSelect->setEnabled(false);
-		workUnSelect->setEnabled(false);
-		workCopy->setEnabled(false);
-		workPaste->setEnabled(false);
-		workMove->setEnabled(false);
-		workRotate->setEnabled(false);
-		workRotateLocal->setEnabled(false);
-		workResize->setEnabled(false);
-		workResizeLocal->setEnabled(false);
-		workHideSelected->setEnabled(false);
-		workNewPolygon->setEnabled(false);
-		workFlip->setEnabled(false);
-		workMirrorX->setEnabled(false);
-		workMirrorY->setEnabled(false);
-		workMirrorZ->setEnabled(false);
-		workMirrorLocalX->setEnabled(false);
-		workMirrorLocalY->setEnabled(false);
-		workMirrorLocalZ->setEnabled(false);
-		workDeletePolygon->setEnabled(false);
-		workDeleteVertex->setEnabled(false);
-		workSnap->setEnabled(false);
-		workExtrude->setEnabled(false);
-		workDeleteShape->setEnabled(false);
+    workDeleteGroup->setEnabled(false);
+    workMoveGroup->setEnabled(false);
+    workRotateGroup->setEnabled(false);
+    //		workMode->setCurrentItem(0);
+    break;
+  case EM_GROUP_MODE:
+    p_View->setViewMode(EM_GROUP_MODE);
+    workNewVertex->setEnabled(false);
+    workSelect->setEnabled(false);
+    workAddSelect->setEnabled(false);
+    workUnSelect->setEnabled(false);
+    workCopy->setEnabled(false);
+    workPaste->setEnabled(false);
+    workMove->setEnabled(false);
+    workRotate->setEnabled(false);
+    workRotateLocal->setEnabled(false);
+    workResize->setEnabled(false);
+    workResizeLocal->setEnabled(false);
+    workHideSelected->setEnabled(false);
+    workNewPolygon->setEnabled(false);
+    workFlip->setEnabled(false);
+    workMirrorX->setEnabled(false);
+    workMirrorY->setEnabled(false);
+    workMirrorZ->setEnabled(false);
+    workMirrorLocalX->setEnabled(false);
+    workMirrorLocalY->setEnabled(false);
+    workMirrorLocalZ->setEnabled(false);
+    workDeletePolygon->setEnabled(false);
+    workDeleteVertex->setEnabled(false);
+    workSnap->setEnabled(false);
+    workExtrude->setEnabled(false);
+    workDeleteShape->setEnabled(false);
 
-		workDeleteGroup->setEnabled(true);
-		workMoveGroup->setEnabled(true);
-		workRotateGroup->setEnabled(true);
-		//		workMode->setCurrentItem(1);
-		break;
-	}
-	p_Doc->updateAll("polygon");
+    workDeleteGroup->setEnabled(true);
+    workMoveGroup->setEnabled(true);
+    workRotateGroup->setEnabled(true);
+    //		workMode->setCurrentItem(1);
+    break;
+  }
+  p_Doc->updateAll("polygon");
 }
 
 void PinEditApp::slotSnap() {
-	cerr << "PinEditApp::slotSnap" << endl;
-	p_SnapDialog->show();
+  EM_CERR("PinEditApp::slotSnap");
+  p_SnapDialog->show();
 }
 
 void PinEditApp::slotExtrude() {
-	cerr << "PinEditApp::slotExtrude" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape == NULL) {
-		QMessageBox::information( this, "Delete Shape", "No Shape selected.");
-	} else {
-		Command * command = new CommandExtrude(p_Doc);
-		command->execute(context);
-	}
+  EM_CERR("PinEditApp::slotExtrude");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape == NULL) {
+    QMessageBox::information( this, "Delete Shape", "No Shape selected.");
+  } else {
+    Command * command = new CommandExtrude(p_Doc);
+    command->execute(context);
+  }
 }
 

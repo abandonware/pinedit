@@ -58,8 +58,8 @@ void CommandMove::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "move vertices from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("move vertices from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandMove::preview(const CommandContext & context, View2D * view2d) {
@@ -94,11 +94,11 @@ void CommandMove::preview(const CommandContext & context, View2D * view2d) {
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
-	cerr << "commandmove::preview" << endl;
+	EM_CERR("commandmove::preview");
 }
 
 void CommandMove::undo() {
-	cerr << "CommandMove::undo" << endl;
+	EM_CERR("CommandMove::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_vVertex.size() == m_vIndex.size());
 	vector<int>::iterator indexiter = m_vIndex.begin();
@@ -115,6 +115,6 @@ void CommandMove::undo() {
 }
 
 Command * CommandMove::build() {
-	cerr << "CommandMove::build" << endl;
+	EM_CERR("CommandMove::build");
 	return new CommandMove(p_Doc);
 }

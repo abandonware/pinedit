@@ -34,49 +34,49 @@ void CommandNewPolygon::clearObjects() {
 }
 
 void CommandNewPolygon::execute(const CommandContext & context) {
-	assert(context.shape != NULL);
-	p_Context->copy(context);
-	
-	p_Polygon = new Polygon(context.shape);
-	
-	int index = 0;
-	int shindex = p_Doc->getSelectedVertex(index);
-	while (shindex >= 0) {
-		// this code should be in shape3d, find the vertex index in the shape
-		assert(context.shape->getVertex3D(shindex) != NULL);
-		p_Polygon->add(shindex);
-		++index;
-		shindex = p_Doc->getSelectedVertex(index);
-	}
-		
-	// don't add to small polys
-	if (index < 3) {
-		delete p_Polygon;
-		p_Polygon = NULL;
-	} else {
-		context.shape->add(p_Polygon);
-		context.shape->countNormals();
-		//p_Context = new CommandContext(context);
-		p_Doc->doSelectPolygons();
-		p_Doc->setModified(true);
-		p_Doc->rebuildAll("polygon");
-		p_Doc->updateAll("polygon");
-		p_Doc->pushUndo(this);
-	}
-	cerr << "CommandNewPolygon::execute new polygon with " << index << " vertices" << endl;
+  assert(context.shape != NULL);
+  EM_CERR("CommandNewPolygon::execute new polygon with " << index << " vertices");
+  p_Context->copy(context);
+  
+  p_Polygon = new Polygon(context.shape);
+  
+  int index = 0;
+  int shindex = p_Doc->getSelectedVertex(index);
+  while (shindex >= 0) {
+    // this code should be in shape3d, find the vertex index in the shape
+    assert(context.shape->getVertex3D(shindex) != NULL);
+    p_Polygon->add(shindex);
+    ++index;
+    shindex = p_Doc->getSelectedVertex(index);
+  }
+  
+  // don't add to small polys
+  if (index < 3) {
+    delete p_Polygon;
+    p_Polygon = NULL;
+  } else {
+    context.shape->add(p_Polygon);
+    context.shape->countNormals();
+    //p_Context = new CommandContext(context);
+    p_Doc->doSelectPolygons();
+    p_Doc->setModified(true);
+    p_Doc->rebuildAll("polygon");
+    p_Doc->updateAll("polygon");
+    p_Doc->pushUndo(this);
+  }
 }
 
 void CommandNewPolygon::undo() {
-	cerr << "CommandNewPolygon::undo" << endl;
-	assert(p_Polygon != NULL);
-	assert(p_Context->shape != NULL);
-	p_Context->shape->removePolygon(p_Polygon);
-	p_Doc->clearSelectedPolygon();
-	delete p_Polygon;
-	p_Doc->rebuildAll("polygon");
-	p_Doc->updateAll("polygon");
+  EM_CERR("CommandNewPolygon::undo");
+  assert(p_Polygon != NULL);
+  assert(p_Context->shape != NULL);
+  p_Context->shape->removePolygon(p_Polygon);
+  p_Doc->clearSelectedPolygon();
+  delete p_Polygon;
+  p_Doc->rebuildAll("polygon");
+  p_Doc->updateAll("polygon");
 }
 
 Command * CommandNewPolygon::build() {
-	return new CommandNewPolygon(p_Doc);
+  return new CommandNewPolygon(p_Doc);
 }

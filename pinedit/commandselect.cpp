@@ -46,12 +46,12 @@ void CommandSelect::execute(const CommandContext & context) {
 	case XY: ct.z1 = -1000; ct.z2 = 1000; break;
 	case XZ: ct.y1 = -1000; ct.y2 = 1000; break;
 	case ZY: ct.x1 = -1000; ct.x2 = 1000; break;
-	default: cerr << "CommandSelect::execute unknown type" << endl;
+	default: EM_CERR("CommandSelect::execute unknown type");
 	}
 
 	Shape3D * shape = p_Doc->getCurrentShape();
 	if (shape == NULL) {
-		cerr << "CommandSelect::execute no shape selected" << endl;
+		EM_CERR("CommandSelect::execute no shape selected");
 		return;
 	}
 	int index = 0;
@@ -73,25 +73,26 @@ void CommandSelect::execute(const CommandContext & context) {
 	p_Doc->pushUndo(this);
 	// this one reports for some strange reason that all are zero ???
 	// but selection is made correct !!!
-	cerr << "CommandSelect::execute select vertices at " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("CommandSelect::execute select vertices at " << 
+		context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandSelect::preview(const CommandContext & context, View2D * view2d) {
-	cerr << "CommandSelect::drawpreview" << endl;
+	EM_CERR("CommandSelect::drawpreview");
 	view2d->getPainter()->setPen(Qt::blue);
 	view2d->getPainter()->drawRect(context.sx1, context.sy1, 
 										 context.sx2 - context.sx1, context.sy2 - context.sy1);
 }
 
 void CommandSelect::undo() {
-	cerr << "CommandSelect::undo" << endl;
+	EM_CERR("CommandSelect::undo");
 	p_Doc->clearSelectedPolygon();
 	p_Doc->clearSelectedVertex();
 	p_Doc->updateAll("polygon");
 }
 
 Command * CommandSelect::build() {
-	cerr << "CommandSelect::build" << endl;
+	EM_CERR("CommandSelect::build");
 	return new CommandSelect(p_Doc);
 }

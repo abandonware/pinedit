@@ -106,7 +106,7 @@ int FileUtil::writeGroup(QTextStream & file, Group * group) {
 	// don't write groups beginning with #
 	string::size_type i = string(group->getName()).find("#");
 	if (i != string::npos && i == 0) {
-		cerr << "fileutil::writegroup(): omiting " << group->getName() << endl;
+		EM_CERR("fileutil::writegroup(): omiting " << group->getName());
 		return 0;
 	}
 	// header
@@ -118,7 +118,7 @@ int FileUtil::writeGroup(QTextStream & file, Group * group) {
 	file << "  " << vtxR.x <<" "<< vtxR.y <<" "<< vtxR.z << endl;
 
 	if (group->getGroup(0) != NULL) {
-		cerr << "fileutil::writegroup(): sub groups not yet supported !!!" << endl;
+		EM_CERR("fileutil::writegroup(): sub groups not yet supported !!!");
 	}
 	// write shapes
 	int shindex = 0;
@@ -253,7 +253,7 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
 }
 
 int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
-	cerr << "FileUtil::writeBehavior" << endl;
+	EM_CERR("FileUtil::writeBehavior");
 	assert(beh != NULL);
 	// bumper behavior
 	if (beh->getType() == PBL_TYPE_BUMPERBEH) {

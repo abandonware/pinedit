@@ -37,7 +37,7 @@ void CommandExtrude::clearObjects() {
 }
 
 void CommandExtrude::execute(const CommandContext & context) {
-	cerr << "CommandExtrude::execute" << endl;
+	EM_CERR("CommandExtrude::execute");
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 
@@ -103,7 +103,7 @@ void CommandExtrude::execute(const CommandContext & context) {
 }
 
 void CommandExtrude::undo() {
-	cerr << "CommandExtrude::undo" << endl;
+	EM_CERR("CommandExtrude::undo");
 	assert(p_Context->shape != NULL);
 	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
 	vector<Polygon*>::iterator polyend = m_vPolygon.end();
@@ -118,6 +118,6 @@ void CommandExtrude::undo() {
 }
 
 Command * CommandExtrude::build() {
-	cerr << "CommandExtrude::build" << endl;
+	EM_CERR("CommandExtrude::build");
 	return new CommandExtrude(p_Doc);
 }

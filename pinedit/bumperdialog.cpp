@@ -4,7 +4,7 @@
     begin                : Fri Aug 23 2002
     copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -34,81 +34,81 @@
 #include "BumperBehavior.h"
 
 BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
-: QDialog(parent, name, f) {
-	cerr << "BumperDialog::BumperDialog" << endl;
-	assert(doc != NULL);
-	p_Doc = doc;
-	p_BumperBehavior = NULL;
+  : QDialog(parent, name, f) {
+  EM_CERR("BumperDialog::BumperDialog");
+  assert(doc != NULL);
+  p_Doc = doc;
+  p_BumperBehavior = NULL;
 
-	QLabel * label = new QLabel("sound", this);
+  QLabel * label = new QLabel("sound", this);
 
-	//	p_SpinScore = new QSpinBox(0, 10000, 50, this);
-	p_EditSound = new QLineEdit(this);
-	QPushButton * choosebutton = new QPushButton("choose", this);
-	connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
+  //	p_SpinScore = new QSpinBox(0, 10000, 50, this);
+  p_EditSound = new QLineEdit(this);
+  QPushButton * choosebutton = new QPushButton("choose", this);
+  connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
 
-	QPushButton * donebutton = new QPushButton("done", this);
-	connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
+  QPushButton * donebutton = new QPushButton("done", this);
+  connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
-	QBoxLayout * hlayout = new QHBoxLayout(this);
-	//	hlayout->addWidget(p_SpinScore);
-	hlayout->addWidget(label);
-	hlayout->addWidget(p_EditSound);
-	hlayout->addWidget(choosebutton);
-	hlayout->addWidget(donebutton);
+  QBoxLayout * hlayout = new QHBoxLayout(this);
+  //	hlayout->addWidget(p_SpinScore);
+  hlayout->addWidget(label);
+  hlayout->addWidget(p_EditSound);
+  hlayout->addWidget(choosebutton);
+  hlayout->addWidget(donebutton);
 }
 
 BumperDialog::~BumperDialog() {
 }
 
 void BumperDialog::reload() {
-	cerr << "BumperDialog::reload" << endl;
-	assert(p_BumperBehavior != NULL);
-	//	p_SpinScore->setValue(p_BumperBehavior->getScore());
-	if (p_BumperBehavior->getSound() != -1 && 
-			SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound()) != NULL) {
-		p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound())));
-	} else {
-		p_EditSound->setText(QString(""));
-	}
+  EM_CERR("BumperDialog::reload");
+  assert(p_BumperBehavior != NULL);
+  //	p_SpinScore->setValue(p_BumperBehavior->getScore());
+  if (p_BumperBehavior->getSound() != -1 && 
+      SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound()) != NULL) {
+    p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_BumperBehavior->getSound())));
+  } else {
+    p_EditSound->setText(QString(""));
+  }
 }
 
 void BumperDialog::edit(BumperBehavior * beh) {
-	assert(beh != NULL);
-	p_BumperBehavior = beh;
-	// TODO load behavior
-	this->reload();
-	this->show();
-	cerr << "statedialog::edit" << endl;
+  assert(beh != NULL);
+  p_BumperBehavior = beh;
+  // TODO load behavior
+  this->reload();
+  this->show();
+  EM_CERR("statedialog::edit");
 }
 
 void BumperDialog::applyChanges() {
-	assert(p_BumperBehavior != NULL);
-	cerr << "BumperDialog::applyChanges" << endl;
-	//	p_BumperBehavior->setScore(p_SpinScore->value());
-	if (!(p_EditSound->text().isEmpty())) {
-		int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
-		if (sound != -1) {
-			p_BumperBehavior->setSound(sound);
-			cerr << "BumperDialog::applyChanges added sound" << endl;
-		} else {
-			cerr << "BumperDialog::applyChagnes sound not loaded" << endl;
-		}
-	} else {
-		p_BumperBehavior->setSound(-1);
-		cerr << "BumperDialog::applyChanges lineedit empty" << endl;
-	}
+  assert(p_BumperBehavior != NULL);
+  EM_CERR("BumperDialog::applyChanges");
+  //	p_BumperBehavior->setScore(p_SpinScore->value());
+  if (!(p_EditSound->text().isEmpty())) {
+    int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
+    if (sound != -1) {
+      p_BumperBehavior->setSound(sound);
+      EM_CERR("BumperDialog::applyChanges added sound");
+    } else {
+      EM_CERR("BumperDialog::applyChagnes sound not loaded");
+    }
+  } else {
+    p_BumperBehavior->setSound(-1);
+    EM_CERR("BumperDialog::applyChanges lineedit empty");
+  }
 }
 
 void BumperDialog::slotDone() {	
-	cerr << "BumperDialog::slotDone" << endl;
-	this->applyChanges();
-	this->done(0);
+  EM_CERR("BumperDialog::slotDone");
+  this->applyChanges();
+  this->done(0);
 }
 
 void BumperDialog::slotChooseSound() {
   QString filename = QFileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
-		p_EditSound->setText(filename);
-	}
+    p_EditSound->setText(filename);
+  }
 }

@@ -15,8 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <iostream>
-
 // application includes
 #include "commandnewvertex.h"
 #include "pineditdoc.h"
@@ -36,17 +34,17 @@ void CommandNewVertex::clearObjects() {
 
 void CommandNewVertex::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	EM_CERR("CommandNewVertex::execute " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 	p_Context->copy(context);
 
 	m_iVtxIndex = context.shape->add(context.x2, context.y2, context.z2);
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandNewVertex::execute " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }
 
 void CommandNewVertex::undo() {
-	cerr << "CommandNewVertex::undo" << endl;
+	EM_CERR("CommandNewVertex::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_iVtxIndex != -1);
 	p_Context->shape->removeLooseVertex3D(m_iVtxIndex);

@@ -171,6 +171,180 @@ int main(int argc, char *argv[])
 ])
 
 dnl #######################################################
+dnl ## PINBALL
+dnl #######################################################
+
+dnl AM_PATH_PINBALL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+dnl Test for pinball, and define PINBALL_CFLAGS and PINBALL_LIBS
+dnl
+AC_DEFUN(AM_PATH_PINBALL,
+[dnl 
+dnl Get the cflags and libraries from the pinball-config script
+dnl
+AC_ARG_WITH(pinball-prefix,[  --with-piball-prefix=PFX   Prefix where pinball is installed (optional)],
+            pinball_prefix="$withval", pinball_prefix="")
+
+AC_ARG_WITH(pinball-exec-prefix,[  --with-pinball-exec-prefix=PFX Exec prefix where pinball is installed (optional)],
+            pinball_exec_prefix="$withval", pinball_exec_prefix="")
+
+AC_ARG_ENABLE(pinballtest, [  --disable-pinballtest       Do not try to compile and run a test pinball program],
+		    , enable_pinballtest=yes)
+
+  if test x$pinball_exec_prefix != x ; then
+     if test x${PINBALL_CONFIG+set} != xset ; then
+        PINBALL_CONFIG=$pinball_exec_prefix/bin/pinball-config
+     fi
+  fi
+
+  if test x$pinball_prefix != x ; then
+     if test x${PINBALL_CONFIG+set} != xset ; then
+        PINBALL_CONFIG=$pinball_prefix/bin/pinball-config
+     fi
+  fi
+
+  AC_REQUIRE([AC_CANONICAL_TARGET])
+  AC_PATH_PROG(PINBALL_CONFIG, pinball-config, no)
+  min_pinball_version=ifelse([$1], ,0.11.0,$1)
+  AC_MSG_CHECKING(for pinball - version >= $min_pinball_version)
+  no_pinball=""
+  if test "$PINBALL_CONFIG" = "no" ; then
+    no_pinball=yes
+  else
+    PINBALL_CFLAGS=`$PINBALL_CONFIG --cflags`
+    PINBALL_LIBS=`$PINBALL_CONFIG --libs`
+
+    pinball_major_version=`$PINBALL_CONFIG --version | \
+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+    pinball_minor_version=`$PINBALL_CONFIG --version | \
+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+    pinball_micro_version=`$PINBALL_CONFIG --version | \
+           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+
+    if test "x$enable_pinballtest" = "xyes" ; then
+      ac_save_CFLAGS="$CFLAGS"
+      ac_save_LIBS="$LIBS"
+      CFLAGS="$CFLAGS $PINBALL_CFLAGS"
+      LIBS="$LIBS $PINBALL_LIBS"
+dnl
+dnl Now check if the installed pinball is sufficiently new. (Also sanity
+dnl checks the results of pinball-config to some extent
+dnl
+      rm -f conf.pinballtest
+      AC_TRY_RUN([
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char*
+my_strdup (char *str)
+{
+  char *new_str;
+  
+  if (str)
+    {
+      new_str = (char *)malloc ((strlen (str) + 1) * sizeof(char));
+      strcpy (new_str, str);
+    }
+  else
+    new_str = NULL;
+  
+  return new_str;
+}
+
+int main (int argc, char *argv[])
+{
+  int major, minor, micro;
+  char *tmp_version;
+
+  /* This hangs on some systems (?)
+  system ("touch conf.pinballtest");
+  */
+  { FILE *fp = fopen("conf.pinballtest", "a"); if ( fp ) fclose(fp); }
+
+  /* HP/UX 9 (%@#!) writes to sscanf strings */
+  tmp_version = my_strdup("$min_pinball_version");
+  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
+     printf("%s, bad version string\n", "$min_pinball_version");
+     exit(1);
+   }
+
+   if (($pinball_major_version > major) ||
+      (($pinball_major_version == major) && ($pinball_minor_version > minor)) ||
+      (($pinball_major_version == major) && ($pinball_minor_version == minor) && ($pinball_micro_version >= micro)))
+    {
+      return 0;
+    }
+  else
+    {
+      printf("\n*** 'pinball-config --version' returned %d.%d.%d, but the minimum version\n", $pinball_major_version, $pinball_minor_version, $pinball_micro_version);
+      printf("*** of pinball required is %d.%d.%d. If pinball-config is correct, then it is\n", major, minor, micro);
+      printf("*** best to upgrade to the required version.\n");
+      printf("*** If pinball-config was wrong, set the environment variable PINBALL_CONFIG\n");
+      printf("*** to point to the correct copy of pinball-config, and remove the file\n");
+      printf("*** config.cache before re-running configure\n");
+      return 1;
+    }
+}
+
+],, no_pinball=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+       CFLAGS="$ac_save_CFLAGS"
+       LIBS="$ac_save_LIBS"
+     fi
+  fi
+  if test "x$no_pinball" = x ; then
+     AC_MSG_RESULT(yes)
+     ifelse([$2], , :, [$2])     
+  else
+     AC_MSG_RESULT(no)
+     if test "$PINBALL_CONFIG" = "no" ; then
+       echo "*** The pinball-config script installed by pinball could not be found"
+       echo "*** If pinball was installed in PREFIX, make sure PREFIX/bin is in"
+       echo "*** your path, or set the PINBALL_CONFIG environment variable to the"
+       echo "*** full path to pinball-config."
+     else
+       if test -f conf.pinballtest ; then
+        :
+       else
+          echo "*** Could not run pinball test program, checking why..."
+          CFLAGS="$CFLAGS $PINBALL_CFLAGS"
+          LIBS="$LIBS $PINBALL_LIBS"
+          AC_TRY_LINK([
+#include <stdio.h>
+#include "Pinball.h"
+
+int main(int argc, char *argv[])
+{ return 0; }
+#undef  main
+#define main K_and_R_C_main
+],      [ return 0; ],
+        [ echo "*** The test program compiled, but did not run. This usually means"
+          echo "*** that the run-time linker is not finding pinball or finding the wrong"
+          echo "*** version of pinball. If it is not finding pinball, you'll need to set your"
+          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
+          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
+          echo "*** is required on your system"
+	  echo "***"
+          echo "*** If you have an old version installed, it is best to remove it, although"
+          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
+        [ echo "*** The test program failed to compile or link. See the file config.log for the"
+          echo "*** exact error that occured. This usually means pinball was incorrectly installed"
+          echo "*** or that you have moved pinball since it was installed. In the latter case, you"
+          echo "*** may want to edit the pinball-config script: $PINBALL_CONFIG" ])
+          CFLAGS="$ac_save_CFLAGS"
+          LIBS="$ac_save_LIBS"
+       fi
+     fi
+     PINBALL_CFLAGS=""
+     PINBALL_LIBS=""
+     ifelse([$3], , :, [$3])
+  fi
+  AC_SUBST(PINBALL_CFLAGS)
+  AC_SUBST(PINBALL_LIBS)
+  rm -f conf.pinballtest
+])
+
+
+dnl #######################################################
 dnl ## CppUnit
 dnl #######################################################
 

@@ -15,15 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-// general includes
-#include <iostream>
-// qt
+// qt includes
 #include <qinputdialog.h>
-// application
+// application includes
 #include "pineditdoc.h"
 #include "commandnewgroup.h"
-
-// engine
+// emilia includes
+#include "Private.h"
 #include "Group.h"
 
 CommandNewGroup::CommandNewGroup(PinEditDoc * doc) : Command(doc) {
@@ -36,14 +34,16 @@ void CommandNewGroup::clearObjects() {
 }
 
 void CommandNewGroup::execute(const CommandContext & context) {
-	assert(context.group != NULL);
-	p_Context->copy(context);
-	
-  bool ok = FALSE;
-  QString text = QInputDialog::getText( p_Doc->tr( "Enter name for group" ), p_Doc->tr("Input"), 
-																				QLineEdit::Normal, QString::null, &ok, 0, 0 );
-  if ( !ok || text.isEmpty() ) {
-		return;
+  assert(context.group != NULL);
+  EM_CERR("CommandNewGroup::execute");
+  p_Context->copy(context);
+	  
+	  bool ok = FALSE;
+	  QString text = QInputDialog::getText(p_Doc->tr( "Enter name for group" ), 
+					       p_Doc->tr("Input"), 
+						     QLineEdit::Normal, QString::null, &ok, 0, 0 );
+		if ( !ok || text.isEmpty() ) {
+		  return;
 	}
 	p_Group = new Group();
 	p_Group->setName(text.data());
@@ -56,11 +56,10 @@ void CommandNewGroup::execute(const CommandContext & context) {
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
-	cerr << "CommandNewGroup::execute" << endl;
 }
 
 void CommandNewGroup::undo() {
-	cerr << "CommandNewGroup::undo" << endl;
+	EM_CERR("CommandNewGroup::undo");
 	assert(p_Context->group != NULL);
 	p_Context->group->removeGroup(p_Group);
 	delete p_Group;

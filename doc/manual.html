@@ -1,0 +1,124 @@
+	<html>
+		<header>
+			<title>Pinball Editor Manual</title>
+		</header>
+		
+		<body>
+			<h1><a name="manual">Manual</a></h1>
+			
+			<ul>
+				<li><a href="#introduction">Introduction</a></li>
+				<li><a href="#terminology">Terminology</a></li>
+				<li><a href="#components">Components</a>
+					<ul>
+						<!--						<li><a href="#overview">Overveiw</a></li> -->
+						<li><a href="#toolbar">Toolbar</a></li>
+						<li><a href="#2d views">2D Views</a></li>
+						<li><a href="#3d view">3D View</a></li>
+						<li><a href="#object panel">Object panel</a></li>
+						<li><a href="#polygon panel">Polygon panel</a></li>
+						<li><a href="#behavior dialogs">Behavior Dialogs</a></li>
+						<ul>
+							<li><a href="#state machine">State Machine</a></li>
+						</ul>
+						<li><a href="#texcoord dialog">Texcoord Dialog</a></li>
+						
+					</ul>
+				</li>
+			</ul>
+			
+			<h2><a name="introduction">Introduction</a></h2>
+			<p>
+				This is a table editor for the "Emilia Pinball" game. To be able to crate tables
+				you need some basic knowledge about 3D modelling and atleast one heard about C/C++ 
+				programming (the scripts that runs the tables are written i C++).
+				This document describes the function of each component in the editor.
+				If you want a step by step intruction of how to use the editor check out the
+				<a href="tutorial.html">tutorial</a>.
+			</p>
+			<a href="#manual">top</a>
+			
+			<h2><a name="terminology">Terminology</a></h2>
+			<p>
+				A table is constructed of a number of <i>objects</i>. An object is for example 
+				the floor, an arm a bumper or a object that plays the background music. 
+				A <i>shape</i> is a visible or invisible mesh in 3D space, shapes are 
+				built of polygons and vertices. An object can hold any number of 
+				shapes, typically there is one or several shapes that are visible and one
+				less detailed invisible shape that is used for collision detection.
+				The object determines the translation	and rotation of the 
+				shapes that it holds. 
+			</p>
+			<p>
+				A <i>behavior</i> can be set to control an object, the
+				behavior can move the object and thus all of is shapes, switch which
+				shapes are visible and which are invisible or play sounds on collision.
+				There are some default bevavior for bumpers and arms avaible. A custom
+				behavior type allows you to create state machines that control the object.
+				
+			</p>
+			<a href="#manual">top</a>
+		
+<!--			<a href="#manual">top</a> -->
+
+<!--			<h3><a name="overview">Overview</a></h3> -->
+			<p>
+				
+			</p>
+
+			<h2><a name="components">Components</a></h2>
+			<p>
+				The main components of the editor is the <a href="#toolbar">toolbar</a>, 
+				the <a href="#2d views">2D views</a>, the <a href="#3d view">3D view</a>, the
+				<a href="#object panel">object panel</a>, the <a href="#polygon panel">polygon panel</a>,
+				the <a href="#behavior dialogs">behavior dialogs</a> and the 
+				<a href="#texcoord dialog">texcoord dialog</a>.
+			</p>
+			<a href="#manual">top</a>
+			
+			<h3><a name="toolbar">Toolbar</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="2d views">2D Views</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="3d view">3D View</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="object panel">Object Panel</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="polygon panel">Polygon Panel</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="behavior dialogs">Behavior Dialogs</a></h3>
+			<p>
+				TODO
+			</p>
+			<a href="#manual">top</a>
+
+			<h3><a name="state machine">State Machine</a></h3>
+			<p>
+				The state machine behaviors dialog
+			</p>
+			<a href="#manual">top</a>
+
+			
+		</body>
+		
+	</html>

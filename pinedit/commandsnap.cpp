@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 // general includes
-#include <math.h>
+#include <cmath>
 // qt includes
 #include <qpainter.h>
 // application includes
@@ -42,7 +42,7 @@ void CommandSnap::clearObjects() {
 }
 
 void CommandSnap::execute(const CommandContext & context) {
-	cerr << "CommandSnap::execute " << m_fFactor << endl;
+	EM_CERR("CommandSnap::execute " << m_fFactor);
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 
@@ -64,7 +64,7 @@ void CommandSnap::execute(const CommandContext & context) {
 }
 
 void CommandSnap::undo() {
-	cerr << "CommandSnap::undo" << endl;
+	EM_CERR("CommandSnap::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_vVertex.size() == m_vIndex.size());
 	vector<int>::iterator indexiter = m_vIndex.begin();

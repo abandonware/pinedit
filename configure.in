@@ -5,37 +5,46 @@ dnl this is a c++ program
 CFLAGS="-g -W -Wall"
 CXXFLAGS="-g -W -Wall"
 
+PINBALL_VERSION=0.1.3
 SDL_VERSION=1.2.0
+ALLEGRO_VERSION=4.0.0
 
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(pinedit, 0.1.0)
+AC_CONFIG_SUBDIRS(libltdl)
+
+AM_INIT_AUTOMAKE(pinedit, 0.0.3)
 AM_CONFIG_HEADER(editconfig.h)
 
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
-AC_PROG_RANLIB
-dnl AC_LIBTOOL_DLOPEN
-dnl AC_PROG_LIBTOOL
-dnl AC_LANG_CPLUSPLUS
+AC_LIBTOOL_DLOPEN
+AC_LIBLTDL_CONVENIENCE
+AC_PROG_LIBTOOL
+
+AC_SUBST(INCLTDL)
+AC_SUBST(LIBLTDL)
 
 dnl *******************************************
 dnl PATHS AND DIRS ****************************
 dnl data dirs, fuck I hate autoconf, spent 4 hours getting this right had to steal it from 
 dnl xine and even that took a couple of hours
 if test "x$prefix" = xNONE; then
-   prefix="${ac_default_prefix}"
+  prefix="${ac_default_prefix}"
 fi
 
-EM_DATADIR="$datadir/$PACKAGE"
-eval EM_DATAPATH=`eval echo "$EM_DATADIR"`
-AC_DEFINE_UNQUOTED(EM_DATADIR, "$EM_DATAPATH")
-AC_SUBST(EM_DATAPATH)
-AC_SUBST(EM_DATADIR)
+if test "x$exec_prefix" = xNONE; then
+  exec_prefix="$prefix"
+fi
 
+PIN_DATADIR="$datadir/$PACKAGE"
+eval PIN_DATAPATH=`eval echo "$PIN_DATADIR"`
+AC_DEFINE_UNQUOTED(PIN_DATADIR, "$PIN_DATAPATH")
+AC_SUBST(PIN_DATAPATH)
+AC_SUBST(PIN_DATADIR)
 
 dnl *******************************************
 dnl OPENGL ************************************
@@ -99,11 +108,11 @@ dnl SDL_image *********************************
 AC_ARG_WITH(sdlimage-prefix, [  --with-sdlimage-prefix=PFX   Prefix where SDL_image library is installed (optional)], sdlimage_prefix="$withval", sdlimage_prefix="")
  
 if test x"$sdlimage_prefix" != "x"; then
-	SDLIMAGE_LIB="-L$sdlimage_prefix/lib"
-	SDLIMAGE_CFLAGS="-I$sdlimage_prefix/include"
-	LDFLAGS="$SDLIMAGE_LIB $LDFLAGS"
-	CPPFLAGS="$CPPFLAGS $SDLIMAGE_CFLAGS"
-	CFLAGS="$CFLAGS $SDLIMAGE_CFLAGS"
+  SDLIMAGE_LIB="-L$sdlimage_prefix/lib"
+  SDLIMAGE_CFLAGS="-I$sdlimage_prefix/include"
+  LDFLAGS="$SDLIMAGE_LIB $LDFLAGS"
+  CPPFLAGS="$CPPFLAGS $SDLIMAGE_CFLAGS"
+  CFLAGS="$CFLAGS $SDLIMAGE_CFLAGS"
 fi
 
 AC_CHECK_LIB(SDL_image, IMG_Load, : ,AC_MSG_ERROR([*** libSDL_image not found! Make sure you have the development package of SDL_image installed - (www.libsdl.org) - or try to use the --with-sdlimage-prefix option]), )
@@ -114,11 +123,11 @@ dnl SDL_mixer **********************************
 AC_ARG_WITH(sdlmixer-prefix, [  --with-sdlmixer-prefix=PFX   Prefix where SDL_mixer library is installed (optinal)], sdlmixer_prefix="$withval", sdlmixer_prefix="")
 
 if test x"$sdlmixer_prefix" != "x"; then
-	SDLMIXER_LIB="-L$sdlmixer_prefix/lib"
-	SDLMIXER_CFLAGS="-I$sdlmixer_prefix/include"
-	LDFLAGS="$SDLMIXER_LIB $LDFLAGS"
-	CPPFLAGS="$CPPFLAGS $SDLMIXER_CFLAGS"
-	CFLAGS="$CFLAGS $SDLMIXER_CFLAGS"
+  SDLMIXER_LIB="-L$sdlmixer_prefix/lib"
+  SDLMIXER_CFLAGS="-I$sdlmixer_prefix/include"
+  LDFLAGS="$SDLMIXER_LIB $LDFLAGS"
+  CPPFLAGS="$CPPFLAGS $SDLMIXER_CFLAGS"
+  CFLAGS="$CFLAGS $SDLMIXER_CFLAGS"
 fi
 
 AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, : ,AC_MSG_ERROR([*** libSDL_mixer not found. Make sure you have the development package of SDL_mixer installed - (www.libsdl.org) - or try to use --with-sdlmixer-prefix option]), )
@@ -126,20 +135,20 @@ AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio, : ,AC_MSG_ERROR([*** libSDL_mixer not fou
 LIBS="$LIBS -lSDL_mixer"
 
 dnl ********************************************
+dnl PINBALL ************************************
+AM_PATH_PINBALL( $PINBALL_VERSION, , AC_MSG_ERROR([*** Pinball version $PINBALL_VERSION not found! Make sure you pinball installed - (pinball.sourceforge.net) - or try to use the --with-pinball-prefix option]) )
+CFLAGS="$CFLAGS $PINBALL_CFLAGS"
+CXXFLAGS="$CXXFLAGS $PINBALL_CFLAGS"
+LIBS="$PINBALL_LIBS $LIBS"
+
+dnl ********************************************
 dnl CPP_UNIT ***********************************
 AM_PATH_CPPUNIT(1.8.0, [
-	AC_DEFINE(EM_UNIT_TEST) 
-	CPPFLAGS="$CPPFLAGS $CPPUNIT_CFLAGS"	
-	CFLAGS="$CFLAGS $CPPUNIT_CFLAGS" 
-	LIBS="$LIBS $CPPUNIT_LIBS"
-	], AC_MSG_WARN([*** CppUnit was not found. No unit testing.]))
-
-dnl if test x"$use_cppunit" == "xyes"; then
-dnl	AC_DEFINE(EM_UNIT_TEST) 
-dnl	CPPFLAGS="$CPPFLAGS $CPPUNIT_CFLAGS"	
-dnl	CFLAGS="$CFLAGS $CPPUNIT_CFLAGS" 
-dnl	LIBS="$LIBS $CPPUNIT_LIBS"
-dnl fi
+  AC_DEFINE(EM_UNIT_TEST) 
+  CPPFLAGS="$CPPFLAGS $CPPUNIT_CFLAGS"	
+  CFLAGS="$CFLAGS $CPPUNIT_CFLAGS" 
+  LIBS="$LIBS $CPPUNIT_LIBS"
+  ], AC_MSG_WARN([*** CppUnit was not found. No unit testing.]))
 
 dnl ********************************************
 dnl QT TODO ************************************
@@ -155,4 +164,12 @@ dnl HEADERS ************************************
 dnl Checks for header files.
 AC_HEADER_STDC
 
-AC_OUTPUT(Makefile pinedit/Makefile data/Makefile doc/Makefile)
+AC_ARG_WITH(debug, [  --with-debug            Compile debug version], use_debug="yes", use_debug="no")
+
+if test x"$use_debug" == "xyes"; then
+AC_DEFINE(EM_DEBUG)
+fi
+
+AC_DEFINE(EM_USE_SDL)
+
+AC_OUTPUT(Makefile pinedit/Makefile data/Makefile data/audio/Makefile data/template/Makefile data/template/pinball-template data/template/Make-template data/objects/Makefile doc/Makefile)

@@ -55,8 +55,8 @@ void CommandResize::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandResize::execute " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("CommandResize::execute " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandResize::preview(const CommandContext & context, View2D * view2d) {
@@ -74,23 +74,26 @@ void CommandResize::preview(const CommandContext & context, View2D * view2d) {
 		vtxA.x = vtx->x * (float)(PE_RESIZE_FACTOR + dx)/PE_RESIZE_FACTOR;
 		vtxA.y = vtx->y * (float)(PE_RESIZE_FACTOR + dy)/PE_RESIZE_FACTOR;
 		vtxA.z = vtx->z * (float)(PE_RESIZE_FACTOR + dz)/PE_RESIZE_FACTOR;
-		//cerr << vtx->x <<" "<< vtx->y <<" "<< vtx->z << endl;
+		//EM_CERR(vtx->x <<" "<< vtx->y <<" "<< vtx->z);
 		switch (context.type) {
-		case XY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, view2d->screeny(-vtxA.y)-1, 
-																						3, 3); break;
-		case XZ: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, view2d->screeny(vtxA.z)-1, 
-																						3, 3); break;
-		case ZY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.z)-1, view2d->screeny(-vtxA.y)-1, 
-																						3, 3); break;
+		case XY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, 
+							view2d->screeny(-vtxA.y)-1, 
+							3, 3); break;
+		case XZ: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, 
+							view2d->screeny(vtxA.z)-1, 
+							3, 3); break;
+		case ZY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.z)-1, 
+							view2d->screeny(-vtxA.y)-1, 
+							3, 3); break;
 		}
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
-	cerr << "commandmove::preview" << endl;
+	EM_CERR("commandmove::preview");
 }
 
 void CommandResize::undo() {
-	cerr << "CommandResize::undo" << endl;
+	EM_CERR("CommandResize::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_vVertex.size() == m_vIndex.size());
 	vector<int>::iterator indexiter = m_vIndex.begin();

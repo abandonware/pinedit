@@ -40,8 +40,8 @@ void CommandDeleteVertex::clearObjects() {
 }
 
 void CommandDeleteVertex::execute(const CommandContext & context) {
-	cerr << "CommandDeleteVertex::execute" << endl;
 	assert(context.shape != NULL);
+	EM_CERR("CommandDeleteVertex::execute");
 	p_Context->copy(context);
 
 	vector<int> v_index;
@@ -70,7 +70,7 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 			m_vTexCoord.push_back(texcoord);
 			m_vIndex.push_back(*riter);
 		} else {
-			cerr << "CommandDeleteVertex::execute could not remove vertex " << (*riter) << endl;
+			EM_CERR("CommandDeleteVertex::execute could not remove vertex " << (*riter));
 		}
 	}
 
@@ -82,10 +82,10 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 }
 
 void CommandDeleteVertex::undo() {
-	cerr << "CommandDeleteVertex::undo" << endl;
 	assert(m_vVertex.size() == m_vIndex.size());
 	assert(p_Context->shape != NULL);
-	cerr << m_vVertex.size() << endl;
+	EM_CERR("CommandDeleteVertex::undo");
+	EM_CERR(m_vVertex.size());
 	// insert vertices in ascending order, note they are in descending order in vector
 	vector<int>::reverse_iterator rindexiter = m_vIndex.rbegin();
 	vector<int>::reverse_iterator rindexend = m_vIndex.rend();

@@ -77,12 +77,14 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandRotateLocal::execute from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("CommandRotateLocal::execute from " << 
+		context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d) {
 	if (context.shape == NULL) return;
+	EM_CERR("CommandRotateLocal::preview");
 	// build matrix stack for temporary translation
 	// mtxA is moves and rotates , mtxB fixes the translation to local rotation
 	// mtxC is the final matrix
@@ -126,12 +128,11 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
-	//cerr << "drawed " << index << " temporary polygons" << endl;
-	cerr << "CommandRotateLocal::preview" << endl;
+	//EM_CERR("drawed " << index << " temporary polygons");
 }
 
 void CommandRotateLocal::undo() {
-	cerr << "CommandRotateLocal::undo" << endl;
+	EM_CERR("CommandRotateLocal::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_vVertex.size() == m_vIndex.size());
 	vector<int>::iterator indexiter = m_vIndex.begin();

@@ -27,6 +27,8 @@
 #include "pineditdoc.h"
 #include "texcoorddialog.h"
 #include "commandtexcoord.h"
+// emilia includes
+#include "Private.h"
 
 TexCoordDialog::TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
 : QDialog(parent, name, f) {
@@ -61,28 +63,28 @@ TexCoordDialog::~TexCoordDialog() {
 }
 
 void TexCoordDialog::slotTexCoord() {
-	cerr << "TexCoordDialog::slotTexCoord" << endl;
-	CommandContext context;
-	context.clear();
-	context.shape = p_Doc->getCurrentShape();
-	if (context.shape == NULL) {
-		QMessageBox::information( this, "TexCoord", "No Shape selected.");
-		this->done(0);
-		return;
-	}
-
-	context.type = XY;
-	if (p_RadioButtonXZ->isChecked()) { 
-		context.type = XZ;
-	}	else if (p_RadioButtonZY->isChecked()) { 
-		context.type = ZY;
-	}
-
-	p_CommandTexCoord->build()->execute(context);
-	this->done(0);
+  EM_CERR("TexCoordDialog::slotTexCoord");
+  CommandContext context;
+  context.clear();
+  context.shape = p_Doc->getCurrentShape();
+  if (context.shape == NULL) {
+    QMessageBox::information( this, "TexCoord", "No Shape selected.");
+    this->done(0);
+    return;
+  }
+  
+  context.type = XY;
+  if (p_RadioButtonXZ->isChecked()) { 
+    context.type = XZ;
+  }	else if (p_RadioButtonZY->isChecked()) { 
+    context.type = ZY;
+  }
+  
+  p_CommandTexCoord->build()->execute(context);
+  this->done(0);
 };
 
 void TexCoordDialog::slotCancel() {
-	cerr << "TexCoordDialog::slotCancel" << endl;
-	this->done(0);
+  EM_CERR("TexCoordDialog::slotCancel");
+  this->done(0);
 };

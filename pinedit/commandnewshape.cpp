@@ -34,6 +34,7 @@ void CommandNewShape::clearObjects() {
 
 void CommandNewShape::execute(const CommandContext & context) {
 	assert(context.group != NULL);
+	EM_CERR("CommandNewShape::execute");
 	p_Context->copy(context);
 
 	p_Context->shape = new Shape3D();
@@ -46,11 +47,10 @@ void CommandNewShape::execute(const CommandContext & context) {
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
-	cerr << "CommandNewShape::execute" << endl;
 }
 
 void CommandNewShape::undo() {
-	cerr << "CommandNewShape::undo" << endl;
+	EM_CERR("CommandNewShape::undo");
 	assert(p_Context->group != NULL);
 	assert(p_Context->shape != NULL);
 	p_Context->group->removeShape3D(p_Context->shape);

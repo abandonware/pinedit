@@ -34,7 +34,7 @@ void CommandMirror::clearObjects() {
 }
 
 void CommandMirror::execute(const CommandContext & context) {
-	cerr << "CommandMirror::execute" << endl;
+	EM_CERR("CommandMirror::execute");
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 	m_vIndex.clear();
@@ -89,7 +89,7 @@ void CommandMirror::execute(const CommandContext & context) {
 }
 
 void CommandMirror::undo() {
-	cerr << "CommandMirror::undo" << endl;
+	EM_CERR("CommandMirror::undo");
 	assert(p_Context->shape != NULL);
 
 	// mirror
@@ -131,6 +131,6 @@ void CommandMirror::undo() {
 }
 
 Command * CommandMirror::build() {
-	cerr << "CommandMirror::bulld" << endl;
+	EM_CERR("CommandMirror::bulld");
 	return new CommandMirror(p_Doc);
 }

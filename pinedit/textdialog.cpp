@@ -24,26 +24,28 @@ using namespace std;
 #include <qlayout.h>
 // application includes
 #include "textdialog.h"
+// emilia includes
+#include "Private.h"
 
 TextDialog::TextDialog(QWidget * parent, const char * name, WFlags f) : QDialog(parent, name, f) {
-	p_TextBrowser = new QTextBrowser(this);
-	p_TextBrowser->setMinimumSize(600,600);
-	QBoxLayout * layout = new QVBoxLayout(this);
-	layout->addWidget(p_TextBrowser);
+  p_TextBrowser = new QTextBrowser(this);
+  p_TextBrowser->setMinimumSize(600,600);
+  QBoxLayout * layout = new QVBoxLayout(this);
+  layout->addWidget(p_TextBrowser);
 }
 
 TextDialog::~TextDialog() {
 }
 
 void TextDialog::setSource(const QString & name) {
-	p_TextBrowser->setSource(name);
+  p_TextBrowser->setSource(name);
 }	
 
 void TextDialog::slotBack() {
-	cerr << "TextDialog::slotBack" << endl;
+  EM_CERR("TextDialog::slotBack");
 }
 
 void TextDialog::slotCancel() {
-	this->done(0);
-	cerr << "TextDialog::slotCancel" << endl;
+  this->done(0);
+  EM_CERR("TextDialog::slotCancel");
 }

@@ -40,7 +40,7 @@ void CommandPaste::clearObjects() {
 }
 
 void CommandPaste::execute(const CommandContext & context) {
-	cerr << "CommandPaste::execute" << endl;
+	EM_CERR("CommandPaste::execute");
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 	m_vPolygon.clear();
@@ -61,7 +61,7 @@ void CommandPaste::execute(const CommandContext & context) {
 	assert(vVertex.size() == vIndex.size());
 	assert(vVertex.size() == vColor.size());
 	assert(vVertex.size() == vTexCoord.size());
-	cerr << "adding " << vVertex.size() << " vertices " << endl;
+	EM_CERR("adding " << vVertex.size() << " vertices ");
 
 	// copy vertices to the end of the shape
 	vector<Vertex3D>::iterator viter = vVertex.begin();
@@ -103,7 +103,7 @@ void CommandPaste::execute(const CommandContext & context) {
 }
 
 void CommandPaste::undo() {
-	cerr << "CommandPaste::undo" << endl;
+	EM_CERR("CommandPaste::undo");
 	assert(p_Context->shape != NULL);
 
 	// delete polygons
@@ -125,6 +125,6 @@ void CommandPaste::undo() {
 }
 
 Command * CommandPaste::build() {
-	cerr << "CommandPaste::build" << endl;
+	EM_CERR("CommandPaste::build");
 	return new CommandPaste(p_Doc);
 }

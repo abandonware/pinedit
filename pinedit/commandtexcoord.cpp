@@ -35,12 +35,12 @@ CommandTexCoord::~CommandTexCoord() {
 }
 
 void CommandTexCoord::execute(const CommandContext & context) {
-	cerr << "CommandTexCoord::execute " << endl;
+	EM_CERR("CommandTexCoord::execute ");
 	assert(context.shape != NULL);
 
 	switch (context.type) {
 	case XY: {
-		cerr << "CommandTexCoord::execute XY" << endl;
+		EM_CERR("CommandTexCoord::execute XY");
 		// find min max x and min max y
 		float minx = 9999, maxx = -9999, miny = 9999, maxy = -9999; 
 		int index = 0;
@@ -68,7 +68,7 @@ void CommandTexCoord::execute(const CommandContext & context) {
 		}
 	} break;
 	case XZ: {
-		cerr << "CommandTexCoord::execute XZ" << endl;
+		EM_CERR("CommandTexCoord::execute XZ");
 		// find min max x and min max y
 		float minx = 9999, maxx = -9999, minz = 9999, maxz = -9999; 
 		int index = 0;
@@ -96,7 +96,7 @@ void CommandTexCoord::execute(const CommandContext & context) {
 		}
 	} break;
 	case ZY: {
-		cerr << "CommandTexCoord::execute ZY" << endl;
+		EM_CERR("CommandTexCoord::execute ZY");
 		// find min max x and min max y
 		float minz = 9999, maxz = -9999, miny = 9999, maxy = -9999; 
 		int index = 0;

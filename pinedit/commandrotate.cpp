@@ -34,6 +34,7 @@ CommandRotate::~CommandRotate() {
 
 void CommandRotate::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	EM_CERR("CommandRotate::execute");
 	p_Context->copy(context);
 
 	Matrix mtxA = EMath::identityMatrix;
@@ -61,10 +62,10 @@ void CommandRotate::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandRotate::execute" << endl;
 }
 
 void CommandRotate::preview(const CommandContext & context, View2D * view2d) {
+	EM_CERR("CommandRotate::preview");
 	if (context.shape == NULL) return;
 	// build matrix stack for temporary translation
 	// mtxB is global rotion matrix, mtxC fixes the translation in local rotation
@@ -98,11 +99,10 @@ void CommandRotate::preview(const CommandContext & context, View2D * view2d) {
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
-	cerr << "CommandRotate::preview" << endl;
 }
 
 void CommandRotate::undo() {
-	cerr << "CommandRotate::undo" << endl;
+	EM_CERR("CommandRotate::undo");
 	assert(p_Context->shape != NULL);
 	assert(m_vVertex.size() == m_vIndex.size());
 	vector<int>::iterator indexiter = m_vIndex.begin();
@@ -119,6 +119,6 @@ void CommandRotate::undo() {
 }
 
 Command * CommandRotate::build() {
-	cerr << "CommandRotate::build" << endl;
+	EM_CERR("CommandRotate::build");
 	return new CommandRotate(p_Doc);
 }

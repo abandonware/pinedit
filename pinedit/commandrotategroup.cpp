@@ -53,12 +53,13 @@ void CommandRotateGroup::execute(const CommandContext & context) {
 	p_Doc->updateAll("group");
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandRotateGroup::execute from " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("CommandRotateGroup::execute from " << 
+		context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d) {
-	cerr << "CommandRotateGroup::preview" << endl;
+	EM_CERR("CommandRotateGroup::preview");
 	if (context.group == NULL) return;
 
 	Matrix mtxA = EMath::identityMatrix;
@@ -100,11 +101,11 @@ void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d
 		shindex++;
 		shape = g->getShape3D(shindex);
 	}
-	cerr << "CommandRotateGroup::preview" << endl;
+	EM_CERR("CommandRotateGroup::preview");
 }
 
 void CommandRotateGroup::undo() {
-	cerr << "CommandRotateGroup::undo" << endl;
+	EM_CERR("CommandRotateGroup::undo");
 	assert(p_Context->group != NULL);
 	p_Context->group->setRotation(m_vtxRot.x, m_vtxRot.y, m_vtxRot.z);
 	p_Doc->updateAll("group");
@@ -112,6 +113,6 @@ void CommandRotateGroup::undo() {
 }
 
 Command * CommandRotateGroup::build() {
-	cerr << "CommandRotateGroup::build" << endl;
+	EM_CERR("CommandRotateGroup::build");
 	return new CommandRotateGroup(p_Doc);
 }

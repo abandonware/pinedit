@@ -4,7 +4,7 @@
     begin                : Fri Apr 12 2002
     copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -37,46 +37,46 @@ void CommandCopy::clearObjects() {
 }
 
 void CommandCopy::execute(const CommandContext & context) {
-	cerr << "CommandCopy::execute" << endl;
-	assert(context.shape != NULL);
-	p_Context->copy(context);
+  EM_CERR("CommandCopy::execute");
+  assert(context.shape != NULL);
+  p_Context->copy(context);
 
-	p_Doc->clearClipBoard();
-	// create a copy for each selected vertex
-	int index = 0;
-	int vtxindex = p_Doc->getSelectedVertex(index);
-	while (vtxindex != -1) {
-		Vertex3D * vtx = context.shape->getVertex3D(vtxindex);
-		Color * color = context.shape->getColor(vtxindex);
-		TexCoord * tex = context.shape->getTexCoord(vtxindex);
-		assert(vtx != NULL);
-		assert(color != NULL);
-		assert(tex != NULL);
-		p_Doc->addClipBoard(vtxindex, *vtx, *color, *tex);
-		++index;
-		vtxindex = p_Doc->getSelectedVertex(index);
-	}
+  p_Doc->clearClipBoard();
+  // create a copy for each selected vertex
+  int index = 0;
+  int vtxindex = p_Doc->getSelectedVertex(index);
+  while (vtxindex != -1) {
+    Vertex3D * vtx = context.shape->getVertex3D(vtxindex);
+    Color * color = context.shape->getColor(vtxindex);
+    TexCoord * tex = context.shape->getTexCoord(vtxindex);
+    assert(vtx != NULL);
+    assert(color != NULL);
+    assert(tex != NULL);
+    p_Doc->addClipBoard(vtxindex, *vtx, *color, *tex);
+    ++index;
+    vtxindex = p_Doc->getSelectedVertex(index);
+  }
 
-	index = 0;
-	Polygon * poly = p_Doc->getSelectedPolygon(index);
-	while (poly != NULL) {
-		p_Doc->addClipBoard(poly);
-		++index;
-		poly = p_Doc->getSelectedPolygon(index);
-	}
+  index = 0;
+  Polygon * poly = p_Doc->getSelectedPolygon(index);
+  while (poly != NULL) {
+    p_Doc->addClipBoard(poly);
+    ++index;
+    poly = p_Doc->getSelectedPolygon(index);
+  }
 
-	p_Doc->pushUndo(this);
+  p_Doc->pushUndo(this);
 }
 
 void CommandCopy::undo() {
-	cerr << "CommandCopy::undo" << endl;
-	assert(p_Context->shape != NULL);
+  EM_CERR("CommandCopy::undo");
+  assert(p_Context->shape != NULL);
 
-	// TODO copy old clipboard
-	p_Doc->clearClipBoard();
+  // TODO copy old clipboard
+  p_Doc->clearClipBoard();
 }
 
 Command * CommandCopy::build() {
-	cerr << "CommandCopy::build" << endl;
-	return new CommandCopy(p_Doc);
+  EM_CERR("CommandCopy::build");
+  return new CommandCopy(p_Doc);
 }

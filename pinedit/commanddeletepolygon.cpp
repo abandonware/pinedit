@@ -58,11 +58,11 @@ void CommandDeletePolygon::execute(const CommandContext & context) {
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
-	cerr << "CommandDeletePolygon::execute" << endl;
+	EM_CERR("CommandDeletePolygon::execute");
 }
 
 void CommandDeletePolygon::undo() {
-	cerr << "CommandDeletePolygon::undo" << endl;
+	EM_CERR("CommandDeletePolygon::undo");
 	assert(p_Context->shape != NULL);
 	vector<Polygon*>::iterator iter = m_vPolygon.begin();
 	vector<Polygon*>::iterator end = m_vPolygon.end();

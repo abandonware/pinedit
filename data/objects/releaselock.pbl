@@ -1,0 +1,63 @@
+object releaselock {
+  0 0 0
+  0 0 0
+  shape {
+    vts { 4 }
+    pls { 1 }
+    vtx { 
+      -1 -1 0
+      1 1 1 1
+      0.5 0.5
+    }
+    vtx { 
+      1 -1 0
+      1 1 1 1
+      0.625 0.5
+    }
+    vtx { 
+      1 1 0
+      1 1 1 1
+      0.625 0.375
+    }
+    vtx { 
+      -1 1 0
+      1 1 1 1
+      0.5 0.375
+    }
+    ply {
+      pes { 4 }
+      tpt { }
+      ple { 3  }
+      ple { 2  }
+      ple { 1  }
+      ple { 0  }
+    }
+  }
+  state_behavior {
+    state_item {
+      null null -1 -1 -1
+      no_move
+      no_light
+      no_sound
+      no_music
+      no_property
+      no_texcoord
+      no_shape
+    }
+    state_item {
+      lock2 releaselock 0 -1 -1
+      no_move
+      light
+      no_sound
+      no_music
+      no_property
+      no_texcoord
+      no_shape
+    }
+  }
+  properties {
+    collision
+    transform_once
+    group_1
+  }
+}

@@ -4,13 +4,13 @@ bin_PROGRAMS = pinedit #unittest
 
 #noinst_LIBRARIES = libeditstatic.a
 
-pinedit_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
-pinedit_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
+pinedit_LDADD   = -lGL -lGLU -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11 @LIBLTDL@
+pinedit_LDFLAGS = -L. -export-dynamic
 
 #unittest_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
 #unittest_LDFLAGS = -L../../pinball/base -L../../pinball/addon -L../../pinball/visitor -L../../pinball/src -L.
 
-INCLUDES = -I../../pinball -I../../pinball/base -I../../pinball/addon -I../../pinball/visitor -I../../pinball/src
+INCLUDES = @INCLTDL@
 
 MOC = $(EM_QTDIR)/bin/moc
 

@@ -39,6 +39,7 @@ class LightDialog : public QDialog  {
  protected slots:
 	void slotDone();
 	void slotCancel();
+	void slotRemove();
  private:
 	Behavior * p_Behavior;
 	PinEditDoc * p_Doc;

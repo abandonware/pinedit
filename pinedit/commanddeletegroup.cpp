@@ -23,6 +23,7 @@
 #include "pineditdoc.h"
 #include "commanddeletegroup.h"
 // emilia includes
+#include "Private.h"
 #include "Group.h"
 
 CommandDeleteGroup::CommandDeleteGroup(PinEditDoc * doc) : Command(doc) {
@@ -52,11 +53,11 @@ void CommandDeleteGroup::execute(const CommandContext & context) {
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
-	cerr << "CommandDeleteGroup::execute" << endl;
+	EM_CERR("CommandDeleteGroup::execute");
 }
 
 void CommandDeleteGroup::undo() {
-	cerr << "CommandDeleteGroup::undo" << endl;
+	EM_CERR("CommandDeleteGroup::undo");
 	assert(p_Context->group != NULL);
 	assert(p_Context->group->getParent() != NULL);
 	

@@ -1,5 +1,9 @@
 AUTOMAKE_OPTIONS = gnu
 
-SUBDIRS = pinedit data doc
+SUBDIRS = libltdl pinedit data doc
+
+templatedatadir = $(pkgdatadir)/template
+
+templatedata_DATA = libtool 
 
 EXTRA_DIST = bootstrap clean

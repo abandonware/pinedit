@@ -33,7 +33,7 @@ void CommandFlip::clearObjects() {
 }
 
 void CommandFlip::execute(const CommandContext & context) {
-	cerr << "CommandFlip::execute" << endl;
+	EM_CERR("CommandFlip::execute");
 	assert(context.shape != NULL);
 	p_Context->copy(context);
 
@@ -69,7 +69,7 @@ void CommandFlip::execute(const CommandContext & context) {
 }
 
 void CommandFlip::undo() {
-	cerr << "CommandFlip::undo" << endl;
+	EM_CERR("CommandFlip::undo");
 	assert(p_Context->shape != NULL);
 	vector<Polygon*>::iterator polyiter = m_vPolygon.begin();
 	vector<Polygon*>::iterator polyend = m_vPolygon.end();
@@ -97,6 +97,6 @@ void CommandFlip::undo() {
 }
 
 Command * CommandFlip::build() {
-	cerr << "CommandFlip::bulld" << endl;
+	EM_CERR("CommandFlip::bulld");
 	return new CommandFlip(p_Doc);
 }

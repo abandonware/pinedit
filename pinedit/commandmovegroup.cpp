@@ -36,7 +36,7 @@ void CommandMoveGroup::clearObjects() {
 }
 
 void CommandMoveGroup::execute(const CommandContext & context) {
-	cerr << "CommandMoveGroup::execute" << endl;
+	EM_CERR("CommandMoveGroup::execute");
 	assert(context.group != NULL);
 	p_Context->copy(context);
 
@@ -49,12 +49,13 @@ void CommandMoveGroup::execute(const CommandContext & context) {
 	p_Doc->setModified(true);
 	p_Doc->updateAll("group");
 	p_Doc->pushUndo(this);
-	cerr << "CommandMoveGroup::execute " << context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
-		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
+	EM_CERR("CommandMoveGroup::execute " << 
+		context.x1 <<" "<< context.y1 <<" "<< context.z1 << 
+		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
 void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) {
-	cerr << "CommandMoveGroup::preview" << endl;
+	EM_CERR("CommandMoveGroup::preview");
 	if (context.group == NULL) return;
 	context.group->getTranslation(m_vtxTrans.x, m_vtxTrans.y, m_vtxTrans.z);
 
@@ -99,7 +100,7 @@ void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) 
 }
 
 void CommandMoveGroup::undo() {
-	cerr << "CommandMoveGroup::undo" << endl;
+	EM_CERR("CommandMoveGroup::undo");
 	assert(p_Context->group != NULL);
 	p_Context->group->setTranslation(m_vtxTrans.x, m_vtxTrans.y, m_vtxTrans.z);
 	p_Doc->updateAll("group");
@@ -107,6 +108,6 @@ void CommandMoveGroup::undo() {
 }
 
 Command * CommandMoveGroup::build() {
-	cerr << "CommandMoveGroup::build" << endl;
+	EM_CERR("CommandMoveGroup::build");
 	return new CommandMoveGroup(p_Doc);
 }

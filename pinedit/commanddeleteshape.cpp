@@ -37,6 +37,7 @@ void CommandDeleteShape::clearObjects() {
 
 void CommandDeleteShape::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	EM_CERR("CommandDeleteShape::execute");
 	p_Context->copy(context);
 
 	Group * parent = context.shape->getParent();
@@ -51,11 +52,10 @@ void CommandDeleteShape::execute(const CommandContext & context) {
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
-	cerr << "CommandDeleteShape::execute" << endl;
 }
 
 void CommandDeleteShape::undo() {
-	cerr << "CommandDeleteShape::undo" << endl;
+	EM_CERR("CommandDeleteShape::undo");
 	assert(p_Context->shape != NULL);
 	assert(p_Context->shape->getParent() != NULL);
 	

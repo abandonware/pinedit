@@ -32,7 +32,7 @@ CommandHideSelected::~CommandHideSelected() {
 }
 
 void CommandHideSelected::execute(const CommandContext & context) {
-	cerr << "CommandHideSelected::execute " << endl;
+	EM_CERR("CommandHideSelected::execute ");
 	assert(context.shape != NULL);
 
 	int index = 0;
@@ -50,7 +50,7 @@ void CommandHideSelected::execute(const CommandContext & context) {
 }
 
 void CommandHideSelected::preview(const CommandContext & context, View2D * view2d) {
-	cerr << "CommandHideSelected::preview" << endl;
+	EM_CERR("CommandHideSelected::preview");
 }
 
 void CommandHideSelected::undo() {

@@ -31,7 +31,7 @@
 
 ModuleDialog::ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
 : QDialog(parent, name, f) {
-	cerr << "ModuleDialog::ModuleDialog" << endl;
+	EM_CERR("ModuleDialog::ModuleDialog");
 	assert(doc != NULL);
 	p_Doc = doc;
 	p_FakeModuleBehavior = NULL;
@@ -53,13 +53,13 @@ ModuleDialog::~ModuleDialog() {
 }
 
 void ModuleDialog::reload() {
-	cerr << "ModuleDialog::reload" << endl;
+	EM_CERR("ModuleDialog::reload");
 	assert(p_FakeModuleBehavior != NULL);
 	p_EditModule->setText(QString(p_FakeModuleBehavior->getName()));
 }
 
 void ModuleDialog::edit(FakeModuleBehavior * beh) {
-	cerr << "ModuleDialog::edit" << endl;
+	EM_CERR("ModuleDialog::edit");
 	assert(beh != NULL);
 	p_FakeModuleBehavior = beh;
 	// TODO load behavior
@@ -68,13 +68,13 @@ void ModuleDialog::edit(FakeModuleBehavior * beh) {
 }
 
 void ModuleDialog::applyChanges() {
-	cerr << "ModuleDialog::applyChanges" << endl;
+	EM_CERR("ModuleDialog::applyChanges");
 	assert(p_FakeModuleBehavior != NULL);
 	p_FakeModuleBehavior->setName(p_EditModule->text().latin1());
 }
 
 void ModuleDialog::slotDone() {	
-	cerr << "ModuleDialog::slotDone" << endl;
+	EM_CERR("ModuleDialog::slotDone");
 	this->applyChanges();
 	this->done(0);
 }

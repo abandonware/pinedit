@@ -4,7 +4,7 @@
     begin                : Fri Aug 23 2002
     copyright            : (C) 2002 by Henrik Enqvist
     email                : henqvist@excite.com
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -32,77 +32,77 @@
 #include "ArmBehavior.h"
 
 ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
-: QDialog(parent, name, f) {
-	cerr << "ArmDialog::ArmDialog" << endl;
-	assert(doc != NULL);
-	p_Doc = doc;
-	p_ArmBehavior = NULL;
+  : QDialog(parent, name, f) {
+  EM_CERR("ArmDialog::ArmDialog");
+  assert(doc != NULL);
+  p_Doc = doc;
+  p_ArmBehavior = NULL;
 
-	QLabel * label = new QLabel("sound", this);
+  QLabel * label = new QLabel("sound", this);
 
-	p_EditSound = new QLineEdit(this);
-	QPushButton * choosebutton = new QPushButton("choose", this);
-	connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
+  p_EditSound = new QLineEdit(this);
+  QPushButton * choosebutton = new QPushButton("choose", this);
+  connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChooseSound()));
 
-	QPushButton * donebutton = new QPushButton("done", this);
-	connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
+  QPushButton * donebutton = new QPushButton("done", this);
+  connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
-	QBoxLayout * hlayout = new QHBoxLayout(this);
-	hlayout->addWidget(label);
-	hlayout->addWidget(p_EditSound);
-	hlayout->addWidget(choosebutton);
-	hlayout->addWidget(donebutton);
+  QBoxLayout * hlayout = new QHBoxLayout(this);
+  hlayout->addWidget(label);
+  hlayout->addWidget(p_EditSound);
+  hlayout->addWidget(choosebutton);
+  hlayout->addWidget(donebutton);
 }
 
 ArmDialog::~ArmDialog() {
 }
 
 void ArmDialog::reload() {
-	cerr << "ArmDialog::reload" << endl;
-	assert(p_ArmBehavior != NULL);
-	if (p_ArmBehavior->getSound() != -1 && 
-			SoundUtil::getInstance()->getSoundName(p_ArmBehavior->getSound()) != NULL) {
-		p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_ArmBehavior->getSound())));
-	} else {
-		p_EditSound->setText(QString(""));
-	}
+  EM_CERR("ArmDialog::reload");
+  assert(p_ArmBehavior != NULL);
+  if (p_ArmBehavior->getSound() != -1 && 
+      SoundUtil::getInstance()->getSoundName(p_ArmBehavior->getSound()) != NULL) {
+    p_EditSound->setText(QString(SoundUtil::getInstance()->getSoundName(p_ArmBehavior->getSound())));
+  } else {
+    p_EditSound->setText(QString(""));
+  }
 }
 
 void ArmDialog::edit(ArmBehavior * beh) {
-	cerr << "ArmDialog::edit" << endl;
-	assert(beh != NULL);
-	p_ArmBehavior = beh;
-	// TODO load behavior
-	this->reload();
-	this->show();
+  EM_CERR("ArmDialog::edit");
+  assert(beh != NULL);
+  p_ArmBehavior = beh;
+  // TODO load behavior
+  this->reload();
+  this->show();
 }
 
 void ArmDialog::applyChanges() {
-	assert(p_ArmBehavior != NULL);
-	cerr << "ArmDialog::applyChanges" << endl;
-	if (!(p_EditSound->text().isEmpty())) {
-		int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
-		if (sound != -1) {
-			p_ArmBehavior->setSound(sound);
-			cerr << "ArmDialog::applyChanges added sound" << endl;
-		} else {
-			cerr << "ArmDialog::applyChagnes sound not loaded" << endl;
-		}
-	} else {
-		p_ArmBehavior->setSound(-1);
-		cerr << "ArmDialog::applyChanges lineedit empty" << endl;
-	}
+  assert(p_ArmBehavior != NULL);
+  EM_CERR("ArmDialog::applyChanges");
+  if (!(p_EditSound->text().isEmpty())) {
+    int sound = SoundUtil::getInstance()->loadSample(p_EditSound->text());
+    if (sound != -1) {
+      p_ArmBehavior->setSound(sound);
+      EM_CERR("ArmDialog::applyChanges added sound");
+    } else {
+      EM_CERR("ArmDialog::applyChagnes sound not loaded");
+    }
+  } else {
+    p_ArmBehavior->setSound(-1);
+    EM_CERR("ArmDialog::applyChanges lineedit empty");
+  }
 }
 
 void ArmDialog::slotDone() {	
-	cerr << "ArmDialog::slotDone" << endl;
-	this->applyChanges();
-	this->done(0);
+  EM_CERR("ArmDialog::slotDone");
+  this->applyChanges();
+  this->done(0);
 }
 
 void ArmDialog::slotChooseSound() {
   QString filename = QFileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
-		p_EditSound->setText(filename);
-	}
+    p_EditSound->setText(filename);
+  }
 }
