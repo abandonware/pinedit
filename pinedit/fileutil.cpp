@@ -41,6 +41,7 @@
 #include "SoundUtil.h"
 #include "Script.h"
 #include "Loader.h"
+#include "StdAnimation.h"
 
 FileUtil::FileUtil(PinEditDoc * doc) {
 	assert(doc != NULL);
@@ -413,7 +414,16 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
 		file << "      " << r <<" "<< g <<" "<< b << endl;
 		file << "      0 3 0" << endl;
 		file << "    }" << endl;
-		// TODO animation
+		Group * lp = light->getParent();
+		assert(lp != NULL);
+		Behavior * anim = lp->getBehavior(0);
+		if (anim != NULL && anim->getType() == EM_TYPE_STDANIMATION) {
+			file << "   anim {" << endl;
+			file << "     2" << endl;
+			file << "      " << r <<" "<< g <<" "<< b << endl;
+			file << "      0 0 0" << endl;
+			file << "   }" << endl;
+		}
 	}
 
 	file << "  }" << endl;

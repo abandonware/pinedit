@@ -36,8 +36,8 @@
 #include "fileopen.xpm"
 #include "filenew.xpm"
 #include "filesavegroup.xpm"
-#include "filesaveshape.xpm"
-#include "workloadshape.xpm"
+// #include "filesaveshape.xpm"
+// #include "workloadshape.xpm"
 #include "workloadgroup.xpm"
 #include "worknewvertex.xpm"
 #include "workselect.xpm"
@@ -60,8 +60,10 @@
 #include "workresize.xpm"
 #include "workresizelocal.xpm"
 #include "workextrude.xpm"
+#include "workhideselected.xpm"
 // commands
 #include "command.h"
+#include "commandhideselected.h"
 #include "commandnewvertex.h"
 #include "commandselect.h"
 #include "commandaddselect.h"
@@ -127,16 +129,17 @@ void PinEditApp::initActions() {
   QPixmap openIcon = QPixmap(fileopen);
   QPixmap saveIcon = QPixmap(filesave);
 	QPixmap saveGroupIcon = QPixmap(filesavegroup);
-	QPixmap saveShapeIcon = QPixmap(filesaveshape);
+// 	QPixmap saveShapeIcon = QPixmap(filesaveshape);
 
   //QPixmap lockIcon = QPixmap(worklock);
-  QPixmap loadShapeIcon = QPixmap(workloadshape);
+//   QPixmap loadShapeIcon = QPixmap(workloadshape);
   QPixmap loadGroupIcon = QPixmap(workloadgroup);
 	//QPixmap caveIcon = QPixmap(workcave);
 	QPixmap newVertexIcon = QPixmap(worknewvertex);
 	QPixmap selectIcon = QPixmap(workselect);
 	QPixmap addSelectIcon = QPixmap(workaddselect);
 	QPixmap newPolygonIcon = QPixmap(worknewpolygon);
+	QPixmap hideSelectedIcon = QPixmap(workhideselected);
 	QPixmap unSelectIcon = QPixmap(workunselect);
 	QPixmap newShapeIcon = QPixmap(worknewshape);
 	QPixmap newGroupIcon = QPixmap(worknewgroup);
@@ -181,10 +184,10 @@ void PinEditApp::initActions() {
   fileSaveGroup->setWhatsThis(tr("Save Group\n\nSaves the selected group to a file"));
   connect(fileSaveGroup, SIGNAL(activated()), this, SLOT(slotFileSaveGroup()));
 
-  fileSaveShape = new QAction(tr("Save Shape"), saveShapeIcon, tr("Save shape..."), 0, this);
-  fileSaveShape->setStatusTip(tr("Saves the selected shape to a file"));
-  fileSaveShape->setWhatsThis(tr("Save Shape\n\nSaves the selected shape to a file"));
-  connect(fileSaveShape, SIGNAL(activated()), this, SLOT(slotFileSaveShape()));
+//   fileSaveShape = new QAction(tr("Save Shape"), saveShapeIcon, tr("Save shape..."), 0, this);
+//   fileSaveShape->setStatusTip(tr("Saves the selected shape to a file"));
+//   fileSaveShape->setWhatsThis(tr("Save Shape\n\nSaves the selected shape to a file"));
+//   connect(fileSaveShape, SIGNAL(activated()), this, SLOT(slotFileSaveShape()));
 
   fileClose = new QAction(tr("Close File"), tr("&Close"), QAccel::stringToKey(tr("Ctrl+W")), this);
   fileClose->setStatusTip(tr("Closes the actual document"));
@@ -234,10 +237,10 @@ void PinEditApp::initActions() {
   // work actions
 	workGroup = new QActionGroup(this);
 
-	workLoadShape = new QAction(tr("Load Shape"), loadShapeIcon, tr("Load Shape"), 0, this);
-  workLoadShape->setStatusTip(tr("Load a shape to the table"));
-  workLoadShape->setWhatsThis(tr("Load Shape\n\nUse this to load 3d shapes such as walls"));
-  connect(workLoadShape, SIGNAL(activated()), this, SLOT(slotLoadShape()));
+// 	workLoadShape = new QAction(tr("Load Shape"), loadShapeIcon, tr("Load Shape"), 0, this);
+//   workLoadShape->setStatusTip(tr("Load a shape to the table"));
+//   workLoadShape->setWhatsThis(tr("Load Shape\n\nUse this to load 3d shapes such as walls"));
+//   connect(workLoadShape, SIGNAL(activated()), this, SLOT(slotLoadShape()));
 
 	workLoadGroup = new QAction(tr("Load Group"), loadGroupIcon, tr("Load Group"), 0, this);
   workLoadGroup->setStatusTip(tr("Load a group to the table"));
@@ -320,6 +323,11 @@ void PinEditApp::initActions() {
   workRotateGroup->setWhatsThis(tr("Rotate group\n\n"));
   connect(workRotateGroup, SIGNAL(activated()), this, SLOT(slotRotateGroup()));
 
+  workHideSelected = new QAction(tr("Hide Selected Vertices"), hideSelectedIcon, tr("Hide Selected Vertices"), 0, this);
+  workHideSelected->setStatusTip(tr("Hides selected vertices"));
+  workHideSelected->setWhatsThis(tr("Hide Selected Vertcies\n\nHides selected vertices and ..."));
+  connect(workHideSelected, SIGNAL(activated()), this, SLOT(slotHideSelected()));
+
   workNewPolygon = new QAction(tr("New Polygon"), newPolygonIcon, tr("New Polygon"), 0, this);
   workNewPolygon->setStatusTip(tr("Creates a new polygon from the selected vertices"));
   workNewPolygon->setWhatsThis(tr("New Polygon\n\nFirst select vertices then connect them to polygons to create shapes."));
@@ -387,7 +395,7 @@ void PinEditApp::initMenuBar() {
   fileSave->addTo(fileMenu);
   fileSaveAs->addTo(fileMenu);
 	fileSaveGroup->addTo(fileMenu);
-//fileSaveShape->addTo(fileMenu);
+// 	fileSaveShape->addTo(fileMenu);
   fileMenu->insertSeparator();
   filePrint->addTo(fileMenu);
   fileMenu->insertSeparator();
@@ -411,7 +419,7 @@ void PinEditApp::initMenuBar() {
 
   // menuBar entry workMenu
   workMenu = new QPopupMenu();
-//workLoadShape->addTo(workMenu);
+//   workLoadShape->addTo(workMenu);
   workNewVertex->addTo(workMenu);
   workSelect->addTo(workMenu);
 	workAddSelect->addTo(workMenu);
@@ -422,6 +430,7 @@ void PinEditApp::initMenuBar() {
 	workResize->addTo(workMenu);
 	workResizeLocal->addTo(workMenu);
 	workFlip->addTo(workMenu);
+	workHideSelected->addTo(workMenu);
 	workNewPolygon->addTo(workMenu);
 	workDeletePolygon->addTo(workMenu);
 	workDeleteVertex->addTo(workMenu);
@@ -457,7 +466,7 @@ void PinEditApp::initToolBar() {
   fileOpen->addTo(fileToolbar);
   fileSave->addTo(fileToolbar);
 	fileSaveGroup->addTo(fileToolbar);
-//fileSaveShape->addTo(fileToolbar);
+// 	fileSaveShape->addTo(fileToolbar);
   fileToolbar->addSeparator();
   QWhatsThis::whatsThisButton(fileToolbar);
 }
@@ -466,7 +475,7 @@ void PinEditApp::initWorkBar() {
   ///////////////////////////////////////////////////////////////////
   // WORKBAR
   workToolbar = new QToolBar(this, "work operations");
-//workLoadShape->addTo(workToolbar);
+// 	workLoadShape->addTo(workToolbar);
 	workLoadGroup->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
   workSelect->addTo(workToolbar);
@@ -479,6 +488,7 @@ void PinEditApp::initWorkBar() {
 	workResizeLocal->addTo(workToolbar);
 	workToolbar->addSeparator();
 
+	workHideSelected->addTo(workToolbar);
 	workFlip->addTo(workToolbar);
 	workNewPolygon->addTo(workToolbar);
 	workDeletePolygon->addTo(workToolbar);
@@ -637,22 +647,22 @@ void PinEditApp::slotFileSaveGroup() {
   statusBar()->message(tr("Ready."));
 }
 
-void PinEditApp::slotFileSaveShape() {
-  statusBar()->message(tr("Saving shape in file..."));
+// void PinEditApp::slotFileSaveShape() {
+//   statusBar()->message(tr("Saving shape in file..."));
 
-	Shape3D * shape = p_Doc->getCurrentShape();
-	if (shape == NULL) {
-		QMessageBox::information( this, "Save Shape", "No Shape selected.");
-	} else {
-		QString fn = QFileDialog::getSaveFileName(0, 0, this);
-		if (!fn.isEmpty()) {
-			p_Doc->saveShape(fn, shape);
-		} else {
-			statusBar()->message(tr("Saving aborted"), 2000);
-		}
-	}
-  statusBar()->message(tr("Ready."));
-}
+// 	Shape3D * shape = p_Doc->getCurrentShape();
+// 	if (shape == NULL) {
+// 		QMessageBox::information( this, "Save Shape", "No Shape selected.");
+// 	} else {
+// 		QString fn = QFileDialog::getSaveFileName(0, 0, this);
+// 		if (!fn.isEmpty()) {
+// 			p_Doc->saveShape(fn, shape);
+// 		} else {
+// 			statusBar()->message(tr("Saving aborted"), 2000);
+// 		}
+// 	}
+//   statusBar()->message(tr("Ready."));
+// }
 
 void PinEditApp::slotFileClose() {
   statusBar()->message(tr("Closing file..."));
@@ -731,17 +741,17 @@ void PinEditApp::slotHelpAbout() {
   QMessageBox::about(this, tr("About..."), tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist IB") );
 }
 
-void PinEditApp::slotLoadShape() {
-  statusBar()->message(tr("Opening file..."));
-  QString fileName = QFileDialog::getOpenFileName(0, 0, this);
-  if (!fileName.isEmpty()) {
-    p_Doc->loadShape(fileName);
-    QString message = tr("Loaded shape: ") + fileName;
-    statusBar()->message(message, 2000);
-  } else {
-    statusBar()->message(tr("Opening aborted"), 2000);
-  }	
-}
+// void PinEditApp::slotLoadShape() {
+//   statusBar()->message(tr("Opening file..."));
+//   QString fileName = QFileDialog::getOpenFileName(0, 0, this);
+//   if (!fileName.isEmpty()) {
+//     p_Doc->loadShape(fileName);
+//     QString message = tr("Loaded shape: ") + fileName;
+//     statusBar()->message(message, 2000);
+//   } else {
+//     statusBar()->message(tr("Opening aborted"), 2000);
+//   }	
+// }
 
 void PinEditApp::slotLoadGroup() {
   statusBar()->message(tr("Opening file..."));
@@ -825,6 +835,19 @@ void PinEditApp::slotNewPolygon() {
 		command->execute(context);
 	} else {
 		QMessageBox::information( this, "New Polygon", "No Shape selected.");
+	}
+}
+
+void PinEditApp::slotHideSelected() {
+	cerr << "PinEditApp::slotHideSelected" << endl;
+	CommandContext context;
+	context.clear();
+	context.shape = p_Doc->getCurrentShape();
+	if (context.shape != NULL) {
+		Command * command = new CommandHideSelected(p_Doc);
+		command->execute(context);
+	} else {
+		QMessageBox::information( this, "Hide Selected", "No Shape selected.");
 	}
 }
 

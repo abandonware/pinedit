@@ -63,7 +63,7 @@ void PinEditDoc::newDoc() {
 	this->setCurrentGroup(NULL);
 	// TODO this will leak memory
  	// Create the engine.
-	char * my_argv[] = {"exename", "-externgl", "-size", "300", "240" "-nosound"};
+	char * my_argv[] = {"exename", "-externgl", "-size", "300", "240", "-nosound"};
 	int my_argc = 5;
   p_Engine = new Engine(my_argc, my_argv);
 	p_Engine->setLightning(0.0f, 0.2f);
@@ -355,6 +355,11 @@ void PinEditDoc::clearSelectedVertex() {
 	cerr << "pineditdoc::clearselectedvertex" << endl;
 }
 
+void PinEditDoc::clearHiddenVertex() {
+	cerr << "PinEditDoc::clearHiddenVertex" << endl;
+	m_hHiddenVertex.clear();
+}
+
 void PinEditDoc::clearSelectedPolygon() {
 	m_vSelectedPolygon.clear();
 	cerr << "pineditdoc::clearselectedpolygon" << endl;
@@ -363,12 +368,31 @@ void PinEditDoc::clearSelectedPolygon() {
 void PinEditDoc::selectVertex(int index) {
 	assert(p_CurrentShape != NULL);
 	m_vSelectedVertex.push_back(index);
-	Vertex3D * vtx = p_CurrentShape->getVertex3D(index);
-	cerr << "pineditdoc::selectvertex" << vtx->x <<" "<< vtx->y <<" "<< vtx->z << endl;
 }
 
 void PinEditDoc::selectVertexExtra(int index) {
 	m_iVertexExtra = index;
+}
+
+void PinEditDoc::hideVertex(int index) {
+	assert(p_CurrentShape != NULL);
+	m_hHiddenVertex.insert(pair<int, bool>(index, true));
+}
+
+bool PinEditDoc::isVertexHidden(int index) {
+	if (m_hHiddenVertex.find(index) != m_hHiddenVertex.end()) return true;
+	return false;
+}
+
+bool PinEditDoc::isPolygonHidden(Polygon * poly) {
+	assert(poly != NULL);
+	int index = 0;
+	int shindex = poly->getIndex(index);
+	for (; shindex != -1; ++index) {
+		if (!this->isVertexHidden(shindex)) return false;
+		shindex = poly->getIndex(index);
+	}
+	return true;
 }
 
 void PinEditDoc::selectPolygon(Polygon * poly) {

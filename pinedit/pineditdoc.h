@@ -124,7 +124,11 @@ class PinEditDoc : public QObject {
 	Polygon * getSelectedPolygon(int index);
 	void doSelectPolygons();
 	void getSelectedCenter(Vertex3D & vtxM);
-	
+	void clearHiddenVertex();
+	bool isVertexHidden(int index);
+	bool isPolygonHidden(Polygon * poly);
+	void hideVertex(int index);
+
  signals:
 	void documentChanged();
 	
@@ -141,12 +145,14 @@ class PinEditDoc : public QObject {
 	Group * p_CurrentGroup;
 	Shape3D * p_CurrentShape;
 	int m_iVertexExtra;
-	
+
 	map<QString, QImage*> m_hQImage;
 	vector<int> m_vSelectedVertex;
 	vector<Polygon*> m_vSelectedPolygon;
 	vector<Updateable*> m_vUpdateable;
 	vector<Rebuildable*> m_vRebuildable;
+	// a bit unsafe to use Vertex3D* as it may change
+	map<int, bool> m_hHiddenVertex;
 };
 
 #endif

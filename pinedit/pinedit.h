@@ -85,7 +85,7 @@ class PinEditApp : public QMainWindow {
 	/** Save the document under a different filename*/
 	void slotFileSaveAs();
 	void slotFileSaveGroup();
-	void slotFileSaveShape();
+/* 	void slotFileSaveShape(); */
 	/** Close the actual file */
 	void slotFileClose();
 	/** Print the actual file */
@@ -106,7 +106,7 @@ class PinEditApp : public QMainWindow {
 	/** Ahows an about dlg*/
 	void slotHelpAbout();
 	
-	void slotLoadShape();
+/* 	void slotLoadShape(); */
 	void slotLoadGroup();
 	void slotNewVertex();
 	void slotSelect();
@@ -117,7 +117,8 @@ class PinEditApp : public QMainWindow {
 	void slotRotateLocal();
 	void slotResize();
 	void slotResizeLocal();
-	
+
+	void slotHideSelected();
 	void slotNewPolygon();
 	void slotNewGroup();
 	void slotNewShape();
@@ -164,7 +165,7 @@ class PinEditApp : public QMainWindow {
 	QAction *fileSave;
 	QAction *fileSaveAs;
 	QAction *fileSaveGroup;
-	QAction *fileSaveShape;
+/* 	QAction *fileSaveShape; */
 	QAction *fileClose;
 	QAction *filePrint;
 	QAction *fileQuit;
@@ -182,10 +183,8 @@ class PinEditApp : public QMainWindow {
 	QToolBar *workToolbar;
 	QActionGroup *workGroup;
 	
-	QAction *workLoadShape;
+/* 	QAction *workLoadShape; */
 	QAction *workLoadGroup;
-	//QAction *workLock;
-	//QAction *workCave;
 	QAction *workNewVertex;
 	QAction *workSelect;
 	QAction *workAddSelect;
@@ -196,6 +195,7 @@ class PinEditApp : public QMainWindow {
 	QAction *workResize;
 	QAction *workResizeLocal;
 
+	QAction *workHideSelected;
 	QAction *workNewPolygon;
 	QAction *workNewShape;
 	QAction *workNewGroup;

@@ -39,6 +39,7 @@ commandresize.cpp \
 commandresizelocal.cpp \
 commandextrude.cpp \
 commandtexcoord.cpp \
+commandhideselected.cpp \
 glengine.cpp \
 view2d.cpp \
 shapeview.cpp \
@@ -97,6 +98,7 @@ commandresize.h \
 commandresizelocal.h \
 commandextrude.h \
 commandtexcoord.h \
+commandhideselected.h \
 glengine.h \
 view2d.h \
 shapeview.h \
@@ -143,5 +145,7 @@ workdeletevertex.xpm \
 worksnap.xpm \
 workresize.xpm \
 workresizelocal.xpm \
-workextrude.xpm
+workextrude.xpm \
+workhideselected.xpm
+
 
