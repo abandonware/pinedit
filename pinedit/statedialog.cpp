@@ -41,6 +41,7 @@
 #include "StateBehavior.h"
 #include "Pinball.h"
 #include "Loader.h"
+#include "Shape3D.h"
 
 StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
   : QDialog(parent, name, f) {
@@ -59,6 +60,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
   p_ListView->addColumn(QString("delay"));
   p_ListView->addColumn(QString("light"));
   p_ListView->addColumn(QString("type"));
+  p_ListView->addColumn(QString("prop"));
   p_ListView->addColumn(QString("sound"));
   p_ListView->addColumn(QString("music"));
   p_ListView->setMinimumSize(500, 200);
@@ -183,7 +185,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     hlayout3->addWidget(labelRZ);
     hlayout3->addWidget(p_EditRZ);
   }
-  // type
+  // type - user and shape properties
   {
     QWidget * widget = new QWidget(this);
     tabwidget->addTab(widget, "type");
@@ -194,8 +196,11 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_ComboProperty->insertItem("trap");
     p_ComboProperty->insertItem("trap bounce");
 
+    p_BoxAlwaysLit = new QCheckBox("always lit", widget);
+
     QBoxLayout * vlayout1 = new QVBoxLayout(widget);
     vlayout1->addWidget(p_ComboProperty);
+    vlayout1->addWidget(p_BoxAlwaysLit);
   }
   // sound
   {
@@ -288,10 +293,11 @@ void StateDialog::reload() {
     listitem->setText(5, (stateitem->getDelay() >= 0 ? QString().setNum(stateitem->getDelay()) :
 			  QString("")));
     listitem->setText(6, (stateitem->getLight() ? QString("on") :	QString("off")));
-    listitem->setText(7, QString().setNum(stateitem->getProperty()));
-    listitem->setText(8, (stateitem->getSound() != -1 ? QString().setNum(stateitem->getSound()) :
+    listitem->setText(7, QString().setNum(stateitem->getUserProperty()));
+    listitem->setText(8, QString().setNum(stateitem->getShapeProperty()));
+    listitem->setText(9, (stateitem->getSound() != -1 ? QString().setNum(stateitem->getSound()) :
 			  QString("")));
-    listitem->setText(9, (stateitem->getMusic() != -1 ? QString().setNum(stateitem->getMusic()) :
+    listitem->setText(10, (stateitem->getMusic() != -1 ? QString().setNum(stateitem->getMusic()) :
 			  QString("")));
     listitem->setOpen(TRUE);
     listitem->setObject(stateitem, LISTITEM_STATEITEM);
@@ -388,10 +394,16 @@ void StateDialog::applyChanges(StateItem * stateitem) {
   }
 
   switch (p_ComboProperty->currentItem()) {
-  case 0: stateitem->setProperty(PBL_NULL); break;
-  case 1: stateitem->setProperty(PBL_LOCK); break;
-  case 2: stateitem->setProperty(PBL_TRAP); break;
-  case 3: stateitem->setProperty(PBL_TRAP_BOUNCE); break;
+  case 0: stateitem->setUserProperty(PBL_NULL); break;
+  case 1: stateitem->setUserProperty(PBL_LOCK); break;
+  case 2: stateitem->setUserProperty(PBL_TRAP); break;
+  case 3: stateitem->setUserProperty(PBL_TRAP_BOUNCE); break;
+  }
+
+  if (p_BoxAlwaysLit->isChecked()) {
+    stateitem->setShapeProperty(EM_SHAPE3D_ALWAYSLIT);
+  } else {
+    stateitem->setShapeProperty(0);
   }
 
   stateitem->setMoveSteps(p_EditStep->text().toInt());
@@ -507,12 +519,13 @@ void StateDialog::slotChanged() {
   p_SpinDelay->setValue(stateitem->getDelay());
   p_BoxLight->setChecked(stateitem->m_bLight);
   // the property
-  switch(stateitem->getProperty()) {
+  switch(stateitem->getUserProperty()) {
   case PBL_NULL: p_ComboProperty->setCurrentItem(0); break;
   case PBL_LOCK: p_ComboProperty->setCurrentItem(1); break;
   case PBL_TRAP: p_ComboProperty->setCurrentItem(2); break;
   case PBL_TRAP_BOUNCE: p_ComboProperty->setCurrentItem(3); break;
   }
+  p_BoxAlwaysLit->setChecked(stateitem->getShapeProperty() & EM_SHAPE3D_ALWAYSLIT);
   p_EditStep->setText(QString().setNum(stateitem->m_iMoveSteps));
   p_EditTX->setText(QString().setNum(stateitem->m_vtxTr.x));
   p_EditTY->setText(QString().setNum(stateitem->m_vtxTr.y));

@@ -379,7 +379,7 @@ void ShapeView::updateProperties() {
       p_BoxBehind2->setChecked(FALSE);
     }
     // allways lit
-    if (shape->getProperties() & EM_SHAPE3D_ALLWAYSLIT) {
+    if (shape->getProperties() & EM_SHAPE3D_ALWAYSLIT) {
       p_BoxAllwaysLit->setChecked(TRUE);
     } else {
       p_BoxAllwaysLit->setChecked(FALSE);
@@ -456,9 +456,9 @@ void ShapeView::slotApplyProp() {
     }
     // allways lit
     if (p_BoxAllwaysLit->isChecked()) {
-      shape->setProperty(EM_SHAPE3D_ALLWAYSLIT);
+      shape->setProperty(EM_SHAPE3D_ALWAYSLIT);
     } else {
-      shape->unsetProperty(EM_SHAPE3D_ALLWAYSLIT);
+      shape->unsetProperty(EM_SHAPE3D_ALWAYSLIT);
     }
   }
   p_Doc->rebuildAll("group");

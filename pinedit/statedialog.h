@@ -75,6 +75,7 @@ class StateDialog : public QDialog  {
 	QComboBox * p_ComboProperty;
 	QComboBox * p_ComboActSig;
 	QComboBox * p_ComboCollSig;
+	QCheckBox * p_BoxAlwaysLit;
 	QCheckBox * p_BoxLight;
 	QCheckBox * p_BoxMove;
 	QCheckBox * p_BoxUseShape;

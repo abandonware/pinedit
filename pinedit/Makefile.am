@@ -4,7 +4,7 @@ bin_PROGRAMS = pinedit #unittest
 
 #noinst_LIBRARIES = libeditstatic.a
 
-pinedit_LDADD   = -lGL -lGLU -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11 @LIBLTDL@
+pinedit_LDADD   = -lGL -lGLU -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11 $(QT_LDADD) @LIBLTDL@ 
 pinedit_LDFLAGS = -L. -export-dynamic
 
 #unittest_LDADD   = -lGL -lGLU -lglut -lemilia_pin -lemilia_base -lemilia_addon -lXext -lX11
@@ -12,7 +12,7 @@ pinedit_LDFLAGS = -L. -export-dynamic
 
 INCLUDES = @INCLTDL@
 
-MOC = $(EM_QTDIR)/bin/moc
+dnl MOC = $(EM_QTDIR)/bin/moc
 
 moc_%.cpp : %.h
 	@echo "Creating Meta $< ..."

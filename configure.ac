@@ -157,12 +157,19 @@ fi
 
 dnl ********************************************
 dnl QT TODO ************************************
-EM_QTDIR=/usr/lib/qt3
-AC_SUBST(EM_QTDIR)
-CPPFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
-CFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
-LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
-LIBS="$LIBS -lqt"
+
+gw_CHECK_QT
+
+CPPFLAGS="$CPPFLAGS $QT_CXXFLAGS"
+CFLAGS="$CPPFLAGS $QT_CXXFLAGS"
+
+
+dnl EM_QTDIR=/usr/lib/qt3
+dnl AC_SUBST(EM_QTDIR)
+dnl CPPFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
+dnl CFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
+dnl LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
+dnl LIBS="$LIBS -lqt"
 
 dnl ********************************************
 dnl HEADERS ************************************

@@ -83,6 +83,8 @@ int FileUtil::saveFile(const QString & fn, Group * group) {
       throw QString("FileUtil::saveFile could not open file for writing: ") + QString(fn);
     }
     QTextStream file(&f);
+    // write version
+    WriteLine(file, "version { 0 2 1 }");
     // write root group
     Vertex3D vtxT, vtxR;
     group->getTranslation(vtxT.x, vtxT.y, vtxT.z);
@@ -199,7 +201,7 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
   if (shape->getProperties() & EM_SHAPE3D_BEHIND2) {
     WriteLine(file, "bh2 { }" );
   }
-  if (shape->getProperties() & EM_SHAPE3D_ALLWAYSLIT) {
+  if (shape->getProperties() & EM_SHAPE3D_ALWAYSLIT) {
     WriteLine(file, "lit { }" );
   }
 
@@ -385,10 +387,15 @@ int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
 	WriteLine(file, "    no_music" );
       }
       // properties
-      if (stateitem->getProperty() != PBL_NULL) {
-	WriteLine(file, "    property " << stateitem->getProperty() );
+      if (stateitem->getUserProperty() != PBL_NULL) {
+	WriteLine(file, "    user_property " << stateitem->getUserProperty() );
       } else {
-	WriteLine(file, "    no_property" );
+	WriteLine(file, "    no_user_property" );
+      }
+      if (stateitem->getShapeProperty() != 0) {
+	WriteLine(file, "    shape_property " << stateitem->getShapeProperty() );
+      } else {
+	WriteLine(file, "    no_shape_property" );
       }
       // texcoord
       if (statebeh->usesTexCoord()) {
