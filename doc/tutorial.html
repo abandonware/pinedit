@@ -7,235 +7,219 @@
       <h1><a name="top"></a>Tutorial</h1>
       
       <ul>
-	<li><a href="#introduction">Introduction</a></li>
-	<li><a href="#creating a table">Creating a Table</a></li>
-	<li><a href="#adding objects">Adding Objects</a>
-	  <ul>
-	    <li><a href="#walls">Walls</a></li>
-	    <li><a href="#bumpers">Bumpers</a></li>
-	    <li><a href="#arms">Arms</a></li>
-	    <li><a href="#locks and caves">Locks and Caves</a></li>
-	    <li><a href="#ramps">Ramps</a></li>
-	  </ul></li>
-	<li><a href="#writing scritps">Writing Scripts</a></li>
+				<li><a href="#introduction">Introduction</a></li>
+				<li><a href="#creating a table">Creating a Table</a></li>
+				<li><a href="#adding objects">Adding Objects</a></li>
+				<ul>
+					<li><a href="#walls">Walls</a></li>
+					<li><a href="#bumpers">Bumpers</a></li>
+					<li><a href="#arms">Arms</a></li>
+					<li><a href="#locks and caves">Locks and Caves</a></li>
+					<li><a href="#ramps">Ramps</a></li>
+				</ul>
+				<li><a href="#writing scripts">Writing Scripts</a></li>
       </ul>
       
       <h2><a name="introduction">Introduction</a></h2>
       <p>
-	This tutorial will learn you the basics of how to create pinball tables with 
-	the editor. It is assumed that you have some basic knowledge
-	of 3D modelling, you need at least to know what a vertex and a polygon
-	is. You also have to, at least once in your life, written a hello-world
-	c/c++ program and compiled it. Beware that the editor is at an alpha stage
-	and that some things ain't that intiutive and others are purely clumsy.
-	Remember to save often, the editor may crash (no surprise). 
-	Know that that's said let's start.
+				This tutorial will learn you the basics of how to create pinball tables with 
+				the editor. It is assumed that you have some basic knowledge
+				of 3D modelling, you need at least to know what a vertex and a polygon
+				is. You also have to, at least once in your life, written a hello-world
+				c/c++ program and compiled it. Beware that the editor is at an alpha stage
+				and that some things ain't that intiutive and others are purely clumsy.
+				Remember to save often, the editor may crash (no surprise). 
+				Know that that's said let's start.
       </p>
       <a href="#top">top</a>
-
+			
       <h2><a name="creating a table">Creating a Table</a></h2>
       <p>
-	First you have to create a working directory for your table. 
-	Do this with the 'pinball-template' script, the script is found
-	in the same director as the 'pinedit' program. Execute
-	'pinball-template mytable MyMod' to create a directory 
-	with the name 'mytable' and a module with the name MyMod.
-	The script will copy a makefile, an empty table and a module to
-	your directory.	Now you have a new fresh table which we will load into the editor.
-	Press the 'open file' <img src="fileopen.xpm"></img> button, and choose the
-	'mytable/pinball.pbl' file. Now a simple table pops up in the editor.
-	Do no confuse the open button with the 'load object' button.
+				First you have to create a working directory for your table. 
+				Do this with the 'pinball-template' script, the script is installed
+				in the same director as the 'pinedit' program. Execute
+				'pinball-template mytable MyMod' to create a directory 
+				with the name 'mytable' and a module with the name 'MyMod'.
+				The script will copy a makefile, an empty table and a module to
+				your directory.	Compile the table with 'make' (the Makefile is
+				still a bit of alpha hack so if you come across any problems
+				or make some patches please mail them to henqvist@users.sourceforge.net).
+				Now you have a new fresh table which we will load into the editor.
+				Press the 'open file' <img src="fileopen.xpm"></img> button, and choose the
+				'mytable/pinball.pbl' file. Now a simple table pops up in the editor.
+				Do no confuse the open button with the 'load object' button.
       </p>
       <p>
-	Before we start adding objects let's see how you compile the table and load
-	it in to the pinball game. Make sure that have autoconf 2.13 and 
-	automake 1.4 installed. Older as well	as newer version of autoconf/automake 
-	may break the compilation, read further if you have different version.
-        First you have edit the file 'mytable/Makefile.am', change every instance 
-	of 'template' with 'mytable'.	Go to your table directory and execute 
-	'./bootstrap', this will set up the configure and make scripts. Then 
-	configure the table with './configure	
-	--with-pinball-prefix=<i>pinball_source_dir</i>' where <i>pinball_source_dir</i>
-	points to the root directory of the pinball sources, in
-	our case '../pinball'. 
+				The first thing we will add to our table is the main script, with out it
+				we will not be able to test the level. Click the new 'New Object'
+				<img src="worknewgroup.xpm"></img> button and name the new object 'module'.
+				Select the object and from the combo-box at bottom right in the objects panel 
+				choose 'module' and press the 'new behavior' button, finally choose the newly
+				compiled 'libModuleMyMod.la' to bee the module. Save the table and
+				install it with 'make install' (you might have to be root for this).
+				Before we start adding objects let's test play the table. 
       </p>
       <p>
-	Now make the	table with 'make'. 
-	If your version of autoconf/automake 
-	doesn't like the scripts you can try to hack the 'Makefile.fix' file 
-	and use 'make -f Makefile.fix' and skip the 'bootstrap/configure' thing.
-	Run 'pinball -dir' to see your systems path to the pinball data
-	directory. It should be something like'/usr/local/share/pinball' 
-	or '/usr/share/pinball'. The directories 'tux' and 
-	'professor' should reside in that directory.
-	Then do a 'make install' ('make -f Makefile.fix install') as root user 
-	to install the table.	If it fails you can try to manually copy the files to 
-	the data directory.
-      </p>
-      <p>
-	Start up the pinball game and you should
-	now see 'mytable' alongside 'tux' and 'professor' in the table meny.
-	Each directory that is found in the data directory is added to the loadable 
-	tables in the game, the game will look for the 'pinball.pbl' file when trying 
-	to load a table. It is not yet possible to test play the table from editor so 
-	this is how you debug your tables. If you have compiled the game as a debug
-	version (the game included with the editor package is debug as default,
-	stand alone game package is not debug) you can steer the ball with
-	'i' ,'j', 'k' and 'l' keys.				
+				Start up the pinball game and you should
+				now see 'mytable' alongside 'tux' and 'professor' in the table meny.
+				Each directory that is found in the data directory is added to the loadable 
+				tables in the game, the game will look for the 'pinball.pbl' file when trying 
+				to load a table. It is not yet possible to test play the table from editor so 
+				this is how you debug your tables. If you have compiled the game as a debug
+				version (configure --with-debug) you can steer the ball with the 'i' ,'j', 'k' 
+				and 'l' keys.
       </p>
       <a href="#top">top</a>
       
       <h3><a name="walls">Walls</a></h3>
       <p>
-	Walls are created by adding polygons to the table. The easiest way is to select
-	a corner of an existing wall and then extrude it. Pop up the editor again and
-	open your table. Select the 'objects' tab in the right part of the
-	editor. Open up the object called 'walls', you see that the object has
-	two children, select 'shape 0'.
-	Now the buttons for editing shapes will be enabled and 'shape 0' will be shown
-	in the 2D panels. You can move around in the 2D views by dragging with the right
-	mouse button. Clicking middle button centers the view. The zoom can be changed
-	in the spinbox up to right.
+				Walls are created by adding polygons to the table. The easiest way is to select
+				a corner of an existing wall and then extrude it. Pop up the editor again and
+				open your table. Select the 'objects' tab in the right part of the
+				editor. Open up the object called 'walls', you see that the object has
+				two children, select 'shape 0'.
+				Now the buttons for editing shapes will be enabled and 'shape 0' will be shown
+				in the 2D panels. You can move around in the 2D views by dragging with the right
+				mouse button. Clicking middle button centers the view. The zoom can be changed
+				in the spinbox up to right.
       </p>
       <p>
-	Enable the select button <img src="workselect.xpm"></img> and in the 2D view select 
-	a corner in the top of the table by dragging the a square around the corner with the
-	left mouse button.. Extrude it to an new wall by clicking the extrude 
-	button <img src="workextrude.xpm"></img>. Select move <img src="workmove.xpm"></img>
-	and move the new wall down. Extrude and move until you have created an open circle.
-	Delete the unnecessary polygon by selecting it and clicking 
-	<img src="workdeletepolygon.xpm"></img>.
-	<img src="ss1.jpg"></img> <img src="ss2.jpg"></img>
-	<img src="ss3.jpg"></img> <img src="ss4.jpg"></img><br></br>
-	<img src="ss5.jpg"></img>
+				Enable the select button <img src="workselect.xpm"></img> and in the 2D view select 
+				a corner in the top of the table by dragging the a square around the corner with the
+				left mouse button.. Extrude it to an new wall by clicking the extrude 
+				button <img src="workextrude.xpm"></img>. Select move <img src="workmove.xpm"></img>
+				and move the new wall down. Extrude and move until you have created an open circle.
+				Delete the unnecessary polygon by selecting it and clicking 
+				<img src="workdeletepolygon.xpm"></img>.
+				<img src="ss1.jpg"></img> <img src="ss2.jpg"></img>
+				<img src="ss3.jpg"></img> <img src="ss4.jpg"></img><br></br>
+				<img src="ss5.jpg"></img>
       </p>			
       <p>
-	Then select the edges of the open wall and create a polygon by clicking the
-	new polygon button <img src="worknewpolygon.xpm"></img>. Polygons does, unfortunately, 
-	not	always come out right. Use the 3D view to look at your walls (rotation
-	and moving in the 3D view is a bit inconvenient at the moment, it will
-	be fixed later). If the vertex order of your polygons are wrong you can
-	change it in the 'polygons' tab. Select your polygon and go to the 
-	'polygons' tab in the right of the editor. Scroll down to the highlighted
-	polygon and click on it. Now you can change to order of the vertices
-	by selecing the vertex in the 'vertices of polygon' list and changing
-	the order by moving it up or down in the 'order' tab below. If
-	the polygon only faces in the wrong direction you can fix it
-	by fliping it <img src="workflip.xpm"></img>.
+				Then select the edges of the open wall and create a polygon by clicking the
+				new polygon button <img src="worknewpolygon.xpm"></img>. Polygons does, unfortunately, 
+				not	always come out right. Use the 3D view to look at your walls (rotation
+				and moving in the 3D view is a bit inconvenient at the moment, it will
+				be fixed later). If the vertex order of your polygons are wrong you can
+				change it in the 'polygons' tab. Select your polygon and go to the 
+				'polygons' tab in the right of the editor. Scroll down to the highlighted
+				polygon and click on it. Now you can change to order of the vertices
+				by selecing the vertex in the 'vertices of polygon' list and changing
+				the order by moving it up or down in the 'order' tab below. If
+				the polygon only faces in the wrong direction you can fix it
+				by fliping it <img src="workflip.xpm"></img>.
       </p>
       <p>
-	Your walls look quite naked without any roof, right? Add the roof
-	to 'shape 1'. This is left as an exercise for the reader.  
-	The reason to split the roofs and the walls is that we
-	do not won't to check for collision between the roofs and the ball, only
-	between the walls and the ball. Hence, collision detecion is only preformed
-	on the first shape in the object, this way decortive shapes can be added
-	without giving performance penalties to the collision detection.
+				Your walls look quite naked without any roof, right? Add the roof
+				to 'shape 1'. This is left as an exercise for the reader.  
+				The reason to split the roofs and the walls is that we
+				do not won't to check for collision between the roofs and the ball, only
+				between the walls and the ball. Hence, collision detecion is only preformed
+				on the first shape in the object, this way decortive shapes can be added
+				without giving performance penalties to the collision detection.
       </p>
       <a href="#top">top</a>
 
       <h2><a name="adding objects">Adding objects</a></h2>
       <p>
-	There are a number of prebuilt objects in 'pinedit/data' directory that
-	can be used in the tables. The load object button 
-	<img src="workloadgroup.xpm"></img> inserts the object into the table.
-	All loadable objects has filenames ending with '.pbl'.
+				There are a number of prebuilt objects in 'pinedit/data' directory that
+				can be used in the tables. The 'Load Object' button 
+				<img src="workloadgroup.xpm"></img> inserts the object into the table.
+				All loadable objects has filenames ending with '.pbl'.
       </p>
       <a href="#top">top</a>
       
       <h3><a name="bumpers">Bumpers</a></h3>
       <p>
-	Load the object 'pinedit/data/bumper.pbl'. Go to the object tab and
-	select the object called 'bumper'. Select the 'move object' button
-	<img src="workmovegroup.xpm"></img> and move the bumper to the top right
-	corner of the table by dragging it with the left muose button. Add two
-	more bumpers and create a nice formation. 
+				Load the object 'pinedit/data/bumper.pbl'. Go to the object tab and
+				select the object called 'bumper'. Select the 'move object' button
+				<img src="workmovegroup.xpm"></img> and move the bumper to the top right
+				corner of the table by dragging it with the left muose button. Add two
+				more bumpers and create a nice formation. 
       </p>
       <img src="ss6.jpg"></img>
       <p>
-	You can add a sound that
-	is played each time the ball hits the bumper by opening the object
-	in the object tab and selecting the child called 'bumper behavior'.
-	With the 'edit behavior' button below you can pop up a dialog
-	to select a wav-file for your sound. Even if the editor allows
-	you to pick files in any directory the file must be in the
-	'mytable' directory. There are some sound files in the 'pinedit/data'
-	directory that you can copy to your table directory. You also have
-	to edit the 'Makefile.am' to add your sounds. E.g.
-	<pre>
+				You can add a sound that
+				is played each time the ball hits the bumper by opening the object
+				in the object tab and selecting the child called 'bumper behavior'.
+				With the 'edit behavior' button below you can pop up a dialog
+				to select a wav-file for your sound. Even if the editor allows
+				you to pick files in any directory the file must be in the
+				'mytable' directory. There are some sound files in the 'pinedit/data'
+				directory that you can copy to your table directory. You also have
+				to edit the 'Makefile' to add your sounds. E.g.
+				<pre>
 ...
-mytabledata_DATA = pinball.pbl mysounfile1.wav mysoundfile2.wav
+DATA = pinball.pbl mysounfile1.wav mysoundfile2.wav
 ...
-	</pre>
-	Otherwise the sounds won't be installed. If your using the 'Makefile.fix' file
-	you have to manually copy the files into '/usr/local/share/pinball/mytable'.
+				</pre>
       </p>
       <a href="#top">top</a>
 
       <h3><a name="arms">Arms</a></h3>
       <p>
-	Arms can be found in the files 'left_arm.pbl' and 'right_arm.pbl'. You
-	can add a sound also to the arms. But as the table already has two arms
-	we don't add any more arms.
+				Arms can be found in the files 'left_arm.pbl' and 'right_arm.pbl'. You
+				can add a sound also to the arms. But as the table already has two arms
+				we don't add any more arms.
       </p>
       <a href="#top">top</a>
       
       <h3><a name="locks and caves">Locks and caves</a></h3>
       <p>
-	You'll find two locks and a release button in the files 'lock1.pbl',
-	'lock2.pbl' and 'releaselock.pbl'. Place them somehere on the left
-	side of the table, you can create some fancy walls for them if you
-	like. As you can see the locks have a shape consisting of one polygon. We
-	need this polygon for collision detection (may change in upcoming
-	versions). You may want to make the polygon invisible, you can do
-	so by selecting the shape and enabling the 'hidden' checkbox below and
-	pressing the apply button.
+				You'll find two locks and a release button in the files 'lock1.pbl',
+				'lock2.pbl' and 'releaselock.pbl'. Place them somehere on the left
+				side of the table, you can create some fancy walls for them if you
+				like. As you can see the locks have a shape consisting of one polygon. We
+				need this polygon for collision detection (may change in upcoming
+				versions). You may want to make the polygon invisible, you can do
+				so by selecting the shape and enabling the 'hidden' checkbox below and
+				pressing the apply button.
       </p>
       <p>
-	The locks and releaselock objects are managed by statemachines. You
-	can edit the statemachines for each object by selecting the
-	'state behavior' object of the child and clicking 'edit behavior'.
-	If you choose the 'lock1' object and pop up the statemachine
-	you see that this object has two states. <!--There are a lot of
-	properties associated with each state, see the manual to learn
-	more about them.--> The first state will always be activated when the table 
-	is reset, it can also be activated be receiving a signal from another
-	object, this is called the 'asig'.
+				The lock and releaselock objects are managed by statemachines. You
+				can edit the statemachines for each object by selecting the
+				'state behavior' object of the child and clicking 'edit behavior'.
+				If you choose the 'lock1' object and pop up the statemachine
+				you see that this object has two states. <!--There are a lot of
+				properties associated with each state, see the manual to learn
+				more about them.--> The first state will always be activated when the table 
+				is reset, it can also be activated be receiving a signal from another
+				object, this is called the 'asig'.
       </p>
       <p>
-	The first state of 'lock1' will be actived either by reset or by receiving the 
-	'multiball_off' signal.	The second state will be activated on the signal
-	'releaselock'. When on object detects a collision with a ball it may
-	emit a signal, this is 'csig'. Only the first state emits a signal
-	called 'lock1'. This signal will be received by the second lock and
-	thus activating it. The two states have diffrent type, the type is
-	found under the type tab. The fist state is of the 'lock' type meaning that
-	it will drag balls towards it when they collide. The second state
-	has no type, meaning that any captured balls will be released when
-	the second state is activated.
+				The first state of 'lock1' will be actived either by reset or by receiving the 
+				'multiball_off' signal.	The second state will be activated on the signal
+				'releaselock'. When on object detects a collision with a ball it may
+				emit a signal, this is 'csig'. Only the first state emits a signal
+				called 'lock1'. This signal will be received by the second lock and
+				thus activating it. The two states have diffrent type, the type is
+				found under the type tab. The fist state is of the 'lock' type meaning that
+				it will drag balls towards it when they collide. The second state
+				has no type, meaning that any captured balls will be released when
+				the second state is activated.
       </p>
       <a href="#top">top</a>
 
       <h3><a name="ramps">Ramps</a></h3>
       <p>
-	Ramps are created the same way as walls. Create a formation in 'shape0'
-	of object 'walls' as shown in the first	picture. 
-	Select the open inner corners and drag them up in the air. Create a flat
-	polygon on the floor and drag to front corners up in the air and the
-	bottom corners down to the floor. Make a copy of the recent polygon and place 
-	at about two and a half units above the original polygon,
-	flip the polygon. We need this type of invisible polygon on top of the ramp otherwise
-	the balls may bounce up in the air from the ramp and fly outside the table.
+				Ramps are created the same way as walls. Create a formation in 'shape0'
+				of object 'walls' as shown in the first	picture. 
+				Select the open inner corners and drag them up in the air. Create a flat
+				polygon on the floor and drag to front corners up in the air and the
+				bottom corners down to the floor. Make a copy of the recent polygon and place 
+				at about two and a half units above the original polygon,
+				flip the polygon. We need this type of invisible polygon on top of the ramp otherwise
+				the balls may bounce up in the air from the ramp and fly outside the table.
       </p>
       <p>
-	The create a lane in the air for the ramps start by creating a new object
-	<img src="worknewgroup.xpm"></img>, call it 'lane'. Create a new shape for lane
-	<img src="worknewshape.xpm"></img>. Create a three connected polygons 
-	and drag the outer corners up in the air and inwards to the create the first 
-	lane segement. Extrude and move corners until you have created a nice lane.
-	Do not forget to enable collision detection for your lane. Select the 
-	object 'lane', and enable the 'collision', 'transform once' and 'wall' and 
-	press 'apply'.
+				The create a lane in the air for the ramps start by creating a new object
+				<img src="worknewgroup.xpm"></img>, call it 'lane'. Create a new shape for lane
+				<img src="worknewshape.xpm"></img>. Create a three connected polygons 
+				and drag the outer corners up in the air and inwards to the create the first 
+				lane segement. Extrude and move corners until you have created a nice lane.
+				Do not forget to enable collision detection for your lane. Select the 
+				object 'lane', and enable the 'collision', 'transform once' and 'wall' and 
+				press 'apply'.
       </p>
       <img src="ss7.jpg"></img> <img src="ss8.jpg"></img>
       <img src="ss9.jpg"></img> <img src="ss10.jpg"></img><br></br>
@@ -245,41 +229,41 @@ mytabledata_DATA = pinball.pbl mysounfile1.wav mysoundfile2.wav
 
       <h2><a name="writing scripts">Writing Scripts</a></h2>
       <p>
-	You can write c++ scripts that controls a single object or the whole table.
-	The scipts are compiled and loaded as plugins, our table uses one such script
-	to control the table. The file 'ModuleScript.cpp' is compiled into
-	to plugin/library 'libmodule_script.so' which is then loaded into the table by
-	the game. In the editor the module is defined by the object called 'module'.
-	This object has no shapes only one behavior which loads the plugin.
+				You can write c++ scripts that controls a single object or the whole table.
+				The scipts are compiled and loaded as plugins, our table uses one such script
+				to control the table. The file 'ModuleScript.cpp' is compiled into
+				to plugin/library 'libmodule_script.so' which is then loaded into the table by
+				the game. In the editor the module is defined by the object called 'module'.
+				This object has no shapes only one behavior which loads the plugin.
       </p>
       <p>
-	Use the 'ModuleScript' as base for writing your srcipts. The four methods
-	that will be called by the engine are 'onTick', 'StdOnCollision',
-	'StdOnSignal' and 'StdOnSignal'. The 'onTick' function is
-	called each time the game advanced one time step. The 'StdOnCollisin'
-	is called if a ball collides with the object, you use this
-	one only if you don't want to use the statemachine behavior and
-	instead write a custom behavior for an object. 
+				Use the 'ModuleScript' as base for writing your srcipts. The four methods
+				that will be called by the engine are 'onTick', 'StdOnCollision',
+				'StdOnSignal' and 'StdOnSignal'. The 'onTick' function is
+				called each time the game advanced one time step. The 'StdOnCollisin'
+				is called if a ball collides with the object, you use this
+				one only if you don't want to use the statemachine behavior and
+				instead write a custom behavior for an object. 
       </p>
       <p>
-	The 'StdOnSignal'	is called each time an object sends a signal to the engine. 
-	The 'OnSignal' makro can be used to catch a signal. If the engine sends the
-	signal 'PBL_SIG_RESET_ALL', the sript should reset all its internal variables
-	to the inital state. You find the id for you own signals  
-	by calling 'Loader::getInstance()->getSignal("my_signal_name")'. The signal
-	names are the same that state behaviors are using. If the 'getSignal' don't
-	find any id for the given signal it will assign a new id for the signal name.
+				The 'StdOnSignal'	is called each time an object sends a signal to the engine. 
+				The 'OnSignal' makro can be used to catch a signal. If the engine sends the
+				signal 'PBL_SIG_RESET_ALL', the sript should reset all its internal variables
+				to the inital state. You find the id for you own signals  
+				by calling 'Loader::getInstance()->getSignal("my_signal_name")'. The signal
+				names are the same that state behaviors are using. If the 'getSignal' don't
+				find any id for the given signal it will assign a new id for the signal name.
       </p>
       <p>
-	You can send signal to other object in the game with the 'SendSignal' makro.
-	<pre>
+				You can send signal to other object in the game with the 'SendSignal' makro.
+				<pre>
 SendSignal( signal_id,   // use Loader::getInstance()->getSignal("my_signal_name")
             delay,       // delay in time steps before the signal is sent, 0 meaning now
             sendar,      // usually this->getParent()
             receiver )   // NULL meaning everybody
-	</pre>
-	Look in the file 'pinball/base/StateMachine.h' if you want to see how these
-	makros are defined.
+				</pre>
+				Look in the file 'pinball/base/StateMachine.h' if you want to see how these
+				makros are defined.
       </p>
       
       <a href="#top">top</a>

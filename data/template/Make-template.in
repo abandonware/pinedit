@@ -1,10 +1,10 @@
 
-SDL_CFLAGS = $(shell sdl-config --cflags)
-SDL_LIBS = $(shell sdl-config --libs)
-PINBALL_CFLAGS = $(shell pinball-config --cflags)
-PINBALL_LIBS = $(shell pinball-config --libs)
-PINBALL_DATA = $(shell pinball-config --datadir)
-PINBALL_LIBDIR = $(shell pinball-config --libdir)
+SDL_CFLAGS = $(shell @SDL_CONFIG@ --cflags)
+SDL_LIBS = $(shell @SDL_CONFIG@ --libs)
+PINBALL_CFLAGS = $(shell @PINBALL_CONFIG@ --cflags)
+PINBALL_LIBS = $(shell @PINBALL_CONFIG@ --libs)
+PINBALL_DATA = $(shell @PINBALL_CONFIG@ --datadir)
+PINBALL_LIBDIR = $(shell @PINBALL_CONFIG@ --libdir)
 TABLE_NAME = $(notdir $(shell pwd))
 
 DATA = pinball.pbl
@@ -32,7 +32,7 @@ install: $(LIB_OBJS)
 	for lib_la in $(LA_LIBS); do \
 		libtool  --mode=install @INSTALL@ -c $$lib_la \
 		$(PINBALL_LIBDIR)/$$lib_la; done
-	mkdir -p $(PINBALL_DATA)/asshole
+	mkdir -p $(PINBALL_DATA)/$(TABLE_NAME)
 	for data in $(DATA); do \
 		@INSTALL@ -c -m 644 ./pinball.pbl $(PINBALL_DATA)/$(TABLE_NAME)/$$data; done
 

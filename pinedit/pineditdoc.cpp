@@ -215,9 +215,9 @@ bool PinEditDoc::loadGroup(const QString &filename) {
     istringstream ist("");
     while (file >> str) {
       if (str == "object") {
-	Group * group = Loader::getInstance()->loadStdObject(file, ist, engine); 
-	group->setPropertyRecursive(EM_GROUP_NO_BEHAVIOR);
-	engine->add(group);
+				Group * group = Loader::getInstance()->loadStdObject(file, ist, engine); 
+				group->setPropertyRecursive(EM_GROUP_NO_BEHAVIOR);
+				engine->add(group);
       }
     }
 		
@@ -441,6 +441,11 @@ void PinEditDoc::clearSelectedPolygon() {
 
 void PinEditDoc::selectVertex(int index) {
   assert(p_CurrentShape != NULL);
+	vector<int>::iterator iter = m_vSelectedVertex.begin();
+	vector<int>::iterator end = m_vSelectedVertex.end();
+	for (; iter != end; ++iter) {
+		if (*iter == index) return;
+	}
   m_vSelectedVertex.push_back(index);
 }
 
@@ -481,9 +486,10 @@ void PinEditDoc::unSelectVertex(int index) {
   for (; iter != end; iter++) {
     if ((*iter) == index) {
       m_vSelectedVertex.erase(iter);
-      break; // the vector is now changes must break;
+      break; // the vector is now changed we must break
     }
   }
+	assert(this->isVertexSelected(index) == false);
 }
 
 int PinEditDoc::getSelectedVertexExtra() {

@@ -1,63 +1,67 @@
-Name: 		pinball
-Version: 	0.0.2
-Release: 	1
+Name: 		pinedit
+Version: 	0.0.3
+Release: 	1rh73
 
-Group:          Amusements/Games
-Group(cs): 	Zábava/Hry
-Summary: 	Emilia Pinball is free OpenGL game of playing pinball.
-Summary(cs): 	Emilia Pinball je volnì ¹iøitelná OpenGL hra.
+Group:    Amusements/Games
+Summary: 	Editor, 3D Modeller for Emilia Pinball.
 
-Vendor:		Henrik Enqvist  (henquist@excite.com)
-Packager:       Michal Ambroz (o_o) (rebus@seznam.cz)
+Vendor:		Henrik Enqvist  (henqvist@users.sourceforge.net)
+Packager: Henrik Enqvist  (henqvist@users.sourceforge.net)
 License: 	GPL
-URL: 		http://pinball.sourceforge.net
+URL: 	  	http://pinball.sourceforge.net
 Source: 	http://prdownloads.sourceforge.net/pinball/%{name}-%{version}.tar.gz
-BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
-Prefix: /usr
-Prefix: /etc
+#BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
+#Prefix: /usr
+#Prefix: /etc
 
 %description
-Pinball with Tux.
+Pinball editor.
 
 
 %prep
 %setup
 
 %build
-./configure
-make prefix=%{_prefix}
+./configure --prefix=%{_prefix}
+#make prefix=%{_prefix}
+make
 
 
 %install
-mkdir -p %{buildroot}%{_prefix}/bin
-make prefix=%{buildroot}%{_prefix} install
+#mkdir -p %{buildroot}%{_prefix}/bin
+#make prefix=%{buildroot}%{_prefix} install
+make install
 
 #Install application link for X-Windows
-install -d %{buildroot}/etc/X11/applnk/Games
+install -d /etc/X11/applnk/Games
 echo -e "[Desktop Entry]
-Name=Emilia Pinball
+Name=Emilia Pinball Editor
 Comment=OpenGL pinball game
-Exec=pinball
+Exec=pinedit
 Icon=pinball.xpm
 Terminal=0
-Type=Application" > %{buildroot}/etc/X11/applnk/Games/"Emilia Pinball".desktop
+Type=Application" > /etc/X11/applnk/Games/EmiliaPinballEditor.desktop
 
 
 
 
 %clean
-rm -rf %{buildroot}
+#rm -rf %{buildroot}
+make uninstall
+rm /etc/X11/applnk/Games/EmiliaPinballEditor.desktop
 
 %files
 %defattr(-,root,root)
 %doc AUTHORS COPYING INSTALL NEWS README
-%doc doc/*
-/etc/X11/applnk/*
-%{_bindir}/*
-%{_prefix}/share/pinball/*
+/etc/X11/applnk/Games/EmiliaPinballEditor.desktop
+%{_bindir}/pinedit
+%{_bindir}/pinball-template
+%{_prefix}/share/pinedit/*
 
 
 
 %changelog
+* Wed Mar 05 2003 Henrik Enqvist
+- removed buildroot to get it to work with libtool
 * Fri Mar 08 2002 Michal Ambroz (O_O) <rebus@seznam.cz>
 - initial pinball RPM

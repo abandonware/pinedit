@@ -197,6 +197,9 @@ TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, 
   p_EditTexture = new QLineEdit(this);
   connect(p_EditTexture, SIGNAL(returnPressed()), this, SLOT(slotName()));
 
+	QPushButton * choosebutton = new QPushButton("choose", this);
+	connect(choosebutton, SIGNAL(clicked()), this, SLOT(slotChoose()));
+
   // 	QPushButton * applybutton = new QPushButton("apply", this);
   // 	connect(applybutton, SIGNAL(clicked()), this, SLOT(slotApply()));
 
@@ -210,7 +213,9 @@ TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, 
   vlayout->addWidget(p_TextureImageWidget);
   //vlayout1->addWidget(p_ListView);
   vlayout->addWidget(p_ListView);
-  vlayout->addWidget(p_EditTexture);
+	QBoxLayout * hlayout1 = new QHBoxLayout(vlayout);
+  hlayout1->addWidget(p_EditTexture);
+	hlayout1->addWidget(choosebutton);
   // 	QBoxLayout * hlayout1 = new QHBoxLayout(vlayout);
   // 	hlayout1->addWidget(p_EditU);
   // 	hlayout1->addWidget(p_EditV);
@@ -374,7 +379,7 @@ void TextureView::slotChoose() {
 
 void TextureView::slotName() {
   Shape3D * shape = p_Doc->getCurrentShape();
-  if (shape != NULL) {
+  if (shape == NULL) {
     QMessageBox::information( this, "Choose Texture", "No Shape selected.");
     return;
   }

@@ -24,7 +24,7 @@
 #include "Polygon.h"
 
 CommandNewPolygon::CommandNewPolygon(PinEditDoc * doc) : Command(doc) {
-	p_Polygon = NULL;
+  p_Polygon = NULL;
 }
 
 CommandNewPolygon::~CommandNewPolygon() {
@@ -35,7 +35,7 @@ void CommandNewPolygon::clearObjects() {
 
 void CommandNewPolygon::execute(const CommandContext & context) {
   assert(context.shape != NULL);
-  EM_CERR("CommandNewPolygon::execute new polygon with " << index << " vertices");
+  EM_CERR("CommandNewPolygon::execute");
   p_Context->copy(context);
   
   p_Polygon = new Polygon(context.shape);

@@ -17,6 +17,7 @@
 
 // general includes
 #include <cassert>
+#include <iostream>
 // qt includes
 #include <qspinbox.h>
 #include <qcheckbox.h>
@@ -141,7 +142,7 @@ void LightDialog::slotDone() {
     light->setProperty(EM_USE_BOUNDS);
     light->setBounds(10.0);
     gl = new Group();
-    gl->setName("light");
+    gl->setName("#light");
     gl->setLight(light);
     p_Behavior->getParent()->add(gl);
     p_Behavior->setLight(light);

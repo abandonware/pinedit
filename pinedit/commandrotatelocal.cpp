@@ -121,7 +121,6 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 	// draw selected vertices
 	index = 0;
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
-	Vertex3D vtxA;
 	while (vtx != NULL) {
 		// the matrix will rotate and reapply the translation
 		view2d->drawVertex(context.shape, *vtx, mtxC);

@@ -154,46 +154,46 @@ void PinEditApp::initActions() {
   // 	QPixmap saveShapeIcon = QPixmap(filesaveshape);
   
   //QPixmap lockIcon = QPixmap(worklock);
-//   QPixmap loadShapeIcon = QPixmap(workloadshape);
+  //   QPixmap loadShapeIcon = QPixmap(workloadshape);
   QPixmap loadGroupIcon = QPixmap(workloadgroup);
-	//QPixmap caveIcon = QPixmap(workcave);
-	QPixmap undoIcon = QPixmap(workundo);
-	QPixmap newVertexIcon = QPixmap(worknewvertex);
-	QPixmap selectIcon = QPixmap(workselect);
-	QPixmap addSelectIcon = QPixmap(workaddselect);
-	QPixmap copyIcon = QPixmap(workcopy);
-	QPixmap pasteIcon = QPixmap(workpaste);
-	QPixmap newPolygonIcon = QPixmap(worknewpolygon);
-	QPixmap hideSelectedIcon = QPixmap(workhideselected);
-	QPixmap unSelectIcon = QPixmap(workunselect);
-	QPixmap newShapeIcon = QPixmap(worknewshape);
-	QPixmap newGroupIcon = QPixmap(worknewgroup);
-	QPixmap moveIcon = QPixmap(workmove);
-	QPixmap flipIcon = QPixmap(workflip);
-	QPixmap moveGroupIcon = QPixmap(workmovegroup);
-	QPixmap rotateGroupIcon = QPixmap(workrotategroup);
-	QPixmap rotateIcon = QPixmap(workrotate);
-	QPixmap rotateLocalIcon = QPixmap(workrotatelocal);
-	QPixmap deleteGroupIcon = QPixmap(workdeletegroup);
-	QPixmap deleteShapeIcon = QPixmap(workdeleteshape);
-	QPixmap deletePolygonIcon = QPixmap(workdeletepolygon);
-	QPixmap deleteVertexIcon = QPixmap(workdeletevertex);
-	QPixmap snapIcon = QPixmap(worksnap);
-	QPixmap resizeIcon = QPixmap(workresize);
-	QPixmap resizeLocalIcon = QPixmap(workresizelocal);
-	QPixmap extrudeIcon = QPixmap(workextrude);
-	QPixmap mirrorXIcon = QPixmap(workmirrorx);
-	QPixmap mirrorYIcon = QPixmap(workmirrory);
-	QPixmap mirrorZIcon = QPixmap(workmirrorz);
-	QPixmap mirrorLocalXIcon = QPixmap(workmirrorlocalx);
-	QPixmap mirrorLocalYIcon = QPixmap(workmirrorlocaly);
-	QPixmap mirrorLocalZIcon = QPixmap(workmirrorlocalz);
-
+  //QPixmap caveIcon = QPixmap(workcave);
+  QPixmap undoIcon = QPixmap(workundo);
+  QPixmap newVertexIcon = QPixmap(worknewvertex);
+  QPixmap selectIcon = QPixmap(workselect);
+  QPixmap addSelectIcon = QPixmap(workaddselect);
+  QPixmap copyIcon = QPixmap(workcopy);
+  QPixmap pasteIcon = QPixmap(workpaste);
+  QPixmap newPolygonIcon = QPixmap(worknewpolygon);
+  QPixmap hideSelectedIcon = QPixmap(workhideselected);
+  QPixmap unSelectIcon = QPixmap(workunselect);
+  QPixmap newShapeIcon = QPixmap(worknewshape);
+  QPixmap newGroupIcon = QPixmap(worknewgroup);
+  QPixmap moveIcon = QPixmap(workmove);
+  QPixmap flipIcon = QPixmap(workflip);
+  QPixmap moveGroupIcon = QPixmap(workmovegroup);
+  QPixmap rotateGroupIcon = QPixmap(workrotategroup);
+  QPixmap rotateIcon = QPixmap(workrotate);
+  QPixmap rotateLocalIcon = QPixmap(workrotatelocal);
+  QPixmap deleteGroupIcon = QPixmap(workdeletegroup);
+  QPixmap deleteShapeIcon = QPixmap(workdeleteshape);
+  QPixmap deletePolygonIcon = QPixmap(workdeletepolygon);
+  QPixmap deleteVertexIcon = QPixmap(workdeletevertex);
+  QPixmap snapIcon = QPixmap(worksnap);
+  QPixmap resizeIcon = QPixmap(workresize);
+  QPixmap resizeLocalIcon = QPixmap(workresizelocal);
+  QPixmap extrudeIcon = QPixmap(workextrude);
+  QPixmap mirrorXIcon = QPixmap(workmirrorx);
+  QPixmap mirrorYIcon = QPixmap(workmirrory);
+  QPixmap mirrorZIcon = QPixmap(workmirrorz);
+  QPixmap mirrorLocalXIcon = QPixmap(workmirrorlocalx);
+  QPixmap mirrorLocalYIcon = QPixmap(workmirrorlocaly);
+  QPixmap mirrorLocalZIcon = QPixmap(workmirrorlocalz);
+  
   fileNew = new QAction(tr("New File"), newIcon, tr("&New"), QAccel::stringToKey(tr("Ctrl+N")), this);
   fileNew->setStatusTip(tr("Creates a new document"));
   fileNew->setWhatsThis(tr("New File\n\nCreates a new document"));
   connect(fileNew, SIGNAL(activated()), this, SLOT(slotFileNew()));
-
+  
   fileOpen = new QAction(tr("Open File"), openIcon, tr("&Open..."), 0, this);
   fileOpen->setStatusTip(tr("Opens an existing document"));
   fileOpen->setWhatsThis(tr("Open File\n\nOpens an existing document"));
@@ -823,7 +823,8 @@ void PinEditApp::slotViewStatusBar(bool toggle) {
 
 void PinEditApp::slotHelpAbout() {
   QMessageBox::about(this, tr("About..."), 
-		     tr("PinEdit\nVersion " VERSION "\n(c) 2001 by Henrik Enqvist") );
+		     tr("PinEdit\nVersion " VERSION 
+						"\n(c) 2002 by Henrik Enqvist\nhenqvist@users.sourceforge.net") );
 }
 
 void PinEditApp::slotTutorial() {
@@ -1079,10 +1080,14 @@ void PinEditApp::slotNewGroup() {
   CommandContext context;
   context.clear();
   // only add groups to engine
-  context.group = p_Doc->getEngine();
-  assert(context.group != NULL);
-  Command * command = new CommandNewGroup(p_Doc);
-  command->execute(context);
+	context.group = p_Doc->getCurrentGroup();
+  if (context.group == NULL) {
+		context.group = p_Doc->getEngine();
+	}
+	assert(context.group != NULL);
+	Command * command = new CommandNewGroup(p_Doc);
+	command->execute(context);
+  EM_CERR("PinEditApp::slotNewGroup");
 }
 
 void PinEditApp::slotDeletePolygon() {
@@ -1133,7 +1138,7 @@ void PinEditApp::slotNewShape() {
     Command * command = new CommandNewShape(p_Doc);
     command->execute(context);
   } else {
-    QMessageBox::information( this, "New Polygon", "No shape selected.");
+    QMessageBox::information( this, "New Shape", "No object selected.");
   }
 }
 

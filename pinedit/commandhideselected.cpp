@@ -49,8 +49,8 @@ void CommandHideSelected::execute(const CommandContext & context) {
 	// but selection is made correct !!!
 }
 
-void CommandHideSelected::preview(const CommandContext & context, View2D * view2d) {
-	EM_CERR("CommandHideSelected::preview");
+void CommandHideSelected::preview(const CommandContext &, View2D *) {
+  EM_CERR("CommandHideSelected::preview");
 }
 
 void CommandHideSelected::undo() {

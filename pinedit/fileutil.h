@@ -29,14 +29,25 @@ class QTextStream;
  ** to a pinball file. */
 class FileUtil {
  public:
-	FileUtil(PinEditDoc * doc);
-	~FileUtil();
-	int saveFile(const QString & fn, Group * group);
+  FileUtil(PinEditDoc * doc);
+  ~FileUtil() {};
+  int saveFile(const QString & fn, Group * group);
  private:
-	int writeGroup(QTextStream & file, Group * Group);
-	int writeShape(QTextStream & file, Shape3D * shape);
-	int writeBehavior(QTextStream & file, Behavior * beh);
-	PinEditDoc * p_Doc;
+  int writeGroup(QTextStream & file, Group * Group);
+  int writeShape(QTextStream & file, Shape3D * shape);
+  int writeBehavior(QTextStream & file, Behavior * beh);
+  inline void FileUtil::incIndent() {
+    ++m_iIndent;
+  };
+  inline void FileUtil::decIndent() {
+    --m_iIndent;
+    if (m_iIndent < 0) m_iIndent = 0;
+  };
+  inline void FileUtil::resetIndent() {
+    m_iIndent = 0;
+  };
+  PinEditDoc * p_Doc;
+  int m_iIndent;
 };
 
 #endif

@@ -6,4 +6,4 @@ templatedatadir = $(pkgdatadir)/template
 
 templatedata_DATA = libtool 
 
-EXTRA_DIST = bootstrap clean
+EXTRA_DIST = bootstrap clean pinedit.spec

@@ -17,6 +17,7 @@
 
 // general includes
 #include <cassert>
+#include <iostream>
 // qt includes
 #include <qtabwidget.h>
 #include <qpushbutton.h>

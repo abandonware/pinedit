@@ -31,7 +31,7 @@ class CommandDeleteGroup : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d) {};
+	void preview(const CommandContext &, View2D *) {};
 	const char * type() { return "CommandDeleteGroup"; };
 };
 

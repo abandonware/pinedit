@@ -59,7 +59,7 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
 View2D::~View2D(){
 }
 
-void View2D::resizeEvent(QResizeEvent * e) {
+void View2D::resizeEvent(QResizeEvent *) {
   EM_CERR("View2D::resizeEvent");
 }
 
@@ -108,10 +108,12 @@ void View2D::mouseReleaseEvent(QMouseEvent * e) {
       context.shape = p_Doc->getCurrentShape();
       context.group = p_Doc->getCurrentGroup();
       context.type = m_iType;
-      if (context.group != NULL && context.shape != NULL) {
-	command->execute(context);
+      if (m_iMode == EM_SHAPE_MODE && context.shape == NULL) {
+	QMessageBox::information(this, "Command", "No Shape selected.");
+      } else if (m_iMode == EM_GROUP_MODE && context.group == NULL) {
+	QMessageBox::information(this, "Command", "No Group selected.");
       } else {
-	QMessageBox::information( this, "Command", "No Shape selected.");
+	command->execute(context);
       }
     }
   } else if (e->button() == QMouseEvent::RightButton) {
@@ -460,7 +462,7 @@ void View2D::drawGrid() {
 }
 
 // this is the function who draws stuff to the screen
-void View2D::paintEvent(QPaintEvent * e) {
+void View2D::paintEvent(QPaintEvent *) {
   //
   if (m_bGrid) {
     this->drawGrid();

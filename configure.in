@@ -5,7 +5,7 @@ dnl this is a c++ program
 CFLAGS="-g -W -Wall"
 CXXFLAGS="-g -W -Wall"
 
-PINBALL_VERSION=0.1.3
+PINBALL_VERSION=0.2.0
 SDL_VERSION=1.2.0
 ALLEGRO_VERSION=4.0.0
 
@@ -14,7 +14,7 @@ AC_CANONICAL_TARGET
 
 AC_CONFIG_SUBDIRS(libltdl)
 
-AM_INIT_AUTOMAKE(pinedit, 0.0.3)
+AM_INIT_AUTOMAKE(pinedit, 0.0.4)
 AM_CONFIG_HEADER(editconfig.h)
 
 dnl Checks for programs.
@@ -143,12 +143,19 @@ LIBS="$PINBALL_LIBS $LIBS"
 
 dnl ********************************************
 dnl CPP_UNIT ***********************************
+
+AC_ARG_WITH(unittest, [  --with-unittest         Try to use unitest], use_unittest="yes", use_unittest="no")
+
+if test x"$use_unittest" == "xyes"; then
+
 AM_PATH_CPPUNIT(1.8.0, [
   AC_DEFINE(EM_UNIT_TEST) 
   CPPFLAGS="$CPPFLAGS $CPPUNIT_CFLAGS"	
   CFLAGS="$CFLAGS $CPPUNIT_CFLAGS" 
   LIBS="$LIBS $CPPUNIT_LIBS"
   ], AC_MSG_WARN([*** CppUnit was not found. No unit testing.]))
+
+fi
 
 dnl ********************************************
 dnl QT TODO ************************************

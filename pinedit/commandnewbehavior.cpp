@@ -26,6 +26,7 @@
 #include "StateBehavior.h"
 #include "ArmBehavior.h"
 #include "FakeModuleBehavior.h"
+#include "PlungerBehavior.h"
 #include "Pinball.h"
 
 CommandNewBehavior::CommandNewBehavior(PinEditDoc * doc) : Command(doc) {
@@ -59,6 +60,9 @@ void CommandNewBehavior::execute(const CommandContext & context) {
     break;
   case PBL_TYPE_FAKEMODULEBEH:
     p_Behavior = new FakeModuleBehavior("");
+    break;
+  case PBL_TYPE_PLUNGERBEH:
+    p_Behavior = new PlungerBehavior();
     break;
   default:
     p_Behavior = NULL;

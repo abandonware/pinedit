@@ -22,6 +22,8 @@
 #include <qgl.h>
 // application includes
 #include "pineditdoc.h"
+// emilia includes
+#include "EMath.h"
 
 class QMouseEvent;
 class PinEditDoc;
@@ -29,27 +31,25 @@ class PinEditDoc;
 /** The GLEngine class provides the OpenGL implementation for the emilia engine. 
  ** @author Henrik Enqvist IB */
 class GLEngine : public QGLWidget, public Updateable  {
-	Q_OBJECT        // must include this if you use Qt signals/slots
- public:
-	GLEngine(QGLFormat & format, QWidget * parent, const char * name, PinEditDoc * doc);
-	~GLEngine();
-
+  Q_OBJECT        // must include this if you use Qt signals/slots
+    public:
+  GLEngine(QGLFormat & format, QWidget * parent, const char * name, PinEditDoc * doc);
+  ~GLEngine();
+  
  protected:
-	void initializeGL();
-	void resizeGL(int w, int h);
-	void paintGL();
-	void mouseMoveEvent(QMouseEvent * event);
-	void mousePressEvent(QMouseEvent * event);
-	void doUpdate();
-		
+  void initializeGL();
+  void resizeGL(int w, int h);
+  void paintGL();
+  void mouseMoveEvent(QMouseEvent * event);
+  void mousePressEvent(QMouseEvent * event);
+  void doUpdate();
+  
  private:
-	PinEditDoc * p_Doc;
-	int m_MouseX;
-	int m_MouseY;
-	float m_RotX;
-	float m_RotY;
-	float m_RotZ;
-	ButtonState m_ButtonState;
+  PinEditDoc * p_Doc;
+  int m_MouseX;
+  int m_MouseY;
+  Quaternion m_qRot;
+  ButtonState m_ButtonState;
 };
 
 #endif

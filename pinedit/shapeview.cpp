@@ -94,6 +94,7 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
     p_ChoiceBehavior->insertItem("right arm beh");
     p_ChoiceBehavior->insertItem("module");
     p_ChoiceBehavior->insertItem("statemachine");
+    p_ChoiceBehavior->insertItem("plunger beh");
     QPushButton * addbutton = new QPushButton("new behavior", p_WidgetGroup);
     connect(addbutton, SIGNAL(clicked()), this, SLOT(slotAdd()));
     // layout
@@ -158,6 +159,7 @@ void ShapeView::doRebuild() {
   assert(p_Doc->getEngine() != NULL);
   p_ListView->clear();
   ListItem * firstitem = new ListItem(p_ListView, "bottom");
+  firstitem->setObject(p_Doc->getEngine(), LISTITEM_ENGINE);
   // insert all children
   //this->addGroup(p_Doc->getEngine(), firstitem);
   int index = 0;
@@ -197,14 +199,14 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 
   int index = 0;
   Group * child = group->getGroup(index);
-  // do not add  children
-  // 	while (child != NULL) {
-  // 		this->addGroup(child, groupitem);
-  // 		index++;
-  // 		child = group->getGroup(index);
-  // 		// open up groups with children
-  // 		//groupitem->setOpen(TRUE);
-  // 	}
+	// add  children
+	while (child != NULL) {
+		this->addGroup(child, groupitem);
+		++index;
+		child = group->getGroup(index);
+		// open up groups with children
+		//groupitem->setOpen(TRUE);
+	}
 
   // add shapes
   int shindex = 0;
@@ -228,6 +230,7 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
     case PBL_TYPE_BUMPERBEH: str = QString("bumper behavior"); break;
     case PBL_TYPE_ARMBEH: str = QString("arm behavior"); break;
     case PBL_TYPE_STATEBEH: str = QString("state behavior"); break;
+    case PBL_TYPE_PLUNGERBEH: str = QString("plunger behavior"); break;
     default: str = QString("behavior");
     }
     if (beh->getLight() != NULL) {
@@ -247,6 +250,7 @@ void ShapeView::slotChanged() {
       p_Doc->clearSelectedVertex();
       p_Doc->clearSelectedPolygon();
       p_Doc->setCurrentGroup((Group*)((ListItem*)currentitem)->getObject());
+      //p_Doc->setCurrentShape(NULL);
       p_WidgetStack->raiseWidget(p_WidgetGroup);
       PinEditApp::p_CurrentApp->setMode(EM_GROUP_MODE);
       EM_CERR("ShapeView::slotChanged selected a group");
@@ -254,6 +258,7 @@ void ShapeView::slotChanged() {
     case LISTITEM_SHAPE: {
       p_Doc->clearSelectedVertex();
       p_Doc->clearSelectedPolygon();
+      //p_Doc->setCurrentGroup(((Shape3D*)((ListItem*)currentitem)->getObject())->getParent());
       p_Doc->setCurrentShape((Shape3D*)((ListItem*)currentitem)->getObject());
       p_WidgetStack->raiseWidget(p_WidgetShape);
       PinEditApp::p_CurrentApp->setMode(EM_SHAPE_MODE);
@@ -262,6 +267,15 @@ void ShapeView::slotChanged() {
     case LISTITEM_BEHAVIOR: {
       p_WidgetStack->raiseWidget(p_WidgetBehavior);
       EM_CERR("ShapeView::slotChanged seledted a shape");
+    } break;
+    case LISTITEM_ENGINE: {
+      p_Doc->clearSelectedVertex();
+      p_Doc->clearSelectedPolygon();
+      p_Doc->setCurrentGroup(NULL);
+      //p_Doc->setCurrentShape(NULL);
+      p_WidgetStack->raiseWidget(p_WidgetGroup);
+      PinEditApp::p_CurrentApp->setMode(EM_GROUP_MODE);
+      EM_CERR("ShapeView::slotChanged selected a group");
     } break;
     }
   }
@@ -542,6 +556,14 @@ void ShapeView::slotAdd() {
     context.group = p_Doc->getCurrentGroup();
     command->execute(context);
     p_StateDialog->edit((StateBehavior*)command->getBehavior());
+  } break;
+  case 6: {
+    CommandNewBehavior * command = new CommandNewBehavior(p_Doc);
+    command->setBehaviorType(PBL_TYPE_PLUNGERBEH);
+    CommandContext context;
+    context.clear();
+    context.group = p_Doc->getCurrentGroup();
+    command->execute(context);
   } break;
   }
 }
