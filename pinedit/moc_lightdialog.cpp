@@ -1,8 +1,8 @@
 /****************************************************************************
 ** LightDialog meta object code from reading C++ file 'lightdialog.h'
 **
-** Created: Wed Oct 30 13:27:22 2002
-**      by: The Qt MOC ($Id: moc_lightdialog.cpp,v 1.2 2002/10/30 14:53:28 henqvist Exp $)
+** Created: Mon May 19 21:17:53 2003
+**      by: The Qt MOC ($Id: moc_lightdialog.cpp,v 1.3 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -54,13 +54,15 @@ QMetaObject* LightDialog::staticMetaObject()
     QMetaObject* parentObject = QDialog::staticMetaObject();
     static const QUMethod slot_0 = {"slotDone", 0, 0 };
     static const QUMethod slot_1 = {"slotCancel", 0, 0 };
+    static const QUMethod slot_2 = {"slotRemove", 0, 0 };
     static const QMetaData slot_tbl[] = {
 	{ "slotDone()", &slot_0, QMetaData::Protected },
-	{ "slotCancel()", &slot_1, QMetaData::Protected }
+	{ "slotCancel()", &slot_1, QMetaData::Protected },
+	{ "slotRemove()", &slot_2, QMetaData::Protected }
     };
     metaObj = QMetaObject::new_metaobject(
 	"LightDialog", parentObject,
-	slot_tbl, 2,
+	slot_tbl, 3,
 	0, 0,
 #ifndef QT_NO_PROPERTIES
 	0, 0,
@@ -82,6 +84,7 @@ bool LightDialog::qt_invoke( int _id, QUObject* _o )
     switch ( _id - staticMetaObject()->slotOffset() ) {
     case 0: slotDone(); break;
     case 1: slotCancel(); break;
+    case 2: slotRemove(); break;
     default:
 	return QDialog::qt_invoke( _id, _o );
     }

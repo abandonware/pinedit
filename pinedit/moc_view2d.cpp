@@ -1,8 +1,8 @@
 /****************************************************************************
 ** View2D meta object code from reading C++ file 'view2d.h'
 **
-** Created: Fri Sep 27 14:12:23 2002
-**      by: The Qt MOC ($Id: moc_view2d.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+** Created: Mon May 19 21:17:31 2003
+**      by: The Qt MOC ($Id: moc_view2d.cpp,v 1.2 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

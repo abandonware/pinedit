@@ -1,8 +1,8 @@
 /****************************************************************************
 ** TexCoordDialog meta object code from reading C++ file 'texcoorddialog.h'
 **
-** Created: Fri Sep 27 14:12:58 2002
-**      by: The Qt MOC ($Id: moc_texcoorddialog.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+** Created: Mon May 19 21:18:07 2003
+**      by: The Qt MOC ($Id: moc_texcoorddialog.cpp,v 1.2 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

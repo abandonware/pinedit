@@ -1,8 +1,8 @@
 /****************************************************************************
 ** ShapeView meta object code from reading C++ file 'shapeview.h'
 **
-** Created: Wed Oct 23 09:38:27 2002
-**      by: The Qt MOC ($Id: moc_shapeview.cpp,v 1.2 2002/10/30 14:53:29 henqvist Exp $)
+** Created: Mon May 19 21:17:35 2003
+**      by: The Qt MOC ($Id: moc_shapeview.cpp,v 1.3 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

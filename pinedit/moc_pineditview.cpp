@@ -1,8 +1,8 @@
 /****************************************************************************
 ** PinEditView meta object code from reading C++ file 'pineditview.h'
 **
-** Created: Wed Oct 30 13:26:56 2002
-**      by: The Qt MOC ($Id: moc_pineditview.cpp,v 1.2 2002/10/30 14:53:28 henqvist Exp $)
+** Created: Mon May 19 21:17:27 2003
+**      by: The Qt MOC ($Id: moc_pineditview.cpp,v 1.3 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

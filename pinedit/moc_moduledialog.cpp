@@ -1,8 +1,8 @@
 /****************************************************************************
 ** ModuleDialog meta object code from reading C++ file 'moduledialog.h'
 **
-** Created: Fri Sep 27 14:13:01 2002
-**      by: The Qt MOC ($Id: moc_moduledialog.cpp,v 1.1 2002/09/27 13:23:40 henqvist Exp $)
+** Created: Mon May 19 21:18:11 2003
+**      by: The Qt MOC ($Id: moc_moduledialog.cpp,v 1.2 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/

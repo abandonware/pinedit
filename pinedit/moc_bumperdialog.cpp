@@ -1,8 +1,8 @@
 /****************************************************************************
 ** BumperDialog meta object code from reading C++ file 'bumperdialog.h'
 **
-** Created: Wed Oct 23 09:38:36 2002
-**      by: The Qt MOC ($Id: moc_bumperdialog.cpp,v 1.3 2002/10/30 14:53:28 henqvist Exp $)
+** Created: Mon May 19 21:17:46 2003
+**      by: The Qt MOC ($Id: moc_bumperdialog.cpp,v 1.4 2003/05/20 21:15:24 pedro_nf Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
