@@ -24,17 +24,13 @@
 #include "Polygon.h"
 
 CommandNewPolygon::CommandNewPolygon(PinEditDoc * doc) : Command(doc) {
-	p_Context = new CommandContext();
-	p_Context->clear();
 	p_Polygon = NULL;
 }
 
 CommandNewPolygon::~CommandNewPolygon() {
-	delete p_Context;
 }
 
 void CommandNewPolygon::clearObjects() {
-	delete p_Polygon;
 }
 
 void CommandNewPolygon::execute(const CommandContext & context) {
@@ -76,6 +72,7 @@ void CommandNewPolygon::undo() {
 	assert(p_Context->shape != NULL);
 	p_Context->shape->removePolygon(p_Polygon);
 	p_Doc->clearSelectedPolygon();
+	delete p_Polygon;
 	p_Doc->rebuildAll("polygon");
 	p_Doc->updateAll("polygon");
 }

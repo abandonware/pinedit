@@ -24,8 +24,11 @@
 Command::Command(PinEditDoc * doc){
 	assert(doc != NULL);
 	p_Doc = doc;
-	p_Context = NULL;
+	p_Context = new CommandContext();
+	p_Context->clear();
+
 }
 
 Command::~Command(){
+	delete p_Context;
 }

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+using namespace std;
+
 // general includes
 #include <vector>
 #include <algorithm>
@@ -38,7 +40,9 @@ void CommandDeleteVertex::clearObjects() {
 }
 
 void CommandDeleteVertex::execute(const CommandContext & context) {
+	cerr << "CommandDeleteVertex::execute" << endl;
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	vector<int> v_index;
 
@@ -56,8 +60,18 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 	vector<int>::reverse_iterator riter = v_index.rbegin();
 	vector<int>::reverse_iterator rend = v_index.rend();
 	for(; riter != rend; ++riter) {
-		cerr << "CommandDeleteVertex::execute 2.5" << endl;
-		if (!context.shape->removeLooseVertex3D(*riter)) {
+		Vertex3D * vtx = context.shape->getVertex3D(*riter);
+		Color * color = context.shape->getColor(*riter);
+		TexCoord * texcoord = context.shape->getTexCoord(*riter);
+		if (context.shape->removeLooseVertex3D(*riter)) {
+			assert(vtx != NULL);
+			assert(color != NULL);
+			assert(color != NULL);
+			m_vVertex.push_back(*vtx);
+			m_vColor.push_back(*color);
+			m_vTexCoord.push_back(*texcoord);
+			m_vIndex.push_back(*riter);
+		} else {
 			cerr << "CommandDeleteVertex::execute could not remove vertex " << (*riter) << endl;
 		}
 	}
@@ -65,13 +79,27 @@ void CommandDeleteVertex::execute(const CommandContext & context) {
 	p_Doc->clearSelectedVertex();
 	p_Doc->setModified(true);
 	//p_Doc->rebuildAll("");
-	//p_Doc->updateAll("");
-	//p_Context = new CommandContext(context);
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
-	cerr << "CommandDeleteVertex::execute" << endl;
 }
 
 void CommandDeleteVertex::undo() {
+	cerr << "CommandDeleteVertex::undo" << endl;
+	assert(m_vVertex.size() == m_vIndex.size());
+	assert(p_Context->shape != NULL);
+	cerr << m_vVertex.size() << endl;
+	// insert vertices in ascending order, note they are in descending order in vector
+	vector<int>::reverse_iterator rindexiter = m_vIndex.rbegin();
+	vector<int>::reverse_iterator rindexend = m_vIndex.rend();
+	vector<Vertex3D>::reverse_iterator rvtxiter = m_vVertex.rbegin();
+	vector<Color>::reverse_iterator rcoloriter = m_vColor.rbegin();
+	vector<TexCoord>::reverse_iterator rtexiter = m_vTexCoord.rbegin();
+	for (; rindexiter != rindexend; ++rindexiter, ++rvtxiter, ++rcoloriter, ++rtexiter) {
+		p_Context->shape->addAt((*rindexiter), (*rvtxiter).x, (*rvtxiter).y, (*rvtxiter).z,
+														(*rcoloriter).r, (*rcoloriter).g, (*rcoloriter).b, (*rcoloriter).a,
+														(*rtexiter).u, (*rtexiter).v);
+	}
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandDeleteVertex::build() {

@@ -44,10 +44,13 @@ void CommandSnap::clearObjects() {
 void CommandSnap::execute(const CommandContext & context) {
 	cerr << "CommandSnap::execute " << m_fFactor << endl;
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	int index = 0;
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	while (vtx != NULL) {
+		m_vVertex.push_back(*vtx);
+		m_vIndex.push_back(p_Doc->getSelectedVertex(index));
 		if (m_bX) vtx->x = (int)((vtx->x)/m_fFactor + (vtx->x > 0 ? 0.5f : -0.5f))*m_fFactor;
 		if (m_bY) vtx->y = (int)((vtx->y)/m_fFactor + (vtx->y > 0 ? 0.5f : -0.5f))*m_fFactor;
 		if (m_bZ) vtx->z = (int)((vtx->z)/m_fFactor + (vtx->z > 0 ? 0.5f : -0.5f))*m_fFactor;
@@ -55,23 +58,33 @@ void CommandSnap::execute(const CommandContext & context) {
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
 
-	//p_Context = new CommandContext(context);
 	p_Doc->setModified(true);
 	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 }
 
 void CommandSnap::undo() {
+	cerr << "CommandSnap::undo" << endl;
+	assert(p_Context->shape != NULL);
+	assert(m_vVertex.size() == m_vIndex.size());
+	vector<int>::iterator indexiter = m_vIndex.begin();
+	vector<int>::iterator indexend = m_vIndex.end();
+	vector<Vertex3D>::iterator vtxiter = m_vVertex.begin();
+	for (; indexiter != indexend; ++indexiter, ++vtxiter) {
+		Vertex3D * vtx = p_Context->shape->getVertex3D(*indexiter);
+		assert(vtx != NULL);
+		vtx->x = (*vtxiter).x;
+		vtx->y = (*vtxiter).y;
+		vtx->z = (*vtxiter).z;
+	}
 }
 
 Command * CommandSnap::build() {
-	CommandSnap * snap =  new CommandSnap(*this);
-	/*
+	//CommandSnap * snap =  new CommandSnap(*this);
 	CommandSnap * snap =  new CommandSnap(p_Doc);
 	snap->setX(m_bX);
 	snap->setY(m_bY);
 	snap->setZ(m_bZ);
 	snap->setFactor(m_fFactor);
-	*/
 	return snap;
 }

@@ -920,7 +920,7 @@ void PinEditApp::slotDeleteVertex() {
 	context.clear();
 	context.shape = p_Doc->getCurrentShape();
 	if (context.shape == NULL) {
-		QMessageBox::information( this, "Delete Vertex", "No Shape selected.");
+		QMessageBox::information(this, "Delete Vertex", "No Shape selected.");
 	} else {
 		Command * command = new CommandDeleteVertex(p_Doc);
 		command->execute(context);

@@ -31,15 +31,19 @@ CommandDeleteShape::CommandDeleteShape(PinEditDoc * doc) : Command(doc) {
 CommandDeleteShape::~CommandDeleteShape() {
 }
 
+void CommandDeleteShape::clearObjects() {
+	delete p_Context->shape;
+}
+
 void CommandDeleteShape::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	Group * parent = context.shape->getParent();
 	assert(parent != NULL);
 
 	parent->removeShape3D(context.shape);
 	// TODO: delete(group) should reside in a 'removeFromUndoStack' function
-	delete(context.shape);
 
 	p_Doc->setCurrentShape(NULL);
 	p_Doc->setModified(true);
@@ -51,6 +55,13 @@ void CommandDeleteShape::execute(const CommandContext & context) {
 }
 
 void CommandDeleteShape::undo() {
+	cerr << "CommandDeleteShape::undo" << endl;
+	assert(p_Context->shape != NULL);
+	assert(p_Context->shape->getParent() != NULL);
+	
+	p_Context->shape->getParent()->addShape3D(p_Context->shape);
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandDeleteShape::build() {

@@ -26,7 +26,6 @@
 #include "Group.h"
 
 CommandNewGroup::CommandNewGroup(PinEditDoc * doc) : Command(doc) {
-	
 }
 
 CommandNewGroup::~CommandNewGroup() {
@@ -37,8 +36,9 @@ void CommandNewGroup::clearObjects() {
 
 void CommandNewGroup::execute(const CommandContext & context) {
 	assert(context.group != NULL);
+	p_Context->copy(context);
+	
   bool ok = FALSE;
-
   QString text = QInputDialog::getText( p_Doc->tr( "Enter name for group" ), p_Doc->tr("Input"), 
 																				QLineEdit::Normal, QString::null, &ok, 0, 0 );
   if ( !ok || text.isEmpty() ) {
@@ -51,6 +51,7 @@ void CommandNewGroup::execute(const CommandContext & context) {
 	p_Doc->setCurrentGroup(p_Group);
 	p_Doc->setModified(true);
 	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("group");
 	p_Doc->updateAll("polygon");
 	//p_Context = new CommandContext(context);
 	p_Doc->pushUndo(this);
@@ -58,6 +59,14 @@ void CommandNewGroup::execute(const CommandContext & context) {
 }
 
 void CommandNewGroup::undo() {
+	cerr << "CommandNewGroup::undo" << endl;
+	assert(p_Context->group != NULL);
+	p_Context->group->removeGroup(p_Group);
+	delete p_Group;
+	p_Doc->rebuildAll("group");
+	p_Doc->updateAll("group");
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandNewGroup::build() {

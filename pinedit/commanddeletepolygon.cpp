@@ -41,6 +41,7 @@ void CommandDeletePolygon::clearObjects() {
 
 void CommandDeletePolygon::execute(const CommandContext & context) {
 	assert(context.shape != NULL);
+	p_Context->copy(context);
 
 	int polyindex = 0;
 	Polygon * poly = p_Doc->getSelectedPolygon(polyindex);

@@ -73,6 +73,7 @@ class PinEditApp : public QMainWindow {
 	bool queryExit();
 	bool queryModified();
 
+	PinEditDoc * getDoc() { return p_Doc; };
 	static PinEditApp * p_CurrentApp;
 	
  public slots:

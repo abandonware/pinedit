@@ -43,7 +43,7 @@ void CommandNewVertex::execute(const CommandContext & context) {
 
 	m_iVtxIndex = context.shape->add(context.x2, context.y2, context.z2);
 	p_Doc->setModified(true);
-	//p_Doc->updateAll("");
+	p_Doc->updateAll("polygon");
 	p_Doc->pushUndo(this);
 	cerr << "CommandNewVertex::execute " << context.x2 <<"  "<< context.y2 <<" "<< context.z2 << endl;
 }

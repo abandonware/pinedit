@@ -2,11 +2,11 @@
  Unit test runner
  ***************************************************************************/
 
+#include "editconfig.h"
+
 #if EM_UNIT_TEST
 #include <cppunit/ui/text/TestRunner.h>
-#include "Private.h"
-#include "SrcTest.h"
-#include "BaseTest.h"
+#include "commandtest.h"
 #endif
 
 /** Main */

@@ -20,7 +20,10 @@
 #ifndef COMMANDDELETEVERTEX_H
 #define COMMANDDELETEVERTEX_H
 
+using namespace std;
+
 #include <command.h>
+#include "EMath.h"
 
 class Group;
 
@@ -34,6 +37,11 @@ class CommandDeleteVertex : public Command  {
 	void execute(const CommandContext & context);
 	void preview(const CommandContext & context, View2D * view2d) {};
 	const char * type() { return "CommandDeleteVertex"; };
+ private:
+	vector<Vertex3D> m_vVertex;
+	vector<Color> m_vColor;
+	vector<TexCoord> m_vTexCoord;
+	vector<int> m_vIndex;
 };
 
 #endif

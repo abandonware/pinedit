@@ -126,8 +126,8 @@ void View2D::mouseMoveEvent(QMouseEvent* e) {
 	m_iX2 = e->x();
 	m_iY2 = e->y();
 	this->repaint();
-	PinEditApp::p_CurrentApp->statusBar()->message(QString().setNum(this->localx(m_iX2)) + " " + 
-																								 QString().setNum(this->localy(m_iY2)));
+	//	PinEditApp::p_CurrentApp->statusBar()->message(QString().setNum(this->localx(m_iX2)) + " " + 
+	//																								 QString().setNum(this->localy(m_iY2)));
 }
 
 void View2D::drawPolygon(Shape3D * shape, Polygon * poly, const Matrix & mtx) {
@@ -419,6 +419,7 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
 
 void View2D::drawGrid() {
 	//cerr << "View2D::drawGrid" << endl;
+	QString str = QString().setNum(this->localx(m_iX2)) + " " + QString().setNum(this->localy(m_iY2));
 	p_QPainter->setPen(Qt::lightGray);
 	float step = m_fZoom;
 	float xoffset = (m_iXOffset-150)%(int)m_fZoom;
@@ -439,6 +440,7 @@ void View2D::drawGrid() {
 	p_QPainter->setPen(Qt::darkGray);
 	p_QPainter->drawLine(this->screenx(-100), this->screeny(0), this->screenx(100), this->screeny(0));
 	p_QPainter->drawLine(this->screenx(0), this->screeny(-100), this->screenx(0), this->screeny(100));
+	p_QPainter->drawText(0, 0, str);
 }
 
 // this is the function who draws stuff to the screen

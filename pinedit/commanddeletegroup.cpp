@@ -24,12 +24,9 @@
 #include "Group.h"
 
 CommandDeleteGroup::CommandDeleteGroup(PinEditDoc * doc) : Command(doc) {
-	p_Context = new CommandContext();
-	p_Context->clear();
 }
 
 CommandDeleteGroup::~CommandDeleteGroup() {
-	delete p_Context;
 }
 
 void CommandDeleteGroup::clearObjects() {
@@ -45,7 +42,6 @@ void CommandDeleteGroup::execute(const CommandContext & context) {
 
 	parent->removeGroup(context.group);
 	// TODO: delete(group) should reside in a 'removeFromUndoStack' function
-	delete(context.group);
 
 	p_Doc->setCurrentGroup(NULL);
 	p_Doc->setCurrentShape(NULL);

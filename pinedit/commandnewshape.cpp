@@ -34,12 +34,13 @@ void CommandNewShape::clearObjects() {
 
 void CommandNewShape::execute(const CommandContext & context) {
 	assert(context.group != NULL);
+	p_Context->copy(context);
 
-	p_Shape = new Shape3D();
-	context.group->addShape3D(p_Shape);
+	p_Context->shape = new Shape3D();
+	context.group->addShape3D(p_Context->shape);
 	p_Doc->clearSelectedVertex();
 	p_Doc->clearSelectedPolygon();
-	p_Doc->setCurrentShape(p_Shape);
+	p_Doc->setCurrentShape(p_Context->shape);
 	p_Doc->setModified(true);
 	p_Doc->rebuildAll("group");
 	p_Doc->updateAll("polygon");
@@ -50,7 +51,14 @@ void CommandNewShape::execute(const CommandContext & context) {
 
 void CommandNewShape::undo() {
 	cerr << "CommandNewShape::undo" << endl;
-	
+	assert(p_Context->group != NULL);
+	assert(p_Context->shape != NULL);
+	p_Context->group->removeShape3D(p_Context->shape);
+	delete (p_Context->shape);
+	p_Doc->rebuildAll("group");
+	p_Doc->rebuildAll("polygon");
+	p_Doc->updateAll("group");
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandNewShape::build() {

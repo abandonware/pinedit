@@ -19,31 +19,48 @@
 #include <sstream>
 #include <string>
 
-#include "commandnewvertex.h"
-
 #include <cppunit/TestFixture.h>
 #include <cppunit/Test.h>
 #include <cppunit/TestSuite.h>
 #include <cppunit/TestCaller.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class NewVertexTest : public CppUnit::TestFixture {
+#include "commandnewvertex.h"
+#include "commandnewgroup.h"
+#include "pinedit.h"
+
+class CommandTest : public CppUnit::TestFixture {
  public:
   void setUp() {
-  }
+		pineditapp = new PinEditApp();
+		commandnewgroup = new CommandNewGroup(pineditapp->getDoc());
+		commandnewvertex = new CommandNewVertex(pineditapp->getDoc());
+  };
 
   void tearDown() {
-  }
+  };
 
-  void testNewVertex() {
+	void testNewGroup() {
+	};
+
+	void testNewVertex() {
+	};
+
+  void testTrue() {
 		CPPUNIT_ASSERT(true);
-  }
+  };
 
-	CPPUNIT_TEST_SUITE(NewVertexTest);
+	CPPUNIT_TEST_SUITE(CommandTest);
 
+	CPPUNIT_TEST(testTrue);
+	CPPUNIT_TEST(testNewGroup);
 	CPPUNIT_TEST(testNewVertex);
 	
 	CPPUNIT_TEST_SUITE_END();
+ private:
+	PinEditApp * pineditapp;
+	CommandNewVertex * commandnewvertex;
+	CommandNewGroup * commandnewgroup;
 };
 
 #endif // EM_UNIT_TEST

@@ -18,7 +18,13 @@
 #ifndef COMMANDSNAP_H
 #define COMMANDSNAP_H
 
-#include <command.h>
+using namespace std;
+
+#include <vector>
+
+#include "command.h"
+
+#include "EMath.h"
 
 /** @author Henrik Enqvist IB */
 class CommandSnap : public Command  {
@@ -36,6 +42,8 @@ class CommandSnap : public Command  {
 	void setZ(bool z) { m_bZ = z; };
 	const char * type() { return "CommandSnap"; };
  private:
+	vector<Vertex3D> m_vVertex;
+	vector<int> m_vIndex;
 	float m_fFactor;
 	bool m_bX;
 	bool m_bY;

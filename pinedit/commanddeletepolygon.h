@@ -18,6 +18,8 @@
 #ifndef COMMANDDELETEPOLYGON_H
 #define COMMANDDELETEPOLYGON_H
 
+using namespace std;
+
 #include <vector>
 
 #include <command.h>

@@ -81,6 +81,7 @@ void CommandAddSelect::preview(const CommandContext & context, View2D * view2d) 
 void CommandAddSelect::undo() {
 	p_Doc->clearSelectedVertex();
 	p_Doc->clearSelectedPolygon();
+	p_Doc->updateAll("polygon");
 }
 
 Command * CommandAddSelect::build() {

@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   /* uncomment the following line, if you want a Windows 95 look*/
 	//a.setStyle(new QWindowsStyle());
     
-  PinEditApp *pinedit=new PinEditApp();
+  PinEditApp *pinedit = new PinEditApp();
   a.setMainWidget(pinedit);
 
   pinedit->show();

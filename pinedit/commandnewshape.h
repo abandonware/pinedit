@@ -33,8 +33,6 @@ class CommandNewShape : public Command  {
 	void execute(const CommandContext & context);
 	void preview (const CommandContext &, View2D *) {};
 	const char * type() { return "CommandNewShape"; };
- private:
-	Shape3D * p_Shape;
 };
 
 #endif

@@ -110,10 +110,9 @@ void LightDialog::edit(Behavior * beh) {
 			p_EditZ->setText(QString().setNum(z));
 		}
 		if (gl->getBehavior() != NULL) {
-			if (gl->getBehavior()->getType == EM_TYPE_STDANIMATION) {
-				
-				StdAnimation * anim = ((StdAnimation*)gl->getBehavior())->getStep();
-				
+			if (gl->getBehavior()->getType() == EM_TYPE_STDANIMATION) {
+				p_BoxBlink->setChecked(true);
+				p_SpinDelay->setValue( ((StdAnimation*)gl->getBehavior())->getStep() );
 			} else {
 				p_BoxBlink->setChecked(false);
 				cerr << "LightDialog::edit behavior in light group not of type animation" << endl;
@@ -156,14 +155,14 @@ void LightDialog::slotDone() {
 									p_EditG->text().toFloat(), 
 									p_EditB->text().toFloat());
 
-	cerr << "**** "<< p_EditR->text().toFloat() << endl;
+	cerr << "**** "<< p_EditR->text().toFloat() <<" "<< p_EditG->text() << endl;
 
 	if (p_BoxBlink->isChecked()) {
 // 		Behavior * beh = gl->getBehavior(0);
  		Behavior * beh = gl->getBehavior();
 		if (beh == NULL) {
 			cerr << "LightDialog::slotDone added a behavior" << endl;
-			beh = new StdAnimation(p_SpinDelay100, EM_LIGHT);
+			beh = new StdAnimation(p_SpinDelay->value(), EM_LIGHT);
 // 			gl->addBehavior(beh);
 			gl->setBehavior(beh);
 		}
