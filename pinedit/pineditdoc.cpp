@@ -69,12 +69,13 @@ void PinEditDoc::newDoc() {
   char * my_argv[] = {"exename", "-externgl", "-nosound", "-size", "300", "240"};
   int my_argc = 6;
   p_Engine = new Engine(my_argc, my_argv);
-  p_Engine->setLightning(0.0f, 0.2f);
+  p_Engine->setLightning(0.5f, 0.5f);
+	//p_Engine->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
   p_Engine->setName("#engine");
 
   // Add a camera. Move a bit.
   Camera* camera = new Camera();
-  Light* light = new Light(1, 0, 0);
+  //Light* light = new Light(1, 0, 0);
   p_GroupCameraRot = new Group();
   p_GroupCameraRot->setName("#camera");
   p_GroupCameraTrans = new Group();
@@ -82,9 +83,9 @@ void PinEditDoc::newDoc() {
   p_Engine->add(p_GroupCameraRot);
   p_GroupCameraRot->add(p_GroupCameraTrans);
   p_GroupCameraTrans->setCamera(camera);
-  p_GroupCameraTrans->setLight(light);
+  //p_GroupCameraTrans->setLight(light);
   p_GroupCameraTrans->setTranslation(0, 0, 10);
-  p_Engine->addLight(light);
+  //p_Engine->addLight(light);
   p_Engine->setEngineCamera(p_GroupCameraTrans);
 
   this->rebuildAll("all");

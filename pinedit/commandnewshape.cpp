@@ -25,6 +25,7 @@
 #include "BigSphere.h"
 #include "Cube.h"
 #include "Cone.h"
+#include "Cylinder.h"
 
 CommandNewShape::CommandNewShape(PinEditDoc * doc) : Command(doc) {
 	m_iType = SHAPE_EMPTY;
@@ -51,6 +52,8 @@ void CommandNewShape::execute(const CommandContext & context) {
 	case SHAPE_CUBE: p_Context->shape = new Cube(5.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 		break;
 	case SHAPE_CONE: p_Context->shape = new Cone(5.0f, 32, 1.0f, 1.0f, 1.0f, 1.0f);
+		break;
+	case SHAPE_CYLINDER: p_Context->shape = new Cylinder(5.0f, 32, 1.0f, 1.0f, 1.0f, 1.0f);
 		break;
 	default: p_Context->shape = new Shape3D();
 	}

@@ -600,6 +600,7 @@ void PinEditApp::initWorkBar() {
 	workShapeType->insertItem("sphere3");
 	workShapeType->insertItem("cube");
 	workShapeType->insertItem("cone");
+	workShapeType->insertItem("cylinder");
 	//connect(workSphere, SIGNAL(activated(int)), this, SLOT(slotMode(int)));
 
   workDeleteGroup->addTo(workToolbar);
@@ -1156,6 +1157,8 @@ void PinEditApp::slotNewShape() {
 		case 4: command->setType(SHAPE_CUBE);
 			break;
 		case 5: command->setType(SHAPE_CONE);
+			break;
+		case 6: command->setType(SHAPE_CYLINDER);
 			break;
 		default: command->setType(SHAPE_EMPTY);
 		}

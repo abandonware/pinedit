@@ -46,7 +46,7 @@ GLEngine::~GLEngine(){
 }
 
 void GLEngine::initializeGL() {
-  glClearColor(0.0, 0.1, 0.3, 0.0);
+  glClearColor(1.0, 1.0, 1.0, 0.0);
   glClearDepth(1.0);
   
   glEnable(GL_CULL_FACE);
