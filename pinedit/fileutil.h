@@ -36,14 +36,14 @@ class FileUtil {
   int writeGroup(QTextStream & file, Group * Group);
   int writeShape(QTextStream & file, Shape3D * shape);
   int writeBehavior(QTextStream & file, Behavior * beh);
-  inline void FileUtil::incIndent() {
+  inline void incIndent() {
     ++m_iIndent;
   };
-  inline void FileUtil::decIndent() {
+  inline void decIndent() {
     --m_iIndent;
     if (m_iIndent < 0) m_iIndent = 0;
   };
-  inline void FileUtil::resetIndent() {
+  inline void resetIndent() {
     m_iIndent = 0;
   };
   PinEditDoc * p_Doc;
