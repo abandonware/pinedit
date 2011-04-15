@@ -3,6 +3,8 @@ dnl Process this file with autoconf-2.53 to produce a configure script.
 dnl init autoconf and automake
 AC_INIT(pinedit, 0.3.1, [[henqvist@users.sourceforge.net]])
 
+AC_CONFIG_MACRO_DIR([libltdl/m4])
+
 AM_CONFIG_HEADER(editconfig.h)
 
 AC_CANONICAL_HOST
@@ -63,7 +65,7 @@ case "$target" in
     *-*-aix*)
         if test x$ac_cv_prog_gcc = xyes; then
             CFLAGS="-mthreads"
-				fi
+	fi
         SYS_GL_LIBS=""
         ;;
     *)
@@ -158,12 +160,15 @@ fi
 dnl ********************************************
 dnl QT TODO ************************************
 
-#gw_CHECK_QT
-
-#CPPFLAGS="$CPPFLAGS $QT_CXXFLAGS"
-#CFLAGS="$CPPFLAGS $QT_CXXFLAGS"
 
 if false ; then
+
+dnl #TODO: fail on debian
+gw_CHECK_QT
+CPPFLAGS="$CPPFLAGS $QT_CXXFLAGS"
+CFLAGS="$CPPFLAGS $QT_CXXFLAGS"
+
+else if false ; then
 
 EM_QTDIR=/usr/lib/qt3
 AC_SUBST(EM_QTDIR)
@@ -173,12 +178,16 @@ LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
 LIBS="$LIBS -lqt"
 
 else
+
+dnl #{ fallback : (debian) ~rzr
 EM_QTDIR=/usr/lib/qt3
 AC_SUBST(EM_QTDIR)
 CPPFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 CFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
 LIBS="$LIBS -lqt"
+dnl #} fallback : ~rzr
+fi
 
 fi
 

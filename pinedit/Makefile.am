@@ -13,7 +13,7 @@ pinedit_LDFLAGS = -L. -export-dynamic
 INCLUDES = @INCLTDL@
 
 #dnl MOC = $(EM_QTDIR)/bin/moc
-MOC?=moc
+MOC=moc
 
 moc_%.cpp : %.h
 	@echo "Creating Meta $< ..."

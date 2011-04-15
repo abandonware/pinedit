@@ -3,6 +3,8 @@
 set -x
 set -e
 
+rm -rf libltdl configure
+
 libtoolize --ltdl --force --copy
 autoheader
 automake --add-missing

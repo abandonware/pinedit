@@ -7,7 +7,16 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 %:
 	dh $@ 
+
+override_dh_auto_configure:
+	./bootstrap
+	PINBALL_CONFIG="/usr/games/pinball-config" \
+	dh_auto_configure -- \
+ --bindir=/usr/games --datadir=/usr/share/games \
+ --with-cflags="$(CFLAGS)" \
+ --with-cxxflags="$(CXXFLAGS)" \
+ #

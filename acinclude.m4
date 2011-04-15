@@ -5,7 +5,7 @@ dnl #######################################################
 dnl AM_PATH_SDL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for SDL, and define SDL_CFLAGS and SDL_LIBS
 dnl
-AC_DEFUN(AM_PATH_SDL,
+AC_DEFUN([AM_PATH_SDL],
 [dnl 
 dnl Get the cflags and libraries from the sdl-config script
 dnl
@@ -177,7 +177,7 @@ dnl #######################################################
 dnl AM_PATH_PINBALL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for pinball, and define PINBALL_CFLAGS and PINBALL_LIBS
 dnl
-AC_DEFUN(AM_PATH_PINBALL,
+AC_DEFUN([AM_PATH_PINBALL],
 [dnl 
 dnl Get the cflags and libraries from the pinball-config script
 dnl
@@ -201,6 +201,17 @@ AC_ARG_ENABLE(pinballtest, [  --disable-pinballtest       Do not try to compile 
         PINBALL_CONFIG=$pinball_prefix/bin/pinball-config
      fi
   fi
+
+
+dnl #{ fallback: ~rzr
+  PINBALL_CONFIG_default=/usr/games/pinball-config
+  if test "_" == "_${PINBALL_CONFIG}" ; then
+    if test -x "${PINBALL_CONFIG_default}" ; then
+      PINBALL_CONFIG="${PINBALL_CONFIG_default}"
+    fi
+  fi
+dnl #} fallback: ~rzr
+
 
   AC_REQUIRE([AC_CANONICAL_TARGET])
   AC_PATH_PROG(PINBALL_CONFIG, pinball-config, no)
@@ -351,7 +362,7 @@ dnl #######################################################
 dnl
 dnl AM_PATH_CPPUNIT([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl
-AC_DEFUN(AM_PATH_CPPUNIT,
+AC_DEFUN([AM_PATH_CPPUNIT],
 [
 
 AC_ARG_WITH(cppunit-prefix,[  --with-cppunit-prefix=PFX   Prefix where CppUnit is installed (optional)],

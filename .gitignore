@@ -65,3 +65,5 @@ conftest.err
 conftest
 moc_*.cpp
 pinedit/pinedit
+MANIFEST
+debian/pinedit.debhelper.log
