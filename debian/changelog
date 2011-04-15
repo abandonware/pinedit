@@ -1,3 +1,9 @@
+pinedit (0.0.0-0) unstable; urgency=low
+
+  * http://rzr.online.fr/q/snapshot
+
+ -- Philippe Coval <rzr@gna.org>  Fri, 15 Apr 2011 12:32:46 +0200
+
 pinedit (0.3.1-0) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>

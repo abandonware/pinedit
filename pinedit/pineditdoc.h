@@ -19,6 +19,7 @@
 
 using namespace std;
 // general includes
+#include <cassert>
 #include <vector>
 #include <map>
 #include <deque>

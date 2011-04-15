@@ -1,10 +1,10 @@
 
 SDL_CFLAGS = $(shell /usr/bin/sdl-config --cflags)
 SDL_LIBS = $(shell /usr/bin/sdl-config --libs)
-PINBALL_CFLAGS = $(shell /usr/bin/pinball-config --cflags)
-PINBALL_LIBS = $(shell /usr/bin/pinball-config --libs)
-PINBALL_DATA = $(shell /usr/bin/pinball-config --datadir)
-PINBALL_LIBDIR = $(shell /usr/bin/pinball-config --libdir)
+PINBALL_CFLAGS = $(shell /usr/games/pinball-config --cflags)
+PINBALL_LIBS = $(shell /usr/games/pinball-config --libs)
+PINBALL_DATA = $(shell /usr/games/pinball-config --datadir)
+PINBALL_LIBDIR = $(shell /usr/games/pinball-config --libdir)
 TABLE_NAME = $(notdir $(shell pwd))
 
 DATA = pinball.pbl

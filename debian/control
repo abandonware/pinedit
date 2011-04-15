@@ -2,7 +2,11 @@ Source: pinedit
 Section: games
 Priority: extra
 Maintainer: Philippe Coval <rzr@gna.org>
-Build-Depends: debhelper (>= 7.0.50~), autotools-dev, libqt3-mt-dev
+Build-Depends: debhelper (>= 7.0.50~), autotools-dev,
+ libtool,
+ libqt3-headers, libqt3-mt-dev,
+ pinball-dev,
+ libsdl1.2-dev, 
 Standards-Version: 3.9.1
 Homepage: http://pinball.sf.net
 #Vcs-Git: git://git.debian.org/collab-maint/pinedit.git
@@ -11,5 +15,8 @@ Homepage: http://pinball.sf.net
 Package: pinedit
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Description: Pinball table edtor
+ Editor for Emilia Pinball.
+ Emilia Pinball is a free pinball game. 
+
+

@@ -1,4 +1,9 @@
-libtoolize --ltdl
+# !/bin/sh
+
+set -x
+set -e
+
+libtoolize --ltdl --force --copy
 autoheader
 automake --add-missing
 aclocal
