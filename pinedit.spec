@@ -1,12 +1,12 @@
 Name: 		pinedit
-Version: 	0.3.0
-Release: 	1rh80
+Version: 	0.3.1
+Release: 	1rh90
 
-Group:    	Amusements/Games
+Group:    Amusements/Games
 Summary: 	Editor, 3D Modeller for Emilia Pinball.
 
 Vendor:		Henrik Enqvist  (henqvist@users.sourceforge.net)
-Packager: 	Henrik Enqvist  (henqvist@users.sourceforge.net)
+Packager: Henrik Enqvist  (henqvist@users.sourceforge.net)
 License: 	GPL
 URL: 	  	http://pinball.sourceforge.net
 Source: 	http://prdownloads.sourceforge.net/pinball/%{name}-%{version}.tar.gz
@@ -15,7 +15,7 @@ BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
 #Prefix: /etc
 
 %description
-Pinball editor.
+Pinball Table Editor.
 
 
 %prep
