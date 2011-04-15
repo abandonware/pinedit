@@ -185,7 +185,8 @@ AC_SUBST(EM_QTDIR)
 CPPFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 CFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
-LIBS="$LIBS -lqt"
+#LIBS="$LIBS -lqt"
+LIBS="$LIBS /usr/lib/libqt-mt.so"
 dnl #} fallback : ~rzr
 fi
 
@@ -207,3 +208,4 @@ AC_DEFINE_UNQUOTED(EM_USE_SDL, [1], [Build a sdl version])
 AC_CONFIG_FILES(Makefile pinedit/Makefile data/Makefile data/audio/Makefile data/template/Makefile data/template/pinball-template data/template/Make-template data/objects/Makefile doc/Makefile)
 
 AC_OUTPUT
+

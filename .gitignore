@@ -67,3 +67,8 @@ moc_*.cpp
 pinedit/pinedit
 MANIFEST
 debian/pinedit.debhelper.log
+debian/files
+debian/pinedit.postinst.debhelper
+debian/pinedit.postrm.debhelper
+debian/pinedit.substvars
+debian/pinedit/

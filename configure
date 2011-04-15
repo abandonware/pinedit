@@ -16306,7 +16306,8 @@ EM_QTDIR=/usr/lib/qt3
 CPPFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 CFLAGS="$CPPFLAGS -I/usr/include/qt3/"
 LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
-LIBS="$LIBS -lqt"
+#LIBS="$LIBS -lqt"
+LIBS="$LIBS /usr/lib/libqt-mt.so"
 fi
 
 fi
@@ -19209,4 +19210,5 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
+
 

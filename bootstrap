@@ -3,6 +3,7 @@
 set -x
 set -e
 
+make -k distclean clean || echo "ignore: "
 rm -rf libltdl configure
 
 libtoolize --ltdl --force --copy
@@ -11,3 +12,4 @@ automake --add-missing
 aclocal
 autoconf
 autoheader
+
