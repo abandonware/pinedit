@@ -1,7 +1,7 @@
 dnl Process this file with autoconf-2.53 to produce a configure script.
 
 dnl init autoconf and automake
-AC_INIT(pinedit, 0.3.0, [[henqvist@users.sourceforge.net]])
+AC_INIT(pinedit, 0.3.1, [[henqvist@users.sourceforge.net]])
 
 AM_CONFIG_HEADER(editconfig.h)
 
@@ -134,7 +134,7 @@ LIBS="$LIBS -lSDL_mixer"
 
 dnl ********************************************
 dnl PINBALL ************************************
-AM_PATH_PINBALL( 0.3.0, , AC_MSG_ERROR([*** Pinball version $PINBALL_VERSION not found! Make sure you pinball installed - (pinball.sourceforge.net) - or try to use the --with-pinball-prefix option]) )
+AM_PATH_PINBALL( 0.3.1, , AC_MSG_ERROR([*** Pinball version $PINBALL_VERSION not found! Make sure you installed pinball - (pinball.sourceforge.net) - or try to use the --with-pinball-prefix option]) )
 CFLAGS="$CFLAGS $PINBALL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $PINBALL_CFLAGS"
 LIBS="$PINBALL_LIBS $LIBS"
