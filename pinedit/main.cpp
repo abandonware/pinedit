@@ -4,7 +4,7 @@
     begin                : Tue Nov 27 19:39:03 EET 2001
     copyright            : (C) 2001 by Henrik Enqvist
     email                : henqvist@excite.com
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,9 +24,12 @@
 
 #include "pinedit.h"
 
-int main(int argc, char *argv[]) {
+
+int main(int argc, char *argv[])
+{
   QApplication a(argc, argv);
   a.setFont(QFont("helvetica", 12));
+
   QTranslator tor( 0 );
   // set the location where your .qm files are in load() below as the last parameter instead of "."
   // for development, use "/" to use the english original as
@@ -34,8 +37,8 @@ int main(int argc, char *argv[]) {
   tor.load( QString("pinedit.") + QTextCodec::locale(), "." );
   a.installTranslator( &tor );
   /* uncomment the following line, if you want a Windows 95 look*/
-	//a.setStyle(new QWindowsStyle());
-    
+  //a.setStyle(new QWindowsStyle());
+
   PinEditApp *pinedit = new PinEditApp();
   a.setMainWidget(pinedit);
 
@@ -43,5 +46,4 @@ int main(int argc, char *argv[]) {
 
   return a.exec();
 }
-
 
