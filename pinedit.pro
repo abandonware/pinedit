@@ -6,8 +6,8 @@ QT+=qt3support opengl
 
 TEMPLATE = app
 TARGET = 
-DEPENDPATH += . libltdl pinedit data/template downstream/freebsd/src/files
-INCLUDEPATH += . pinedit /usr/include/pinball/ /usr/include/SDL/
+DEPENDPATH += . libltdl srct data/template
+INCLUDEPATH += . src /usr/include/pinball/ /usr/include/SDL/
 
 DEFINES= unix
 
@@ -70,8 +70,6 @@ HEADERS += libltdl/ltdl.h \
            src/textdialog.h \
            src/textureview.h \
            src/view2d.h \
-           downstream/freebsd/src/files/patch-pinedit__fileutil.h \
-           downstream/freebsd/src/files/patch-pinedit__pineditdoc.h \
            src/filesave.xpm \
            src/fileopen.xpm \
            src/filenew.xpm \
