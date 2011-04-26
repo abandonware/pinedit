@@ -1,7 +1,7 @@
 dnl Process this file with autoconf-2.53 to produce a configure script.
 
 dnl init autoconf and automake
-AC_INIT(pinedit, 0.3.1, [[henqvist@users.sourceforge.net]])
+AC_INIT(pinedit, 0.0.0, [[henqvist@users.sourceforge.net]])
 
 AC_CONFIG_MACRO_DIR([libltdl/m4])
 
@@ -205,7 +205,14 @@ fi
 
 AC_DEFINE_UNQUOTED(EM_USE_SDL, [1], [Build a sdl version])
 
-AC_CONFIG_FILES(Makefile pinedit/Makefile data/Makefile data/audio/Makefile data/template/Makefile data/template/pinball-template data/template/Make-template data/objects/Makefile doc/Makefile)
+AC_CONFIG_FILES(Makefile 
+ src/Makefile 
+ data/Makefile data/audio/Makefile 
+ data/template/Makefile
+ data/template/pinball-template data/template/Make-template
+ data/objects/Makefile
+ doc/Makefile
+)
 
 AC_OUTPUT
 

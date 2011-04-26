@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = gnu
 
-SUBDIRS = libltdl pinedit data doc
+SUBDIRS = libltdl src data doc
 
 templatedatadir = $(pkgdatadir)/template
 
