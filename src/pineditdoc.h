@@ -26,6 +26,8 @@ using namespace std;
 // include files for QT
 #include <qobject.h>
 #include <qstring.h>
+#include <qimage.h>
+
 // application specific includes
 
 // emilia includes
