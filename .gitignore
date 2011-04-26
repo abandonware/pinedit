@@ -73,3 +73,4 @@ debian/pinedit.postinst.debhelper
 debian/pinedit.postrm.debhelper
 debian/pinedit.substvars
 debian/pinedit/
+src/pinedit
