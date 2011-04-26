@@ -73,3 +73,6 @@ debian/pinedit.postinst.debhelper
 debian/pinedit.postrm.debhelper
 debian/pinedit.substvars
 debian/pinedit/
+
+pinedit
+portinglog.txt
