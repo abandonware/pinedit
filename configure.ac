@@ -187,7 +187,8 @@ CPPFLAGS="$CPP_FLAGS -Dunix -DQT_NO_DEBUG -DQT_QT3SUPPORT_LIB -DQT3_SUPPORT -DQT
 CFLAGS="$CPPFLAGS -I/usr/include/qt4/"
 LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
 #LIBS="$LIBS -lqt"
-LIBS="$LIBS /usr/lib/libqt-mt.so"
+#LIBS="$LIBS /usr/lib/libqt-mt.so"
+LIBS="$LIBS  -lQt3Support -lQtOpenGL -lQtGui -lQtCore "
 dnl #} fallback : ~rzr
 fi
 
