@@ -1,3 +1,15 @@
+pinedit (0.0.20110501-0ubuntu0~rzr2) hardy; urgency=low
+
+  * WIP: http://rzr.online.fr/q/snapshot#pinedit
+
+ -- Philippe Coval <rzr@gna.org>  Sun, 01 May 2011 15:23:30 +0200
+
+pinedit (0.0.20110501-0ubuntu0~rzr0+oneiric0) oneiric; urgency=low
+
+  * WIP: http://rzr.online.fr/q/snapshot#pinedit
+
+ -- Philippe Coval <rzr@gna.org>  Sun, 01 May 2011 10:18:48 +0200
+
 pinedit (0.0.0-0) unstable; urgency=low
 
   * http://rzr.online.fr/q/snapshot

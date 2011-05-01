@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Game;ArcadeGame;X-Red-Hat-Extra;
+X-Desktop-File-Install-Version=0.2
+Name=Emilia Pinball table editor
+Comment=3D pinball game table editor
+Exec=pinedit
+Icon=pinedit.xpm
+Terminal=false
+Type=Application
+Comment[fr]=Editeur pour Jeu de flipper 3D
+

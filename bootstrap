@@ -6,7 +6,9 @@ set -e
 make -k distclean clean || echo "ignore: "
 rm -rf libltdl configure
 
-libtoolize --ltdl --force --copy
+#libtoolize --ltdl --force --copy
+libtoolize --ltdl --force
+
 autoheader
 automake --add-missing
 aclocal

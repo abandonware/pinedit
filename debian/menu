@@ -1,2 +1,2 @@
-?package(pinedit):needs="X11" section="Games"\
+?package(pinedit):needs="X11" section="Games/Action"\
   title="pinedit" command="/usr/bin/pinedit"
