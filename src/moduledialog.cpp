@@ -20,8 +20,11 @@
 // qt includes
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // application includes
 #include "moduledialog.h"
 #include "pineditdoc.h"
@@ -29,7 +32,7 @@
 #include "Private.h"
 #include "FakeModuleBehavior.h"
 
-ModuleDialog::ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+ModuleDialog::ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
 : QDialog(parent, name, f) {
 	EM_CERR("ModuleDialog::ModuleDialog");
 	assert(doc != NULL);
@@ -43,7 +46,7 @@ ModuleDialog::ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name
 	QPushButton * donebutton = new QPushButton("done", this);
 	connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
-	QBoxLayout * hlayout = new QHBoxLayout(this);
+	Q3BoxLayout * hlayout = new Q3HBoxLayout(this);
 	hlayout->addWidget(p_EditModule);
 	hlayout->addWidget(choosebutton);
 	hlayout->addWidget(donebutton);
@@ -80,7 +83,7 @@ void ModuleDialog::slotDone() {
 }
 
 void ModuleDialog::slotChooseModule() {
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
 		p_EditModule->setText(filename);
 	}

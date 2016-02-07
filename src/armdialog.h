@@ -30,7 +30,7 @@ class ArmBehavior;
 class ArmDialog : public QDialog  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~ArmDialog();
 	/** Pops up a dialog to edit the ArmBehavior. */
 	void edit(ArmBehavior * beh);

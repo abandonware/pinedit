@@ -24,7 +24,11 @@
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qlineedit.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3VBoxLayout>
 // application includes
 #include "statedialog.h"
 #include "bumperdialog.h"
@@ -51,8 +55,8 @@
 #include "FakeModuleBehavior.h"
 #include "Pinball.h"
 
-ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
-  : QVBox(parent, name, f) {
+ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
+  : Q3VBox(parent, name, f) {
   EM_CERR("shapeview::shapeview");
   assert(doc != NULL);
   p_Doc = doc;
@@ -65,15 +69,15 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
   p_ArmDialog = new ArmDialog(doc, this, 0, 0);
   p_ModuleDialog = new ModuleDialog(doc, this, 0, 0);
 
-  p_ListView = new QListView(this);
+  p_ListView = new Q3ListView(this);
   connect(p_ListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
-  p_ListView->setSelectionMode(QListView::Single);
+  p_ListView->setSelectionMode(Q3ListView::Single);
   p_ListView->addColumn(QString("elements"));
 
   p_ListView->setMinimumSize(200, 250);
 		
   // widget stack
-  p_WidgetStack = new QWidgetStack(this);
+  p_WidgetStack = new Q3WidgetStack(this);
 
   // group widget
   {
@@ -98,14 +102,14 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
     QPushButton * addbutton = new QPushButton("new behavior", p_WidgetGroup);
     connect(addbutton, SIGNAL(clicked()), this, SLOT(slotAdd()));
     // layout
-    QBoxLayout * vlayout1 = new QVBoxLayout(p_WidgetGroup);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(p_WidgetGroup);
     vlayout1->addWidget(p_LineEditName);
     vlayout1->addWidget(p_BoxCollision);
     vlayout1->addWidget(p_BoxTransformOnce);
     vlayout1->addWidget(p_BoxWall);
     vlayout1->addWidget(p_BoxOneWay);
     vlayout1->addWidget(applybutton);
-    QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout1);
     hlayout1->addWidget(p_ChoiceBehavior);
     hlayout1->addWidget(addbutton);
     p_WidgetGroup->adjustSize();
@@ -122,7 +126,7 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
     QPushButton * button = new QPushButton("apply", p_WidgetShape);
     connect(button, SIGNAL(clicked()), this, SLOT(slotApplyProp()));
     // layout
-    QBoxLayout * vlayout1 = new QVBoxLayout(p_WidgetShape);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(p_WidgetShape);
     vlayout1->addWidget(p_BoxHidden);
     vlayout1->addWidget(p_BoxBehind);
     vlayout1->addWidget(p_BoxBehind2);
@@ -139,7 +143,7 @@ ShapeView::ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFla
     QPushButton * lightbutton = new QPushButton("edit light", p_WidgetBehavior);
     connect(lightbutton, SIGNAL(clicked()), this, SLOT(slotLight()));
     // layout
-    QBoxLayout * vlayout1 = new QVBoxLayout(p_WidgetBehavior);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(p_WidgetBehavior);
     vlayout1->addWidget(editbutton);
     vlayout1->addWidget(lightbutton);
     p_WidgetBehavior->adjustSize();
@@ -243,7 +247,7 @@ void ShapeView::addGroup(Group * group, ListItem * parent) {
 
 void ShapeView::slotChanged() {
   EM_CERR("ShapeView::slotChanged");
-  QListViewItem * currentitem = p_ListView->currentItem();
+  Q3ListViewItem * currentitem = p_ListView->currentItem();
   if (currentitem != NULL) {
     switch (((ListItem*)currentitem)->getObjectType()) {
     case LISTITEM_GROUP: {
@@ -317,7 +321,7 @@ void ShapeView::enableProperties(int type) {
 
 void ShapeView::updateProperties() {
   EM_CERR("ShapeView::updateProperties");
-  QListViewItem * currentitem = p_ListView->currentItem();
+  Q3ListViewItem * currentitem = p_ListView->currentItem();
   if (currentitem == NULL) return;
   this->disableProperties();
   // group
@@ -390,14 +394,17 @@ void ShapeView::updateProperties() {
 
 void ShapeView::slotApplyProp() {
   EM_CERR("ShapeView::slotApplyProp");
-  QListViewItem * currentitem = p_ListView->currentItem();
+  Q3ListViewItem * currentitem = p_ListView->currentItem();
   if (currentitem == NULL) return;
   // 	if (m_hGroup.find(currentitem) != m_hGroup.end()) {
   if (((ListItem*)currentitem)->getObjectType() == LISTITEM_GROUP) {
     // 		Group * group = (*(m_hGroup.find(currentitem))).second;
     Group * group = (Group*)((ListItem*)currentitem)->getObject();
     // name
-    group->setName(p_LineEditName->text().data());
+    // group->setName( p_LineEditName->text().data() ); //TODO
+    char const * const name = p_LineEditName->text().toAscii().data() ; //TODO
+    group->setName( name ); //TODO
+
     // collision
     if (p_BoxCollision->isChecked()) {
       if (group->getCollisionBounds() == NULL) {
@@ -466,7 +473,7 @@ void ShapeView::slotApplyProp() {
 
 void ShapeView::slotEdit() {
   EM_CERR("ShapeView::slotEdit");	
-  QListViewItem * currentitem = p_ListView->currentItem();
+  Q3ListViewItem * currentitem = p_ListView->currentItem();
   if (currentitem == NULL) return;
   // 	if (m_hBehavior.find(currentitem) != m_hBehavior.end()) {
   if (((ListItem*)currentitem)->getObjectType() == LISTITEM_BEHAVIOR) {
@@ -492,7 +499,7 @@ void ShapeView::slotEdit() {
 
 void ShapeView::slotLight() {
   EM_CERR("ShapeView::slotLight");	
-  QListViewItem * currentitem = p_ListView->currentItem();
+  Q3ListViewItem * currentitem = p_ListView->currentItem();
   if (currentitem == NULL) return;
   // 	if (m_hBehavior.find(currentitem) != m_hBehavior.end()) {
   if (((ListItem*)currentitem)->getObjectType() == LISTITEM_BEHAVIOR) {

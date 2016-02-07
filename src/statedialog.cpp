@@ -28,8 +28,12 @@
 #include <qlabel.h>
 #include <qspinbox.h>
 #include <qtabwidget.h>
-#include <qfiledialog.h>
-#include <qmsgbox.h>
+#include <q3filedialog.h>
+#include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3VBoxLayout>
 // application includes
 #include "listitem.h"
 #include "statedialog.h"
@@ -43,15 +47,15 @@
 #include "Loader.h"
 #include "Shape3D.h"
 
-StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QDialog(parent, name, f) {
   assert(doc != NULL);
   p_Doc = doc;
   p_StateBehavior = NULL;
 
-  p_ListView = new QListView(this);
+  p_ListView = new Q3ListView(this);
   connect(p_ListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
-  p_ListView->setSelectionMode(QListView::Single);
+  p_ListView->setSelectionMode(Q3ListView::Single);
   p_ListView->addColumn(QString("stateitem"));
   p_ListView->addColumn(QString("asig"));
   p_ListView->addColumn(QString("csig"));
@@ -73,12 +77,12 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
   QTabWidget * tabwidget = new QTabWidget(this);
   //tabwidget->setFixedSize(200,200);
   // the layout of the objects
-  QBoxLayout * vlayout = new QVBoxLayout(this);
+  Q3BoxLayout * vlayout = new Q3VBoxLayout(this);
   //QBoxLayout * vlayoutA = new QVBoxLayout(hlayout);
   //QBoxLayout * vlayoutB = new QVBoxLayout(hlayout);
   vlayout->addWidget(p_ListView);
 	
-  QBoxLayout * hlayoutA = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayoutA = new Q3HBoxLayout(vlayout);
   hlayoutA->addWidget(addbutton);
   hlayoutA->addWidget(delbutton);
 
@@ -99,13 +103,13 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 
     p_EditSignal = new QLineEdit(widget);
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
-    QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout1);
     hlayout1->addWidget(labelActSig);
     hlayout1->addWidget(p_ComboActSig);
     hlayout1->addWidget(labelCollSig);
     hlayout1->addWidget(p_ComboCollSig);
-    QBoxLayout * hlayout2 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout1);
     hlayout2->addWidget(newButton);
     hlayout2->addWidget(p_EditSignal);
   }
@@ -121,10 +125,10 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     QLabel * labelDelay = new QLabel("delay", widget);
     p_SpinDelay = new QSpinBox(-1, 1000, 1, widget);
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
-    QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
-    QBoxLayout * hlayout2 = new QHBoxLayout(vlayout1);
-    QBoxLayout * hlayout3 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout3 = new Q3HBoxLayout(vlayout1);
     hlayout1->addWidget(labelCollState);
     hlayout1->addWidget(p_SpinCollState);
     hlayout2->addWidget(labelDelayState);
@@ -139,7 +143,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 
     p_BoxLight = new QCheckBox("light on", widget);
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
     vlayout1->addWidget(p_BoxLight);
   }		
   // animation
@@ -163,13 +167,13 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_EditRZ = new QLineEdit(widget);
     p_EditStep = new QLineEdit(widget);
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
 
-    QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout1);
     hlayout1->addWidget(labelStep);
     hlayout1->addWidget(p_EditStep);
 
-    QBoxLayout * hlayout2 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout1);
     hlayout2->addWidget(labelTX);
     hlayout2->addWidget(p_EditTX);
     hlayout2->addWidget(labelTY);
@@ -177,7 +181,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     hlayout2->addWidget(labelTZ);
     hlayout2->addWidget(p_EditTZ);
 		
-    QBoxLayout * hlayout3 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout3 = new Q3HBoxLayout(vlayout1);
     hlayout3->addWidget(labelRX);
     hlayout3->addWidget(p_EditRX);
     hlayout3->addWidget(labelRY);
@@ -198,7 +202,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
 
     p_BoxAlwaysLit = new QCheckBox("always lit", widget);
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
     vlayout1->addWidget(p_ComboProperty);
     vlayout1->addWidget(p_BoxAlwaysLit);
   }
@@ -215,9 +219,9 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     QPushButton * choosemusic = new QPushButton("choose", widget);
     connect(choosemusic, SIGNAL(clicked()), this, SLOT(slotChooseMusic()));
 
-    QBoxLayout * vlayout1 = new QVBoxLayout(widget);
-    QBoxLayout * hlayout1 = new QHBoxLayout(vlayout1);
-    QBoxLayout * hlayout2 = new QHBoxLayout(vlayout1);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(widget);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout1);
+    Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout1);
     hlayout1->addWidget(p_EditSound);
     hlayout1->addWidget(choosesound);
     hlayout2->addWidget(p_EditMusic);
@@ -237,9 +241,9 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_BoxShape[6] = new QCheckBox("shape 6", widget);
     p_BoxShape[7] = new QCheckBox("shape 7", widget);
 
-    QBoxLayout * hlayout1 = new QHBoxLayout(widget);
-    QBoxLayout * vlayout1 = new QVBoxLayout(hlayout1);
-    QBoxLayout * vlayout2 = new QVBoxLayout(hlayout1);
+    Q3BoxLayout * hlayout1 = new Q3HBoxLayout(widget);
+    Q3BoxLayout * vlayout1 = new Q3VBoxLayout(hlayout1);
+    Q3BoxLayout * vlayout2 = new Q3VBoxLayout(hlayout1);
     vlayout1->addWidget(p_BoxShape[0]);
     vlayout1->addWidget(p_BoxShape[1]);
     vlayout1->addWidget(p_BoxShape[2]);
@@ -253,7 +257,7 @@ StateDialog::StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
   p_BoxMove = new QCheckBox("move", this);
   p_BoxUseShape = new QCheckBox("shape", this);
 
-  QBoxLayout * hlayoutC = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayoutC = new Q3HBoxLayout(vlayout);
   hlayoutC->addWidget(p_BoxMove);
   hlayoutC->addWidget(p_BoxUseShape);
 
@@ -584,7 +588,7 @@ void StateDialog::slotNewSignal() {
 
 void StateDialog::slotChooseSound() {
   EM_CERR("StateDialog::slotChooseSound");
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
     p_EditSound->setText(filename);
   }
@@ -592,7 +596,7 @@ void StateDialog::slotChooseSound() {
 
 void StateDialog::slotChooseMusic() {
   EM_CERR("StateDialog::slotChooseMusic");
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
     p_EditMusic->setText(filename);
   }

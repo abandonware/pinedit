@@ -20,6 +20,10 @@
 
 // qt includes
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QPaintEvent>
 // application includes
 #include "pineditdoc.h"
 
@@ -35,7 +39,7 @@ class Group;
 class View2D : public QWidget, public Updateable {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~View2D();
 	void resizeEvent(QResizeEvent * e);
 	void mousePressEvent(QMouseEvent * e);

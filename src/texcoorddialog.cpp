@@ -21,8 +21,12 @@
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qradiobutton.h>
-#include <qmsgbox.h>
-#include <qbuttongroup.h>
+#include <qmessagebox.h>
+#include <q3buttongroup.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // application includes
 #include "pineditdoc.h"
 #include "texcoorddialog.h"
@@ -30,7 +34,7 @@
 // emilia includes
 #include "Private.h"
 
-TexCoordDialog::TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+TexCoordDialog::TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
 : QDialog(parent, name, f) {
 	assert(doc != NULL);
 	p_Doc = doc;
@@ -45,15 +49,15 @@ TexCoordDialog::TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * 
 	QPushButton * cancelbutton = new QPushButton("cancel", this);
 	connect(cancelbutton, SIGNAL(clicked()), this, SLOT(slotCancel()));
 
-	QBoxLayout * layout = new QVBoxLayout(this);
-	QBoxLayout * hlayout = new QHBoxLayout(layout);
+	Q3BoxLayout * layout = new Q3VBoxLayout(this);
+	Q3BoxLayout * hlayout = new Q3HBoxLayout(layout);
 	hlayout->addWidget(p_RadioButtonXY);
 	hlayout->addWidget(p_RadioButtonXZ);
 	hlayout->addWidget(p_RadioButtonZY);
 	layout->addWidget(texcoordbutton);
 	layout->addWidget(cancelbutton);
 
-	QButtonGroup * buttongroup = new QButtonGroup();
+	Q3ButtonGroup * buttongroup = new Q3ButtonGroup();
 	buttongroup->insert(p_RadioButtonXY);
 	buttongroup->insert(p_RadioButtonXZ);
 	buttongroup->insert(p_RadioButtonZY);

@@ -30,7 +30,7 @@ class CommandSnap;
 class SnapDialog : public QDialog {
 	Q_OBJECT
  public:
-	SnapDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f);
+	SnapDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f);
 	~SnapDialog();
  public slots:
 	void slotSnap();

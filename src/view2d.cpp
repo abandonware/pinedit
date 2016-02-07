@@ -21,8 +21,12 @@
 // qt includes
 #include <qpainter.h>
 #include <qpen.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <qstatusbar.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
 // application includes
 #include "view2d.h"
 #include "pinedit.h"
@@ -37,7 +41,7 @@
 #include "Polygon.h"
 #include "EMath.h"
 
-View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QWidget(parent, name, f ) {
   assert(doc != NULL);
   p_Doc = doc;
@@ -53,7 +57,7 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
   m_iX1 = m_iY1 = m_iX2 = m_iY2 = 0;
   p_Context = new CommandContext();
   p_QPainter = new QPainter(this);
-  this->setBackgroundMode(PaletteBase);
+  this->setBackgroundMode(Qt::PaletteBase);
 }
 
 View2D::~View2D(){
@@ -67,11 +71,11 @@ void View2D::mousePressEvent(QMouseEvent * e) {
   EM_CERR("View2D::mousePressEvent");
   m_iX2 = m_iX1 = e->x();
   m_iY2 = m_iY1 = e->y();
-  if (e->button() ==  QMouseEvent::LeftButton) {
+  if (e->button() ==  Qt::LeftButton) {
     m_iMouse = 1;
-  } else if (e->button() == QMouseEvent::RightButton) {
+  } else if (e->button() == Qt::RightButton) {
     m_iMouse = 2;
-  } else if (e->button() == QMouseEvent::MidButton) {
+  } else if (e->button() == Qt::MidButton) {
     m_iMouse = 0;
     m_iXOffset = this->size().width()/2;
     m_iYOffset = this->size().height()/2;
@@ -83,7 +87,7 @@ void View2D::mouseReleaseEvent(QMouseEvent * e) {
   m_iMouse = 0;
   m_iX2 = e->x();
   m_iY2 = e->y();
-  if (e->button() ==  QMouseEvent::LeftButton) {
+  if (e->button() ==  Qt::LeftButton) {
     CommandContext context;
     context.clear();
     Command * command = p_Doc->buildCommand();
@@ -116,8 +120,8 @@ void View2D::mouseReleaseEvent(QMouseEvent * e) {
 	command->execute(context);
       }
     }
-  } else if (e->button() == QMouseEvent::RightButton) {
-  } else if (e->button() == QMouseEvent::MidButton) {
+  } else if (e->button() == Qt::RightButton) {
+  } else if (e->button() == Qt::MidButton) {
   }
   m_iX1 = m_iX2;
   m_iY1 = m_iY2;

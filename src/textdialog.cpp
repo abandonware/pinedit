@@ -1,3 +1,6 @@
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <Q3VBoxLayout>
 /***************************************************************************
                           snapdialog.cpp  -  description
                              -------------------
@@ -20,17 +23,17 @@ using namespace std;
 // general includes
 #include <iostream>
 // qt includes
-#include <qtextbrowser.h>
+#include <q3textbrowser.h>
 #include <qlayout.h>
 // application includes
 #include "textdialog.h"
 // emilia includes
 #include "Private.h"
 
-TextDialog::TextDialog(QWidget * parent, const char * name, WFlags f) : QDialog(parent, name, f) {
-  p_TextBrowser = new QTextBrowser(this);
+TextDialog::TextDialog(QWidget * parent, const char * name, Qt::WFlags f) : QDialog(parent, name, f) {
+  p_TextBrowser = new Q3TextBrowser(this);
   p_TextBrowser->setMinimumSize(600,600);
-  QBoxLayout * layout = new QVBoxLayout(this);
+  Q3BoxLayout * layout = new Q3VBoxLayout(this);
   layout->addWidget(p_TextBrowser);
 }
 

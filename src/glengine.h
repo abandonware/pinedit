@@ -20,6 +20,8 @@
 
 // qt includes
 #include <qgl.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 // application includes
 #include "pineditdoc.h"
 // emilia includes
@@ -49,7 +51,7 @@ class GLEngine : public QGLWidget, public Updateable  {
   int m_MouseX;
   int m_MouseY;
   Quaternion m_qRot;
-  ButtonState m_ButtonState;
+  Qt::ButtonState m_ButtonState;
 };
 
 #endif

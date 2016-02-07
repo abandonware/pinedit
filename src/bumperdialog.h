@@ -31,7 +31,7 @@ class BumperBehavior;
 class BumperDialog : public QDialog  {
   Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-  BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+  BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
   ~BumperDialog();
   /** Pops up a dialog to edit the BumperBehavior. */
   void edit(BumperBehavior * beh);

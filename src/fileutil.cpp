@@ -21,7 +21,7 @@
 // qt includes
 #include <qstring.h>
 #include <qfile.h>
-#include <qtextstream.h>
+#include <q3textstream.h>
 // application includes
 #include "fileutil.h"
 #include "pineditdoc.h"
@@ -65,8 +65,8 @@ int FileUtil::saveFile(const QString & fn, Group * group) {
   try {
     QFile f(fn);
     QFile fbak(fn + ".bak");
-    if (f.open(IO_ReadOnly)) {
-      if (!fbak.open(IO_WriteOnly)) {
+    if (f.open(QIODevice::ReadOnly)) {
+      if (!fbak.open(QIODevice::WriteOnly)) {
 	throw QString("FileUtil::saveFile could not open file for writing: ") + fn + ".bak";
       }
       
@@ -79,10 +79,10 @@ int FileUtil::saveFile(const QString & fn, Group * group) {
       fbak.close();
     }
     //QFile f(fn);
-    if (!f.open(IO_WriteOnly)) {
+    if (!f.open(QIODevice::WriteOnly)) {
       throw QString("FileUtil::saveFile could not open file for writing: ") + QString(fn);
     }
-    QTextStream file(&f);
+    Q3TextStream file(&f);
     // write version
     WriteLine(file, "version { 0 3 0 }");
     // write root group
@@ -106,14 +106,14 @@ int FileUtil::saveFile(const QString & fn, Group * group) {
   } catch (QString str) {
     cerr << "**************************************************" << endl;
     cerr << "Error when saving file!" << endl;
-    cerr << str << endl;
+    //cerr << str << endl; //TODO:
     cerr << "**************************************************" << endl;
     return -1;
   }
   return 0;
 }
 
-int FileUtil::writeGroup(QTextStream & file, Group * group) {
+int FileUtil::writeGroup(Q3TextStream & file, Group * group) {
   assert(group != NULL);
   // don't write groups beginning with #
   string::size_type i = string(group->getName()).find("#");
@@ -187,7 +187,7 @@ int FileUtil::writeGroup(QTextStream & file, Group * group) {
   return 0;
 }
 
-int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
+int FileUtil::writeShape(Q3TextStream & file, Shape3D * shape) {
   assert(shape != NULL);
   WriteLine(file, "shape {" );
   this->incIndent();
@@ -260,7 +260,7 @@ int FileUtil::writeShape(QTextStream & file, Shape3D * shape) {
   return 0;
 }
 
-int FileUtil::writeBehavior(QTextStream & file, Behavior * beh) {
+int FileUtil::writeBehavior(Q3TextStream & file, Behavior * beh) {
   EM_CERR("FileUtil::writeBehavior");
   assert(beh != NULL);
   // bumper behavior

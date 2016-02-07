@@ -21,7 +21,7 @@
 // general includes
 #include <map>
 // qt includes
-#include <qvbox.h>
+#include <q3vbox.h>
 // application includes
 #include "pineditdoc.h"
 #include "listitem.h"
@@ -29,10 +29,10 @@
 class QLineEdit;
 class QComboBox;
 class QCheckBox;
-class QMainWindow;
+class Q3MainWindow;
 class PinEditDoc;
-class QListView;
-class QListViewItem;
+class Q3ListView;
+class Q3ListViewItem;
 class Group;
 class Shape3D;
 class StateDialog;
@@ -41,14 +41,14 @@ class BumperDialog;
 class ArmDialog;
 class ModuleDialog;
 class Behavior;
-class QWidgetStack;
+class Q3WidgetStack;
 class ListItem;
 
 /** @author Henrik Enqvist IB  */
-class ShapeView : public QVBox, public Updateable, public Rebuildable {
+class ShapeView : public Q3VBox, public Updateable, public Rebuildable {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	ShapeView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~ShapeView();
 	void doRebuild();
 	void doUpdate();
@@ -68,13 +68,13 @@ class ShapeView : public QVBox, public Updateable, public Rebuildable {
 	QWidget * p_WidgetGroup;
 	QWidget * p_WidgetShape;
 	QWidget * p_WidgetBehavior;
-	QWidgetStack * p_WidgetStack;
+	Q3WidgetStack * p_WidgetStack;
 	StateDialog * p_StateDialog;
 	BumperDialog * p_BumperDialog;
 	ArmDialog * p_ArmDialog;
 	LightDialog * p_LightDialog;
 	ModuleDialog * p_ModuleDialog;
-	QListView * p_ListView;
+	Q3ListView * p_ListView;
 	QLineEdit * p_LineEditName;
 	QCheckBox * p_BoxHidden;
 	QCheckBox * p_BoxCollision;

@@ -24,12 +24,18 @@
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qimage.h>
 #include <qcombobox.h>
 #include <qpainter.h>
-#include <qmsgbox.h>
-#include <qfiledialog.h>
+#include <qmessagebox.h>
+#include <q3filedialog.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3BoxLayout>
+#include <QPaintEvent>
+#include <QMouseEvent>
+#include <Q3VBoxLayout>
 // application includes
 #include "textureview.h"
 #include "pineditdoc.h"
@@ -41,7 +47,7 @@
 #include "Shape3D.h"
 
 TextureImageWidget::TextureImageWidget(PinEditDoc * doc, QWidget * parent, 
-				       const char * name, WFlags f) : QWidget(parent, name, f) {
+				       const char * name, Qt::WFlags f) : QWidget(parent, name, f) {
   assert(doc != NULL);
   m_iCurrent = 0;
   p_texCurrent = NULL;
@@ -49,7 +55,7 @@ TextureImageWidget::TextureImageWidget(PinEditDoc * doc, QWidget * parent,
   p_Doc = doc;
   this->setFixedSize(256, 256);
   p_Painter = new QPainter(this);
-  this->setBackgroundMode(PaletteBase);
+  this->setBackgroundMode(Qt::PaletteBase);
 }
 
 TextureImageWidget::~TextureImageWidget() {
@@ -65,13 +71,13 @@ void TextureImageWidget::mousePressEvent(QMouseEvent * e) {
   if (shape == NULL) return;
   if (p_Image == NULL) return;
   if (p_texCurrent == NULL) return;
-  if (e->button() ==  QMouseEvent::LeftButton) {
+  if (e->button() ==  Qt::LeftButton) {
     p_texCurrent->u = (float)(e->x())/255.0f;
     p_texCurrent->v = (float)(e->y())/255.0f;
     p_TextureView->rebuild();
     p_TextureView->setCurrent(m_iCurrent);
     EM_CERR("left mouse pressed in view2d " << p_texCurrent->u <<" "<< p_texCurrent->v);
-  } else if (e->button() == QMouseEvent::RightButton) {
+  } else if (e->button() == Qt::RightButton) {
     ++m_iCurrent;
     p_texCurrent = shape->getTexCoord(m_iCurrent);
     if (p_texCurrent == NULL) {
@@ -81,7 +87,7 @@ void TextureImageWidget::mousePressEvent(QMouseEvent * e) {
     assert(p_texCurrent != NULL);
     p_TextureView->setCurrent(m_iCurrent);
     EM_CERR("right mouse pressed in view2d");
-  } else if (e->button() == QMouseEvent::MidButton) {
+  } else if (e->button() == Qt::MidButton) {
   }
   this->repaint();
 }
@@ -164,7 +170,7 @@ void TextureImageWidget::paintEvent(QPaintEvent *) {
 /* TextureView **********************************************/
 /************************************************************/
 
-TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QWidget(parent, name, f) {
   assert(doc != NULL);
   p_Doc = doc;
@@ -175,9 +181,9 @@ TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, 
   // the image
   p_TextureImageWidget = new TextureImageWidget(doc, this, 0, 0);
   // the list view
-  p_ListView = new QListView(this);
+  p_ListView = new Q3ListView(this);
   connect(p_ListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
-  p_ListView->setSelectionMode(QListView::Single);
+  p_ListView->setSelectionMode(Q3ListView::Single);
   p_ListView->addColumn(QString("texcoords"));
   p_ListView->setMinimumSize(240, 60);
 
@@ -209,18 +215,18 @@ TextureView::TextureView(PinEditDoc * doc, QWidget * parent, const char * name, 
   QPushButton * autobutton = new QPushButton("auto texcoord", this);
   connect(autobutton, SIGNAL(clicked()), this, SLOT(slotAutoTexCoord()));
 
-  QBoxLayout * vlayout = new QVBoxLayout(this);
+  Q3BoxLayout * vlayout = new Q3VBoxLayout(this);
   vlayout->addWidget(p_TextureImageWidget);
   //vlayout1->addWidget(p_ListView);
   vlayout->addWidget(p_ListView);
-	QBoxLayout * hlayout1 = new QHBoxLayout(vlayout);
+	Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout);
   hlayout1->addWidget(p_EditTexture);
 	hlayout1->addWidget(choosebutton);
   // 	QBoxLayout * hlayout1 = new QHBoxLayout(vlayout);
   // 	hlayout1->addWidget(p_EditU);
   // 	hlayout1->addWidget(p_EditV);
   // 	vlayout->addWidget(applybutton);
-  QBoxLayout * hlayout2 = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout);
   hlayout2->addWidget(p_ComboSnap);
   hlayout2->addWidget(snapbutton);
   vlayout->addWidget(autobutton);
@@ -367,7 +373,7 @@ void TextureView::slotChoose() {
     QMessageBox::information( this, "Choose Texture", "No Shape selected.");
     return;
   }
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
     EmTexture * tex = TextureUtil::getInstance()->loadTexture(filename);
     if (tex != NULL) {

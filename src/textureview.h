@@ -20,6 +20,9 @@
 
 // qt includes
 #include <qwidget.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QPaintEvent>
 // application includes
 #include "pineditdoc.h"
 // emilia includes
@@ -28,8 +31,8 @@
 class PinEditDoc;
 class Group;
 class QLineEdit;
-class QListViewItem;
-class QListView;
+class Q3ListViewItem;
+class Q3ListView;
 class Behavior;
 class Polygon3D;
 class QPainter;
@@ -42,7 +45,7 @@ class TexCoordDialog;
 class TextureImageWidget : public QWidget {
 	Q_OBJECT
  public:
-	TextureImageWidget(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f);
+	TextureImageWidget(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f);
 	~TextureImageWidget();
 	void mouseMoveEvent(QMouseEvent * e);
 	void paintEvent(QPaintEvent * e);
@@ -63,7 +66,7 @@ class TextureImageWidget : public QWidget {
 class TextureView: public QWidget, public Updateable, public Rebuildable  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	TextureView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	TextureView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~TextureView();
 	void doRebuild();
 	void doUpdate();
@@ -84,7 +87,7 @@ class TextureView: public QWidget, public Updateable, public Rebuildable  {
 	PinEditDoc * p_Doc;
 	//Polygon * p_Poly;
 	//Shape3D * p_Shape;
-	QListView * p_ListView;
+	Q3ListView * p_ListView;
 	QLineEdit * p_EditU;
 	QLineEdit * p_EditV;
 	QComboBox * p_ComboSnap;

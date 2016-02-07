@@ -20,15 +20,19 @@
 #include "assert.h"
 // qt includes
 #include <qsizepolicy.h>
-#include <qhbox.h>
-#include <qvbox.h>
+#include <q3hbox.h>
+#include <q3vbox.h>
 #include <qtabwidget.h>
 #include <qlayout.h>
 #include <qgl.h>
-#include <qlistbox.h>
-#include <qbutton.h>
+#include <q3listbox.h>
+#include <q3button.h>
 #include <qsplitter.h>
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // emilia includes
 #include "Private.h"
 // application includes
@@ -98,11 +102,11 @@ PinEditView::PinEditView(QWidget * parent, PinEditDoc * doc) : QWidget(parent) {
   p_TabWidget->addTab(p_PolygonView, "polygons");
   p_TabWidget->addTab(p_TextureView, "texture");
 
-  QBoxLayout * hlayout = new QHBoxLayout(this);
+  Q3BoxLayout * hlayout = new Q3HBoxLayout(this);
 
-  QBoxLayout * vlayoutl = new QVBoxLayout(hlayout);
-  QBoxLayout * vlayoutm = new QVBoxLayout(hlayout);
-  QBoxLayout * vlayoutr = new QVBoxLayout(hlayout);
+  Q3BoxLayout * vlayoutl = new Q3VBoxLayout(hlayout);
+  Q3BoxLayout * vlayoutm = new Q3VBoxLayout(hlayout);
+  Q3BoxLayout * vlayoutr = new Q3VBoxLayout(hlayout);
   hlayout->setStretchFactor(vlayoutl, 4);
   hlayout->setStretchFactor(vlayoutm, 4);
   hlayout->setStretchFactor(vlayoutr, 2);

@@ -20,6 +20,8 @@
 #include <cassert>
 // qt includes
 #include <qevent.h>
+//Added by qt3to4:
+#include <QMouseEvent>
 // application includes
 #include "glengine.h"
 #include "pineditdoc.h"
@@ -89,7 +91,7 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
   Vertex3D vtxS = {1,1,1};
   //EM_CERR("mouse moved" << x - m_MouseX <<" "<< y - m_MouseY);
   switch(m_ButtonState) {
-  case LeftButton:
+  case Qt::LeftButton:
     Quaternion qRot, qTmp;
     Vertex3D vtxU, vtxV, vtxT;
     vtxT.x = 0.0f;
@@ -121,7 +123,7 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
 
     //p_Doc->getCameraRot()->setRotation(vtxRot.x, vtxRot.y, vtxRot.z);
     break;
-  case MidButton: {
+  case Qt::MidButton: {
     Vertex3D vtxA, vtxB;
     vtxA.x = (float)(m_MouseX-x)/10;
     vtxA.y = 0;
@@ -129,7 +131,7 @@ void GLEngine::mouseMoveEvent(QMouseEvent * event) {
     EMath::applyMatrixRot(p_Doc->getCameraRot()->m_mtxSrc, vtxA, vtxB);
     p_Doc->getCameraTrans()->addTranslation(vtxB.x, vtxB.y, vtxB.z);
   } break;
-  case RightButton: {
+  case Qt::RightButton: {
     Vertex3D vtxA, vtxB;
     vtxA.x = (float)(m_MouseX-x)/10;
     vtxA.y = -(float)(m_MouseY-y)/10;

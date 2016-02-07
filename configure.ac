@@ -170,7 +170,7 @@ CFLAGS="$CPPFLAGS $QT_CXXFLAGS"
 
 else if false ; then
 
-EM_QTDIR=/usr/lib/qt3
+EM_QTDIR=/usr/lib/qt4
 AC_SUBST(EM_QTDIR)
 CPPFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
 CFLAGS="$CPPFLAGS -I$EM_QTDIR/include"
@@ -180,13 +180,15 @@ LIBS="$LIBS -lqt"
 else
 
 dnl #{ fallback : (debian) ~rzr
-EM_QTDIR=/usr/lib/qt3
+EM_QTDIR=/usr/lib/qt4
 AC_SUBST(EM_QTDIR)
-CPPFLAGS="$CPPFLAGS -I/usr/include/qt3/"
-CFLAGS="$CPPFLAGS -I/usr/include/qt3/"
+CPPFLAGS="$CPP_FLAGS -Dunix -DQT_NO_DEBUG -DQT_QT3SUPPORT_LIB -DQT3_SUPPORT -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/usr/share/qt4/mkspecs/linux-g++ -I. -I/usr/include/qt4/QtCore -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtOpenGL -I/usr/include/qt4/Qt3Support -I/usr/include/qt4 -I. -Isrc -I/usr/include/pinball -I/usr/include/SDL -I/usr/X11R6/include -I. "
+
+CFLAGS="$CPPFLAGS -I/usr/include/qt4/"
 LDFLAGS="$LDFLAGS -L$EM_QTDIR/lib"
 #LIBS="$LIBS -lqt"
-LIBS="$LIBS /usr/lib/libqt-mt.so"
+#LIBS="$LIBS /usr/lib/libqt-mt.so"
+LIBS="$LIBS  -lQt3Support -lQtOpenGL -lQtGui -lQtCore "
 dnl #} fallback : ~rzr
 fi
 
@@ -205,9 +207,9 @@ fi
 
 AC_DEFINE_UNQUOTED(EM_USE_SDL, [1], [Build a sdl version])
 
-AC_CONFIG_FILES(Makefile 
- src/Makefile 
- data/Makefile data/audio/Makefile 
+AC_CONFIG_FILES(Makefile
+ src/Makefile
+ data/Makefile data/audio/Makefile
  data/template/Makefile
  data/template/pinball-template data/template/Make-template
  data/objects/Makefile

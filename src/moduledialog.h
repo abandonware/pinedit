@@ -30,7 +30,7 @@ class FakeModuleBehavior;
 class ModuleDialog : public QDialog  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	ModuleDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~ModuleDialog();
 	/** Pops up a dialog to edit the FakeModuleBehavior. */
 	void edit(FakeModuleBehavior * beh);

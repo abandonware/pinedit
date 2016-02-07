@@ -22,8 +22,8 @@
 
 #include "pineditdoc.h"
 
-class QMainWindow;
-class QListBox;
+class Q3MainWindow;
+class Q3ListBox;
 class QTabWidget;
 
 class GLEngine;

@@ -29,12 +29,12 @@
 #include "EMath.h"
 
 class PinEditDoc;
-class QListView;
-class QListViewItem;
+class Q3ListView;
+class Q3ListViewItem;
 class QLineEdit;
 class QPushButton;
 class QRadioButton;
-class QButtonGroup;
+class Q3ButtonGroup;
 class QCheckBox;
 class Polygon3D;
 class Shape3D;
@@ -48,7 +48,7 @@ class Shape3D;
 class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~PolygonView();
 	void doRebuild();
 	void doUpdate();
@@ -79,8 +79,8 @@ class PolygonView : public QWidget, public Updateable, public Rebuildable  {
 /* 	TextureDialog * p_TextureDialog; */
 /* 	TexCoordDialog * p_TexCoordDialog; */
 
-	QListView * p_PolygonListView;
-	QListView * p_VertexListView;
+	Q3ListView * p_PolygonListView;
+	Q3ListView * p_VertexListView;
 	QPushButton * p_ButtonUp;
 	QPushButton * p_ButtonDown;
 	QLineEdit * p_EditX;

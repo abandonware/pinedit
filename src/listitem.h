@@ -19,7 +19,7 @@
 #define LISTITEM_H
 
 // qt includes
-#include <qlistview.h>
+#include <q3listview.h>
 
 #define LISTITEM_NULL 0
 #define LISTITEM_GROUP 1
@@ -33,13 +33,13 @@
 #define LISTITEM_LAST 10
 
 /** @author Henrik Enqvist IB  */
-class ListItem : public QListViewItem {
+class ListItem : public Q3ListViewItem {
  public:
-	ListItem(QListView * parent, QString name) : QListViewItem(parent, name) {
+	ListItem(Q3ListView * parent, QString name) : Q3ListViewItem(parent, name) {
 		p_Object = NULL;
 		m_iType = LISTITEM_NULL;
 	};
-	ListItem(ListItem * parent, QString name) : QListViewItem(parent, name) {
+	ListItem(ListItem * parent, QString name) : Q3ListViewItem(parent, name) {
 		p_Object = NULL;
 		m_iType = LISTITEM_NULL;
 	}; 

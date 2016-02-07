@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3TextStream>
 /***************************************************************************
                           fileutil.h  -  description
                              -------------------
@@ -23,7 +25,7 @@ class Shape3D;
 class Behavior;
 class PinEditDoc;
 class QString;
-class QTextStream;
+class Q3TextStream;
 
 /** A utility that saves the groups, shapes and behaviors in an engine 
  ** to a pinball file. */
@@ -33,9 +35,9 @@ class FileUtil {
   ~FileUtil() {};
   int saveFile(const QString & fn, Group * group);
  private:
-  int writeGroup(QTextStream & file, Group * Group);
-  int writeShape(QTextStream & file, Shape3D * shape);
-  int writeBehavior(QTextStream & file, Behavior * beh);
+  int writeGroup(Q3TextStream & file, Group * Group);
+  int writeShape(Q3TextStream & file, Shape3D * shape);
+  int writeBehavior(Q3TextStream & file, Behavior * beh);
   inline void incIndent() {
     ++m_iIndent;
   };

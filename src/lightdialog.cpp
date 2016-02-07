@@ -25,6 +25,10 @@
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
+#include <Q3VBoxLayout>
 // application includes
 #include "lightdialog.h"
 #include "pineditdoc.h"
@@ -36,7 +40,7 @@
 #include "Behavior.h"
 #include "StdAnimation.h"
 
-LightDialog::LightDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+LightDialog::LightDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QDialog(parent, name, f) {
   assert(doc != NULL);
   p_Doc = doc;
@@ -65,26 +69,26 @@ LightDialog::LightDialog(PinEditDoc * doc, QWidget * parent, const char * name, 
   connect(cancelbutton, SIGNAL(clicked()), this, SLOT(slotCancel()));
 
   // the layout of the objects
-  QBoxLayout * vlayout = new QVBoxLayout(this);
+  Q3BoxLayout * vlayout = new Q3VBoxLayout(this);
 	
-  QBoxLayout * hlayout1 = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayout1 = new Q3HBoxLayout(vlayout);
   hlayout1->addWidget(labelR);
   hlayout1->addWidget(p_EditR);
   hlayout1->addWidget(labelG);
   hlayout1->addWidget(p_EditG);
   hlayout1->addWidget(labelB);
   hlayout1->addWidget(p_EditB);
-  QBoxLayout * hlayout2 = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayout2 = new Q3HBoxLayout(vlayout);
   hlayout2->addWidget(labelX);
   hlayout2->addWidget(p_EditX);
   hlayout2->addWidget(labelY);
   hlayout2->addWidget(p_EditY);
   hlayout2->addWidget(labelZ);
   hlayout2->addWidget(p_EditZ);
-  QBoxLayout * hlayout3 = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayout3 = new Q3HBoxLayout(vlayout);
   hlayout3->addWidget(p_BoxBlink);
   hlayout3->addWidget(p_SpinDelay);
-  QBoxLayout * hlayout4 = new QHBoxLayout(vlayout);
+  Q3BoxLayout * hlayout4 = new Q3HBoxLayout(vlayout);
   hlayout4->addWidget(donebutton);
   hlayout4->addWidget(removebutton);
   hlayout4->addWidget(cancelbutton);

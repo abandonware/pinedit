@@ -22,7 +22,11 @@
 #include <qpushbutton.h>
 #include <qlayout.h>
 #include <qcheckbox.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3VBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // emilia includes
 #include "Private.h"
 // application includes
@@ -30,7 +34,7 @@
 #include "snapdialog.h"
 #include "commandsnap.h"
 
-SnapDialog::SnapDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+SnapDialog::SnapDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
 : QDialog(parent, name, f) {
 	assert(doc != NULL);
 	p_Doc = doc;
@@ -51,8 +55,8 @@ SnapDialog::SnapDialog(PinEditDoc * doc, QWidget * parent, const char * name, WF
 	QPushButton * cancelbutton = new QPushButton("cancel", this);
 	connect(cancelbutton, SIGNAL(clicked()), this, SLOT(slotCancel()));
 
-	QBoxLayout * layout = new QVBoxLayout(this);
-	QBoxLayout * hlayout = new QHBoxLayout(layout);
+	Q3BoxLayout * layout = new Q3VBoxLayout(this);
+	Q3BoxLayout * hlayout = new Q3HBoxLayout(layout);
 	hlayout->addWidget(p_BoxX);
 	hlayout->addWidget(p_BoxY);
 	hlayout->addWidget(p_BoxZ);

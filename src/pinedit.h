@@ -19,16 +19,18 @@
 #define PINEDIT_H
 
 // qt includes
-#include <qapp.h>
-#include <qmainwindow.h>
+#include <qapplication.h>
+#include <q3mainwindow.h>
 #include <qaction.h>
 #include <qmenubar.h>
-#include <qpopupmenu.h>
-#include <qtoolbar.h>
+#include <q3popupmenu.h>
+#include <q3toolbar.h>
 #include <qtoolbutton.h>
 #include <qprinter.h>
 #include <qpainter.h>
 #include <qdialog.h>
+//Added by qt3to4:
+#include <Q3ActionGroup>
 
 class PinEditView;
 class PinEditDoc;
@@ -55,7 +57,7 @@ class CommandResizeLocal;
  * window and providing a menubar, toolbar
  * and statusbar. For the main view, an instance of class PinEditView is
  * created which creates the view. */
-class PinEditApp : public QMainWindow {
+class PinEditApp : public Q3MainWindow {
   Q_OBJECT
 		
  public:
@@ -160,72 +162,72 @@ class PinEditApp : public QMainWindow {
 	TextDialog *p_TextDialog;
 	SnapDialog *p_SnapDialog;
 	
-	QPopupMenu *fileMenu;
-	QPopupMenu *editMenu;
-	QPopupMenu *viewMenu;
-	QPopupMenu *helpMenu;
-	QPopupMenu *workMenu;
+	Q3PopupMenu *fileMenu;
+	Q3PopupMenu *editMenu;
+	Q3PopupMenu *viewMenu;
+	Q3PopupMenu *helpMenu;
+	Q3PopupMenu *workMenu;
 	
 	/** the main toolbar */
-	QToolBar *fileToolbar;
+	Q3ToolBar *fileToolbar;
 	/** actions for the application initialized in initActions() and used to en/disable them
 	 * according to your needs during the program */
-	QAction *fileNew;
-	QAction *fileOpen;
-	QAction *fileSave;
-	QAction *fileSaveAs;
-	QAction *fileSaveGroup;
-/* 	QAction *fileSaveShape; */
-	QAction *fileClose;
-	QAction *filePrint;
-	QAction *fileQuit;
+	Q3Action *fileNew;
+	Q3Action *fileOpen;
+	Q3Action *fileSave;
+	Q3Action *fileSaveAs;
+	Q3Action *fileSaveGroup;
+/* 	Q3Action *fileSaveShape; */
+	Q3Action *fileClose;
+	Q3Action *filePrint;
+	Q3Action *fileQuit;
 	
-	QAction *viewToolBar;
-	QAction *viewStatusBar;
+	Q3Action *viewToolBar;
+	Q3Action *viewStatusBar;
 	
-	QAction *helpAboutApp;
-	QAction *helpTutorial;
-	QAction *helpManual;
+	Q3Action *helpAboutApp;
+	Q3Action *helpTutorial;
+	Q3Action *helpManual;
 	
 	/** the work toolbar */
-	QToolBar *workToolbar;
-	QActionGroup *workGroup;
+	Q3ToolBar *workToolbar;
+	Q3ActionGroup *workGroup;
 	
-/* 	QAction *workLoadShape; */
-	QAction *workUndo;
-	QAction *workLoadGroup;
-	QAction *workNewVertex;
-	QAction *workSelect;
-	QAction *workAddSelect;
-	QAction *workUnSelect;
-	QAction *workMove;
-	QAction *workRotate;
-	QAction *workRotateLocal;
-	QAction *workResize;
-	QAction *workResizeLocal;
+/* 	Q3Action *workLoadShape; */
+	Q3Action *workUndo;
+	Q3Action *workLoadGroup;
+	Q3Action *workNewVertex;
+	Q3Action *workSelect;
+	Q3Action *workAddSelect;
+	Q3Action *workUnSelect;
+	Q3Action *workMove;
+	Q3Action *workRotate;
+	Q3Action *workRotateLocal;
+	Q3Action *workResize;
+	Q3Action *workResizeLocal;
 
-	QAction *workMirrorX;
-	QAction *workMirrorY;
-	QAction *workMirrorZ;
-	QAction *workMirrorLocalX;
-	QAction *workMirrorLocalY;
-	QAction *workMirrorLocalZ;
-	QAction *workCopy;
-	QAction *workPaste;
-	QAction *workHideSelected;
-	QAction *workNewPolygon;
-	QAction *workNewShape;
-	QAction *workNewGroup;
-	QAction *workFlip;
-	QAction *workFlipSmart;
-	QAction *workMoveGroup;
-	QAction *workRotateGroup;
-	QAction *workDeleteGroup;
-	QAction *workDeleteShape;
-	QAction *workDeletePolygon;
-	QAction *workDeleteVertex;
-	QAction *workExtrude;
-	QAction *workSnap;
+	Q3Action *workMirrorX;
+	Q3Action *workMirrorY;
+	Q3Action *workMirrorZ;
+	Q3Action *workMirrorLocalX;
+	Q3Action *workMirrorLocalY;
+	Q3Action *workMirrorLocalZ;
+	Q3Action *workCopy;
+	Q3Action *workPaste;
+	Q3Action *workHideSelected;
+	Q3Action *workNewPolygon;
+	Q3Action *workNewShape;
+	Q3Action *workNewGroup;
+	Q3Action *workFlip;
+	Q3Action *workFlipSmart;
+	Q3Action *workMoveGroup;
+	Q3Action *workRotateGroup;
+	Q3Action *workDeleteGroup;
+	Q3Action *workDeleteShape;
+	Q3Action *workDeletePolygon;
+	Q3Action *workDeleteVertex;
+	Q3Action *workExtrude;
+	Q3Action *workSnap;
 	
 	QComboBox *workMode;
 	QSpinBox *workZoom;

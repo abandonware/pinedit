@@ -22,20 +22,20 @@
 #include <qdialog.h>
 #include <qstring.h>
 
-class QTextBrowser;
+class Q3TextBrowser;
 
 /** Yet another dialog */
 class TextDialog : public QDialog {
 	Q_OBJECT
  public:
-	TextDialog(QWidget * parent, const char * name, WFlags f);
+	TextDialog(QWidget * parent, const char * name, Qt::WFlags f);
 	~TextDialog();
 	void setSource(const QString & name);
  public slots:
 	void slotBack();
 	void slotCancel();
  private:
-	QTextBrowser * p_TextBrowser;
+	Q3TextBrowser * p_TextBrowser;
 };
 
 #endif 

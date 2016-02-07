@@ -21,8 +21,11 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // application includes
 #include "armdialog.h"
 #include "pineditdoc.h"
@@ -31,7 +34,7 @@
 #include "SoundUtil.h"
 #include "ArmBehavior.h"
 
-ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QDialog(parent, name, f) {
   EM_CERR("ArmDialog::ArmDialog");
   assert(doc != NULL);
@@ -47,7 +50,7 @@ ArmDialog::ArmDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFla
   QPushButton * donebutton = new QPushButton("done", this);
   connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
-  QBoxLayout * hlayout = new QHBoxLayout(this);
+  Q3BoxLayout * hlayout = new Q3HBoxLayout(this);
   hlayout->addWidget(label);
   hlayout->addWidget(p_EditSound);
   hlayout->addWidget(choosebutton);
@@ -101,7 +104,7 @@ void ArmDialog::slotDone() {
 }
 
 void ArmDialog::slotChooseSound() {
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
     p_EditSound->setText(filename);
   }

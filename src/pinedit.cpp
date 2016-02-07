@@ -18,16 +18,19 @@
 #include <iostream>
 
 // qt includes
-#include <qaccel.h>
+#include <q3accel.h>
 #include <qcombobox.h>
 #include <qspinbox.h>
 #include <qpixmap.h>
 #include <qstring.h>
 #include <qstatusbar.h>
-#include <qwhatsthis.h>
-#include <qmsgbox.h>
+#include <q3whatsthis.h>
+#include <qmessagebox.h>
 #include <qpushbutton.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
+//Added by qt3to4:
+#include <Q3PopupMenu>
+#include <Q3ActionGroup>
 // application includes
 #include "pineditview.h"
 #include "pineditdoc.h"
@@ -125,7 +128,7 @@
 
 PinEditApp * PinEditApp::p_CurrentApp = NULL;
 
-PinEditApp::PinEditApp() : QMainWindow() {
+PinEditApp::PinEditApp() : Q3MainWindow() {
   setCaption(tr("PinEdit " VERSION));
 	p_CurrentApp = this;
 
@@ -150,7 +153,7 @@ PinEditApp::PinEditApp() : QMainWindow() {
 PinEditApp::~PinEditApp() {
 }
 
-/** initializes all QActions of the application */
+/** initializes all Q3Actions of the application */
 void PinEditApp::initActions() {
   EM_CERR("PinEditApp::initActions");
   
@@ -200,277 +203,277 @@ void PinEditApp::initActions() {
   QPixmap mirrorLocalYIcon = QPixmap(workmirrorlocaly);
   QPixmap mirrorLocalZIcon = QPixmap(workmirrorlocalz);
   
-  fileNew = new QAction(tr("New File"), newIcon, tr("&New"), QAccel::stringToKey(tr("Ctrl+N")), this);
+  fileNew = new Q3Action(tr("New File"), newIcon, tr("&New"), Q3Accel::stringToKey(tr("Ctrl+N")), this);
   fileNew->setStatusTip(tr("Creates a new document"));
   fileNew->setWhatsThis(tr("New File\n\nCreates a new document"));
   connect(fileNew, SIGNAL(activated()), this, SLOT(slotFileNew()));
   
-  fileOpen = new QAction(tr("Open File"), openIcon, tr("&Open..."), 0, this);
+  fileOpen = new Q3Action(tr("Open File"), openIcon, tr("&Open..."), 0, this);
   fileOpen->setStatusTip(tr("Opens an existing document"));
   fileOpen->setWhatsThis(tr("Open File\n\nOpens an existing document"));
   connect(fileOpen, SIGNAL(activated()), this, SLOT(slotFileOpen()));
 
-  fileSave = new QAction(tr("Save File"), saveIcon, tr("&Save"), 
-												 QAccel::stringToKey(tr("Ctrl+S")), this);
+  fileSave = new Q3Action(tr("Save File"), saveIcon, tr("&Save"), 
+												 Q3Accel::stringToKey(tr("Ctrl+S")), this);
   fileSave->setStatusTip(tr("Saves the actual document"));
   fileSave->setWhatsThis(tr("Save File.\n\nSaves the actual document"));
   connect(fileSave, SIGNAL(activated()), this, SLOT(slotFileSave()));
 
-  fileSaveAs = new QAction(tr("Save File As"), tr("Save &as..."), 0, this);
+  fileSaveAs = new Q3Action(tr("Save File As"), tr("Save &as..."), 0, this);
   fileSaveAs->setStatusTip(tr("Saves the actual document under a new filename"));
   fileSaveAs->setWhatsThis(tr("Save As\n\nSaves the actual document under a new filename"));
   connect(fileSaveAs, SIGNAL(activated()), this, SLOT(slotFileSaveAs()));
  
-  fileSaveGroup = new QAction(tr("Save Object"), saveGroupIcon, tr("Save Object..."), 0, this);
+  fileSaveGroup = new Q3Action(tr("Save Object"), saveGroupIcon, tr("Save Object..."), 0, this);
   fileSaveGroup->setStatusTip(tr("Saves the selected object to a file"));
   fileSaveGroup->setWhatsThis(tr("Save Object\n\nSaves the selected object to a file"));
   connect(fileSaveGroup, SIGNAL(activated()), this, SLOT(slotFileSaveGroup()));
 
-//   fileSaveShape = new QAction(tr("Save Shape"), saveShapeIcon, tr("Save shape..."), 0, this);
+//   fileSaveShape = new Q3Action(tr("Save Shape"), saveShapeIcon, tr("Save shape..."), 0, this);
 //   fileSaveShape->setStatusTip(tr("Saves the selected shape to a file"));
 //   fileSaveShape->setWhatsThis(tr("Save Shape\n\nSaves the selected shape to a file"));
 //   connect(fileSaveShape, SIGNAL(activated()), this, SLOT(slotFileSaveShape()));
 
-  fileClose = new QAction(tr("Close File"), tr("&Close"), QAccel::stringToKey(tr("Ctrl+W")), this);
+  fileClose = new Q3Action(tr("Close File"), tr("&Close"), Q3Accel::stringToKey(tr("Ctrl+W")), this);
   fileClose->setStatusTip(tr("Closes the actual document"));
   fileClose->setWhatsThis(tr("Close File\n\nCloses the actual document"));
   connect(fileClose, SIGNAL(activated()), this, SLOT(slotFileClose()));
 
-  filePrint = new QAction(tr("Print File"), tr("&Print"), QAccel::stringToKey(tr("Ctrl+P")), this);
+  filePrint = new Q3Action(tr("Print File"), tr("&Print"), Q3Accel::stringToKey(tr("Ctrl+P")), this);
   filePrint->setStatusTip(tr("Prints out the actual document"));
   filePrint->setWhatsThis(tr("Print File\n\nPrints out the actual document"));
   connect(filePrint, SIGNAL(activated()), this, SLOT(slotFilePrint()));
 
-  fileQuit = new QAction(tr("Exit"), tr("E&xit"), QAccel::stringToKey(tr("Ctrl+Q")), this);
+  fileQuit = new Q3Action(tr("Exit"), tr("E&xit"), Q3Accel::stringToKey(tr("Ctrl+Q")), this);
   fileQuit->setStatusTip(tr("Quits the application"));
   fileQuit->setWhatsThis(tr("Exit\n\nQuits the application"));
   connect(fileQuit, SIGNAL(activated()), this, SLOT(slotFileQuit()));
 
-  viewToolBar = new QAction(tr("Toolbar"), tr("Tool&bar"), 0, this, 0, true);
+  viewToolBar = new Q3Action(tr("Toolbar"), tr("Tool&bar"), 0, this, 0, true);
   viewToolBar->setStatusTip(tr("Enables/disables the toolbar"));
   viewToolBar->setWhatsThis(tr("Toolbar\n\nEnables/disables the toolbar"));
   connect(viewToolBar, SIGNAL(toggled(bool)), this, SLOT(slotViewToolBar(bool)));
 
-  viewStatusBar = new QAction(tr("Statusbar"), tr("&Statusbar"), 0, this, 0, true);
+  viewStatusBar = new Q3Action(tr("Statusbar"), tr("&Statusbar"), 0, this, 0, true);
   viewStatusBar->setStatusTip(tr("Enables/disables the statusbar"));
   viewStatusBar->setWhatsThis(tr("Statusbar\n\nEnables/disables the statusbar"));
   connect(viewStatusBar, SIGNAL(toggled(bool)), this, SLOT(slotViewStatusBar(bool)));
 
-  helpAboutApp = new QAction(tr("About"), pineditIcon, tr("&About..."), 0, this);
+  helpAboutApp = new Q3Action(tr("About"), pineditIcon, tr("&About..."), 0, this);
   helpAboutApp->setStatusTip(tr("About the application"));
   helpAboutApp->setWhatsThis(tr("About\n\nAbout the application"));
   connect(helpAboutApp, SIGNAL(activated()), this, SLOT(slotHelpAbout()));
 
-  helpTutorial = new QAction(tr("Tutorial"), tutorialIcon, tr("Tutorial..."), 0, this);
+  helpTutorial = new Q3Action(tr("Tutorial"), tutorialIcon, tr("Tutorial..."), 0, this);
   helpTutorial->setStatusTip(tr("Tutorial for the editor"));
   helpTutorial->setWhatsThis(tr("Tutorial\n\nTutorial for the editor"));
   connect(helpTutorial, SIGNAL(activated()), this, SLOT(slotTutorial()));
 
-  helpManual = new QAction(tr("Manual"), manualIcon, tr("Manual..."), 0, this);
+  helpManual = new Q3Action(tr("Manual"), manualIcon, tr("Manual..."), 0, this);
   helpManual->setStatusTip(tr("Manual for the editor"));
   helpManual->setWhatsThis(tr("Manual\n\nManual for the editor"));
   connect(helpManual, SIGNAL(activated()), this, SLOT(slotManual()));
 
-	workLoadGroup = new QAction(tr("Load Object"), loadGroupIcon, tr("Load Object"), 0, this);
+	workLoadGroup = new Q3Action(tr("Load Object"), loadGroupIcon, tr("Load Object"), 0, this);
   workLoadGroup->setStatusTip(tr("Loads an object to the table"));
   workLoadGroup->setWhatsThis(tr("Load Object\n\nLoads an object to the table"));
   connect(workLoadGroup, SIGNAL(activated()), this, SLOT(slotLoadGroup()));
 
   // work actions
-	workGroup = new QActionGroup(this);
+	workGroup = new Q3ActionGroup(this);
 
-// 	workLoadShape = new QAction(tr("Load Shape"), loadShapeIcon, tr("Load Shape"), 0, this);
+// 	workLoadShape = new Q3Action(tr("Load Shape"), loadShapeIcon, tr("Load Shape"), 0, this);
 //   workLoadShape->setStatusTip(tr("Load a shape to the table"));
 //   workLoadShape->setWhatsThis(tr("Load Shape\n\nUse this to load 3d shapes such as walls"));
 //   connect(workLoadShape, SIGNAL(activated()), this, SLOT(slotLoadShape()));
 
-//  	workLock = new QAction(tr("New Lock"), lockIcon, tr("New Lock"), 0, this);
+//  	workLock = new Q3Action(tr("New Lock"), lockIcon, tr("New Lock"), 0, this);
 //   workLock->setStatusTip(tr("Add a lock the game"));
 //   workLock->setWhatsThis(tr("New Lock\n\nUse this to create locks for multiballs"));
 //   connect(workLock, SIGNAL(activated()), this, SLOT(slotNewLock()));
 
-//  	workCave = new QAction(tr("New Cave"), caveIcon, tr("New Cave"), 0, this);
+//  	workCave = new Q3Action(tr("New Cave"), caveIcon, tr("New Cave"), 0, this);
 //   workCave->setStatusTip(tr("Add a cave the game"));
 //   workCave->setWhatsThis(tr("New Cave\n\nUse this to create a cave that captures the balls for a while and then shoots it out"));
 //   connect(workCave, SIGNAL(activated()), this, SLOT(slotNewCave()));
 
- 	workUndo = new QAction(tr("Undo"), undoIcon, tr("Undo"), 0, this);
+ 	workUndo = new Q3Action(tr("Undo"), undoIcon, tr("Undo"), 0, this);
   workUndo->setStatusTip(tr("Undo recent action"));
   workUndo->setWhatsThis(tr("Undo\n\nUndo recent action."));
   connect(workUndo, SIGNAL(activated()), this, SLOT(slotUndo()));
 
- 	workNewVertex = new QAction(tr("New Vertex"), newVertexIcon, tr("New Vertex"), 0, this);
+ 	workNewVertex = new Q3Action(tr("New Vertex"), newVertexIcon, tr("New Vertex"), 0, this);
  	workNewVertex->setToggleAction(true);
   workNewVertex->setStatusTip(tr("Add a vertex to the current shape"));
   workNewVertex->setWhatsThis(tr("New Vertex\n\nCreates a vertex."));
   connect(workNewVertex, SIGNAL(activated()), this, SLOT(slotNewVertex()));
 
-  workSelect = new QAction(tr("Select"), selectIcon, tr("Select"), 0, this);
+  workSelect = new Q3Action(tr("Select"), selectIcon, tr("Select"), 0, this);
   workSelect->setToggleAction(true);
   workSelect->setStatusTip(tr("Selects vertices in the current shape"));
   workSelect->setWhatsThis(tr("Select Vertices\n\nSelect vertices."));
   connect(workSelect, SIGNAL(activated()), this, SLOT(slotSelect()));
 
-  workAddSelect = new QAction(tr("AddSelect"), addSelectIcon, tr("AddSelect"), 0, this);
+  workAddSelect = new Q3Action(tr("AddSelect"), addSelectIcon, tr("AddSelect"), 0, this);
   workAddSelect->setToggleAction(true);
   workAddSelect->setStatusTip(tr("Selects vertices in the current shape"));
   workAddSelect->setWhatsThis(tr("Select Vertices\n\nMerges the old selection with the newly selected vertices."));
   connect(workAddSelect, SIGNAL(activated()), this, SLOT(slotAddSelect()));
 
-  workUnSelect = new QAction(tr("UnSelect"), unSelectIcon, tr("UnSelect"), 0, this);
+  workUnSelect = new Q3Action(tr("UnSelect"), unSelectIcon, tr("UnSelect"), 0, this);
   workUnSelect->setToggleAction(true);
   workUnSelect->setStatusTip(tr("Unselects selected vertices"));
   workUnSelect->setWhatsThis(tr("Unselect vertices\n\nUnselect vertices."));
   connect(workUnSelect, SIGNAL(activated()), this, SLOT(slotUnSelect()));
 
-//   workCut = new QAction(tr("Cut"), cutIcon, tr("Cu&t"), QAccel::stringToKey(tr("Ctrl+X")), this);
+//   workCut = new Q3Action(tr("Cut"), cutIcon, tr("Cu&t"), QAccel::stringToKey(tr("Ctrl+X")), this);
 //   workCut->setStatusTip(tr("Cuts the selected section and puts it to the clipboard"));
 //   workCut->setWhatsThis(tr("Cut\n\nCuts the selected section and puts it to the clipboard"));
 //   connect(workCut, SIGNAL(activated()), this, SLOT(slotCut()));
 
-  workCopy = new QAction(tr("Copy"), copyIcon, tr("&Copy"), 
-												 QAccel::stringToKey(tr("Ctrl+C")), this);
+  workCopy = new Q3Action(tr("Copy"), copyIcon, tr("&Copy"), 
+												 Q3Accel::stringToKey(tr("Ctrl+C")), this);
   workCopy->setStatusTip(tr("Copies the selected section to the clipboard"));
   workCopy->setWhatsThis(tr("Copy\n\nCopies the selected section to the clipboard"));
   connect(workCopy, SIGNAL(activated()), this, SLOT(slotCopy()));
 
-  workPaste = new QAction(tr("Paste"), pasteIcon, tr("&Paste"), 
-													QAccel::stringToKey(tr("Ctrl+V")), this);
+  workPaste = new Q3Action(tr("Paste"), pasteIcon, tr("&Paste"), 
+													Q3Accel::stringToKey(tr("Ctrl+V")), this);
   workPaste->setStatusTip(tr("Pastes the clipboard contents to actual position"));
   workPaste->setWhatsThis(tr("Paste\n\nPastes the clipboard contents to actual position"));
   connect(workPaste, SIGNAL(activated()), this, SLOT(slotPaste()));
 
-  workMove = new QAction(tr("Move"), moveIcon, tr("Move"), 0, this);
+  workMove = new Q3Action(tr("Move"), moveIcon, tr("Move"), 0, this);
   workMove->setToggleAction(true);
   workMove->setStatusTip(tr("Move selected vertices"));
   workMove->setWhatsThis(tr("Move vertices\n\nMove vertices."));
   connect(workMove, SIGNAL(activated()), this, SLOT(slotMove()));
 
-  workRotate = new QAction(tr("Rotate"), rotateIcon, tr("Rotate"), 0, this);
+  workRotate = new Q3Action(tr("Rotate"), rotateIcon, tr("Rotate"), 0, this);
   workRotate->setToggleAction(true);
   workRotate->setStatusTip(tr("Rotate selected vertices"));
   workRotate->setWhatsThis(tr("Rotate vertices\n\nRotates vertices around the main origo."));
   connect(workRotate, SIGNAL(activated()), this, SLOT(slotRotate()));
 
-  workRotateLocal = new QAction(tr("RotateLocal"), rotateLocalIcon, tr("RotateLocal"), 0, this);
+  workRotateLocal = new Q3Action(tr("RotateLocal"), rotateLocalIcon, tr("RotateLocal"), 0, this);
   workRotateLocal->setToggleAction(true);
   workRotateLocal->setStatusTip(tr("RotateLocal selected vertices"));
   workRotateLocal->setWhatsThis(tr("RotateLocal vertices\n\nRotates vertices around the local origo."));
   connect(workRotateLocal, SIGNAL(activated()), this, SLOT(slotRotateLocal()));
 
-  workResize = new QAction(tr("Resize"), resizeIcon, tr("Resize"), 0, this);
+  workResize = new Q3Action(tr("Resize"), resizeIcon, tr("Resize"), 0, this);
   workResize->setToggleAction(true);
   workResize->setStatusTip(tr("Resize selected vertices"));
   workResize->setWhatsThis(tr("Resize vertices\n\nScales vertices around origo."));
   connect(workResize, SIGNAL(activated()), this, SLOT(slotResize()));
 
-  workResizeLocal = new QAction(tr("ResizeLocal"), resizeLocalIcon, tr("ResizeLocal"), 0, this);
+  workResizeLocal = new Q3Action(tr("ResizeLocal"), resizeLocalIcon, tr("ResizeLocal"), 0, this);
   workResizeLocal->setToggleAction(true);
   workResizeLocal->setStatusTip(tr("ResizeLocal selected vertices"));
   workResizeLocal->setWhatsThis(tr("Resize vertices\n\nScales vertices around the local origo."));
   connect(workResizeLocal, SIGNAL(activated()), this, SLOT(slotResizeLocal()));
 
-  workMoveGroup = new QAction(tr("Move Object"), moveGroupIcon, tr("Move Object"), 0, this);
+  workMoveGroup = new Q3Action(tr("Move Object"), moveGroupIcon, tr("Move Object"), 0, this);
   workMoveGroup->setToggleAction(true);
   workMoveGroup->setStatusTip(tr("Move current object"));
   workMoveGroup->setWhatsThis(tr("Move Object\n\n"));
   connect(workMoveGroup, SIGNAL(activated()), this, SLOT(slotMoveGroup()));
 
-  workRotateGroup = new QAction(tr("Rotate Object"), rotateGroupIcon, tr("Rotate Object"), 0, this);
+  workRotateGroup = new Q3Action(tr("Rotate Object"), rotateGroupIcon, tr("Rotate Object"), 0, this);
   workRotateGroup->setToggleAction(true);
   workRotateGroup->setStatusTip(tr("Rotate current object"));
   workRotateGroup->setWhatsThis(tr("Rotate Object\n\n"));
   connect(workRotateGroup, SIGNAL(activated()), this, SLOT(slotRotateGroup()));
 
-  workHideSelected = new QAction(tr("Hide Selected Vertices"), hideSelectedIcon, tr("Hide Selected Vertices"), 0, this);
+  workHideSelected = new Q3Action(tr("Hide Selected Vertices"), hideSelectedIcon, tr("Hide Selected Vertices"), 0, this);
   workHideSelected->setStatusTip(tr("Hides selected vertices"));
   workHideSelected->setWhatsThis(tr("Hide Selected Vertcies\n\nHides selected vertices and ..."));
   connect(workHideSelected, SIGNAL(activated()), this, SLOT(slotHideSelected()));
 
-  workNewPolygon = new QAction(tr("New Polygon"), newPolygonIcon, tr("New Polygon"), 0, this);
+  workNewPolygon = new Q3Action(tr("New Polygon"), newPolygonIcon, tr("New Polygon"), 0, this);
   workNewPolygon->setStatusTip(tr("Creates a new polygon from the selected vertices"));
   workNewPolygon->setWhatsThis(tr("New Polygon\n\nFirst select vertices then connect them to polygons to create shapes."));
   connect(workNewPolygon, SIGNAL(activated()), this, SLOT(slotNewPolygon()));
 
-  workFlip = new QAction(tr("Flip Polygons"), flipIcon, tr("Flip Polygons"), 0, this);
+  workFlip = new Q3Action(tr("Flip Polygons"), flipIcon, tr("Flip Polygons"), 0, this);
   workFlip->setStatusTip(tr("Flip polygons to make the other side visible"));
   workFlip->setWhatsThis(tr("Flip Polygons\n\n"));
   connect(workFlip, SIGNAL(activated()), this, SLOT(slotFlip()));
 
-  workFlipSmart = new QAction(tr("Smart Flip Polygons"), flipSmartIcon, tr("Smart Flip Polygons"), 
+  workFlipSmart = new Q3Action(tr("Smart Flip Polygons"), flipSmartIcon, tr("Smart Flip Polygons"), 
 			      0, this);
   workFlipSmart->setStatusTip(tr("Smart Flip polygons so that polygons are align outwards from the center of selectiion"));
   workFlipSmart->setWhatsThis(tr("Smart Flip Polygons\n\n"));
   connect(workFlipSmart, SIGNAL(activated()), this, SLOT(slotFlipSmart()));
 
-  workExtrude = new QAction(tr("Extrude"), extrudeIcon, tr("Extrude"), 0, this);
+  workExtrude = new Q3Action(tr("Extrude"), extrudeIcon, tr("Extrude"), 0, this);
   workExtrude->setStatusTip(tr("Extrude selected vertices"));
   workExtrude->setWhatsThis(tr("Extrude vertices\n\nExtrude vertices."));
   connect(workExtrude, SIGNAL(activated()), this, SLOT(slotExtrude()));
 
-  workMirrorX = new QAction(tr("Mirror"), mirrorXIcon, tr("Mirror"), 0, this);
+  workMirrorX = new Q3Action(tr("Mirror"), mirrorXIcon, tr("Mirror"), 0, this);
   workMirrorX->setStatusTip(tr("Mirror selected vertices"));
   workMirrorX->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
   connect(workMirrorX, SIGNAL(activated()), this, SLOT(slotMirrorX()));
 
-  workMirrorY = new QAction(tr("Mirror"), mirrorYIcon, tr("Mirror"), 0, this);
+  workMirrorY = new Q3Action(tr("Mirror"), mirrorYIcon, tr("Mirror"), 0, this);
   workMirrorY->setStatusTip(tr("Mirror selected vertices"));
   workMirrorY->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
   connect(workMirrorY, SIGNAL(activated()), this, SLOT(slotMirrorY()));
 
-  workMirrorZ = new QAction(tr("Mirror"), mirrorZIcon, tr("Mirror"), 0, this);
+  workMirrorZ = new Q3Action(tr("Mirror"), mirrorZIcon, tr("Mirror"), 0, this);
   workMirrorZ->setStatusTip(tr("Mirror selected vertices"));
   workMirrorZ->setWhatsThis(tr("Mirror vertices\n\nMirror vertices."));
   connect(workMirrorZ, SIGNAL(activated()), this, SLOT(slotMirrorZ()));
 
-  workMirrorLocalX = new QAction(tr("MirrorLocal"), mirrorLocalXIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalX = new Q3Action(tr("MirrorLocal"), mirrorLocalXIcon, tr("MirrorLocal"), 0, this);
   workMirrorLocalX->setStatusTip(tr("MirrorLocal selected vertices"));
   workMirrorLocalX->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
   connect(workMirrorLocalX, SIGNAL(activated()), this, SLOT(slotMirrorLocalX()));
 
-  workMirrorLocalY = new QAction(tr("MirrorLocal"), mirrorLocalYIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalY = new Q3Action(tr("MirrorLocal"), mirrorLocalYIcon, tr("MirrorLocal"), 0, this);
   workMirrorLocalY->setStatusTip(tr("MirrorLocal selected vertices"));
   workMirrorLocalY->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
   connect(workMirrorLocalY, SIGNAL(activated()), this, SLOT(slotMirrorLocalY()));
 
-  workMirrorLocalZ = new QAction(tr("MirrorLocal"), mirrorLocalZIcon, tr("MirrorLocal"), 0, this);
+  workMirrorLocalZ = new Q3Action(tr("MirrorLocal"), mirrorLocalZIcon, tr("MirrorLocal"), 0, this);
   workMirrorLocalZ->setStatusTip(tr("MirrorLocal selected vertices"));
   workMirrorLocalZ->setWhatsThis(tr("MirrorLocal vertices\n\nMirrorLocal vertices."));
   connect(workMirrorLocalZ, SIGNAL(activated()), this, SLOT(slotMirrorLocalZ()));
 
-	workNewShape = new QAction(tr("New Shape"), newShapeIcon, tr("New Shape"), 0, this);
+	workNewShape = new Q3Action(tr("New Shape"), newShapeIcon, tr("New Shape"), 0, this);
 	workNewShape->setStatusTip(tr("Creates a new shape in the current object"));
 	workNewShape->setWhatsThis(tr("New Shape\n\nCreates a new shape in the current object"));
 	connect(workNewShape, SIGNAL(activated()), this, SLOT(slotNewShape()));
 
-	workNewGroup = new QAction(tr("New Object"), newGroupIcon, tr("New Object"), 0, this);
+	workNewGroup = new Q3Action(tr("New Object"), newGroupIcon, tr("New Object"), 0, this);
 	workNewGroup->setStatusTip(tr("Creates a new object"));
 	workNewGroup->setWhatsThis(tr("New Group\n\nCreates a new object"));
 	connect(workNewGroup, SIGNAL(activated()), this, SLOT(slotNewGroup()));
 
-	workDeleteGroup = new QAction(tr("Delete Object"), deleteGroupIcon,tr("Delete Object"), 0, this);
+	workDeleteGroup = new Q3Action(tr("Delete Object"), deleteGroupIcon,tr("Delete Object"), 0, this);
 	workDeleteGroup->setStatusTip(tr("Deletes the current object"));
 	workDeleteGroup->setWhatsThis(tr("Delete Object\n\nDeletes the current object"));
 	connect(workDeleteGroup, SIGNAL(activated()), this, SLOT(slotDeleteGroup()));
 
-	workDeleteShape = new QAction(tr("Delete Shape"), deleteShapeIcon,	tr("Delete Shape"), 0, this);
+	workDeleteShape = new Q3Action(tr("Delete Shape"), deleteShapeIcon,	tr("Delete Shape"), 0, this);
 	workDeleteShape->setStatusTip(tr("Deletes the current shape"));
 	workDeleteShape->setWhatsThis(tr("Delete Shape\n\nFirst select the shape in the group tree."));
 	connect(workDeleteShape, SIGNAL(activated()), this, SLOT(slotDeleteShape()));
 
-	workDeletePolygon = new QAction(tr("Delete Polygons"), deletePolygonIcon, 
+	workDeletePolygon = new Q3Action(tr("Delete Polygons"), deletePolygonIcon, 
 																	tr("Delete Polygons"), 0, this);
 	workDeletePolygon->setStatusTip(tr("Deletes the selected polygons"));
 	workDeletePolygon->setWhatsThis(tr("Delete Polygons\n\nDelete the selected polygons."));
 	connect(workDeletePolygon, SIGNAL(activated()), this, SLOT(slotDeletePolygon()));
 
-	workDeleteVertex = new QAction(tr("Delete Vertexs"), deleteVertexIcon, 
+	workDeleteVertex = new Q3Action(tr("Delete Vertexs"), deleteVertexIcon, 
 																	tr("Delete Vertexs"), 0, this);
 	workDeleteVertex->setStatusTip(tr("Deletes the selected vertices"));
 	workDeleteVertex->setWhatsThis(tr("Delete Vertexs\n\nDelete the selected vertices that are not included in any polygon."));
 	connect(workDeleteVertex, SIGNAL(activated()), this, SLOT(slotDeleteVertex()));
 
-	workSnap = new QAction(tr("Snap Vertices"), snapIcon, tr("Snap Vertices"), 0, this);
+	workSnap = new Q3Action(tr("Snap Vertices"), snapIcon, tr("Snap Vertices"), 0, this);
 	workSnap->setStatusTip(tr("Snap vertices"));
 	workSnap->setWhatsThis(tr("Snap vertices\n\nSnap vertices."));
 	connect(workSnap, SIGNAL(activated()), this, SLOT(slotSnap()));
@@ -479,7 +482,7 @@ void PinEditApp::initActions() {
 void PinEditApp::initMenuBar() {
   EM_CERR("PinEditApp::initMenuBar");
   // menuBar entry fileMenu
-  fileMenu=new QPopupMenu();
+  fileMenu=new Q3PopupMenu();
   fileNew->addTo(fileMenu);
   fileOpen->addTo(fileMenu);
   fileClose->addTo(fileMenu);
@@ -497,13 +500,13 @@ void PinEditApp::initMenuBar() {
   //editMenu=new QPopupMenu();
 
   // menuBar entry viewMenu
-  viewMenu=new QPopupMenu();
+  viewMenu=new Q3PopupMenu();
   viewMenu->setCheckable(true);
   viewToolBar->addTo(viewMenu);
   viewStatusBar->addTo(viewMenu);
 
   // menuBar entry workMenu
-  workMenu = new QPopupMenu();
+  workMenu = new Q3PopupMenu();
   //   workLoadShape->addTo(workMenu);
   workUndo->addTo(workMenu);
   workNewVertex->addTo(workMenu);
@@ -541,7 +544,7 @@ void PinEditApp::initMenuBar() {
   workMirrorLocalZ->addTo(workMenu);
 
   // menuBar entry helpMenu
-  helpMenu = new QPopupMenu();
+  helpMenu = new Q3PopupMenu();
   helpAboutApp->addTo(helpMenu);
   helpTutorial->addTo(helpMenu);
   helpManual->addTo(helpMenu);
@@ -558,7 +561,7 @@ void PinEditApp::initMenuBar() {
 void PinEditApp::initToolBar() {
   EM_CERR("PinEditApp::initToolBar");
   // TOOLBAR
-  fileToolbar = new QToolBar(this, "file operations");
+  fileToolbar = new Q3ToolBar(this, "file operations");
   fileNew->addTo(fileToolbar);
   fileOpen->addTo(fileToolbar);
   fileSave->addTo(fileToolbar);
@@ -566,13 +569,13 @@ void PinEditApp::initToolBar() {
   workLoadGroup->addTo(fileToolbar);
   // 	fileSaveShape->addTo(fileToolbar);
   fileToolbar->addSeparator();
-  QWhatsThis::whatsThisButton(fileToolbar);
+  Q3WhatsThis::whatsThisButton(fileToolbar);
 }
 
 void PinEditApp::initWorkBar() {
   EM_CERR("PinEditApp::initWorkBar");
   // WORKBAR
-  workToolbar = new QToolBar(this, "work operations");
+  workToolbar = new Q3ToolBar(this, "work operations");
   // 	workLoadShape->addTo(workToolbar);
   workUndo->addTo(workToolbar);
   workNewVertex->addTo(workToolbar);
@@ -724,7 +727,7 @@ void PinEditApp::slotFileOpen() {
     if (!this->queryModified()) return;
   }
   statusBar()->message(tr("Opening file..."));
-  QString fileName = QFileDialog::getOpenFileName(0,0,this);
+  QString fileName = Q3FileDialog::getOpenFileName(0,0,this);
   if (!fileName.isEmpty()) {
     p_Doc->load(fileName);
     this->setCaption(fileName);
@@ -749,7 +752,7 @@ void PinEditApp::slotFileSave() {
 void PinEditApp::slotFileSaveAs() {
   EM_CERR("PinEditApp::slotFileSaveAs");
   statusBar()->message(tr("Saving file under new filename..."));
-  QString fn = QFileDialog::getSaveFileName(0, 0, this);
+  QString fn = Q3FileDialog::getSaveFileName(0, 0, this);
   if (!fn.isEmpty()) {
     p_Doc->saveAs(fn);
     this->setCaption(fn);
@@ -766,7 +769,7 @@ void PinEditApp::slotFileSaveGroup() {
   if (group == NULL) {
     QMessageBox::information( this, "Save Object", "No object selected.");
   } else {
-    QString fn = QFileDialog::getSaveFileName(0, 0, this);
+    QString fn = Q3FileDialog::getSaveFileName(0, 0, this);
     if (!fn.isEmpty()) {
       p_Doc->saveGroup(fn, group);
     } else {
@@ -885,7 +888,7 @@ void PinEditApp::slotManual() {
 
 void PinEditApp::slotLoadGroup() {
   statusBar()->message(tr("Opening file..."));
-  QString fileName = QFileDialog::getOpenFileName(0, 0, this);
+  QString fileName = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!fileName.isEmpty()) {
     p_Doc->loadGroup(fileName);
     QString message = tr("Loaded group: ") + fileName;

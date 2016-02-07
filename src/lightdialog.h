@@ -32,7 +32,7 @@ class Behavior;
 class LightDialog : public QDialog  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	LightDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	LightDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~LightDialog();
 	/** Pops up a dialog to edit the light. */
 	void edit(Behavior * beh);

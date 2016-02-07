@@ -21,10 +21,13 @@
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qlineedit.h>
-#include <qfiledialog.h>
+#include <q3filedialog.h>
 #include <qlayout.h>
 #include <qspinbox.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3BoxLayout>
+#include <Q3HBoxLayout>
 // application includes
 #include "bumperdialog.h"
 #include "pineditdoc.h"
@@ -33,7 +36,7 @@
 #include "SoundUtil.h"
 #include "BumperBehavior.h"
 
-BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
   : QDialog(parent, name, f) {
   EM_CERR("BumperDialog::BumperDialog");
   assert(doc != NULL);
@@ -50,7 +53,7 @@ BumperDialog::BumperDialog(PinEditDoc * doc, QWidget * parent, const char * name
   QPushButton * donebutton = new QPushButton("done", this);
   connect(donebutton, SIGNAL(clicked()), this, SLOT(slotDone()));
 
-  QBoxLayout * hlayout = new QHBoxLayout(this);
+  Q3BoxLayout * hlayout = new Q3HBoxLayout(this);
   hlayout->addWidget(p_SpinPower);
   hlayout->addWidget(label);
   hlayout->addWidget(p_EditSound);
@@ -107,7 +110,7 @@ void BumperDialog::slotDone() {
 }
 
 void BumperDialog::slotChooseSound() {
-  QString filename = QFileDialog::getOpenFileName(0, 0, this);
+  QString filename = Q3FileDialog::getOpenFileName(0, 0, this);
   if (!filename.isEmpty()) {
     p_EditSound->setText(filename);
   }

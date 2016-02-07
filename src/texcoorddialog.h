@@ -29,7 +29,7 @@ class CommandTexCoord;
 class TexCoordDialog : public QDialog {
 	Q_OBJECT
  public:
-	TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f);
+	TexCoordDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f);
 	~TexCoordDialog();
  public slots:
 	void slotTexCoord();

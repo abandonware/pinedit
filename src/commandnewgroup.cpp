@@ -47,7 +47,9 @@ void CommandNewGroup::execute(const CommandContext & context) {
 		return;
 	}
 	p_Group = new Group();
-	p_Group->setName(text.data());
+	//p_Group->setName(text.data()); //TODO:rm
+        p_Group->setName( text.toAscii() ); //TODO
+ 
 	p_Group->setProperty(EM_GROUP_NO_BEHAVIOR);
 	p_Doc->getEngine()->add(p_Group);
 	//context.group->add(p_Group);

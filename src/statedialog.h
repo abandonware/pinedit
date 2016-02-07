@@ -25,7 +25,7 @@
 // application includes
 #include "pineditdoc.h"
 
-class QListView;
+class Q3ListView;
 class QLineEdit;
 class QComboBox;
 class QCheckBox;
@@ -38,7 +38,7 @@ class QSpinBox;
 class StateDialog : public QDialog  {
 	Q_OBJECT        // must include this if you use Qt signals/slots
  public:
-	StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) ;
+	StateDialog(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) ;
 	~StateDialog();
 	/** Pops up a dialog to edit the StateBehavior. */
 	void edit(StateBehavior * beh);
@@ -57,7 +57,7 @@ class StateDialog : public QDialog  {
  private:
 	PinEditDoc * p_Doc;
 	StateBehavior * p_StateBehavior;
-	QListView * p_ListView;
+	Q3ListView * p_ListView;
 
 	QSpinBox * p_SpinCollState;
 	QSpinBox * p_SpinDelayState;

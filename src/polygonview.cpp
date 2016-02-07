@@ -21,16 +21,20 @@
 #include <cassert>
 // qt includes
 #include <qlayout.h>
-#include <qlistview.h>
+#include <q3listview.h>
 #include <qlineedit.h>
 #include <qtabwidget.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qcheckbox.h>
 #include <qstring.h>
-#include <qfiledialog.h>
-#include <qmsgbox.h>
+#include <q3filedialog.h>
+#include <qmessagebox.h>
+//Added by qt3to4:
+#include <Q3HBoxLayout>
+#include <Q3BoxLayout>
+#include <Q3VBoxLayout>
 // application includes
 #include "polygonview.h"
 #include "pineditdoc.h"
@@ -47,7 +51,7 @@
 #define INT2OBJ(a) ((void*)((a)+1))
 #define OBJ2INT(a) (((intptr_t)(a))-1)
 
-PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, WFlags f) 
+PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, Qt::WFlags f) 
 : QWidget(parent, name, f) {
   assert(doc != NULL);
   p_Doc = doc;
@@ -57,15 +61,15 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
   p_Doc->registerUpdateable(this, "polygon");
   p_Doc->registerRebuildable(this, "polygon");
   // the polygon list view
-  p_PolygonListView = new QListView(this);
+  p_PolygonListView = new Q3ListView(this);
   connect(p_PolygonListView, SIGNAL(selectionChanged()), this, SLOT(slotChanged()));
-  p_PolygonListView->setSelectionMode(QListView::Extended);
+  p_PolygonListView->setSelectionMode(Q3ListView::Extended);
   p_PolygonListView->addColumn(QString("polygons"));
   p_PolygonListView->setMinimumSize(200, 240);
   // the vertex list view
-  p_VertexListView = new QListView(this);
+  p_VertexListView = new Q3ListView(this);
   connect(p_VertexListView, SIGNAL(selectionChanged()), this, SLOT(slotVertexChanged()));
-  p_VertexListView->setSelectionMode(QListView::Single);
+  p_VertexListView->setSelectionMode(Q3ListView::Single);
   p_VertexListView->addColumn(QString("vertices for polygon"));
   p_VertexListView->setMinimumSize(200, 80);
   // tabs and widgets
@@ -73,7 +77,7 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
   //tabWidget->setFixedSize(200, 80);
   tabWidget->setMinimumSize(200, 80);
   // main layout
-  QBoxLayout * vlayout = new QVBoxLayout(this);
+  Q3BoxLayout * vlayout = new Q3VBoxLayout(this);
   vlayout->addWidget(p_PolygonListView);
   vlayout->addWidget(p_VertexListView);
   vlayout->addWidget(tabWidget);
@@ -90,7 +94,7 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_ButtonDown = new QPushButton("down", widget);
     connect(p_ButtonDown, SIGNAL(clicked()), this, SLOT(slotVertexDown()));
 		
-    QBoxLayout * layout = new QHBoxLayout(widget);
+    Q3BoxLayout * layout = new Q3HBoxLayout(widget);
     layout->addWidget(p_ButtonUp);
     layout->addWidget(p_ButtonDown);
   }
@@ -109,8 +113,8 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_ApplyVertexButton = new QPushButton("apply", widget);
     connect(p_ApplyVertexButton, SIGNAL(clicked()), this, SLOT(slotApplyVertex()));
 
-    QBoxLayout * vlayoutc = new QVBoxLayout(widget);
-    QBoxLayout * hlayout = new QHBoxLayout(vlayoutc);
+    Q3BoxLayout * vlayoutc = new Q3VBoxLayout(widget);
+    Q3BoxLayout * hlayout = new Q3HBoxLayout(vlayoutc);
     hlayout->addWidget(p_EditX);
     hlayout->addWidget(p_EditY);
     hlayout->addWidget(p_EditZ);
@@ -134,8 +138,8 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_ApplyColorButton = new QPushButton("apply", widget);
     connect(p_ApplyColorButton, SIGNAL(clicked()), this, SLOT(slotApplyColor()));
 
-    QBoxLayout * vlayoutc = new QVBoxLayout(widget);
-    QBoxLayout * hlayoutb = new QHBoxLayout(vlayoutc);
+    Q3BoxLayout * vlayoutc = new Q3VBoxLayout(widget);
+    Q3BoxLayout * hlayoutb = new Q3HBoxLayout(vlayoutc);
     hlayoutb->addWidget(p_EditR);
     hlayoutb->addWidget(p_EditG);
     hlayoutb->addWidget(p_EditB);
@@ -152,7 +156,7 @@ PolygonView::PolygonView(PinEditDoc * doc, QWidget * parent, const char * name, 
     p_ApplyPropButton = new QPushButton("apply", widget);
     connect(p_ApplyPropButton, SIGNAL(clicked()), this, SLOT(slotApplyProp()));
 
-    QBoxLayout * vlayout = new QVBoxLayout(widget);
+    Q3BoxLayout * vlayout = new Q3VBoxLayout(widget);
     vlayout->addWidget(p_TransBox);
     vlayout->addWidget(p_ApplyPropButton);
   }
@@ -295,7 +299,7 @@ void PolygonView::findSelected() {
   this->disableButtons();
   int selected = 0;
   // Create an iterator and give the listview as argument
-  QListViewItemIterator iter(p_PolygonListView);
+  Q3ListViewItemIterator iter(p_PolygonListView);
   // iterate through all items of the listview
   for (; iter.current(); ++iter) {
     if (iter.current()->isSelected()) {
@@ -342,7 +346,7 @@ void PolygonView::slotVertexUp() {
   EM_CERR("PolygonView::slotVertexUp");
   assert(p_Shape != NULL);
   assert(p_Polygon != NULL);
-  QListViewItemIterator iter(p_VertexListView);
+  Q3ListViewItemIterator iter(p_VertexListView);
   // iterate through all items of the listview
   for (; iter.current(); ++iter) {
     if (iter.current()->isSelected()) {
@@ -360,7 +364,7 @@ void PolygonView::slotVertexDown() {
   EM_CERR("PolygonView::slotVertexDown");
   assert(p_Shape != NULL);
   assert(p_Polygon != NULL);
-  QListViewItemIterator iter(p_VertexListView);
+  Q3ListViewItemIterator iter(p_VertexListView);
   // iterate through all items of the listview
   for (; iter.current(); ++iter) {
     if (iter.current()->isSelected()) {
@@ -405,7 +409,7 @@ void PolygonView::slotApplyVertex() {
   EM_CERR("polygonview::slotvertexchanged");
   assert(p_Shape != NULL);
   // Create an iterator and give the listview as argument
-  QListViewItemIterator iter(p_VertexListView);
+  Q3ListViewItemIterator iter(p_VertexListView);
   // iterate through all items of the listview
   for (; iter.current(); ++iter) {
     if (iter.current()->isSelected()) {
@@ -434,7 +438,7 @@ void PolygonView::slotApplyColor() {
   bool bVertex = false;
 	
   // change selected vertex
-  QListViewItemIterator viter(p_VertexListView);
+  Q3ListViewItemIterator viter(p_VertexListView);
   for (; viter.current(); ++viter) {
     if (viter.current()->isSelected()) {
       bVertex = true;
@@ -451,7 +455,7 @@ void PolygonView::slotApplyColor() {
   }
 
   // change selected polygon only if no vertex was selected
-  QListViewItemIterator piter(p_PolygonListView);
+  Q3ListViewItemIterator piter(p_PolygonListView);
   for (; piter.current() && !bVertex; ++piter) {
     if (piter.current()->isSelected()) {
       if (((ListItem*)piter.current())->getObjectType() == LISTITEM_POLYGON) {

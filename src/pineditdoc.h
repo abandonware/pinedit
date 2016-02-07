@@ -27,7 +27,6 @@ using namespace std;
 #include <qobject.h>
 #include <qstring.h>
 #include <qimage.h>
-
 // application specific includes
 
 // emilia includes
