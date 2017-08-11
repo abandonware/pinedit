@@ -54,9 +54,9 @@ void CommandMoveGroup::execute(const CommandContext & context) {
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
-void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) {
+void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d, QPainter &painter) {
 	EM_CERR("CommandMoveGroup::preview");
-	if (context.group == NULL) return;
+    if (context.group == NULL) return;
 	context.group->getTranslation(m_vtxTrans.x, m_vtxTrans.y, m_vtxTrans.z);
 
 	Matrix mtxA = EMath::identityMatrix;
@@ -84,20 +84,20 @@ void CommandMoveGroup::preview(const CommandContext & context, View2D * view2d) 
 	g = context.group;
 
 	// draw all polygons
-	view2d->getPainter()->setPen(Qt::green);
+    painter.setPen(Qt::green);
 	int shindex = 0;
 	Shape3D * shape = g->getShape3D(shindex);
 	while (shape != NULL) {
 		int polyindex = 0;
 		Polygon3D * poly = shape->getPolygon(polyindex);
 		while (poly != NULL) {
-			view2d->drawPolygon(shape, poly, mtxC);
+            view2d->drawPolygon(painter, shape, poly, mtxC);
 			polyindex++;
 			poly = shape->getPolygon(polyindex);
 		}
 		shindex++;
 		shape = g->getShape3D(shindex);
-	}
+    }
 }
 
 void CommandMoveGroup::undo() {

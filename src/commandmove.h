@@ -35,7 +35,7 @@ class CommandMove : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
+    void preview(const CommandContext & context, View2D * view2d, QPainter &painter);
 	virtual const char * type() { return "CommandMove"; };
  private:
 	vector<Vertex3D> m_vVertex;

@@ -50,22 +50,20 @@ class View2D : public QWidget, public Updateable {
 	void showGrid(bool grid) { m_bGrid = grid; };
 	void paintEvent(QPaintEvent * e);
 	void doUpdate();
-	QPainter * getPainter() { return p_QPainter; }; 
 	inline int screenx(float x) { return (int)(x*m_fZoom + m_iXOffset); };
 	inline int screeny(float y) { return (int)(y*m_fZoom + m_iYOffset); };
 	inline float localx(int x) { return (float)(x - m_iXOffset) / m_fZoom; };
 	inline float localy(int y) { return (float)(y - m_iYOffset) / m_fZoom; };
-	void drawGroup(Group * g, const Matrix & mtx);
-	void drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx);
-	void drawVertex(Shape3D * shape, const Vertex3D & vtx, const Matrix & mtx);
+    void drawGroup(QPainter &painter, Group * g, const Matrix & mtx);
+    void drawPolygon(QPainter &painter, Shape3D * shape, Polygon3D * poly, const Matrix & mtx);
+    void drawVertex(QPainter &painter, Shape3D * shape, const Vertex3D & vtx, const Matrix & mtx);
  protected:
-	void drawShapeMode();
-	void drawGroupMode();
-	void drawGrid();
+    void drawShapeMode(QPainter &painter);
+    void drawGroupMode(QPainter &painter);
+    void drawGrid(QPainter &painter);
 	int m_iMode;
 	bool m_bGrid;
 	CommandContext * p_Context;
-	QPainter * p_QPainter;
 	PinEditDoc * p_Doc;
 	float m_fZoom;
 	int m_iXOffset;

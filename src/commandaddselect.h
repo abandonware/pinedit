@@ -28,9 +28,9 @@ class CommandAddSelect : public Command  {
 	Command * build();
 	void undo();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
 	void clearObjects();
-	const char * type() { return "CommandAddSelect"; };
+    const char * type() { return "CommandAddSelect"; }
 };
 
 #endif

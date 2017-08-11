@@ -37,11 +37,11 @@ class CommandNewShape : public Command  {
 	~CommandNewShape();
 	Command * build();
 	void undo();
-	void setType(int type) { m_iType = type; };
+    void setType(int type) { m_iType = type; }
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandNewShape"; };
+    void preview (const CommandContext &, View2D *, QPainter&) {}
+    const char * type() { return "CommandNewShape"; }
  private:
 	int m_iType;
 };

@@ -35,12 +35,12 @@ class CommandSnap : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void setFactor(float factor) { m_fFactor = factor; };
-	void preview(const CommandContext &, View2D *) {};
-	void setX(bool x) { m_bX = x; };
-	void setY(bool y) { m_bY = y; };
-	void setZ(bool z) { m_bZ = z; };
-	const char * type() { return "CommandSnap"; };
+    void setFactor(float factor) { m_fFactor = factor; }
+    void preview(const CommandContext &, View2D *, QPainter&) {}
+    void setX(bool x) { m_bX = x; }
+    void setY(bool y) { m_bY = y; }
+    void setZ(bool z) { m_bZ = z; }
+    const char * type() { return "CommandSnap"; }
  private:
 	vector<Vertex3D> m_vVertex;
 	vector<int> m_vIndex;

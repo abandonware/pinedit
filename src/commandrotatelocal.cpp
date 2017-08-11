@@ -82,9 +82,9 @@ void CommandRotateLocal::execute(const CommandContext & context) {
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
-void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d) {
+void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d, QPainter &painter) {
 	if (context.shape == NULL) return;
-	EM_CERR("CommandRotateLocal::preview");
+    EM_CERR("CommandRotateLocal::preview");
 	// build matrix stack for temporary translation
 	// mtxA is moves and rotates , mtxB fixes the translation to local rotation
 	// mtxC is the final matrix
@@ -110,11 +110,11 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 	EMath::matrixMulti(mtxB, mtxA, mtxC);
 	
 	// draw selected polygons
-	view2d->getPainter()->setPen(Qt::green);
+    painter.setPen(Qt::green);
 	int index = 0;
 	Polygon3D * poly = p_Doc->getSelectedPolygon(index);
 	while (poly != NULL) {
-		view2d->drawPolygon(context.shape, poly, mtxC);
+        view2d->drawPolygon(painter, context.shape, poly, mtxC);
 		index++;
 		poly = p_Doc->getSelectedPolygon(index);
 	}
@@ -123,11 +123,11 @@ void CommandRotateLocal::preview(const CommandContext & context, View2D * view2d
 	Vertex3D * vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	while (vtx != NULL) {
 		// the matrix will rotate and reapply the translation
-		view2d->drawVertex(context.shape, *vtx, mtxC);
+        view2d->drawVertex(painter, context.shape, *vtx, mtxC);
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
 	}
-	//EM_CERR("drawed " << index << " temporary polygons");
+    //EM_CERR("drawed " << index << " temporary polygons");
 }
 
 void CommandRotateLocal::undo() {

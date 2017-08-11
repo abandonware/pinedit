@@ -35,8 +35,8 @@ class CommandRotateLocal : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
-	virtual const char * type() { return "CommandRotateLocal"; };
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
+    virtual const char * type() { return "CommandRotateLocal"; }
  private:
 	vector<Vertex3D> m_vVertex;
 	vector<int> m_vIndex;

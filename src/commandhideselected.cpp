@@ -49,7 +49,7 @@ void CommandHideSelected::execute(const CommandContext & context) {
 	// but selection is made correct !!!
 }
 
-void CommandHideSelected::preview(const CommandContext &, View2D *) {
+void CommandHideSelected::preview(const CommandContext &, View2D *, QPainter &) {
   EM_CERR("CommandHideSelected::preview");
 }
 

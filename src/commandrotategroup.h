@@ -31,8 +31,8 @@ class CommandRotateGroup : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
-	virtual const char * type() { return "CommandRotateGroup"; };
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
+    virtual const char * type() { return "CommandRotateGroup"; }
  private:
 	Vertex3D m_vtxRot;
 };

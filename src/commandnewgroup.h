@@ -31,8 +31,8 @@ class CommandNewGroup : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	const char * type() { return "CommandNewGroup"; };
-	void preview (const CommandContext &, View2D *) {};
+    const char * type() { return "CommandNewGroup"; }
+    void preview (const CommandContext &, View2D *, QPainter&) {}
  private:
 	Group * p_Group;
 };

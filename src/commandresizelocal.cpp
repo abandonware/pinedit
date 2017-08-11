@@ -65,14 +65,14 @@ void CommandResizeLocal::execute(const CommandContext & context) {
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
-void CommandResizeLocal::preview(const CommandContext & context, View2D * view2d) {
+void CommandResizeLocal::preview(const CommandContext & context, View2D * view2d, QPainter &painter) {
 	assert(view2d != NULL);
-	EM_CERR("CommandResizeLocal::preview");
+    EM_CERR("CommandResizeLocal::preview");
 	if (context.shape == NULL) return;
 	float dx = context.x2 - context.x1;
 	float dy = context.y2 - context.y1;
 	float dz = context.z2 - context.z1;
-	view2d->getPainter()->setPen(Qt::green);
+    painter.setPen(Qt::green);
 	Vertex3D origo;
 	p_Doc->getSelectedCenter(origo);
 	int index = 0;
@@ -87,19 +87,19 @@ void CommandResizeLocal::preview(const CommandContext & context, View2D * view2d
 		vtxA.z = vz * (float)(PE_RESIZE_FACTOR + dz)/PE_RESIZE_FACTOR + origo.z;
 		//EM_CERR(vtx->x <<" "<< vtx->y <<" "<< vtx->z);
 		switch (context.type) {
-		case XY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, 
+        case XY: painter.drawRect(view2d->screenx(vtxA.x)-1,
 							view2d->screeny(-vtxA.y)-1, 
 							3, 3); break;
-		case XZ: view2d->getPainter()->drawRect(view2d->screenx(vtxA.x)-1, 
+        case XZ: painter.drawRect(view2d->screenx(vtxA.x)-1,
 							view2d->screeny(vtxA.z)-1, 
 							3, 3); break;
-		case ZY: view2d->getPainter()->drawRect(view2d->screenx(vtxA.z)-1, 
+        case ZY: painter.drawRect(view2d->screenx(vtxA.z)-1,
 							view2d->screeny(-vtxA.y)-1, 
 							3, 3); break;
 		}
 		index++;
 		vtx = context.shape->getVertex3D(p_Doc->getSelectedVertex(index));
-	}
+    }
 }
 
 void CommandResizeLocal::undo() {

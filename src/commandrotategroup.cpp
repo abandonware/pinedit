@@ -58,9 +58,9 @@ void CommandRotateGroup::execute(const CommandContext & context) {
 		" to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
-void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d) {
+void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d, QPainter &painter) {
 	EM_CERR("CommandRotateGroup::preview");
-	if (context.group == NULL) return;
+    if (context.group == NULL) return;
 
 	Matrix mtxA = EMath::identityMatrix;
 	Matrix mtxB = EMath::identityMatrix;
@@ -88,20 +88,20 @@ void CommandRotateGroup::preview(const CommandContext & context, View2D * view2d
 	}
 	g = context.group;
 	// draw all polygons
-	view2d->getPainter()->setPen(Qt::green);
+    painter.setPen(Qt::green);
 	int shindex = 0;
 	Shape3D * shape = g->getShape3D(shindex);
 	while (shape != NULL) {
 		int polyindex = 0;
 		Polygon3D * poly = shape->getPolygon(polyindex);
 		while (poly != NULL) {
-			view2d->drawPolygon(shape, poly, mtxB);
+            view2d->drawPolygon(painter, shape, poly, mtxB);
 			polyindex++;
 			poly = shape->getPolygon(polyindex);
 		}
 		shindex++;
 		shape = g->getShape3D(shindex);
-	}
+    }
 	EM_CERR("CommandRotateGroup::preview");
 }
 

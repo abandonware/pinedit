@@ -37,10 +37,10 @@ class CommandMirrorLocal : public Command  {
   void undo();
   void clearObjects();
   void execute(const CommandContext & context);
-  void preview (const CommandContext &, View2D *) {};
+  void preview (const CommandContext &, View2D *, QPainter&) {}
   /** 0 = x, 1 = y, 2 = z; */
-  void setXYZ(int xyz) { m_iXYZ = xyz; };
-  const char * type() { return "CommandMirrorLocal"; };
+  void setXYZ(int xyz) { m_iXYZ = xyz; }
+  const char * type() { return "CommandMirrorLocal"; }
  private:
   int m_iXYZ;
   Vertex3D m_vtxCenter;

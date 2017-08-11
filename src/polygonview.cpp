@@ -258,7 +258,7 @@ void PolygonView::setPolygon(Shape3D * shape, Polygon3D * poly) {
       QString().setNum(texcoord->u, 'g', 2) + " " +
       QString().setNum(texcoord->v, 'g', 2);
     ListItem * vtxitem = new ListItem(p_VertexListView, str);
-    vtxitem->setObject(INT2OBJ(vtxindex), LISTITEM_VERTEX);
+    vtxitem->setObject(INT2OBJ((intptr_t)vtxindex), LISTITEM_VERTEX);
 	
     index++;
     vtxindex = poly->getIndex(index);

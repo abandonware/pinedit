@@ -56,7 +56,6 @@ View2D::View2D(int type, PinEditDoc * doc, QWidget * parent, const char * name, 
   m_iType = type;
   m_iX1 = m_iY1 = m_iX2 = m_iY2 = 0;
   p_Context = new CommandContext();
-  p_QPainter = new QPainter(this);
   this->setBackgroundMode(Qt::PaletteBase);
 }
 
@@ -142,7 +141,7 @@ void View2D::mouseMoveEvent(QMouseEvent* e) {
   //																								 QString().setNum(this->localy(m_iY2)));
 }
 
-void View2D::drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx) {
+void View2D::drawPolygon(QPainter &painter, Shape3D * shape, Polygon3D * poly, const Matrix & mtx) {
   //EM_CERR("View2D::drawPolygon");
   assert(shape != NULL);
   assert(poly != NULL);
@@ -165,13 +164,13 @@ void View2D::drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx) 
       EMath::applyMatrix(mtx, vtx1, vtxTrans1);
       EMath::applyMatrix(mtx, vtx2, vtxTrans2);
       switch (m_iType) {
-      case XY: p_QPainter->drawLine(this->screenx(vtxTrans1.x), this->screeny(-vtxTrans1.y), 
+      case XY: painter.drawLine(this->screenx(vtxTrans1.x), this->screeny(-vtxTrans1.y),
 				    this->screenx(vtxTrans2.x), this->screeny(-vtxTrans2.y)); 
 	break;
-      case XZ: p_QPainter->drawLine(this->screenx(vtxTrans1.x), this->screeny(vtxTrans1.z), 
+      case XZ: painter.drawLine(this->screenx(vtxTrans1.x), this->screeny(vtxTrans1.z),
 				    this->screenx(vtxTrans2.x), this->screeny(vtxTrans2.z)); 
 	break;
-      case ZY: p_QPainter->drawLine(this->screenx(vtxTrans1.z), this->screeny(-vtxTrans1.y), 
+      case ZY: painter.drawLine(this->screenx(vtxTrans1.z), this->screeny(-vtxTrans1.y),
 				    this->screenx(vtxTrans2.z), this->screeny(-vtxTrans2.y));
 	break;
       }
@@ -183,32 +182,32 @@ void View2D::drawPolygon(Shape3D * shape, Polygon3D * poly, const Matrix & mtx) 
     EMath::applyMatrix(mtx, vtx1, vtxTrans1);
     EMath::applyMatrix(mtx, vtx2, vtxTrans2);
     switch (m_iType) {
-    case XY: p_QPainter->drawLine(this->screenx(vtxTrans2.x), this->screeny(-vtxTrans2.y), 
+    case XY: painter.drawLine(this->screenx(vtxTrans2.x), this->screeny(-vtxTrans2.y),
 				  this->screenx(vtxTrans1.x), this->screeny(-vtxTrans1.y)); 
       break;
-    case XZ: p_QPainter->drawLine(this->screenx(vtxTrans2.x), this->screeny(vtxTrans2.z), 
+    case XZ: painter.drawLine(this->screenx(vtxTrans2.x), this->screeny(vtxTrans2.z),
 				  this->screenx(vtxTrans1.x), this->screeny(vtxTrans1.z)); 
       break;
-    case ZY: p_QPainter->drawLine(this->screenx(vtxTrans2.z), this->screeny(-vtxTrans2.y), 
+    case ZY: painter.drawLine(this->screenx(vtxTrans2.z), this->screeny(-vtxTrans2.y),
 				  this->screenx(vtxTrans1.z), this->screeny(-vtxTrans1.y)); 
       break;
     }
   }
 }
 
-void View2D::drawVertex(Shape3D * shape, const Vertex3D & vtx, const Matrix & mtx) {
+void View2D::drawVertex(QPainter &painter, Shape3D * shape, const Vertex3D & vtx, const Matrix & mtx) {
   //EM_CERR("View2D::drawPolygon");
   assert(shape != NULL);
   Vertex3D vtxA;
   EMath::applyMatrix(mtx, vtx, vtxA);
   switch (m_iType) {
-  case XY: p_QPainter->drawRect(this->screenx(vtxA.x)-1, this->screeny(-vtxA.y)-1, 3, 3); break;
-  case XZ: p_QPainter->drawRect(this->screenx(vtxA.x)-1, this->screeny(vtxA.z)-1,	3, 3); break;
-  case ZY: p_QPainter->drawRect(this->screenx(vtxA.z)-1, this->screeny(-vtxA.y)-1, 3, 3); break;
+  case XY: painter.drawRect(this->screenx(vtxA.x)-1, this->screeny(-vtxA.y)-1, 3, 3); break;
+  case XZ: painter.drawRect(this->screenx(vtxA.x)-1, this->screeny(vtxA.z)-1,	3, 3); break;
+  case ZY: painter.drawRect(this->screenx(vtxA.z)-1, this->screeny(-vtxA.y)-1, 3, 3); break;
   }
 }
 
-void View2D::drawShapeMode() {
+void View2D::drawShapeMode(QPainter &painter) {
   EM_CERR("View2D::drawShapeMode");
   // draw other shapes in group with lightgray
   if (p_Doc->getCurrentGroup() == NULL) return;
@@ -216,15 +215,15 @@ void View2D::drawShapeMode() {
   int sh = 0;
   Shape3D * shape = p_Doc->getCurrentGroup()->getShape3D(sh);
   while (shape != NULL) {
-    p_QPainter->setPen(Qt::lightGray);
+    painter.setPen(Qt::lightGray);
     int index = 0;
     Vertex3D * vtx = shape->getVertex3D(index);
     while (vtx != NULL) {
       //EM_CERR(vtx->x <<" "<< vtx->y <<" "<< vtx->z);
       switch (m_iType) {
-      case XY: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
-      case XZ: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
-      case ZY: p_QPainter->drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XY: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XZ: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
+      case ZY: painter.drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
       }
       index++;
       vtx = shape->getVertex3D(index);
@@ -232,7 +231,7 @@ void View2D::drawShapeMode() {
     index = 0;
     Polygon3D * poly = shape->getPolygon(index);
     while (poly != NULL) {
-      this->drawPolygon(shape, poly, EMath::identityMatrix);
+      this->drawPolygon(painter, shape, poly, EMath::identityMatrix);
       index++;
       poly = shape->getPolygon(index);
     }
@@ -245,15 +244,15 @@ void View2D::drawShapeMode() {
     return;
   }
   {	// normal vertices
-    p_QPainter->setPen(Qt::black);
+    painter.setPen(Qt::black);
     int index = 0;
     Vertex3D * vtx = shape->getVertex3D(index);
     while (vtx != NULL) {
       //EM_CERR(vtx->x <<" "<< vtx->y <<" "<< vtx->z);
       switch (m_iType) {
-      case XY: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
-      case XZ: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
-      case ZY: p_QPainter->drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XY: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XZ: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
+      case ZY: painter.drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
       }
       index++;
       vtx = shape->getVertex3D(index);
@@ -261,15 +260,15 @@ void View2D::drawShapeMode() {
   }	
 
   { // selected vertices
-    p_QPainter->setPen(Qt::red);
+    painter.setPen(Qt::red);
     int index = 0;
     Vertex3D * vtx = shape->getVertex3D(p_Doc->getSelectedVertex(index));
     while (vtx != NULL) {
       //EM_CERR(vtx->x <<" "<< vtx->y <<" "<< vtx->z);
       switch (m_iType) {
-      case XY: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
-      case XZ: p_QPainter->drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
-      case ZY: p_QPainter->drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XY: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(-vtx->y)-1, 3, 3); break;
+      case XZ: painter.drawRect(this->screenx(vtx->x)-1, this->screeny(vtx->z)-1, 3, 3); break;
+      case ZY: painter.drawRect(this->screenx(vtx->z)-1, this->screeny(-vtx->y)-1, 3, 3); break;
       }
       index++;
       vtx = shape->getVertex3D(p_Doc->getSelectedVertex(index));
@@ -277,30 +276,30 @@ void View2D::drawShapeMode() {
     vtx = shape->getVertex3D(p_Doc->getSelectedVertexExtra());
     if (vtx != NULL) {
       switch (m_iType) {
-      case XY: p_QPainter->drawRect(this->screenx(vtx->x)-2, this->screeny(-vtx->y)-1, 5, 5); break;
-      case XZ: p_QPainter->drawRect(this->screenx(vtx->x)-2, this->screeny(vtx->z)-1, 5, 5); break;
-      case ZY: p_QPainter->drawRect(this->screenx(vtx->z)-2, this->screeny(-vtx->y)-1, 5, 5); break;
+      case XY: painter.drawRect(this->screenx(vtx->x)-2, this->screeny(-vtx->y)-1, 5, 5); break;
+      case XZ: painter.drawRect(this->screenx(vtx->x)-2, this->screeny(vtx->z)-1, 5, 5); break;
+      case ZY: painter.drawRect(this->screenx(vtx->z)-2, this->screeny(-vtx->y)-1, 5, 5); break;
       }
     }
   }
 
   { // normal polygons
-    p_QPainter->setPen(Qt::black);
+    painter.setPen(Qt::black);
     int index = 0;
     Polygon3D * poly = shape->getPolygon(index);
     while (poly != NULL) {
-      this->drawPolygon(shape, poly, EMath::identityMatrix);
+      this->drawPolygon(painter, shape, poly, EMath::identityMatrix);
       index++;
       poly = shape->getPolygon(index);
     }
   }
 
   { // selected polygons
-    p_QPainter->setPen(Qt::red);
+    painter.setPen(Qt::red);
     int index = 0;
     Polygon3D * poly = p_Doc->getSelectedPolygon(index);
     while (poly != NULL) {
-      this->drawPolygon(shape, poly, EMath::identityMatrix);
+      this->drawPolygon(painter, shape, poly, EMath::identityMatrix);
       index++;
       poly = p_Doc->getSelectedPolygon(index);
     }
@@ -336,43 +335,43 @@ void View2D::drawShapeMode() {
     context.shape = p_Doc->getCurrentShape();
     context.group = p_Doc->getCurrentGroup();
     context.type = m_iType;
-    command->preview(context, this);
+    command->preview(context, this, painter);
   }
 }
 
-void View2D::drawGroupMode() {
+void View2D::drawGroupMode(QPainter &painter) {
   EM_CERR("View2D::drawGroupMode");
   Matrix mtx = EMath::identityMatrix;
   // draw all groups
-  this->drawGroup(p_Doc->getEngine(), mtx);
+  this->drawGroup(painter, p_Doc->getEngine(), mtx);
 }
 
 /* input: group to draw, matrix stack before applying this group */
-void View2D::drawGroup(Group * g, const Matrix & mtxP) {
+void View2D::drawGroup(QPainter &painter, Group * g, const Matrix & mtxP) {
   //EM_CERR("View3D::drawGroup");
   Matrix mtxT;
   EMath::matrixMulti(g->m_mtxSrc, mtxP, mtxT);
   // draw a cross to notate the centre of the group
   if (g == p_Doc->getCurrentGroup()) {
-    p_QPainter->setPen(Qt::red);
+    painter.setPen(Qt::red);
   } else {
-    p_QPainter->setPen(Qt::black);
+    painter.setPen(Qt::black);
   }
   switch (m_iType) {
   case XY: 
-    p_QPainter->drawLine(this->screenx(mtxT.t[0])-2, this->screeny(-mtxT.t[1]), 
+    painter.drawLine(this->screenx(mtxT.t[0])-2, this->screeny(-mtxT.t[1]),
 			 this->screenx(mtxT.t[0])+2, this->screeny(-mtxT.t[1]));
-    p_QPainter->drawLine(this->screenx(mtxT.t[0]), this->screeny(-mtxT.t[1])-2, 
+    painter.drawLine(this->screenx(mtxT.t[0]), this->screeny(-mtxT.t[1])-2,
 			 this->screenx(mtxT.t[0]), this->screeny(-mtxT.t[1])+2); break;
   case XZ: 
-    p_QPainter->drawLine(this->screenx(mtxT.t[0])-2, this->screeny(mtxT.t[2]),
+    painter.drawLine(this->screenx(mtxT.t[0])-2, this->screeny(mtxT.t[2]),
 			 this->screenx(mtxT.t[0])+2, this->screeny(mtxT.t[2]));
-    p_QPainter->drawLine(this->screenx(mtxT.t[0]), this->screeny(mtxT.t[2])-2,
+    painter.drawLine(this->screenx(mtxT.t[0]), this->screeny(mtxT.t[2])-2,
 			 this->screenx(mtxT.t[0]), this->screeny(mtxT.t[2])+2); break;
   case ZY: 
-    p_QPainter->drawLine(this->screenx(mtxT.t[2])-2, this->screeny(-mtxT.t[1]),
+    painter.drawLine(this->screenx(mtxT.t[2])-2, this->screeny(-mtxT.t[1]),
 			 this->screenx(mtxT.t[2])+2, this->screeny(-mtxT.t[1]));
-    p_QPainter->drawLine(this->screenx(mtxT.t[2]), this->screeny(-mtxT.t[1])-2,
+    painter.drawLine(this->screenx(mtxT.t[2]), this->screeny(-mtxT.t[1])-2,
 			 this->screenx(mtxT.t[2]), this->screeny(-mtxT.t[1])+2); break;
   }
 
@@ -383,7 +382,7 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
     int polyindex = 0;
     Polygon3D * poly = shape->getPolygon(polyindex);
     while (poly != NULL) {
-      this->drawPolygon(shape, poly, mtxT);
+      this->drawPolygon(painter, shape, poly, mtxT);
       polyindex++;
       poly = shape->getPolygon(polyindex);
     }
@@ -421,23 +420,23 @@ void View2D::drawGroup(Group * g, const Matrix & mtxP) {
     context.shape = p_Doc->getCurrentShape();
     context.group = p_Doc->getCurrentGroup();
     context.type = m_iType;
-    command->preview(context, this);
+    command->preview(context, this, painter);
   }
   // TODO recurse the temporary movement to child groups
   int index = 0;
   Group * group = g->getGroup(index);
   while (group != NULL) {
-    this->drawGroup(group, mtxT);
+    this->drawGroup(painter, group, mtxT);
     index++;
     group = g->getGroup(index);
   }
 }
 
-void View2D::drawGrid() {
+void View2D::drawGrid(QPainter& painter) {
   //EM_CERR("View2D::drawGrid");
   QString str = QString().setNum(this->localx(m_iX2)) + " " + 
     QString().setNum(this->localy(m_iY2));
-  p_QPainter->setPen(Qt::lightGray);
+  painter.setPen(Qt::lightGray);
   float step = m_fZoom;
   int w = this->size().width();
   int h = this->size().height();
@@ -446,22 +445,22 @@ void View2D::drawGrid() {
   float xoffset = (m_iXOffset - w_2)%(int)m_fZoom;
   float yoffset = (m_iYOffset - h_2)%(int)m_fZoom;
   for (float x=w_2; x<w; x += step) {
-    p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
+    painter.drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
    }
   for (float x=w_2-step; x>0; x-=step) {
-     p_QPainter->drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
+     painter.drawLine((int)(x+xoffset), 0, (int)(x+xoffset), h);
   }
   for (float y=h_2; y<h; y+=step) {
-     p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
+     painter.drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
   }
   for (float y=h_2-step; y>0; y-=step) {
-    p_QPainter->drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
+    painter.drawLine(0, (int)(y+yoffset), w, (int)(y+yoffset));
   }
   
-  p_QPainter->setPen(Qt::darkGray);
-  p_QPainter->drawLine(this->screenx(-100), this->screeny(0), 
+  painter.setPen(Qt::darkGray);
+  painter.drawLine(this->screenx(-100), this->screeny(0),
 		       this->screenx(100), this->screeny(0));
-  p_QPainter->drawLine(this->screenx(0), this->screeny(-100), 
+  painter.drawLine(this->screenx(0), this->screeny(-100),
  		       this->screenx(0), this->screeny(100));
   // drawing text triggers strange no-more resize qt bug!
   //p_QPainter->setPen(Qt::black);
@@ -471,13 +470,15 @@ void View2D::drawGrid() {
 // this is the function who draws stuff to the screen
 void View2D::paintEvent(QPaintEvent *) {
   //EM_CERR("view2d::paintevent");
+
+    QPainter painter(this);
   if (m_bGrid) {
-    this->drawGrid();
+    this->drawGrid(painter);
   }
   if (m_iMode == EM_SHAPE_MODE) {
-    this->drawShapeMode();
+    this->drawShapeMode(painter);
   } else if (m_iMode == EM_GROUP_MODE) {
-    this->drawGroupMode();
+    this->drawGroupMode(painter);
   }
 }
 

@@ -54,7 +54,6 @@ TextureImageWidget::TextureImageWidget(PinEditDoc * doc, QWidget * parent,
   p_Image = NULL;
   p_Doc = doc;
   this->setFixedSize(256, 256);
-  p_Painter = new QPainter(this);
   this->setBackgroundMode(Qt::PaletteBase);
 }
 
@@ -115,14 +114,14 @@ void TextureImageWidget::setInit(QImage * image, TextureView * view) {
   }
 }
 
-void TextureImageWidget::drawPolygon(Polygon3D * poly) {
+void TextureImageWidget::drawPolygon(QPainter& painter, Polygon3D * poly) {
   assert(poly != NULL);
   // draw lines between texcoords
   int texindex = 1;
   TexCoord * texcoordbak = poly->getTexCoord(0);
   TexCoord * texcoord = poly->getTexCoord(texindex);
   while (texcoord != NULL) {
-    p_Painter->drawLine((int)(texcoordbak->u*255.0f), (int)(texcoordbak->v*255.0f),
+    painter.drawLine((int)(texcoordbak->u*255.0f), (int)(texcoordbak->v*255.0f),
 			(int)(texcoord->u*255.0f), (int)(texcoord->v*255.0f));
     texcoordbak = texcoord;
     ++texindex;
@@ -132,7 +131,7 @@ void TextureImageWidget::drawPolygon(Polygon3D * poly) {
   texcoord = poly->getTexCoord(0);
   assert(texcoordbak != NULL);
   assert(texcoord != NULL);
-  p_Painter->drawLine((int)(texcoordbak->u*255.0f), (int)(texcoordbak->v*255.0f), 
+  painter.drawLine((int)(texcoordbak->u*255.0f), (int)(texcoordbak->v*255.0f),
 		      (int)(texcoord->u*255.0f), (int)(texcoord->v*255.0f));
 }
 
@@ -142,27 +141,28 @@ void TextureImageWidget::paintEvent(QPaintEvent *) {
   if (shape == NULL) return;
   if (p_Image == NULL) return;
   if (p_texCurrent == NULL) return;
-  p_Painter->drawImage(0, 0, *p_Image);
+  QPainter painter(this);
+  painter.drawImage(0, 0, *p_Image);
   // draw all polygons in green
-  p_Painter->setPen(Qt::green);
+  painter.setPen(Qt::green);
   int polyindex = 0;
   Polygon3D * poly = shape->getPolygon(polyindex);
   while (poly != NULL) {
-    this->drawPolygon(poly);
+    this->drawPolygon(painter, poly);
     ++polyindex;
     poly = shape->getPolygon(polyindex);
   }
   // draw selected polygons in red
-  p_Painter->setPen(Qt::red);
+  painter.setPen(Qt::red);
   polyindex = 0;
   poly = p_Doc->getSelectedPolygon(polyindex);
   while (poly != NULL) {
-    this->drawPolygon(poly);
+    this->drawPolygon(painter, poly);
     ++polyindex;
     poly = p_Doc->getSelectedPolygon(polyindex);
   }
   // draw extra rectangle around current texcoord
-  p_Painter->drawRect((int)(p_texCurrent->u*255.0f)-2, (int)(p_texCurrent->v*255.0f)-2, 5, 5);
+  painter.drawRect((int)(p_texCurrent->u*255.0f)-2, (int)(p_texCurrent->v*255.0f)-2, 5, 5);
   EM_CERR("TextureView::paintEvent");
 }
 

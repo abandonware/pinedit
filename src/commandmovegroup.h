@@ -29,8 +29,8 @@ class CommandMoveGroup : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
-	const char * type() { return "CommandMoveGroup"; };
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
+    const char * type() { return "CommandMoveGroup"; }
  private:
 	Vertex3D m_vtxTrans;
 };

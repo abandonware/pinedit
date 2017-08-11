@@ -31,8 +31,8 @@ class CommandNewPolygon : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandNewPolygon"; };
+    void preview (const CommandContext &, View2D *, QPainter&) {}
+    const char * type() { return "CommandNewPolygon"; }
  private:
 	Polygon3D * p_Polygon;
 };

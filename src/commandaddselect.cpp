@@ -71,11 +71,10 @@ void CommandAddSelect::execute(const CommandContext & context) {
     " to " << context.x2 <<"  "<< context.y2 <<" "<< context.z2);
 }
 
-void CommandAddSelect::preview(const CommandContext & context, View2D * view2d) {
+void CommandAddSelect::preview(const CommandContext & context, View2D * /*view2d*/, QPainter &painter) {
   EM_CERR("CommandAddSelect::preview");
-  view2d->getPainter()->setPen(Qt::blue);
-  view2d->getPainter()->drawRect(context.sx1, context.sy1, 
-				 context.sx2 - context.sx1, context.sy2 - context.sy1);
+  painter.setPen(Qt::blue);
+  painter.drawRect(context.sx1, context.sy1, context.sx2 - context.sx1, context.sy2 - context.sy1);
 }
 
 void CommandAddSelect::undo() {

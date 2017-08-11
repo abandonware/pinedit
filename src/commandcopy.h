@@ -35,8 +35,8 @@ class CommandCopy : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	virtual const char * type() { return "CommandCopy"; };
+    void preview (const CommandContext &, View2D *, QPainter&) {}
+    virtual const char * type() { return "CommandCopy"; }
 };
 
 #endif

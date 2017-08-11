@@ -27,10 +27,10 @@ class CommandTexCoord : public Command  {
 	~CommandTexCoord();
 	Command * build();
 	void undo();
-	void clearObjects() {};
+    void clearObjects() {}
 	void execute(const CommandContext & context);
-	void preview (const CommandContext &, View2D *) {};
-	const char * type() { return "CommandTexCoord"; };
+    void preview (const CommandContext &, View2D *, QPainter&) {}
+    const char * type() { return "CommandTexCoord"; }
 };
 
 #endif

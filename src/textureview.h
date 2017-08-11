@@ -53,14 +53,13 @@ class TextureImageWidget : public QWidget {
 	void setCurrent(int i);
 	void setInit(QImage * image, TextureView * view);
  private:
-	void drawPolygon(Polygon3D * poly);
+    void drawPolygon(QPainter &painter, Polygon3D * poly);
 
 	TextureView * p_TextureView;
 	TexCoord * p_texCurrent;
 	int m_iCurrent;
 	PinEditDoc * p_Doc;
 	QImage * p_Image;
-	QPainter * p_Painter;
 };
 
 class TextureView: public QWidget, public Updateable, public Rebuildable  {

@@ -33,10 +33,10 @@ class CommandRotate : public Command  {
 	~CommandRotate();
 	Command * build();
 	void undo();
-	void clearObjects() {};
+    void clearObjects() {}
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
-	virtual const char * type() { return "CommandRotate"; };
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
+    virtual const char * type() { return "CommandRotate"; }
  private:
 	vector<Vertex3D> m_vVertex;
 	vector<int> m_vIndex;

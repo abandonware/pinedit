@@ -69,7 +69,8 @@ void PinEditDoc::newDoc() {
   this->setCurrentGroup(NULL);
   // TODO this will leak memory
   // Create the engine.
-  char * my_argv[] = {"exename", "-externgl", "-nosound", "-size", "300", "240"};
+  char arguments[][10] = {"exename", "-externgl", "-nosound", "-size", "300", "240"};
+  char * my_argv[] = {arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]};
   int my_argc = 6;
   p_Engine = new Engine(my_argc, my_argv);
   p_Engine->setLightning(0.5f, 0.5f);

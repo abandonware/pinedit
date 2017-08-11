@@ -35,8 +35,8 @@ class CommandFlipSmart : public Command  {
   void undo();
   void clearObjects();
   void execute(const CommandContext & context);
-  void preview (const CommandContext &, View2D *) {};
-  const char * type() { return "CommandFlipSmart"; };
+  void preview (const CommandContext &, View2D *, QPainter&) {}
+  const char * type() { return "CommandFlipSmart"; }
  private:
   vector<Polygon3D*> m_vPolygon;
 };

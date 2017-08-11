@@ -31,6 +31,7 @@ class View2D;
 class PinEditDoc;
 class Group;
 class Shape3D;
+class QPainter;
 
 /** @author Henrik Enqvist */
 class CommandContext {
@@ -84,7 +85,7 @@ class Command {
 	virtual void execute(const CommandContext & context) = 0;
 	/** Some commands wishes to  generate a preview of the action onto a View2D. E.g.
 	 * movement of objects. */
-	virtual void preview(const CommandContext & context, View2D * view2d) = 0;
+    virtual void preview(const CommandContext & context, View2D * view2d, QPainter& painter) = 0;
 	/** Returns the name of the command subclass. Subclasses should implement
 	 * this function by returning a name that exaclty matches the name of 
 	 * the class. */

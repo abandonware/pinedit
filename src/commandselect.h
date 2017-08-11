@@ -29,8 +29,8 @@ class CommandSelect : public Command  {
 	void undo();
 	void clearObjects();
 	void execute(const CommandContext & context);
-	void preview(const CommandContext & context, View2D * view2d);
-	const char * type() { return "CommandSelect"; };
+    void preview(const CommandContext & context, View2D * view2d, QPainter& painter);
+    const char * type() { return "CommandSelect"; }
 };
 
 #endif
