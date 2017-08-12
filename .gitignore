@@ -7,8 +7,15 @@ libtool
 *#
 configure
 Makefile
+Makefile.in
+aclocal.m4
 autom4te.cache/
 config.status
+config.guess
+config.sub
+depcomp
+install-sh
+missing
 data/Makefile
 data/audio/Makefile
 data/objects/Makefile
@@ -18,6 +25,7 @@ debian/patches/
 doc/Makefile
 downstream/freebsd/pinedit/#pkg-plist#
 editconfig.h
+editconfig.h.in
 
 libltdl/
 
@@ -79,3 +87,4 @@ debian/pinedit/
 src/pinedit
 pinedit
 portinglog.txt
+*.pro.user
