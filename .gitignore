@@ -17,15 +17,25 @@ depcomp
 install-sh
 missing
 data/Makefile
+data/Makefile.in
 data/audio/Makefile
+data/audio/Makefile.in
 data/objects/Makefile
+data/objects/Makefile.in
 data/template/Makefile
+data/template/Makefile.in
 data/template/pinball-template
 debian/patches/
 doc/Makefile
+doc/Makefile.in
+src/Makefile.in
 downstream/freebsd/pinedit/#pkg-plist#
 editconfig.h
 editconfig.h.in
+INSTALL
+compile
+ltmain.sh
+mkinstalldirs
 
 libltdl/
 
