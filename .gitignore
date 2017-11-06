@@ -36,6 +36,9 @@ INSTALL
 compile
 ltmain.sh
 mkinstalldirs
+autoreconf.after
+autoreconf.before
+debhelper-build-stamp
 
 libltdl/
 

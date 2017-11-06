@@ -6,8 +6,8 @@ set -e
 make -k distclean clean || echo "ignore: "
 rm -rf libltdl configure ltmain.sh
 
-#libtoolize --ltdl --force --copy
-libtoolize --ltdl --force
+libtoolize --ltdl --force --copy
+#libtoolize --ltdl --force
 
 autoheader
 automake --add-missing

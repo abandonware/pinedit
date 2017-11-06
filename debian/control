@@ -3,15 +3,8 @@ Section: games
 Priority: extra
 Maintainer: Philippe Coval <rzr@gna.org>
 Build-Depends: debhelper (>= 7.0.50~), autotools-dev,
- libtool, libltdl-dev,
- libqt3-mt-dev, libqt3-compat-headers,
- pinball-dev,
- autoconf, automake, libtool, sp, sgmlspl, docbook, docbook-utils,
- libltdl-dev (>= 2.2.6b),
- libgl1-mesa-dev | xlibmesa-gl-dev | mesag-dev | libgl-dev, freeglut3-dev,
- libsdl1.2-dev,  libsdl-image1.2-dev, libpng-dev, libtiff4-dev, libaa1-dev,
- libsdl-mixer1.2-dev, libogg-dev, libvorbis-dev, 
- libasound2-dev [!kfreebsd-i386 !kfreebsd-amd64 !hurd-i386]
+ libtool, libltdl-dev, pinball-dev, libgl-dev, libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev,
+ libqt4-dev, libqt4-opengl-dev
 Standards-Version: 3.9.1
 Homepage: http://pinball.sf.net
 #Vcs-Git: git://git.debian.org/collab-maint/pinedit.git
