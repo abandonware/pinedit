@@ -3,7 +3,9 @@ Section: games
 Priority: extra
 Maintainer: Philippe Coval <rzr@gna.org>
 Build-Depends: debhelper (>= 7.0.50~), autotools-dev,
- libtool, libltdl-dev, pinball-dev, libgl-dev, libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev,
+ libtool, libltdl-dev,
+ pinball-dev,
+ libgl-dev, libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev,
  libqt4-dev, libqt4-opengl-dev
 Standards-Version: 3.9.1
 Homepage: http://pinball.sf.net
