@@ -8,7 +8,7 @@ exec_prefix=@exec_prefix@
 usage()
 {
   cat <<EOF
-Usage: pinball-templte [new_dir_name] [module_name]
+Usage: pinball-template [new_dir_name] [module_name]
 EOF
   exit $1
 }

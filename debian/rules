@@ -11,14 +11,3 @@ export DH_VERBOSE=1
 
 %:
 	dh $@ 
-
-override_dh_auto_configure:
-	rm -rf libltdl configure ltmain.sh
-	libtoolize --ltdl --force --copy
-	dh_autoreconf
-	PINBALL_CONFIG="/usr/bin/pinball-config" \
-	dh_auto_configure -- \
- --bindir=/usr/games --datadir=/usr/share/games \
- --with-cflags="$(CFLAGS)" \
- --with-cxxflags="$(CXXFLAGS)" \
- #
