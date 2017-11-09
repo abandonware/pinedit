@@ -22,6 +22,7 @@ data/audio/Makefile
 data/audio/Makefile.in
 data/objects/Makefile
 data/objects/Makefile.in
+data/template/Make-template
 data/template/Makefile
 data/template/Makefile.in
 data/template/pinball-template
