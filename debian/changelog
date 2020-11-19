@@ -2,22 +2,22 @@ pinedit (0.0.20110501-0ubuntu0~rzr2) hardy; urgency=low
 
   * WIP: http://rzr.online.fr/q/snapshot#pinedit
 
- -- Philippe Coval <rzr@gna.org>  Sun, 01 May 2011 15:23:30 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Sun, 01 May 2011 15:23:30 +0200
 
 pinedit (0.0.20110501-0ubuntu0~rzr0+oneiric0) oneiric; urgency=low
 
   * WIP: http://rzr.online.fr/q/snapshot#pinedit
 
- -- Philippe Coval <rzr@gna.org>  Sun, 01 May 2011 10:18:48 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Sun, 01 May 2011 10:18:48 +0200
 
 pinedit (0.0.0-0) unstable; urgency=low
 
   * http://rzr.online.fr/q/snapshot
 
- -- Philippe Coval <rzr@gna.org>  Fri, 15 Apr 2011 12:32:46 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Fri, 15 Apr 2011 12:32:46 +0200
 
 pinedit (0.3.1-0) unstable; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 
- -- Philippe Coval <rzr@gna.org>  Fri, 15 Apr 2011 11:57:42 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Fri, 15 Apr 2011 11:57:42 +0200
