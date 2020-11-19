@@ -22,7 +22,7 @@ License: GPL-2+
  Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
 
 Files: debian/*
-Copyright: 2011 Philippe Coval <rzr@gna.org>
+Copyright: 2011 Philippe Coval <rzr@users.sf.net>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
