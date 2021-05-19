@@ -55,7 +55,7 @@ make uninstall
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING INSTALL NEWS README
+%doc AUTHORS COPYING INSTALL NEWS README.md
 #/etc/X11/applnk/Games/EmiliaPinballEditor.desktop
 %{_bindir}/pinedit
 %{_bindir}/pinball-template
