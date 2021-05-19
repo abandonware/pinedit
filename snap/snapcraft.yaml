@@ -1,0 +1,102 @@
+#%YAML 1.2
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright: Philippe Coval <https://purl.org/rzr/> - 2021+
+---
+name: pinedit
+version: git
+summary: Editor, 3D Modeller for Emilia Pinball
+description: |
+ Editor for Emilia Pinball.
+ Emilia Pinball is a free pinball game.
+
+confinement: strict
+grade: devel
+base: core18
+license: GPL-2.0+
+
+plugs:
+  x11:
+
+environment:
+  LIBGL_DRIVERS_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri"
+
+layout:
+  /usr/games:
+    bind: $SNAP/games
+  /etc/fonts:
+    bind: $SNAP/etc/fonts
+  /usr/share:
+    bind: $SNAP/usr/share
+
+apps:
+  pinedit:
+    command: games/pinedit
+
+parts:
+  pinedit:
+    source: https://github.com/abandonware/pinball-pinedit.git
+    plugin: cmake
+    build-packages:
+      - libqt4-dev
+      - libqt4-opengl-dev
+      - libsdl-image1.2-dev
+      - libsdl-mixer1.2-dev
+      - pinball-dev
+      - libltdl-dev
+
+    stage-packages:
+      - libfontconfig1
+      - libfreetype6
+      - libgl1
+      - libglu1-mesa
+      - libglvnd0
+      - libglx0
+      - libice6
+      - libjack-jackd2-0
+      - libjbig0
+      - libjpeg-turbo8
+      - libltdl7
+      - libmad0
+      - libmikmod3
+      - libogg0
+      - libopenal1
+      - libpng16-16
+      - libpulse0
+      - libqt4-network
+      - libqt4-opengl
+      - libqt4-qt3support
+      - libqt4-sql
+      - libqt4-xml
+      - libqtcore4
+      - libqtgui4
+      - libsdl-image1.2
+      - libsdl-mixer1.2
+      - libsdl1.2debian
+      - libsdl2-2.0-0
+      - libslang2
+      - libsm6
+      - libsndfile1
+      - libsndio6.1
+      - libtiff5
+      - libvorbis0a
+      - libvorbisenc2
+      - libvorbisfile3
+      - libwayland-client0
+      - libwayland-cursor0
+      - libwayland-egl1
+      - libwebp6
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxcursor1
+      - libxdmcp6
+      - libxext6
+      - libxfixes3
+      - libxi6
+      - libxinerama1
+      - libxkbcommon0
+      - libxrandr2
+      - libxrender1
+      - libxss1
+      - libxt6
+      - freeglut3
