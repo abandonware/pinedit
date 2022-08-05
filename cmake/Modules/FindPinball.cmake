@@ -8,7 +8,7 @@
 find_package(PkgConfig)
 pkg_check_modules(PC_PINBALL QUIET pinball-dev)
 
-find_file(PINBALL_CONFIG pinball-config PATHS /usr/games)
+find_file(PINBALL_CONFIG pinball-config PATHS /usr/games usr/local/games /usr/local/bin)
 
 find_path(PINBALL_INCLUDE_DIR Pinball.h
           HINTS ${PC_PINBALL_INCLUDEDIR} ${PC_PINBALL_INCLUDE_DIRS} /usr/include/pinball /usr/local/include/pinball
